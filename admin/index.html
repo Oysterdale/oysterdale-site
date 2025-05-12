@@ -3,11 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <title>Oysterdale Admin</title>
-    <script src="https://unpkg.com/netlify-cms@^2.10.192/dist/netlify-cms.js"></script>
+    <script src="https://unpkg.com/netlify-cms@2.10.192/dist/netlify-cms.js"></script>
   </head>
   <body>
     <div id="nc-root"></div>
     <script>
+      window.CMS_MANUAL_INIT = true;
       NetlifyCms.init();
     </script>
   </body>
