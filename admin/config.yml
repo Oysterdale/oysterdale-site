@@ -1,0 +1,19 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "releases"
+    label: "Releases"
+    folder: "releases"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Artist", name: "artist", widget: "string"}
+      - {label: "Release Date", name: "date", widget: "datetime"}
+      - {label: "Cover Image", name: "cover", widget: "image"}
+      - {label: "Description", name: "body", widget: "markdown"}
