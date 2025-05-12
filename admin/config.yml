@@ -1,7 +1,7 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: Oysterdale/oysterdale-site
   branch: main
-site_url: https://oysterdalerecords.com
 
 media_folder: "images"
 public_folder: "/images"
