@@ -17,4 +17,3 @@ collections:
       - {label: "Release Date", name: "date", widget: "datetime"}
       - {label: "Cover Image", name: "cover", widget: "image"}
       - {label: "Description", name: "body", widget: "markdown"}
-      
