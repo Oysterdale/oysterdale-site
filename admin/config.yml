@@ -3,10 +3,38 @@ backend:
   repo: Oysterdale/oysterdale-site
   branch: main
 
-media_folder: "releases"
-public_folder: "/releases"
+media_folder: "uploads"
+public_folder: "/uploads"
 
 collections:
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "Home"
+        name: "home"
+        file: "content/home.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+      - label: "About"
+        name: "about"
+        file: "content/about.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+      - label: "Events"
+        name: "events"
+        file: "content/events.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+      - label: "Contact"
+        name: "contact"
+        file: "content/contact.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
   - name: "releases"
     label: "Releases"
     folder: "releases"
