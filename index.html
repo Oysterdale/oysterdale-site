@@ -1,26 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>Home – Oysterdale Records</title>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oysterdale Records</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <nav>
-      <a href="index.html">Home</a> |
-      <a href="about.html">About</a> |
-      <a href="releases.html">Releases</a> |
-      <a href="events.html">Events</a> |
-      <a href="contact.html">Contact</a>
-    </nav>
-    <h1>Home</h1>
-    <div id="home-content">Loading content...</div>
-    <script>
-      fetch('content/home.md')
-        .then(res => res.text())
-        .then(md => {
-          document.getElementById('home-content').innerHTML = marked.parse(md);
-        });
-    </script>
+    <header>
+      <h1>Oysterdale Records</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="releases">Releases</a>
+        <a href="events.html">Events</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <h2>Welcome to Oysterdale Records</h2>
+      <p>Every record is a pearl.</p>
+      <p>We release soulful house, disco, and electronic music — both digitally and on vinyl.</p>
+    </main>
+
+    <footer>
+      &copy; 2025 Oysterdale Records. All rights reserved.
+    </footer>
   </body>
 </html>
