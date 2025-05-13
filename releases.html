@@ -1,1 +1,26 @@
-<!DOCTYPE html><html><head><title>Releases</title></head><body><h1>Releases</h1><div id='releases-content'></div><a href='index.html'>← Back to Home</a></body></html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Releases – Oysterdale Records</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">Home</a> |
+      <a href="about.html">About</a> |
+      <a href="releases.html">Releases</a> |
+      <a href="events.html">Events</a> |
+      <a href="contact.html">Contact</a>
+    </nav>
+    <h1>Releases</h1>
+    <div id="releases-content">Loading content...</div>
+    <script>
+      fetch('releases/latest.md')
+        .then(res => res.text())
+        .then(md => {
+          document.getElementById('releases-content').innerHTML = marked.parse(md);
+        });
+    </script>
+  </body>
+</html>
