@@ -3,17 +3,9 @@
   <head>
     <meta charset="utf-8">
     <title>Oysterdale Admin</title>
-    <script src="https://unpkg.com/netlify-cms@^2.10.0/dist/netlify-cms.js" defer></script>
+    <script src="https://unpkg.com/netlify-cms@^2.10.0/dist/netlify-cms.js"></script>
   </head>
   <body>
-    <script>
-      window.addEventListener("DOMContentLoaded", function () {
-        if (typeof NetlifyCms !== "undefined") {
-          NetlifyCms.init();
-        } else {
-          console.error("NetlifyCms is not defined");
-        }
-      });
-    </script>
+    <div id="nc-root"></div>
   </body>
 </html>
