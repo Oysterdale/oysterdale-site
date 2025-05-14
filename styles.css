@@ -13,3 +13,10 @@ header {
 main {
     padding: 2rem;
 }
+p {
+    padding: 2rem;
+}
+
+h1, h2 {
+    padding: 2rem;
+}
