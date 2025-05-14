@@ -176,3 +176,16 @@ npm install oysterdale-records
 
 </body>
 </html>
+#index-content {
+  margin-top: 2rem;
+  color: #fff;
+}
+
+#index-content h1,
+#index-content h2,
+#index-content h3,
+#index-content h4,
+#index-content h5,
+#index-content h6 {
+  color: #fff;
+}
