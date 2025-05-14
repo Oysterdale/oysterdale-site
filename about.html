@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>About – Oysterdale Records</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Oysterdale Records</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <header>
+<header>
     <h1>Oysterdale Records</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="releases.html">Releases</a>
-      <a href="events.html">Events</a>
-      <a href="contact.html">Contact</a>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="releases.html">Releases</a>
+        <a href="events.html">Events</a>
+        <a href="contact.html">Contact</a>
     </nav>
-  </header>
-  <h1>Events</h1>
-  <div id="about-content">Loading content...</div>
-  <script>
+</header>
+<h1>Events</h1>
+<div id="about-content">Loading content...</div>
+<script>
     fetch('content/about.md')
-            .then(res => res.text())
-            .then(md => {
-              document.getElementById('about-content').innerHTML = marked.parse(md);
-            });
-  </script>
-  <footer>
+        .then(res => res.text())
+        .then(md => {
+            document.getElementById('about-content').innerHTML = marked.parse(md);
+        });
+</script>
+<footer>
     &copy; 2025 Oysterdale Records. All rights reserved.
-  </footer>
+</footer>
 </body>
 </html>

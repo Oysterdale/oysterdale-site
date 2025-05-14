@@ -1,27 +1,29 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Contact – Oysterdale Records</title>
-    <link rel="stylesheet" href="styles.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Oysterdale Records</title>
+    <link rel="stylesheet" href="styles.css"/>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="index.html">Home</a> |
-      <a href="about.html">About</a> |
-      <a href="releases.html">Releases</a> |
-      <a href="events.html">Events</a> |
-      <a href="contact.html">Contact</a>
-    </nav>
-    <h1>Contact</h1>
-    <div id="contact-content">Loading content...</div>
-    <script>
-      fetch('content/contact.md')
+</head>
+<body>
+<h1>Oysterdale Records</h1>
+<nav>
+    <a href="index.html">Home</a> |
+    <a href="about.html">About</a> |
+    <a href="releases.html">Releases</a> |
+    <a href="events.html">Events</a> |
+    <a href="contact.html">Contact</a>
+</nav>
+<h1>Contact</h1>
+<div id="contact-content">Loading content...</div>
+<script>
+    fetch('content/contact.md')
         .then(res => res.text())
         .then(md => {
-          document.getElementById('contact-content').innerHTML = marked.parse(md);
+            document.getElementById('contact-content').innerHTML = marked.parse(md);
         });
-    </script>
-  </body>
+</script>
+</body>
 </html>
