@@ -10,13 +10,7 @@ header {
     padding: 2rem;
     text-align: center;
 }
-main {
-    padding: 2rem;
-}
-p {
-    padding: 2rem;
-}
 
-h1, h2 {
-    padding: 2rem;
+p, h1, h2, footer {
+    padding: 1rem;
 }

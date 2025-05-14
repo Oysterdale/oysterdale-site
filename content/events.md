@@ -1,7 +1,3 @@
----
-Events
----
-
 **Disco Odyssey: 17th of May Special**
 
 Hosted by OKPLUS

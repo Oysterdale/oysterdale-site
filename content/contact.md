@@ -1,7 +1,3 @@
----
-Contact
----
-
 For demos, collaborations, press inquiries, or anything else — feel free to reach out at:
 
 **contact@oysterdalerecords.com**

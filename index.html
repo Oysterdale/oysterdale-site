@@ -18,13 +18,14 @@
         <a href="contact.html">Contact</a> |
     </nav>
 </header>
-
-<main>
-    <h2>Welcome to Oysterdale Records</h2>
-    <p>Every record is a pearl.</p>
-    <p>We release soulful House, Disco, and Electronic music — both digitally and on vinyl.</p>
-</main>
-
+<div id="index-content">Loading content...</div>
+<script>
+    fetch('content/index.md')
+        .then(res => res.text())
+        .then(md => {
+            document.getElementById('index-content').innerHTML = marked.parse(md);
+        });
+</script>
 <footer>
     &copy; 2025 Oysterdale Records. All rights reserved.
 </footer>

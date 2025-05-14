@@ -10,6 +10,12 @@ collections:
   - name: "pages"
     label: "Pages"
     files:
+      - label: "Index"
+        name: "index"
+        file: "content/index.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
       - label: "About"
         name: "about"
         file: "content/about.md"
