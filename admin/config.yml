@@ -14,25 +14,21 @@ collections:
         name: "index"
         file: "content/index.md"
         fields:
-          - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
       - label: "About"
         name: "about"
         file: "content/about.md"
         fields:
-          - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
       - label: "Events"
         name: "events"
         file: "content/events.md"
         fields:
-          - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
       - label: "Contact"
         name: "contact"
         file: "content/contact.md"
         fields:
-          - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "releases"
@@ -41,6 +37,5 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Body", name: "body", widget: "markdown" }

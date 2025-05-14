@@ -1,6 +1,3 @@
----
-title: Dette skjer
----
 ### Welcome to Oysterdale Record
 
 *Every record is a pearl*
