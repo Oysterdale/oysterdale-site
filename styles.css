@@ -1,170 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oysterdale Demo</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: 'DM Sans', sans-serif;
-      line-height: 1.6;
-      font-size: 16px;
-      background: linear-gradient(220.55deg, #00E0EE 0%, #AD00FE 100%);
-      color: #ffffff;
-      min-height: 100vh;
-      padding: 2rem 1rem;
-      box-sizing: border-box;
-    }
+/* Sørg for at ALLE elementer er gjennomsiktige i bakgrunnen */
+body,
+h1, h2, h3, h4, h5, h6,
+p, ul, ol, li,
+blockquote,
+pre, code,
+table, th, td,
+button {
+  background: transparent !important;
+}
 
-    body {
-      max-width: 900px;
-      margin: auto;
-    }
+/* Oppdater eventuelle bakgrunner i blockquote og kode til transparente varianter */
+blockquote {
+  border-left: 4px solid rgba(255,255,255,0.4);
+  background-color: rgba(255,255,255,0.1);
+}
 
-    h1, h2, h3, h4, h5, h6 {
-      font-weight: 700;
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-      line-height: 1.2;
-      color: #ffffff;
-    }
+pre {
+  background-color: rgba(255,255,255,0.1);
+}
 
-    p {
-      margin: 1rem 0;
-    }
+code {
+  background-color: rgba(255,255,255,0.1);
+}
 
-    a {
-      color: #ffffff;
-      text-decoration: underline;
-      transition: opacity 0.2s ease;
-    }
-
-    a:hover {
-      opacity: 0.8;
-    }
-
-    ul, ol {
-      padding-left: 1.5rem;
-      margin: 1rem 0;
-    }
-
-    li {
-      margin-bottom: 0.5rem;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin: 1rem 0;
-      border: 2px solid white;
-      border-radius: 8px;
-    }
-
-    blockquote {
-      margin: 1rem 0;
-      padding: 1rem 1.5rem;
-      border-left: 4px solid rgba(255,255,255,0.4);
-      background-color: rgba(255,255,255,0.1);
-      font-style: italic;
-      color: #fff;
-    }
-
-    pre {
-      background-color: rgba(0,0,0,0.3);
-      padding: 1rem;
-      overflow-x: auto;
-      font-family: 'Courier New', monospace;
-      font-size: 0.9rem;
-      border-radius: 6px;
-      color: #fff;
-    }
-
-    code {
-      background-color: rgba(0,0,0,0.3);
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-      font-family: 'Courier New', monospace;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1rem 0;
-    }
-
-    th, td {
-      padding: 0.75rem;
-      text-align: left;
-      border-bottom: 1px solid rgba(255,255,255,0.3);
-    }
-
-    button {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid #fff;
-      color: #fff;
-      padding: 0.75rem 1.25rem;
-      font-size: 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    button:hover {
-      background: rgba(255,255,255,0.25);
-    }
-
-    h1 { font-size: 2.2rem; }
-    h2 { font-size: 1.6rem; }
-    h3 { font-size: 1.3rem; }
-
-    @media (max-width: 600px) {
-      body {
-        font-size: 15px;
-        padding: 1.5rem 1rem;
-      }
-
-      h1 { font-size: 1.8rem; }
-      h2 { font-size: 1.4rem; }
-    }
-  </style>
-</head>
-<body>
-
-  <h1>Oysterdale Records</h1>
-  <p>Welcome to our label – where every record is a pearl. We release soulful house, disco & electronic vibes.</p>
-
-  <h2>About</h2>
-  <p>We work with vocalists, musicians, and DJs to create unique grooves. Want to get in touch? <a href="#contact">Drop us a line</a>.</p>
-
-  <h3>Releases</h3>
-  <ul>
-    <li>Get On Up (feat. Emél)</li>
-    <li>Rainbows (feat. Rona Ray)</li>
-    <li>Crème de la Crème (OK+ Remix)</li>
-  </ul>
-
-  <img src="https://via.placeholder.com/800x400?text=Cover+Art" alt="Sample artwork" />
-
-  <blockquote>
-    "Music gives a soul to the universe, wings to the mind, flight to the imagination and life to everything."
-  </blockquote>
-
-  <pre><code>// Sample code block
-npm install oysterdale-records
-</code></pre>
-
-  <h3>Track Stats</h3>
-  <table>
-    <tr><th>Track</th><th>Streams</th></tr>
-    <tr><td>Get On Up</td><td>142,000</td></tr>
-    <tr><td>Rainbows</td><td>86,000</td></tr>
-  </table>
-
-  <button>Listen on Spotify</button>
-
-</body>
-</html>
+/* Hvis du tidligere har noe sånt her – fjern det */
+h1, h2, h3, h4, h5, h6 {
+  /* background-color: white; ❌ dette må vekk */
+  color: #fff; /* behold eller legg til denne */
+}
