@@ -1,13 +1,10 @@
----
-layout: none
----
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>About – Oysterdale Records</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <header>
@@ -20,9 +17,15 @@ layout: none
       <a href="contact.html">Contact</a>
     </nav>
   </header>
-  <main>
-    {{ content }}
-  </main>
+  <h1>Events</h1>
+  <div id="about-content">Loading content...</div>
+  <script>
+    fetch('content/about.md')
+            .then(res => res.text())
+            .then(md => {
+              document.getElementById('about-content').innerHTML = marked.parse(md);
+            });
+  </script>
   <footer>
     &copy; 2025 Oysterdale Records. All rights reserved.
   </footer>
