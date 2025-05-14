@@ -1,4 +1,4 @@
-### Welcome to Oysterdale Record
+### Welcome to Oysterdale Records
 
 *Every record is a pearl*
 
