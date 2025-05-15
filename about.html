@@ -1,35 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Oysterdale Records</title>
-    <link rel="stylesheet" href="styles.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About – Oysterdale Records</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script> <!-- Sett inn din Font Awesome-kit om du bruker -->
 </head>
 <body>
-<header>
+
+  <!-- Logo og topptekst -->
+  <header id="top-logo">
     <h1>Oysterdale Records</h1>
-    <h4>Website under construction...</h4>
-    <nav>
-        <a href="index.html">Home</a> |
-        <a href="about.html">About</a> |
-        <a href="releases.html">Releases</a> |
-        <a href="events.html">Events</a> |
-        <a href="contact.html">Contact</a> |
-    </nav>
-</header>
-<h1>About</h1>
-<div id="about-content">Loading content...</div>
-<script>
+    <p>Website under construction...</p>
+  </header>
+
+  <!-- Desktop-meny -->
+  <div id="sticky-nav">
+    <div class="nav-content">
+      <ul id="main-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="releases.html">Releases</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div id="social-icons">
+        <a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#"><i class="fa-brands fa-spotify"></i></a>
+        <a href="#"><i class="fa-brands fa-twitch"></i></a>
+        <a href="#"><i class="fa-brands fa-soundcloud"></i></a>
+        <a href="#"><i class="fa-brands fa-mixcloud"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobil-meny -->
+  <nav id="mobile-nav">
+    <div class="nav-container">
+      <div class="logo-placeholder"></div>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="releases.html">Releases</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="mobile-socials">
+        <a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#"><i class="fa-brands fa-spotify"></i></a>
+        <a href="#"><i class="fa-brands fa-twitch"></i></a>
+        <a href="#"><i class="fa-brands fa-soundcloud"></i></a>
+        <a href="#"><i class="fa-brands fa-mixcloud"></i></a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Innhold fra about.md -->
+  <div class="page-content">
+    <div id="about-content">Loading content...</div>
+  </div>
+
+  <footer>
+    <p style="text-align:center; margin: 2rem 0;">&copy; 2025 Oysterdale Records. All rights reserved.</p>
+  </footer>
+
+  <!-- Last inn innhold fra about.md -->
+  <script>
     fetch('content/about.md')
-        .then(res => res.text())
-        .then(md => {
-            document.getElementById('about-content').innerHTML = marked.parse(md);
-        });
-</script>
-<footer>
-    &copy; 2025 Oysterdale Records. All rights reserved.
-</footer>
+      .then(res => res.text())
+      .then(md => {
+        document.getElementById('about-content').innerHTML = marked.parse(md);
+      });
+  </script>
+
+  <!-- Toggle for mobilmeny -->
+  <script>
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+
+    toggle.addEventListener("click", () => {
+      const isOpen = menu.classList.toggle("active");
+      toggle.textContent = isOpen ? "✕" : "☰";
+    });
+  </script>
+
 </body>
 </html>
