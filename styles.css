@@ -1,4 +1,5 @@
-/* Bakgrunn og base */
+/* ---------- Global layout ---------- */
+
 html, body {
   margin: 0;
   padding: 0;
@@ -8,16 +9,17 @@ html, body {
   background: linear-gradient(220.55deg, #565656 0%, #181818 100%);
   color: #ffffff;
   min-height: 100vh;
-  padding: 2rem 1rem;
   box-sizing: border-box;
 }
 
-body {
+.page-content {
   max-width: 900px;
   margin: auto;
+  padding: 2rem 1rem;
 }
 
-/* Overskrift (ikke sticky) */
+/* ---------- Logo (ikke sticky) ---------- */
+
 #top-logo {
   text-align: center;
   margin-bottom: 2rem;
@@ -32,26 +34,33 @@ body {
   transform: scale(1.05) rotate(-1deg);
 }
 
-/* Sticky NAV (meny + ikoner) */
+/* ---------- Sticky nav full width ---------- */
+
 #sticky-nav {
   position: sticky;
   top: 0;
+  width: 100%;
   background-color: #000;
-  padding: 1rem 0;
   z-index: 1000;
+}
+
+#sticky-nav .nav-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
 }
 
-/* Meny */
+/* ---------- Navigation menu ---------- */
+
 #main-nav {
   display: flex;
   list-style: none;
   padding: 0;
-  margin: 0 auto;
+  margin: 0;
   gap: 2rem;
   flex-wrap: wrap;
 }
@@ -87,12 +96,13 @@ body {
   transform: scaleX(1);
 }
 
-/* Sosiale medier */
+/* ---------- Social icons ---------- */
+
 #social-icons {
   display: flex;
   gap: 1rem;
   align-items: center;
-  margin-right: 1.5rem;
+  flex-wrap: wrap;
 }
 
 #social-icons a {
@@ -106,7 +116,8 @@ body {
   opacity: 0.8;
 }
 
-/* Innhold */
+/* ---------- Typography ---------- */
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   margin-top: 2rem;
@@ -200,7 +211,8 @@ button:hover {
   background: rgba(255,255,255,0.25);
 }
 
-/* Markdown-innhold */
+/* ---------- Markdown content ---------- */
+
 #index-content {
   margin-top: 2rem;
   color: #fff;
@@ -215,7 +227,8 @@ button:hover {
   color: #fff;
 }
 
-/* Responsivt */
+/* ---------- Responsive ---------- */
+
 @media (max-width: 600px) {
   body {
     font-size: 15px;
@@ -225,19 +238,17 @@ button:hover {
   h1 { font-size: 1.8rem; }
   h2 { font-size: 1.4rem; }
 
-  #sticky-nav {
+  #sticky-nav .nav-content {
     flex-direction: column;
-    align-items: flex-start;
-    padding: 1rem;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #social-icons {
+    justify-content: center;
   }
 
   #main-nav {
     justify-content: center;
-  }
-
-  #social-icons {
-    margin: 0 auto;
-    justify-content: center;
-    flex-wrap: wrap;
   }
 }
