@@ -2,58 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About - Oysterdale Records</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://kit.fontawesome.com/d44490a2b2.js" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About – Oysterdale Records</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://kit.fontawesome.com/4ad3c08e00.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <header>
-    <div class="header-content">
-      <div class="logo">Oysterdale Records</div>
-      <div class="menu-toggle" id="menu-toggle">
-        <i class="fas fa-bars"></i>
-      </div>
+  <header class="site-header">
+    <div class="logo-title">
+      <h1>Oysterdale Records</h1>
+      <h4>Website under construction...</h4>
     </div>
-    <nav class="nav-links" id="nav-links">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html" class="active">About</a></li>
-        <li><a href="releases.html">Releases</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <nav id="main-nav" class="main-nav">
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About</a>
+        <a href="releases.html">Releases</a>
+        <a href="events.html">Events</a>
+        <a href="contact.html">Contact</a>
+      </div>
       <div class="social-icons">
-        <a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-tiktok"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-        <a href="#"><i class="fab fa-spotify"></i></a>
-        <a href="#"><i class="fab fa-twitch"></i></a>
-        <a href="#"><i class="fab fa-soundcloud"></i></a>
-        <a href="#"><i class="fas fa-music"></i></a>
+        <a href="https://www.instagram.com/oysterdale/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="#" aria-label="Spotify"><i class="fab fa-spotify"></i></a>
+        <a href="#" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
+        <a href="#" aria-label="SoundCloud"><i class="fab fa-soundcloud"></i></a>
+        <a href="#" aria-label="Mixcloud"><i class="fab fa-mixcloud"></i></a>
       </div>
     </nav>
   </header>
 
   <main>
-    <section class="main-content">
-      <h2>About Oysterdale Records</h2>
-      <p>
-        Founded in 2025, Oysterdale Records is a label built on groove, soul, and a deep love for dance music. From dusty basements to rooftop sessions, we champion the sound of tomorrow rooted in the essence of disco, house, funk, and beyond.
-      </p>
-      <p>
-        With each release, we open a new shell — revealing a carefully crafted pearl.
-      </p>
-      <p>
-        Our artists are producers, DJs, instrumentalists and storytellers. And our mission is simple: to create dance music that lasts.
-      </p>
-    </section>
+    <div id="about-content" class="page-content">Loading content...</div>
   </main>
 
   <footer>
-    <p>© 2025 Oysterdale Records. All rights reserved.</p>
+    &copy; 2025 Oysterdale Records. All rights reserved.
   </footer>
 
+  <script>
+    fetch('content/about.md')
+      .then(res => res.text())
+      .then(md => {
+        document.getElementById('about-content').innerHTML = marked.parse(md);
+      });
+  </script>
   <script src="script.js"></script>
 </body>
 </html>
