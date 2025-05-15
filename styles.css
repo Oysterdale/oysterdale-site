@@ -1,98 +1,195 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oysterdale Records</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://kit.fontawesome.com/d44490a2b2.js" crossorigin="anonymous"></script>
-</head>
-<body>
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  <!-- Logo og overskrift -->
-  <header id="top-logo">
-    <h1>Oysterdale Records</h1>
-    <p>Website under construction...</p>
-  </header>
+/* Bakgrunn og font */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: linear-gradient(220.55deg, #565656 0%, #181818 100%);
+  color: #fff;
+  line-height: 1.6;
+  padding-top: 120px; /* rom for sticky navigasjon */
+}
 
-  <!-- Sticky nav for desktop -->
-  <div id="sticky-nav">
-    <div class="nav-content">
-      <ul id="main-nav">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="releases.html">Releases</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-      <div id="social-icons">
-        <a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
-        <a href="#"><i class="fa-brands fa-youtube"></i></a>
-        <a href="#"><i class="fa-brands fa-spotify"></i></a>
-        <a href="#"><i class="fa-brands fa-twitch"></i></a>
-        <a href="#"><i class="fa-brands fa-soundcloud"></i></a>
-        <a href="#"><i class="fa-brands fa-mixcloud"></i></a>
-      </div>
-    </div>
-  </div>
+/* Overskrift (ikke sticky) */
+#top-logo {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+}
 
-  <!-- Mobilmeny -->
-  <nav id="mobile-nav">
-    <div class="nav-container">
-      <div class="logo-placeholder"></div>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>
-    </div>
-    <div class="mobile-menu" id="mobile-menu">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="releases.html">Releases</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-      <div class="mobile-socials">
-        <a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
-        <a href="#"><i class="fa-brands fa-youtube"></i></a>
-        <a href="#"><i class="fa-brands fa-spotify"></i></a>
-        <a href="#"><i class="fa-brands fa-twitch"></i></a>
-        <a href="#"><i class="fa-brands fa-soundcloud"></i></a>
-        <a href="#"><i class="fa-brands fa-mixcloud"></i></a>
-      </div>
-    </div>
-  </nav>
+/* Sticky desktop-navigasjon */
+#sticky-nav {
+  background-color: #000;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  <!-- Innhold -->
-  <div class="page-content">
-    <div id="index-content">Loading content...</div>
-  </div>
+.nav-content {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  <!-- Footer -->
-  <footer>
-    <p style="text-align:center; margin: 2rem 0;">&copy; 2025 Oysterdale Records. All rights reserved.</p>
-  </footer>
+#main-nav {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
 
-  <!-- Markdown-henting -->
-  <script>
-    fetch('content/index.md')
-      .then(res => res.text())
-      .then(md => {
-        document.getElementById('index-content').innerHTML = marked.parse(md);
-      });
-  </script>
+#main-nav li a {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
 
-  <!-- Mobilmeny-toggle -->
-  <script>
-    const toggle = document.getElementById("menu-toggle");
-    const menu = document.getElementById("mobile-menu");
+#main-nav li a:hover {
+  opacity: 0.6;
+}
 
-    toggle.addEventListener("click", () => {
-      const isOpen = menu.classList.toggle("active");
-      toggle.textContent = isOpen ? "✕" : "☰";
-    });
-  </script>
+/* Sosiale medier på desktop */
+#social-icons {
+  display: flex;
+  gap: 1rem;
+}
 
-</body>
-</html>
+#social-icons a {
+  color: #fff;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+#social-icons a:hover {
+  transform: scale(1.2);
+}
+
+/* Innhold */
+.page-content {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Markdown-tekstfarger */
+#index-content h1,
+#index-content h2,
+#index-content h3,
+#index-content h4,
+#index-content h5,
+#index-content h6,
+#index-content p {
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+/* FOOTER */
+footer {
+  margin-top: 3rem;
+  padding: 2rem;
+  text-align: center;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+/* ---------- Mobilmeny ---------- */
+
+#mobile-nav {
+  display: none;
+}
+
+.menu-toggle {
+  font-size: 2rem;
+  border: none;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-left: auto;
+}
+
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background: #000;
+  width: 100%;
+  padding: 2rem 1rem;
+}
+
+.mobile-menu.active {
+  display: flex;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+.mobile-menu ul li {
+  margin: 1rem 0;
+}
+
+.mobile-menu ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.mobile-socials {
+  display: flex;
+  gap: 1.2rem;
+  font-size: 1.3rem;
+}
+
+.mobile-socials a {
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.mobile-socials a:hover {
+  transform: scale(1.2);
+}
+
+/* ---------- Responsiv oppførsel ---------- */
+
+@media screen and (max-width: 768px) {
+  #sticky-nav {
+    display: none;
+  }
+
+  #mobile-nav {
+    display: block;
+    position: sticky;
+    top: 0;
+    background: #000;
+    padding: 1rem;
+    z-index: 1000;
+  }
+
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo-placeholder {
+    height: 1rem;
+  }
+}
