@@ -1,53 +1,58 @@
-/* STICKY HEADER + FADE-IN */
-#site-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: transparent;
-  padding: 1rem 0;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+/* Bakgrunn og base */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  background: linear-gradient(220.55deg, #565656 0%, #181818 100%);
+  color: #ffffff;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
 }
 
-#site-header.scrolled {
-  background: rgba(0, 0, 0, 0.1);
-  box-shadow: none;
+body {
+  max-width: 900px;
+  margin: auto;
 }
 
-/* LOGO HOVER-EFFEKT */
-#logo h1 {
-  display: inline-block;
+/* Overskrift (ikke sticky) */
+#top-logo {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+#top-logo h1 {
   transition: transform 0.3s ease;
   cursor: pointer;
 }
 
-#logo h1:hover {
+#top-logo h1:hover {
   transform: scale(1.05) rotate(-1deg);
 }
 
-/* NAVIGASJON + SOSIAL IKONER */
-#nav-bar {
+/* Sticky NAV (meny + ikoner) */
+#sticky-nav {
+  position: sticky;
+  top: 0;
+  background-color: #000;
+  padding: 1rem 0;
+  z-index: 1000;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 2rem;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-@media (min-width: 700px) {
-  #nav-bar {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-}
-
+/* Meny */
 #main-nav {
   display: flex;
-  justify-content: center;
   list-style: none;
   padding: 0;
+  margin: 0 auto;
   gap: 2rem;
-  margin: 2rem 0;
   flex-wrap: wrap;
 }
 
@@ -82,11 +87,12 @@
   transform: scaleX(1);
 }
 
-/* SOSIALE IKONER */
+/* Sosiale medier */
 #social-icons {
   display: flex;
   gap: 1rem;
   align-items: center;
+  margin-right: 1.5rem;
 }
 
 #social-icons a {
@@ -100,26 +106,7 @@
   opacity: 0.8;
 }
 
-/* BAKGRUNN + TEKST */
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  background: linear-gradient(220.55deg, #565656 0%, #181818 100%);
-  color: #ffffff;
-  min-height: 100vh;
-  padding: 2rem 1rem;
-  box-sizing: border-box;
-}
-
-body {
-  max-width: 900px;
-  margin: auto;
-}
-
-/* TYPOGRAFI */
+/* Innhold */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   margin-top: 2rem;
@@ -142,7 +129,6 @@ a:hover {
   opacity: 0.8;
 }
 
-/* LISTER */
 ul, ol {
   padding-left: 1.5rem;
   margin: 1rem 0;
@@ -152,7 +138,6 @@ li {
   margin-bottom: 0.5rem;
 }
 
-/* BILDER */
 img {
   max-width: 100%;
   height: auto;
@@ -162,7 +147,6 @@ img {
   border-radius: 8px;
 }
 
-/* SITATER */
 blockquote {
   margin: 1rem 0;
   padding: 1rem 1.5rem;
@@ -172,7 +156,6 @@ blockquote {
   color: #fff;
 }
 
-/* KODE */
 pre {
   background-color: rgba(255,255,255,0.1);
   padding: 1rem;
@@ -190,7 +173,6 @@ code {
   font-family: 'Courier New', monospace;
 }
 
-/* TABELLER */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -203,7 +185,6 @@ th, td {
   border-bottom: 1px solid rgba(255,255,255,0.3);
 }
 
-/* KNAPPER */
 button {
   background: rgba(255,255,255,0.1);
   border: 1px solid #fff;
@@ -219,7 +200,7 @@ button:hover {
   background: rgba(255,255,255,0.25);
 }
 
-/* MARKDOWN-INNHOLD */
+/* Markdown-innhold */
 #index-content {
   margin-top: 2rem;
   color: #fff;
@@ -234,7 +215,7 @@ button:hover {
   color: #fff;
 }
 
-/* RESPONSIVT */
+/* Responsivt */
 @media (max-width: 600px) {
   body {
     font-size: 15px;
@@ -243,4 +224,20 @@ button:hover {
 
   h1 { font-size: 1.8rem; }
   h2 { font-size: 1.4rem; }
+
+  #sticky-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  #main-nav {
+    justify-content: center;
+  }
+
+  #social-icons {
+    margin: 0 auto;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }
