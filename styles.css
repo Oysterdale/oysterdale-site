@@ -42,16 +42,17 @@ html, body {
   width: 100%;
   background-color: #000;
   z-index: 1000;
+  padding: 1rem 0;
 }
 
 #sticky-nav .nav-content {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 1rem 2rem;
+  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 /* ---------- Navigation menu ---------- */
@@ -102,7 +103,7 @@ html, body {
   display: flex;
   gap: 1rem;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 #social-icons a {
@@ -244,11 +245,11 @@ button:hover {
     gap: 1rem;
   }
 
-  #social-icons {
+  #main-nav {
     justify-content: center;
   }
 
-  #main-nav {
+  #social-icons {
     justify-content: center;
   }
 }
