@@ -3,15 +3,14 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(8px);
+  background: transparent;
   padding: 1rem 0;
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 #site-header.scrolled {
-  background: rgba(0, 0, 0, 0.6);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: none;
 }
 
 /* LOGO HOVER-EFFEKT */
@@ -25,7 +24,23 @@
   transform: scale(1.05) rotate(-1deg);
 }
 
-/* NAV – MIDTSTILT OG STILIG */
+/* NAVIGASJON + SOSIAL IKONER */
+#nav-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-direction: column;
+}
+
+@media (min-width: 700px) {
+  #nav-bar {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
 #main-nav {
   display: flex;
   justify-content: center;
@@ -67,6 +82,24 @@
   transform: scaleX(1);
 }
 
+/* SOSIALE IKONER */
+#social-icons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+#social-icons a {
+  font-size: 1.3rem;
+  color: white;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#social-icons a:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+}
+
 /* BAKGRUNN + TEKST */
 html, body {
   margin: 0;
@@ -74,7 +107,7 @@ html, body {
   font-family: 'DM Sans', sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  background: linear-gradient(220.55deg, #00E0EE 0%, #AD00FE 100%);
+  background: linear-gradient(220.55deg, #565656 0%, #181818 100%);
   color: #ffffff;
   min-height: 100vh;
   padding: 2rem 1rem;
@@ -210,37 +243,4 @@ button:hover {
 
   h1 { font-size: 1.8rem; }
   h2 { font-size: 1.4rem; }
-}
-/* NAV med sosiale ikoner */
-#nav-bar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-  flex-direction: column;
-}
-
-@media (min-width: 700px) {
-  #nav-bar {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-}
-
-#social-icons {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-#social-icons a {
-  font-size: 1.3rem;
-  color: white;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-#social-icons a:hover {
-  transform: scale(1.2);
-  opacity: 0.8;
 }
