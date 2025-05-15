@@ -10,13 +10,13 @@
 </head>
 <body>
 
-  <header id="site-header">
-    <div id="logo">
+  <header>
+    <div id="top-logo">
       <h1>Oysterdale Records</h1>
+      <h4>Website under construction...</h4>
     </div>
-    <h4>Website under construction...</h4>
-    
-    <nav id="nav-bar">
+
+    <nav id="sticky-nav">
       <ul id="main-nav">
         <li><a href="/index.html">Home</a></li>
         <li><a href="/about.html">About</a></li>
@@ -26,27 +26,13 @@
       </ul>
 
       <div id="social-icons">
-        <a href="https://www.instagram.com/oysterdale/" target="_blank" aria-label="Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="#" target="_blank" aria-label="TikTok">
-          <i class="fab fa-tiktok"></i>
-        </a>
-        <a href="#" target="_blank" aria-label="YouTube">
-          <i class="fab fa-youtube"></i>
-        </a>
-        <a href="#" target="_blank" aria-label="Spotify">
-          <i class="fab fa-spotify"></i>
-        </a>
-        <a href="#" target="_blank" aria-label="Twitch">
-          <i class="fab fa-twitch"></i>
-        </a>
-        <a href="#" target="_blank" aria-label="SoundCloud">
-          <i class="fab fa-soundcloud"></i>
-        </a>
-        <a href="#" target="_blank" aria-label="Mixcloud">
-          <i class="fab fa-mixcloud"></i>
-        </a>
+        <a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-spotify"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-twitch"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-soundcloud"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-mixcloud"></i></a>
       </div>
     </nav>
   </header>
@@ -65,15 +51,6 @@
       .then(md => {
         document.getElementById('index-content').innerHTML = marked.parse(md);
       });
-
-    const header = document.getElementById('site-header');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 20) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
   </script>
 
 </body>
