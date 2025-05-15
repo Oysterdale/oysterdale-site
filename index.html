@@ -1,56 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Oysterdale Records</title>
-  <link rel="stylesheet" href="/styles.css"/>
+  <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
 
-  <div id="top-logo">
+  <!-- Logo og intro -->
+  <header id="top-logo">
     <h1>Oysterdale Records</h1>
-    <h4>Website under construction...</h4>
-  </div>
+    <p>Website under construction...</p>
+  </header>
 
-  <nav id="sticky-nav">
+  <!-- Desktop navbar -->
+  <div id="sticky-nav">
     <div class="nav-content">
       <ul id="main-nav">
-        <li><a href="/index.html">Home</a></li>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/releases.html">Releases</a></li>
-        <li><a href="/events.html">Events</a></li>
-        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="releases.html">Releases</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact.html">Contact</a></li>
       </ul>
-
       <div id="social-icons">
-        <a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-spotify"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-twitch"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-soundcloud"></i></a>
-        <a href="#" target="_blank"><i class="fab fa-mixcloud"></i></a>
+        <a href="https://www.instagram.com/oysterdale/" target="_blank">📸</a>
+        <a href="#">🎵</a>
+        <a href="#">▶️</a>
+        <a href="#">🎧</a>
+        <a href="#">📡</a>
+        <a href="#">🌊</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobil navbar -->
+  <nav id="mobile-nav">
+    <div class="nav-container">
+      <div class="logo-placeholder"></div>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="releases.html">Releases</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="mobile-socials">
+        <a href="https://www.instagram.com/oysterdale/" target="_blank">📸</a>
+        <a href="#">🎵</a>
+        <a href="#">▶️</a>
+        <a href="#">🎧</a>
+        <a href="#">📡</a>
+        <a href="#">🌊</a>
       </div>
     </div>
   </nav>
 
-  <main class="page-content">
+  <!-- Markdown-innhold -->
+  <div class="page-content">
     <div id="index-content">Loading content...</div>
-  </main>
+  </div>
 
-  <footer style="margin-top: 2rem;">
-    &copy; 2025 Oysterdale Records. All rights reserved.
+  <footer>
+    <p style="text-align:center; margin: 2rem 0;">&copy; 2025 Oysterdale Records. All rights reserved.</p>
   </footer>
 
+  <!-- Script for å hente markdown -->
   <script>
-    fetch('/content/index.md')
+    fetch('content/index.md')
       .then(res => res.text())
       .then(md => {
         document.getElementById('index-content').innerHTML = marked.parse(md);
       });
+  </script>
+
+  <!-- Script for å åpne/lukke mobilmeny -->
+  <script>
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+
+    toggle.addEventListener("click", () => {
+      const isOpen = menu.classList.toggle("active");
+      toggle.textContent = isOpen ? "✕" : "☰";
+    });
   </script>
 
 </body>
