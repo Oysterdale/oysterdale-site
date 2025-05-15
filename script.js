@@ -1,21 +1,25 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const toggleBtn = document.getElementById('menu-toggle');
-  const nav = document.getElementById('nav');
-  const icon = toggleBtn.querySelector('i');
+document.addEventListener("DOMContentLoaded", function () {
+  const toggleButton = document.getElementById("menu-toggle");
+  const nav = document.querySelector(".main-nav");
+  const navLinks = document.querySelectorAll(".main-nav a");
 
-  toggleBtn.addEventListener('click', () => {
-    nav.classList.toggle('active');
-    icon.classList.toggle('fa-bars');
-    icon.classList.toggle('fa-times');
+  toggleButton.addEventListener("click", function () {
+    nav.classList.toggle("open");
+
+    // Bytt mellom hamburgermeny og X
+    if (toggleButton.innerHTML === "☰") {
+      toggleButton.innerHTML = "✕";
+    } else {
+      toggleButton.innerHTML = "☰";
+    }
   });
 
-  const navLinks = nav.querySelectorAll('a');
+  // Lukk menyen når en lenke trykkes (kun på mobil)
   navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      if (nav.classList.contains('active')) {
-        nav.classList.remove('active');
-        icon.classList.add('fa-bars');
-        icon.classList.remove('fa-times');
+    link.addEventListener("click", function () {
+      if (nav.classList.contains("open")) {
+        nav.classList.remove("open");
+        toggleButton.innerHTML = "☰";
       }
     });
   });
