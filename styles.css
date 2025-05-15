@@ -1,195 +1,107 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Bakgrunn og font */
+/* General Layout */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  font-family: Arial, sans-serif;
   background: linear-gradient(220.55deg, #565656 0%, #181818 100%);
   color: #fff;
-  line-height: 1.6;
-  padding-top: 120px; /* rom for sticky navigasjon */
 }
 
-/* Overskrift (ikke sticky) */
-#top-logo {
-  text-align: center;
-  padding: 2rem 1rem 1rem;
-}
-
-/* Sticky desktop-navigasjon */
-#sticky-nav {
-  background-color: #000;
-  color: #fff;
+header {
   position: sticky;
   top: 0;
-  width: 100%;
-  height: 100px;
-  z-index: 1000;
+  background-color: #000;
+  z-index: 999;
+  padding: 1rem 2rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-}
-
-.nav-content {
-  width: 100%;
-  max-width: 1200px;
-  padding: 0 2rem;
-  display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
-#main-nav {
-  list-style: none;
-  display: flex;
-  gap: 2rem;
-}
-
-#main-nav li a {
-  color: #fff;
-  font-weight: bold;
-  text-decoration: none;
-  transition: opacity 0.3s ease;
-}
-
-#main-nav li a:hover {
-  opacity: 0.6;
-}
-
-/* Sosiale medier på desktop */
-#social-icons {
-  display: flex;
-  gap: 1rem;
-}
-
-#social-icons a {
-  color: #fff;
-  font-size: 1.2rem;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-
-#social-icons a:hover {
-  transform: scale(1.2);
-}
-
-/* Innhold */
-.page-content {
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Markdown-tekstfarger */
-#index-content h1,
-#index-content h2,
-#index-content h3,
-#index-content h4,
-#index-content h5,
-#index-content h6,
-#index-content p {
-  color: #fff;
-  margin-bottom: 1rem;
-}
-
-/* FOOTER */
-footer {
-  margin-top: 3rem;
-  padding: 2rem;
-  text-align: center;
-  color: #ccc;
-  font-size: 0.9rem;
-}
-
-/* ---------- Mobilmeny ---------- */
-
-#mobile-nav {
-  display: none;
+.branding h1 {
+  margin: 0;
+  font-size: 1.5rem;
 }
 
 .menu-toggle {
-  font-size: 2rem;
-  border: none;
   background: none;
+  border: none;
   color: #fff;
-  cursor: pointer;
-  padding: 0.5rem;
-  margin-left: auto;
-}
-
-.mobile-menu {
+  font-size: 2rem;
   display: none;
-  flex-direction: column;
-  align-items: center;
-  background: #000;
-  width: 100%;
-  padding: 2rem 1rem;
+  cursor: pointer;
 }
 
-.mobile-menu.active {
+nav {
   display: flex;
+  gap: 2rem;
+  align-items: center;
 }
 
-.mobile-menu ul {
+.nav-links,
+.social-icons {
   list-style: none;
+  display: flex;
+  gap: 1.2rem;
   padding: 0;
-  margin-bottom: 1.5rem;
+  margin: 0;
 }
 
-.mobile-menu ul li {
-  margin: 1rem 0;
-}
-
-.mobile-menu ul li a {
+.nav-links li a,
+.social-icons li a {
   color: #fff;
   text-decoration: none;
-  font-size: 1.2rem;
   font-weight: bold;
 }
 
-.mobile-socials {
-  display: flex;
-  gap: 1.2rem;
-  font-size: 1.3rem;
+.social-icons li a i {
+  font-size: 1.2rem;
 }
 
-.mobile-socials a {
-  color: #fff;
-  text-decoration: none;
-  transition: transform 0.3s ease;
+/* Main Content */
+#index-content {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 0 1rem;
 }
 
-.mobile-socials a:hover {
-  transform: scale(1.2);
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9rem;
+  color: #aaa;
 }
 
-/* ---------- Responsiv oppførsel ---------- */
-
-@media screen and (max-width: 768px) {
-  #sticky-nav {
-    display: none;
-  }
-
-  #mobile-nav {
+/* Responsive */
+@media (max-width: 768px) {
+  .menu-toggle {
     display: block;
-    position: sticky;
-    top: 0;
-    background: #000;
-    padding: 1rem;
-    z-index: 1000;
   }
 
-  .nav-container {
+  nav {
+    flex-direction: column;
+    width: 100%;
+    display: none;
+    background-color: #000;
+    padding: 1rem 0;
+  }
+
+  nav.active {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
   }
 
-  .logo-placeholder {
-    height: 1rem;
+  .nav-links,
+  .social-icons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .social-icons li {
+    margin-top: 0.5rem;
+  }
+
+  .menu-toggle i.fa-times {
+    font-size: 2rem;
   }
 }
