@@ -8,8 +8,8 @@
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <header>
-    <div class="header-container">
+  <header class="site-header">
+    <div class="header-inner">
       <div class="branding">
         <h1>Oysterdale Records</h1>
         <h4>Website under construction...</h4>
@@ -17,7 +17,7 @@
       <div class="menu-toggle" id="menu-toggle">
         <i class="fas fa-bars"></i>
       </div>
-      <nav id="main-nav" class="hidden">
+      <nav id="main-nav" class="nav">
         <ul class="nav-links">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
@@ -25,32 +25,35 @@
           <li><a href="events.html">Events</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
-        <ul class="social-links">
-          <li><a href="https://www.instagram.com/oysterdale/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
-          <li><a href="#" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>
-          <li><a href="#" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>
-          <li><a href="#" target="_blank" aria-label="Spotify"><i class="fab fa-spotify"></i></a></li>
-          <li><a href="#" target="_blank" aria-label="Twitch"><i class="fab fa-twitch"></i></a></li>
-          <li><a href="#" target="_blank" aria-label="SoundCloud"><i class="fab fa-soundcloud"></i></a></li>
-          <li><a href="#" target="_blank" aria-label="Mixcloud"><i class="fab fa-mixcloud"></i></a></li>
+        <ul class="social-icons">
+          <li><a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+          <li><a href="#"><i class="fab fa-tiktok"></i></a></li>
+          <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+          <li><a href="#"><i class="fab fa-spotify"></i></a></li>
+          <li><a href="#"><i class="fab fa-twitch"></i></a></li>
+          <li><a href="#"><i class="fab fa-soundcloud"></i></a></li>
+          <li><a href="#"><i class="fab fa-mixcloud"></i></a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="content">
-      <h2>Welcome to Oysterdale Records</h2>
-      <p><em>Every record is a pearl</em></p>
-      <p>We’re an independent label releasing soulful House, Disco, and Electronic music — carefully crafted and digitally distributed to the world from Oslo, Norway.</p>
-      <p>Driven by groove, guided by feeling.</p>
-    </section>
+  <main class="content">
+    <div id="index-content">Loading content...</div>
   </main>
 
-  <footer>
+  <footer class="site-footer">
     <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
   </footer>
 
   <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    fetch('content/index.md')
+      .then(res => res.text())
+      .then(md => {
+        document.getElementById('index-content').innerHTML = marked.parse(md);
+      });
+  </script>
 </body>
 </html>
