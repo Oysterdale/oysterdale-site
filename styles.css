@@ -211,3 +211,36 @@ button:hover {
   h1 { font-size: 1.8rem; }
   h2 { font-size: 1.4rem; }
 }
+/* NAV med sosiale ikoner */
+#nav-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-direction: column;
+}
+
+@media (min-width: 700px) {
+  #nav-bar {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+#social-icons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+#social-icons a {
+  font-size: 1.3rem;
+  color: white;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#social-icons a:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+}
