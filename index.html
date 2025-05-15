@@ -6,16 +6,18 @@
   <title>Oysterdale Records</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- Font Awesome CDN for icons (optional, if you use it) -->
+  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-  <!-- Logo og intro -->
+  <!-- Topp-logo -->
   <header id="top-logo">
     <h1>Oysterdale Records</h1>
     <p>Website under construction...</p>
   </header>
 
-  <!-- Desktop navbar -->
+  <!-- Desktop sticky navbar -->
   <div id="sticky-nav">
     <div class="nav-content">
       <ul id="main-nav">
@@ -26,17 +28,18 @@
         <li><a href="contact.html">Contact</a></li>
       </ul>
       <div id="social-icons">
-        <a href="https://www.instagram.com/oysterdale/" target="_blank">📸</a>
-        <a href="#">🎵</a>
-        <a href="#">▶️</a>
-        <a href="#">🎧</a>
-        <a href="#">📡</a>
-        <a href="#">🌊</a>
+        <a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#"><i class="fa-brands fa-spotify"></i></a>
+        <a href="#"><i class="fa-brands fa-twitch"></i></a>
+        <a href="#"><i class="fa-brands fa-soundcloud"></i></a>
+        <a href="#"><i class="fa-brands fa-mixcloud"></i></a>
       </div>
     </div>
   </div>
 
-  <!-- Mobil navbar -->
+  <!-- Mobil-meny (hamburger) -->
   <nav id="mobile-nav">
     <div class="nav-container">
       <div class="logo-placeholder"></div>
@@ -51,17 +54,18 @@
         <li><a href="contact.html">Contact</a></li>
       </ul>
       <div class="mobile-socials">
-        <a href="https://www.instagram.com/oysterdale/" target="_blank">📸</a>
-        <a href="#">🎵</a>
-        <a href="#">▶️</a>
-        <a href="#">🎧</a>
-        <a href="#">📡</a>
-        <a href="#">🌊</a>
+        <a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#"><i class="fa-brands fa-spotify"></i></a>
+        <a href="#"><i class="fa-brands fa-twitch"></i></a>
+        <a href="#"><i class="fa-brands fa-soundcloud"></i></a>
+        <a href="#"><i class="fa-brands fa-mixcloud"></i></a>
       </div>
     </div>
   </nav>
 
-  <!-- Markdown-innhold -->
+  <!-- Innhold -->
   <div class="page-content">
     <div id="index-content">Loading content...</div>
   </div>
@@ -70,7 +74,7 @@
     <p style="text-align:center; margin: 2rem 0;">&copy; 2025 Oysterdale Records. All rights reserved.</p>
   </footer>
 
-  <!-- Script for å hente markdown -->
+  <!-- Markdown-henting -->
   <script>
     fetch('content/index.md')
       .then(res => res.text())
@@ -79,7 +83,7 @@
       });
   </script>
 
-  <!-- Script for å åpne/lukke mobilmeny -->
+  <!-- Mobilmeny toggle -->
   <script>
     const toggle = document.getElementById("menu-toggle");
     const menu = document.getElementById("mobile-menu");
