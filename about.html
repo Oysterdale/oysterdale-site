@@ -3,95 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About – Oysterdale Records</title>
+  <title>About - Oysterdale Records</title>
   <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script> <!-- Bytt ut med ditt kit -->
+  <script src="https://kit.fontawesome.com/d44490a2b2.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
-  <!-- Logo og topptekst -->
-  <header id="top-logo">
-    <h1>Oysterdale Records</h1>
-    <p>Website under construction...</p>
-  </header>
-
-  <!-- Desktop navbar -->
-  <div id="sticky-nav">
-    <div class="nav-content">
-      <ul id="main-nav">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="releases.html">Releases</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-      <div id="social-icons">
-        <a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
-        <a href="#"><i class="fa-brands fa-youtube"></i></a>
-        <a href="#"><i class="fa-brands fa-spotify"></i></a>
-        <a href="#"><i class="fa-brands fa-twitch"></i></a>
-        <a href="#"><i class="fa-brands fa-soundcloud"></i></a>
-        <a href="#"><i class="fa-brands fa-mixcloud"></i></a>
+  <header>
+    <div class="header-content">
+      <div class="logo">Oysterdale Records</div>
+      <div class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars"></i>
       </div>
     </div>
-  </div>
-
-  <!-- Mobil navbar -->
-  <nav id="mobile-nav">
-    <div class="nav-container">
-      <div class="logo-placeholder"></div>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">☰</button>
-    </div>
-    <div class="mobile-menu" id="mobile-menu">
+    <nav class="nav-links" id="nav-links">
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a href="about.html" class="active">About</a></li>
         <li><a href="releases.html">Releases</a></li>
         <li><a href="events.html">Events</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
-      <div class="mobile-socials">
-        <a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
-        <a href="#"><i class="fa-brands fa-youtube"></i></a>
-        <a href="#"><i class="fa-brands fa-spotify"></i></a>
-        <a href="#"><i class="fa-brands fa-twitch"></i></a>
-        <a href="#"><i class="fa-brands fa-soundcloud"></i></a>
-        <a href="#"><i class="fa-brands fa-mixcloud"></i></a>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/oysterdale/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-spotify"></i></a>
+        <a href="#"><i class="fab fa-twitch"></i></a>
+        <a href="#"><i class="fab fa-soundcloud"></i></a>
+        <a href="#"><i class="fas fa-music"></i></a>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </header>
 
-  <!-- Innhold fra about.md -->
-  <div class="page-content">
-    <div id="about-content">Loading content...</div>
-  </div>
+  <main>
+    <section class="main-content">
+      <h2>About Oysterdale Records</h2>
+      <p>
+        Founded in 2025, Oysterdale Records is a label built on groove, soul, and a deep love for dance music. From dusty basements to rooftop sessions, we champion the sound of tomorrow rooted in the essence of disco, house, funk, and beyond.
+      </p>
+      <p>
+        With each release, we open a new shell — revealing a carefully crafted pearl.
+      </p>
+      <p>
+        Our artists are producers, DJs, instrumentalists and storytellers. And our mission is simple: to create dance music that lasts.
+      </p>
+    </section>
+  </main>
 
   <footer>
-    <p style="text-align:center; margin: 2rem 0;">&copy; 2025 Oysterdale Records. All rights reserved.</p>
+    <p>© 2025 Oysterdale Records. All rights reserved.</p>
   </footer>
 
-  <!-- Hent markdown -->
-  <script>
-    fetch('content/about.md')
-      .then(res => res.text())
-      .then(md => {
-        document.getElementById('about-content').innerHTML = marked.parse(md);
-      });
-  </script>
-
-  <!-- Mobilmeny toggle -->
-  <script>
-    const toggle = document.getElementById("menu-toggle");
-    const menu = document.getElementById("mobile-menu");
-
-    toggle.addEventListener("click", () => {
-      const isOpen = menu.classList.toggle("active");
-      toggle.textContent = isOpen ? "✕" : "☰";
-    });
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
