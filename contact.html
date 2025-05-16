@@ -11,8 +11,6 @@
 </head>
 <body>
 
-  <div id="main-header"></div>
-
   <main class="page-content">
     <div id="contact-content">Loading content...</div>
   </main>
@@ -22,10 +20,11 @@
   </footer>
 
   <script>
+    // Sett inn header øverst og aktiver mobilmeny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
-        document.getElementById('main-header').innerHTML = html;
+        document.body.insertAdjacentHTML('afterbegin', html);
 
         const toggleButton = document.getElementById('menu-toggle');
         const nav = document.querySelector('.main-nav');
@@ -48,6 +47,7 @@
         }
       });
 
+    // Last inn markdown-innhold
     fetch('content/contact.md')
       .then(res => res.text())
       .then(md => {
