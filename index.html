@@ -11,9 +11,6 @@
 </head>
 <body>
 
-  <!-- Header placeholder -->
-  <div id="main-header"></div>
-
   <main class="page-content">
     <div id="home-content">Loading content...</div>
   </main>
@@ -23,13 +20,12 @@
   </footer>
 
   <script>
-    // Last inn header og kjør script når ferdig
+    // Sett inn header øverst i body og aktiver meny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
-        document.getElementById('main-header').innerHTML = html;
+        document.body.insertAdjacentHTML('afterbegin', html);
 
-        // Nå som headeren er på plass, legg til meny-funksjon
         const toggleButton = document.getElementById('menu-toggle');
         const nav = document.querySelector('.main-nav');
         const navLinks = document.querySelectorAll('.main-nav a');
