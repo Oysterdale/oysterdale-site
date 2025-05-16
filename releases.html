@@ -11,8 +11,10 @@
 </head>
 <body>
 
+  <div id="main-header"></div>
+
   <main class="page-content">
-    <div id="releases-content">Loading content...</div>
+    <div id="releases-content">Loading releases...</div>
   </main>
 
   <footer>
@@ -20,11 +22,11 @@
   </footer>
 
   <script>
-    // Sett inn header øverst og aktiver meny
+    // Last inn header og meny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
-        document.body.insertAdjacentHTML('afterbegin', html);
+        document.getElementById('main-header').innerHTML = html;
 
         const toggleButton = document.getElementById('menu-toggle');
         const nav = document.querySelector('.main-nav');
@@ -47,12 +49,39 @@
         }
       });
 
-    // Last inn releases-innhold
-    fetch('content/releases.md')
+    // Hent alle filer fra releases-mappen
+    fetch('content/releases')
       .then(res => res.text())
-      .then(md => {
-        document.getElementById('releases-content').innerHTML = marked.parse(md);
+      .then(html => {
+        // OBS: Dette krever at Netlify eller en backend lister filene. Alternativt:
+        // Hardkod filnavnene som finnes i `content/releases`
+        const files = [
+          'content/releases/get-on-up.md'
+          // legg til flere etter hvert
+        ];
+
+        Promise.all(
+          files.map(file =>
+            fetch(file)
+              .then(res => res.text())
+              .then(md => marked.parse(md))
+          )
+        ).then(allHtml => {
+          document.getElementById('releases-content').innerHTML = allHtml.join('<hr/>');
+        });
       });
   </script>
 </body>
 </html>
+✅ Hva du må gjøre:
+Lagre hver release som en markdown-fil i content/releases/.
+
+I koden over: legg inn de faktiske filnavnene under files = [ ... ], f.eks.:
+
+js
+Kopier
+Rediger
+const files = [
+  'content/releases/get-on-up.md',
+  'content/releases/next-release.md'
+];
