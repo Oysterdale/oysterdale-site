@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div id="header-container"></div>
 
   <main class="page-content">
     <div id="about-content">Loading content...</div>
@@ -21,14 +20,14 @@
   </footer>
 
   <script>
-    // Last inn headeren én gang for alle sider
+    // Sett inn header øverst i <body>
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
-        document.getElementById('header-container').innerHTML = html;
+        document.body.insertAdjacentHTML('afterbegin', html);
       });
 
-    // Last inn markdown-innhold for About-siden
+    // Hent markdown-innhold for About-siden
     fetch('content/about.md')
       .then(res => res.text())
       .then(md => {
