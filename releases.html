@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records – Releases</title>
   <link rel="stylesheet" href="styles.css" />
-  <script defer src="script.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
+
+  <div id="main-header"></div>
 
   <main class="page-content">
     <div id="releases-content">Loading content...</div>
@@ -20,14 +21,34 @@
   </footer>
 
   <script>
-    // Last inn header øverst i body (slik at sticky fungerer)
+    // Last inn header og meny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
-        document.body.insertAdjacentHTML('afterbegin', html);
+        document.getElementById('main-header').innerHTML = html;
+
+        const toggleButton = document.getElementById('menu-toggle');
+        const nav = document.querySelector('.main-nav');
+        const navLinks = document.querySelectorAll('.main-nav a');
+
+        if (toggleButton && nav) {
+          toggleButton.addEventListener('click', () => {
+            nav.classList.toggle('open');
+            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+          });
+
+          navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+              if (nav.classList.contains('open')) {
+                nav.classList.remove('open');
+                toggleButton.textContent = '☰';
+              }
+            });
+          });
+        }
       });
 
-    // Last inn markdown-innhold for releases-siden
+    // Last inn innhold fra releases.md
     fetch('content/releases.md')
       .then(res => res.text())
       .then(md => {
