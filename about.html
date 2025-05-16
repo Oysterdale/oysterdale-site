@@ -20,35 +20,32 @@
   </footer>
 
   <script>
-    // Sett inn header øverst i <body> og initier meny
+    // Sett inn header øverst i body og initier meny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
         document.body.insertAdjacentHTML('afterbegin', html);
-        initMobileMenu();
+
+        const toggleButton = document.getElementById('menu-toggle');
+        const nav = document.querySelector('.main-nav');
+        const navLinks = document.querySelectorAll('.main-nav a');
+
+        if (toggleButton && nav) {
+          toggleButton.addEventListener('click', () => {
+            nav.classList.toggle('open');
+            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+          });
+
+          navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+              if (nav.classList.contains('open')) {
+                nav.classList.remove('open');
+                toggleButton.textContent = '☰';
+              }
+            });
+          });
+        }
       });
-
-    function initMobileMenu() {
-      const toggleButton = document.getElementById('menu-toggle');
-      const nav = document.querySelector('.main-nav');
-      const navLinks = document.querySelectorAll('.main-nav a');
-
-      if (!toggleButton || !nav) return;
-
-      toggleButton.addEventListener('click', () => {
-        nav.classList.toggle('open');
-        toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
-      });
-
-      navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          if (nav.classList.contains('open')) {
-            nav.classList.remove('open');
-            toggleButton.textContent = '☰';
-          }
-        });
-      });
-    }
 
     // Hent innhold fra about.md
     fetch('content/about.md')
