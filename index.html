@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records</title>
   <link rel="stylesheet" href="styles.css" />
-  <script defer src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
+  <!-- Header legges inn dynamisk her -->
+  <div id="main-header"></div>
 
   <main class="page-content">
     <div id="home-content">Loading content...</div>
@@ -20,14 +22,19 @@
   </footer>
 
   <script>
-    // Sett inn header øverst i <body> for å sikre sticky-støtte
+    // Last inn header og deretter script.js når headeren er på plass
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
-        document.body.insertAdjacentHTML('afterbegin', html);
+        document.getElementById('main-header').innerHTML = html;
+
+        // Når headeren er ferdig lastet, last script.js manuelt
+        const script = document.createElement('script');
+        script.src = 'script.js';
+        document.body.appendChild(script);
       });
 
-    // Hent markdown-innhold til forsiden
+    // Last inn markdown-innhold
     fetch('content/index.md')
       .then(res => res.text())
       .then(md => {
