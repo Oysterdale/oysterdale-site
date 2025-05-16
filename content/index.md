@@ -6,146 +6,71 @@ We’re an independent label releasing soulful House, Disco, and Electronic musi
 
 Driven by groove, guided by feeling.
 
-a﻿
+<br>
 
-b﻿
+<br>
 
-c﻿
+<br>
 
-d﻿
+<br>
 
-e﻿
+<br>
 
-f﻿
+<br>
 
-g﻿
+<br>
 
-h﻿
+<br>
 
-i﻿
+<br>
 
-j﻿
+<br>
 
-k﻿
+<br>
 
-l﻿
+<br>
 
-m﻿
+<br>
 
-n﻿
+<br>
 
-o﻿
+<br>
 
-p﻿
+<br>
 
-q﻿
+<br>
 
-r﻿
+<br>
 
-s﻿
+<br>
+<br>
 
-t﻿
+<br>
 
-u﻿
+<br>
 
-v﻿
+<br>
 
-w﻿
+<br>
+<br>
 
-x﻿
+<br>
 
-y﻿
+<br>
 
-z﻿
+<br>
 
-æ﻿
+<br>
+<br>
 
-ø﻿
+<br>
 
-å﻿
+<br>
 
+<br>
 
+<br>
 
-p﻿
+<img src="/images/pearl.png" alt="Hidden Pearl" width="150" />
 
-p﻿
-
-p﻿
-
-p﻿
-
-p
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p﻿
-
-p
+**CONGRATZ!! YOU FOUND A HIDDEN PEARL**
