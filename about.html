@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records – About</title>
   <link rel="stylesheet" href="styles.css" />
-  <script defer src="script.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
@@ -20,14 +19,37 @@
   </footer>
 
   <script>
-    // Sett inn header øverst i <body>
+    // Sett inn header øverst i <body> og initier meny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
         document.body.insertAdjacentHTML('afterbegin', html);
+        initMobileMenu();
       });
 
-    // Hent markdown-innhold for About-siden
+    function initMobileMenu() {
+      const toggleButton = document.getElementById('menu-toggle');
+      const nav = document.querySelector('.main-nav');
+      const navLinks = document.querySelectorAll('.main-nav a');
+
+      if (!toggleButton || !nav) return;
+
+      toggleButton.addEventListener('click', () => {
+        nav.classList.toggle('open');
+        toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+      });
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (nav.classList.contains('open')) {
+            nav.classList.remove('open');
+            toggleButton.textContent = '☰';
+          }
+        });
+      });
+    }
+
+    // Hent innhold fra about.md
     fetch('content/about.md')
       .then(res => res.text())
       .then(md => {
