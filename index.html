@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records</title>
   <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
-  <!-- Header legges inn dynamisk her -->
+  <!-- Header placeholder -->
   <div id="main-header"></div>
 
   <main class="page-content">
@@ -22,16 +22,32 @@
   </footer>
 
   <script>
-    // Last inn header og deretter script.js når headeren er på plass
+    // Last inn header og kjør script når ferdig
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
         document.getElementById('main-header').innerHTML = html;
 
-        // Når headeren er ferdig lastet, last script.js manuelt
-        const script = document.createElement('script');
-        script.src = 'script.js';
-        document.body.appendChild(script);
+        // Nå som headeren er på plass, legg til meny-funksjon
+        const toggleButton = document.getElementById('menu-toggle');
+        const nav = document.querySelector('.main-nav');
+        const navLinks = document.querySelectorAll('.main-nav a');
+
+        if (toggleButton && nav) {
+          toggleButton.addEventListener('click', () => {
+            nav.classList.toggle('open');
+            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+          });
+
+          navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+              if (nav.classList.contains('open')) {
+                nav.classList.remove('open');
+                toggleButton.textContent = '☰';
+              }
+            });
+          });
+        }
       });
 
     // Last inn markdown-innhold
