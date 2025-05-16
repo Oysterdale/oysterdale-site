@@ -11,10 +11,11 @@
 </head>
 <body>
 
+  <!-- Header settes inn dynamisk -->
   <div id="main-header"></div>
 
   <main class="page-content">
-    <div id="releases-content">Loading releases...</div>
+    <div id="releases-content">Loading content...</div>
   </main>
 
   <footer>
@@ -22,7 +23,7 @@
   </footer>
 
   <script>
-    // Last inn header og meny
+    // Last inn header og initier meny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
@@ -49,26 +50,11 @@
         }
       });
 
-    // Hent alle filer fra releases-mappen
-    fetch('content/releases')
+    // Last inn releases.md
+    fetch('content/releases.md')
       .then(res => res.text())
-      .then(html => {
-        // OBS: Dette krever at Netlify eller en backend lister filene. Alternativt:
-        // Hardkod filnavnene som finnes i `content/releases`
-        const files = [
-          'content/releases/get-on-up.md'
-          // legg til flere etter hvert
-        ];
-
-        Promise.all(
-          files.map(file =>
-            fetch(file)
-              .then(res => res.text())
-              .then(md => marked.parse(md))
-          )
-        ).then(allHtml => {
-          document.getElementById('releases-content').innerHTML = allHtml.join('<hr/>');
-        });
+      .then(md => {
+        document.getElementById('releases-content').innerHTML = marked.parse(md);
       });
   </script>
 </body>
