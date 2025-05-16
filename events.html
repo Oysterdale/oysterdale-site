@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records – Events</title>
   <link rel="stylesheet" href="styles.css" />
-  <script defer src="script.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
+
+  <div id="main-header"></div>
 
   <main class="page-content">
     <div id="events-content">Loading content...</div>
@@ -20,14 +21,34 @@
   </footer>
 
   <script>
-    // Last inn header dynamisk og behold sticky
+    // Last inn header og aktiver meny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
-        document.body.insertAdjacentHTML('afterbegin', html);
+        document.getElementById('main-header').innerHTML = html;
+
+        const toggleButton = document.getElementById('menu-toggle');
+        const nav = document.querySelector('.main-nav');
+        const navLinks = document.querySelectorAll('.main-nav a');
+
+        if (toggleButton && nav) {
+          toggleButton.addEventListener('click', () => {
+            nav.classList.toggle('open');
+            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+          });
+
+          navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+              if (nav.classList.contains('open')) {
+                nav.classList.remove('open');
+                toggleButton.textContent = '☰';
+              }
+            });
+          });
+        }
       });
 
-    // Hent innhold fra events.md
+    // Last inn innhold fra events.md
     fetch('content/events.md')
       .then(res => res.text())
       .then(md => {
