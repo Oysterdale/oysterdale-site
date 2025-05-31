@@ -37,5 +37,8 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Date", name: "date", widget: "datetime" }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Cover Image", name: "cover", widget: "image", required: false }
+      - { label: "Spotify Link", name: "spotify", widget: "string", required: false }
+      - { label: "Traxsource Link", name: "traxsource", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
