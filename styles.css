@@ -150,3 +150,51 @@ footer {
     max-height: 50px;
   }
 }
+
+/* RELEASES-STIL */
+.release {
+  margin-bottom: 4rem;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.release h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.release-cover {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.2s ease;
+}
+
+.release-cover:hover {
+  transform: scale(1.05);
+}
+
+.release p {
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+.release p a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.release-body {
+  margin-top: 1.5rem;
+  text-align: left;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0.95rem;
+  color: #ddd;
+}
