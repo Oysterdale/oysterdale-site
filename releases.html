@@ -11,11 +11,12 @@
 </head>
 <body>
 
-  <!-- Header settes inn dynamisk -->
+  <!-- Header importeres dynamisk -->
   <div id="main-header"></div>
 
   <main class="page-content">
-    <div id="releases-content">Loading content...</div>
+    <h1>Releases</h1>
+    <div id="releases-content">Loading releases...</div>
   </main>
 
   <footer>
@@ -50,12 +51,56 @@
         }
       });
 
-    // Last inn releases.md
-    fetch('content/releases.md')
-      .then(res => res.text())
-      .then(md => {
-        document.getElementById('releases-content').innerHTML = marked.parse(md);
-      });
+    // Funksjon for å hente og vise én release-fil
+    async function loadRelease(file) {
+      const res = await fetch(`/releases/${file}`);
+      const text = await res.text();
+
+      const titleMatch = text.match(/title:\s*(.+)/);
+      const coverMatch = text.match(/cover:\s*(.+)/);
+      const spotifyMatch = text.match(/spotify:\s*(.+)/);
+      const traxsourceMatch = text.match(/traxsource:\s*(.+)/);
+      const bodyText = text.split('---').pop().trim(); // alt etter evt. frontmatter
+
+      const title = titleMatch ? titleMatch[1] : 'Untitled';
+      const cover = coverMatch ? coverMatch[1] : '';
+      const spotify = spotifyMatch ? spotifyMatch[1] : '';
+      const traxsource = traxsourceMatch ? traxsourceMatch[1] : '';
+
+      return `
+        <div class="release">
+          <h2>${title}</h2>
+          ${cover ? `<a href="${spotify || traxsource || '#'}" target="_blank"><img src="${cover}" alt="${title}" class="release-cover"></a>` : ''}
+          <p>
+            ${spotify ? `<a href="${spotify}" target="_blank">Spotify</a>` : ''}
+            ${traxsource ? `${spotify ? ' | ' : ''}<a href="${traxsource}" target="_blank">Traxsource</a>` : ''}
+          </p>
+          <div class="release-body">${marked.parse(bodyText)}</div>
+        </div>
+      `;
+    }
+
+    // Funksjon for å vise flere releases
+    async function loadAllReleases() {
+      const files = [
+        "get-on-up-feat-emél.md"
+        // legg til flere filer her etter hvert: "ny-låt.md", ...
+      ];
+
+      const container = document.getElementById('releases-content');
+      container.innerHTML = '';
+
+      for (const file of files) {
+        try {
+          const html = await loadRelease(file);
+          container.innerHTML += html;
+        } catch (err) {
+          console.error(`Klarte ikke laste ${file}:`, err);
+        }
+      }
+    }
+
+    loadAllReleases();
   </script>
 </body>
 </html>
