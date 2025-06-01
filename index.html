@@ -11,15 +11,17 @@
 </head>
 <body>
 
-  <!-- HERO BILDE -->
+  <!-- FORSIDE HERO-BILDE -->
   <div class="home-hero">
     <h1>Oysterdale Records</h1>
   </div>
 
+  <!-- INNHOLD -->
   <main class="page-content">
     <div id="home-content">Loading content...</div>
   </main>
 
+  <!-- FOOTER -->
   <footer>
     <div class="footer-logo">
       <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
@@ -27,6 +29,7 @@
     <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
   </footer>
 
+  <!-- HEADER + MARKDOWN LOAD -->
   <script>
     // Sett inn header øverst i body og aktiver meny
     fetch('header.html')
@@ -64,31 +67,3 @@
   </script>
 </body>
 </html>
-Husk:
-Bildet Forsidebilde Oysterdale med svart.png må ligge i uploads/-mappen.
-
-Og du må ha lagt til følgende i styles.css:
-
-css
-Kopier
-Rediger
-.home-hero {
-  width: 100%;
-  min-height: 525px;
-  background: url('uploads/Forsidebilde Oysterdale med svart.png') center center / cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  animation: fadeIn 1.2s ease-in-out forwards;
-}
-
-.home-hero h1 {
-  padding-top: 200px;
-  font-size: 3rem;
-  font-weight: 700;
-  color: white;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-  text-transform: uppercase;
-  animation: fadeIn 1.2s ease-in-out;
-}
