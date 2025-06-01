@@ -52,4 +52,11 @@ collections:
       - { label: "Name", name: "name", widget: "string" }
       - { label: "Photo", name: "photo", widget: "image" }
       - { label: "Biography", name: "bio", widget: "markdown" }
-      - { label: "Releases", name: "releases", widget: "list", required: false, field: {label: "Release Title", name: "release", widget: "string"} }
+      - label: "Releases"
+        name: "releases"
+        widget: "list"
+        required: false
+        field:
+          label: "Release Link"
+          name: "link"
+          widget: "string"
