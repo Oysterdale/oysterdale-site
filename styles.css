@@ -104,7 +104,7 @@ h1, h2, h3 {
   animation: fadeIn 1.3s ease-in-out;
 }
 
-/* HERO SECTION */
+/* HERO SECTION (About + Home) */
 .page-hero {
   width: 100%;
   min-height: 525px;
@@ -123,6 +123,14 @@ h1, h2, h3 {
   color: white;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
   text-transform: uppercase;
+}
+
+/* HOME HERO */
+.home-hero {
+  width: 100%;
+  min-height: 525px;
+  background: url('uploads/Forsidebilde%20Oysterdale%20med%20svart.png') center center / cover no-repeat;
+  animation: fadeIn 1.2s ease-in-out forwards;
 }
 
 /* RELEASE LAYOUT */
@@ -273,24 +281,4 @@ footer {
   .releases-grid {
     grid-template-columns: 1fr;
   }
-}
-.home-hero {
-  width: 100%;
-  min-height: 525px;
-  background: url('uploads/Forsidebilde Oysterdale med svart.png') center center / cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  animation: fadeIn 1.2s ease-in-out forwards;
-}
-
-.home-hero h1 {
-  padding-top: 200px;
-  font-size: 3rem;
-  font-weight: 700;
-  color: white;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-  text-transform: uppercase;
-  animation: fadeIn 1.2s ease-in-out;
 }
