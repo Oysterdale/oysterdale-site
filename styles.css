@@ -176,7 +176,7 @@ footer {
 }
 
 .footer-logo-img {
-  height: 180px; /* Økt størrelse */
+  height: 270px;
   opacity: 0.95;
   filter: brightness(1.2);
 }
