@@ -260,7 +260,7 @@ footer {
 }
 
 /* RESPONSIVE MENU */
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
   .menu-toggle {
     display: block;
     position: absolute;
@@ -303,7 +303,6 @@ footer {
     max-height: 60px;
   }
 }
-
 /* GRID FOR RELEASES */
 .releases-grid {
   display: grid;
