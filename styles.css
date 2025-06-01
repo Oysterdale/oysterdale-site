@@ -1,4 +1,4 @@
-/* Reset og grunnstil */
+/* RESET & BASE STYLES */
 * {
   margin: 0;
   padding: 0;
@@ -8,7 +8,7 @@
 body {
   font-family: 'Segoe UI', sans-serif;
   color: #fff;
-  background: linear-gradient(160deg, #1A1A40 0%, #2F2FA2 100%);
+  background-color: #000;
   line-height: 1.6;
 }
 
@@ -18,7 +18,8 @@ a {
 }
 
 a:hover {
-  text-decoration: underline;
+  color: #999;
+  text-decoration: none;
 }
 
 /* HEADER */
@@ -33,6 +34,7 @@ a:hover {
   justify-content: space-between;
   padding: 20px 5%;
   height: 100px;
+  border-bottom: 1px solid #111;
 }
 
 /* LOGO */
@@ -51,9 +53,10 @@ a:hover {
 }
 
 .nav-links a {
-  font-weight: bold;
+  font-weight: 700;
   text-transform: uppercase;
-  margin: 0 10px;
+  font-size: 0.95rem;
+  margin: 0 12px;
 }
 
 .nav-links a:hover,
@@ -80,21 +83,22 @@ a:hover {
   cursor: pointer;
 }
 
-/* PAGE CONTENT */
+/* CONTENT */
 .page-content {
   padding: 2rem 5%;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 /* RELEASE LAYOUT */
 .release {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #111;
   padding: 2rem;
   border-radius: 10px;
   margin: 2rem auto;
   max-width: 500px;
   text-align: center;
+  box-shadow: 0 0 10px rgba(255,255,255,0.05);
 }
 
 .release img.release-cover {
@@ -103,19 +107,6 @@ a:hover {
   border-radius: 10px;
   margin-top: 1rem;
   margin-bottom: 1rem;
-}
-
-.release h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.release p {
-  margin-bottom: 0.5rem;
-}
-
-.release-body {
-  margin-top: 1rem;
 }
 
 .release-artist {
@@ -132,14 +123,20 @@ a:hover {
   text-align: center;
 }
 
-/* ARTIST-LAYOUT */
+.release-body {
+  margin-top: 1rem;
+  color: #ccc;
+}
+
+/* ARTIST LAYOUT */
 .artist {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #111;
   padding: 2rem;
   border-radius: 10px;
   margin: 2rem auto;
   max-width: 500px;
   text-align: center;
+  box-shadow: 0 0 10px rgba(255,255,255,0.05);
 }
 
 .artist-photo {
@@ -161,10 +158,12 @@ footer {
   text-align: center;
   padding: 2rem;
   font-size: 0.9rem;
-  color: #aaa;
+  color: #555;
+  background-color: #000;
+  border-top: 1px solid #111;
 }
 
-/* RESPONSIV MENY */
+/* RESPONSIVE MENU */
 @media (max-width: 1100px) {
   .menu-toggle {
     display: block;
