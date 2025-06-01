@@ -125,12 +125,12 @@ h1, h2, h3 {
   text-transform: uppercase;
 }
 
-/* HOME HERO */
+/* HOME HERO SECTION */
 .home-hero {
   width: 100%;
   min-height: 525px;
-  background: url('uploads/Forsidebilde Oysterdale med svart.png') center center / contain no-repeat;
-  background-color: #000; /* fallback */
+  background: url('uploads/Forsidebilde Oysterdale med svart.png') center center / cover no-repeat;
+  background-color: #000; /* fallback bakgrunn */
   display: flex;
   align-items: center;
   justify-content: center;
