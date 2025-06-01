@@ -1,107 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Oysterdale Records – Releases</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="images/favicon.png" type="image/png" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-</head>
-<body>
+<script>
+  // Last inn header og initier meny
+  fetch('header.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('main-header').innerHTML = html;
 
-  <!-- Header importeres dynamisk -->
-  <div id="main-header"></div>
+      const toggleButton = document.getElementById('menu-toggle');
+      const nav = document.querySelector('.main-nav');
+      const navLinks = document.querySelectorAll('.main-nav a');
 
-  <main class="page-content">
-    <h1>Releases</h1>
-    <div id="releases-content">Loading releases...</div>
-  </main>
+      if (toggleButton && nav) {
+        toggleButton.addEventListener('click', () => {
+          nav.classList.toggle('open');
+          toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+        });
 
-  <footer>
-    &copy; 2025 Oysterdale Records. All rights reserved.
-  </footer>
-
-  <script>
-    // Last inn header og initier meny
-    fetch('header.html')
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('main-header').innerHTML = html;
-
-        const toggleButton = document.getElementById('menu-toggle');
-        const nav = document.querySelector('.main-nav');
-        const navLinks = document.querySelectorAll('.main-nav a');
-
-        if (toggleButton && nav) {
-          toggleButton.addEventListener('click', () => {
-            nav.classList.toggle('open');
-            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+        navLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            if (nav.classList.contains('open')) {
+              nav.classList.remove('open');
+              toggleButton.textContent = '☰';
+            }
           });
+        });
+      }
+    });
 
-          navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-              if (nav.classList.contains('open')) {
-                nav.classList.remove('open');
-                toggleButton.textContent = '☰';
-              }
-            });
-          });
-        }
-      });
+  async function loadRelease(file) {
+    const res = await fetch(`/releases/${file}`);
+    const text = await res.text();
 
-    // Funksjon for å hente og vise én release-fil
-    async function loadRelease(file) {
-      const res = await fetch(`/releases/${file}`);
-      const text = await res.text();
+    const titleMatch = text.match(/title:\s*(.+)/);
+    const coverMatch = text.match(/cover:\s*(.+)/);
+    const spotifyMatch = text.match(/spotify:\s*(.+)/);
+    const traxsourceMatch = text.match(/traxsource:\s*(.+)/);
+    const bodyText = text.split('---').pop().trim();
 
-      const titleMatch = text.match(/title:\s*(.+)/);
-      const coverMatch = text.match(/cover:\s*(.+)/);
-      const spotifyMatch = text.match(/spotify:\s*(.+)/);
-      const traxsourceMatch = text.match(/traxsource:\s*(.+)/);
-      const bodyText = text.split('---').pop().trim(); // alt etter evt. frontmatter
+    const fullTitle = titleMatch ? titleMatch[1] : 'Untitled';
+    const [artist, track] = fullTitle.split(' - ');
+    const cover = coverMatch ? coverMatch[1] : '';
+    const spotify = spotifyMatch ? spotifyMatch[1] : '';
+    const traxsource = traxsourceMatch ? traxsourceMatch[1] : '';
 
-      const title = titleMatch ? titleMatch[1] : 'Untitled';
-      const cover = coverMatch ? coverMatch[1] : '';
-      const spotify = spotifyMatch ? spotifyMatch[1] : '';
-      const traxsource = traxsourceMatch ? traxsourceMatch[1] : '';
+    return `
+      <div class="release">
+        <h2 class="release-artist">${artist || ''}</h2>
+        <h3 class="release-title">${track || ''}</h3>
+        ${cover ? `<a href="${spotify || traxsource || '#'}" target="_blank"><img src="${cover}" alt="${fullTitle}" class="release-cover"></a>` : ''}
+        <p>
+          ${spotify ? `<a href="${spotify}" target="_blank">Spotify</a>` : ''}
+          ${traxsource ? `${spotify ? ' | ' : ''}<a href="${traxsource}" target="_blank">Traxsource</a>` : ''}
+        </p>
+        <div class="release-body">${marked.parse(bodyText)}</div>
+      </div>
+    `;
+  }
 
-      return `
-        <div class="release">
-          <h2>${title}</h2>
-          ${cover ? `<a href="${spotify || traxsource || '#'}" target="_blank"><img src="${cover}" alt="${title}" class="release-cover"></a>` : ''}
-          <p>
-            ${spotify ? `<a href="${spotify}" target="_blank">Spotify</a>` : ''}
-            ${traxsource ? `${spotify ? ' | ' : ''}<a href="${traxsource}" target="_blank">Traxsource</a>` : ''}
-          </p>
-          <div class="release-body">${marked.parse(bodyText)}</div>
-        </div>
-      `;
-    }
+  async function loadAllReleases() {
+    const files = [
+      "get-on-up-feat-emél.md",
+      "okplus-dancing-on-the-clouds-feat-rona-ray.md"
+    ];
 
-    // Funksjon for å vise flere releases
-    async function loadAllReleases() {
-      const files = [
-        "get-on-up-feat-emél.md",
-        "okplus-dancing-on-the-clouds-feat-rona-ray.md"
-        // legg til flere filer her etter hvert
-      ];
+    const container = document.getElementById('releases-content');
+    container.innerHTML = '';
 
-      const container = document.getElementById('releases-content');
-      container.innerHTML = '';
-
-      for (const file of files) {
-        try {
-          const html = await loadRelease(file);
-          container.innerHTML += html;
-        } catch (err) {
-          console.error(`Klarte ikke laste ${file}:`, err);
-        }
+    for (const file of files) {
+      try {
+        const html = await loadRelease(file);
+        container.innerHTML += html;
+      } catch (err) {
+        console.error(`Klarte ikke laste ${file}:`, err);
       }
     }
+  }
 
-    loadAllReleases();
-  </script>
-</body>
-</html>
+  loadAllReleases();
+</script>
+✅ Legg til nederst i styles.css
+Her er CSS-klassen du legger til for å få riktig typografi og spacing:
+
+css
+Kopier
+Rediger
+.release-artist {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.release-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
