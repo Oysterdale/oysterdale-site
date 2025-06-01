@@ -107,8 +107,8 @@ h1, h2, h3 {
 /* HERO SECTION */
 .page-hero {
   width: 100%;
-  min-height: 480px;
-  background: url('uploads/IMG_6188.CR2 (3).jpg') center 42% / cover no-repeat;
+  min-height: 525px;
+  background: url('uploads/okplus_bjorvika.jpg') center 28% / cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -117,6 +117,7 @@ h1, h2, h3 {
 }
 
 .page-hero h1 {
+  padding-top: 200px;
   font-size: 3rem;
   font-weight: 700;
   color: white;
