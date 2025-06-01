@@ -171,6 +171,15 @@ footer {
   border-top: 1px solid #111;
 }
 
+.footer-logo {
+  margin-bottom: 1rem;
+}
+
+.footer-logo-img {
+  height: 40px;
+  opacity: 0.9;
+}
+
 /* RESPONSIVE MENU */
 @media (max-width: 1100px) {
   .menu-toggle {
