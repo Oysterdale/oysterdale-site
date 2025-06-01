@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oysterdale Records – Artists</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="images/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <div id="main-header"></div>
+
+  <main class="page-content">
+    <h1>Artists</h1>
+    <div class="artist-list">
+      <div class="artist">
+        <img src="uploads/emel.jpg" alt="Emél" class="artist-photo">
+        <h2>Emél</h2>
+        <p>Emél is a soulful Norwegian vocalist known for her work on OKPLUS’s debut single “Get On Up”. Her style blends retro house and nu-disco with a modern touch.</p>
+        <p><strong>Releases on Oysterdale:</strong></p>
+        <ul>
+          <li><a href="releases.html">Get On Up (feat. Emél)</a></li>
+        </ul>
+      </div>
+
+      <div class="artist">
+        <img src="uploads/rona-ray.jpg" alt="Rona Ray" class="artist-photo">
+        <h2>Rona Ray</h2>
+        <p>Rona Ray is a Moldovan singer and songwriter whose rich, emotive vocals have become a staple in soulful and deep house scenes worldwide.</p>
+        <p><strong>Releases on Oysterdale:</strong></p>
+        <ul>
+          <li><a href="releases.html">Dancing On The Clouds (feat. Rona Ray)</a></li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 Oysterdale Records. All rights reserved.
+  </footer>
+
+  <script>
+    fetch('header.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('main-header').innerHTML = html;
+      });
+  </script>
+
+</body>
+</html>
