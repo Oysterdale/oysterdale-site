@@ -86,17 +86,15 @@ h1, h2, h3, .nav-links a {
   cursor: pointer;
 }
 
-/* HERO SECTION */
 .page-hero {
   width: 100%;
   height: 480px;
   background-size: cover;
-  background-position: center;
+  background-position: center top 45px; /* <- Flytt bildet nedover */
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 45px; /* Flytter bildet ned 45px */
 }
 
 .page-hero h1 {
