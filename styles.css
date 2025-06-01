@@ -260,7 +260,7 @@ footer {
 }
 
 /* RESPONSIVE MENU */
-@media (max-width: 1200px) {
+@media (max-width: 1150px) {
   .menu-toggle {
     display: block;
     position: absolute;
