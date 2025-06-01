@@ -10,6 +10,7 @@ body {
   color: #fff;
   background: linear-gradient(160deg, #1A1A40 0%, #2F2FA2 100%);
   line-height: 1.6;
+  padding-top: 100px;
 }
 
 a {
@@ -129,7 +130,21 @@ a:hover {
   margin-top: 1rem;
 }
 
-/* ARTIST-LAYOUT (SAMME STIL SOM RELEASES) */
+.release-artist {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+  text-align: center;
+}
+
+.release-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* ARTIST-LAYOUT */
 .artist {
   background-color: rgba(255, 255, 255, 0.05);
   padding: 2rem;
@@ -144,13 +159,18 @@ a:hover {
   max-width: 400px;
   height: auto;
   border-radius: 10px;
-  margin: 0 auto 1rem auto; /* Midtstill + mellomrom under */
+  margin: 0 auto 1rem auto;
   display: block;
 }
 
 .artist h2 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+}
+
+.artist-bio {
+  text-align: left;
+  margin-top: 1rem;
 }
 
 /* FOOTER */
@@ -200,21 +220,4 @@ footer {
     flex-wrap: wrap;
     gap: 15px;
   }
-
-  .logo-img {
-    max-height: 60px;
-  }
-}
-.release-artist {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 0.2rem;
-  text-align: center;
-}
-
-.release-title {
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-  text-align: center;
 }
