@@ -24,7 +24,7 @@
   </footer>
 
   <script>
-    // Header
+    // Last inn header og initier meny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
@@ -51,34 +51,44 @@
         }
       });
 
-    // Hent og vis release-filer
+    // Funksjon for å hente og vise én release-fil
     async function loadRelease(file) {
       const res = await fetch(`/releases/${file}`);
       const text = await res.text();
 
+      const artistMatch = text.match(/artist:\s*(.+)/);
       const titleMatch = text.match(/title:\s*(.+)/);
       const coverMatch = text.match(/cover:\s*(.+)/);
-      const artistMatch = text.match(/artist:\s*(.+)/);
+      const spotifyMatch = text.match(/spotify:\s*(.+)/);
+      const traxsourceMatch = text.match(/traxsource:\s*(.+)/);
       const bodyText = text.split('---').pop().trim();
 
       const artist = artistMatch ? artistMatch[1] : '';
       const title = titleMatch ? titleMatch[1] : 'Untitled';
       const cover = coverMatch ? coverMatch[1] : '';
+      const spotify = spotifyMatch ? spotifyMatch[1] : '';
+      const traxsource = traxsourceMatch ? traxsourceMatch[1] : '';
 
       return `
         <div class="release">
           ${artist ? `<div class="release-artist">${artist}</div>` : ''}
-          ${title ? `<div class="release-title">${title}</div>` : ''}
-          ${cover ? `<img src="${cover}" alt="${title}" class="release-cover">` : ''}
+          <div class="release-title">${title}</div>
+          ${cover ? `<a href="${spotify || traxsource || '#'}" target="_blank"><img src="${cover}" alt="${title}" class="release-cover"></a>` : ''}
+          <p>
+            ${spotify ? `<a href="${spotify}" target="_blank">Spotify</a>` : ''}
+            ${traxsource ? `${spotify ? ' | ' : ''}<a href="${traxsource}" target="_blank">Traxsource</a>` : ''}
+          </p>
           <div class="release-body">${marked.parse(bodyText)}</div>
         </div>
       `;
     }
 
+    // Hent og vis alle release-filer
     async function loadAllReleases() {
       const files = [
         "get-on-up-feat-emél.md",
         "okplus-dancing-on-the-clouds-feat-rona-ray.md"
+        // Legg til flere filer her...
       ];
 
       const container = document.getElementById('releases-content');
@@ -89,7 +99,7 @@
           const html = await loadRelease(file);
           container.innerHTML += html;
         } catch (err) {
-          console.error(`Error loading ${file}:`, err);
+          console.error(`Klarte ikke laste ${file}:`, err);
         }
       }
     }
