@@ -10,8 +10,6 @@
 </head>
 <body>
 
-  <div id="main-header"></div>
-
   <main class="page-content">
     <h1>Artists</h1>
     <div class="artist-list">
@@ -36,9 +34,28 @@
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
-        document.getElementById('main-header').innerHTML = html;
+        document.body.insertAdjacentHTML('afterbegin', html);
+
+        const toggleButton = document.getElementById('menu-toggle');
+        const nav = document.querySelector('.main-nav');
+        const navLinks = document.querySelectorAll('.main-nav a');
+
+        if (toggleButton && nav) {
+          toggleButton.addEventListener('click', () => {
+            nav.classList.toggle('open');
+            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+          });
+
+          navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+              if (nav.classList.contains('open')) {
+                nav.classList.remove('open');
+                toggleButton.textContent = '☰';
+              }
+            });
+          });
+        }
       });
   </script>
-
 </body>
 </html>
