@@ -37,6 +37,7 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
+      - { label: "Artist", name: "artist", widget: "string" }
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Cover Image", name: "cover", widget: "image", required: false }
       - { label: "Spotify Link", name: "spotify", widget: "string", required: false }
