@@ -20,7 +20,7 @@
   </footer>
 
   <script>
-    // Sett inn header øverst i body og initier meny
+    // Sett inn header øverst og aktiver mobilmeny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
@@ -47,7 +47,7 @@
         }
       });
 
-    // Hent innhold fra about.md
+    // Hent innhold fra markdown
     fetch('content/about.md')
       .then(res => res.text())
       .then(md => {
