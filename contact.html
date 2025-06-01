@@ -20,7 +20,6 @@
   </footer>
 
   <script>
-    // Sett inn header øverst og aktiver mobilmeny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
@@ -47,7 +46,6 @@
         }
       });
 
-    // Last inn markdown-innhold
     fetch('content/contact.md')
       .then(res => res.text())
       .then(md => {
