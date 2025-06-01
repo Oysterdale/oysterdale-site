@@ -11,6 +11,11 @@
 </head>
 <body>
 
+  <!-- HERO BILDE -->
+  <div class="home-hero">
+    <h1>Oysterdale Records</h1>
+  </div>
+
   <main class="page-content">
     <div id="home-content">Loading content...</div>
   </main>
@@ -59,3 +64,31 @@
   </script>
 </body>
 </html>
+Husk:
+Bildet Forsidebilde Oysterdale med svart.png må ligge i uploads/-mappen.
+
+Og du må ha lagt til følgende i styles.css:
+
+css
+Kopier
+Rediger
+.home-hero {
+  width: 100%;
+  min-height: 525px;
+  background: url('uploads/Forsidebilde Oysterdale med svart.png') center center / cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: fadeIn 1.2s ease-in-out forwards;
+}
+
+.home-hero h1 {
+  padding-top: 200px;
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  animation: fadeIn 1.2s ease-in-out;
+}
