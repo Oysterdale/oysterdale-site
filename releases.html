@@ -11,9 +11,6 @@
 </head>
 <body>
 
-  <!-- Header -->
-  <div id="main-header"></div>
-
   <main class="page-content">
     <h1>Releases</h1>
     <div id="releases-content">Loading releases...</div>
@@ -24,11 +21,12 @@
   </footer>
 
   <script>
-    // Importer header
+    // Importer header direkte øverst i body
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
-        document.getElementById('main-header').innerHTML = html;
+        document.body.insertAdjacentHTML('afterbegin', html);
+
         const toggleButton = document.getElementById('menu-toggle');
         const nav = document.querySelector('.main-nav');
         const navLinks = document.querySelectorAll('.main-nav a');
@@ -67,9 +65,9 @@
         file,
         html: `
           <div class="release">
-            <h2>${artistMatch ? artistMatch[1] : ''}</h2>
-            <h3>${titleMatch ? titleMatch[1] : 'Untitled'}</h3>
-            ${coverMatch ? `<a href="${spotifyMatch || traxsourceMatch || '#'}" target="_blank"><img src="${coverMatch[1]}" alt="${titleMatch ? titleMatch[1] : ''}" class="release-cover"></a>` : ''}
+            <h2 class="release-artist">${artistMatch ? artistMatch[1] : ''}</h2>
+            <h3 class="release-title">${titleMatch ? titleMatch[1] : 'Untitled'}</h3>
+            ${coverMatch ? `<a href="${spotifyMatch?.[1] || traxsourceMatch?.[1] || '#'}" target="_blank"><img src="${coverMatch[1]}" alt="${titleMatch ? titleMatch[1] : ''}" class="release-cover"></a>` : ''}
             <p>
               ${spotifyMatch ? `<a href="${spotifyMatch[1]}" target="_blank">Spotify</a>` : ''}
               ${traxsourceMatch ? `${spotifyMatch ? ' | ' : ''}<a href="${traxsourceMatch[1]}" target="_blank">Traxsource</a>` : ''}
@@ -77,11 +75,11 @@
             <div class="release-body">${marked.parse(bodyText)}</div>
           </div>
         `,
-        date: dateMatch ? new Date(dateMatch[1]) : new Date(0) // fallback til eldste dato
+        date: dateMatch ? new Date(dateMatch[1]) : new Date(0)
       };
     }
 
-    // Hent alle release-filer fra GitHub via et JSON-endepunkt (må manuelt oppdateres)
+    // Liste over release-filer (manuell liste for nå)
     const releaseFiles = [
       "get-on-up-feat-emél.md",
       "okplus-dancing-on-the-clouds-feat-rona-ray.md"
@@ -95,7 +93,6 @@
       const releasePromises = releaseFiles.map(loadRelease);
       const releases = await Promise.all(releasePromises);
 
-      // sorter etter dato (nyeste først)
       releases.sort((a, b) => b.date - a.date);
 
       for (const release of releases) {
