@@ -129,11 +129,13 @@ h1, h2, h3 {
 .home-hero {
   width: 100%;
   min-height: 525px;
-  background: url('uploads/Forsidebilde Oysterdale med svart.png') center 28% / cover no-repeat;
+  background: url('uploads/Forsidebilde Oysterdale med svart.png') center center / contain no-repeat;
+  background-color: #000; /* fallback */
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  padding-top: 0;
+  margin-top: 0;
   animation: fadeIn 1.2s ease-in-out forwards;
 }
 
