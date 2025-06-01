@@ -86,13 +86,6 @@ h1, h2, h3, .nav-links a {
   cursor: pointer;
 }
 
-/* CONTENT */
-.page-content {
-  padding: 2rem 5%;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
 /* HERO SECTION */
 .page-hero {
   width: 100%;
@@ -101,25 +94,33 @@ h1, h2, h3, .nav-links a {
   background-position: center;
   position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding-top: 45px;
+  padding-top: 45px; /* Flytter bildet ned 45px */
 }
 
 .page-hero h1 {
   font-size: 3rem;
   font-weight: 700;
   color: white;
+  text-transform: uppercase;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* CONTENT */
+.page-content {
+  padding: 2rem 5%;
+  max-width: 1000px;
+  margin: 0 auto;
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
 }
 
 /* FADE-IN ANIMATION */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 1s ease-out forwards;
-}
-
 @keyframes fadeInUp {
   to {
     opacity: 1;
