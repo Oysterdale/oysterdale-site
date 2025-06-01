@@ -13,7 +13,7 @@
 
   <main class="page-content">
     <h1>Releases</h1>
-    <div id="releases-content">Loading releases...</div>
+    <div id="releases-content" class="releases-grid">Loading releases...</div>
   </main>
 
   <footer>
@@ -21,7 +21,6 @@
   </footer>
 
   <script>
-    // Importer header direkte øverst i body
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
@@ -48,7 +47,6 @@
         }
       });
 
-    // Hent én release
     async function loadRelease(file) {
       const res = await fetch(`/releases/${file}`);
       const text = await res.text();
@@ -79,11 +77,9 @@
       };
     }
 
-    // Liste over release-filer (manuell liste for nå)
     const releaseFiles = [
       "get-on-up-feat-emél.md",
       "okplus-dancing-on-the-clouds-feat-rona-ray.md"
-      // legg til flere her
     ];
 
     async function loadAllReleases() {
