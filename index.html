@@ -8,13 +8,13 @@
   <link rel="icon" href="images/favicon.png" type="image/png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
   <style>
     .intro-section {
       max-width: 800px;
       margin: 2rem auto;
       padding: 0 1rem;
       color: white;
-      text-align: left;
     }
 
     .spotify-embed {
@@ -25,8 +25,15 @@
 
     .spotify-embed iframe {
       width: 100%;
-      max-width: 500px;
+      max-width: 600px;
+      height: 600px;
       border-radius: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .spotify-embed iframe {
+        height: 500px;
+      }
     }
   </style>
 </head>
@@ -42,13 +49,14 @@
       We’re an independent label releasing Soulful House, Disco, and Electronic music — carefully crafted and digitally distributed to the world from Oslo, Norway.<br>
       Driven by groove, guided by feeling.</p>
 
-      <!-- Spotify Playlist Embed -->
+      <!-- Spotify embed -->
       <div class="spotify-embed">
-        <iframe src="https://open.spotify.com/embed/playlist/7DTDlGozm7z93F3ZcOnQkL?utm_source=generator&theme=0" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <iframe src="https://open.spotify.com/embed/playlist/7DTDlGozm7z93F3ZcOnQkL?utm_source=generator&theme=0" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
     </section>
 
-    <div id="home-content">Loading content...</div>
+    <!-- Markdown-innhold er deaktivert for å unngå dobbeltekst -->
+    <!-- <div id="home-content">Loading content...</div> -->
   </main>
 
   <footer>
@@ -86,12 +94,14 @@
         }
       });
 
-    // Last inn markdown-innhold
+    // Deaktivert for å unngå dobbel tekst
+    /*
     fetch('content/index.md')
       .then(res => res.text())
       .then(md => {
         document.getElementById('home-content').innerHTML = marked.parse(md);
       });
+    */
   </script>
 </body>
 </html>
