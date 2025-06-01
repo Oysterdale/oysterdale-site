@@ -11,9 +11,9 @@
 </head>
 <body>
 
-  <main>
-    <section class="page-hero"></section>
-    <div class="page-content" id="home-content">Loading content...</div>
+  <main class="page-content">
+    <div class="home-hero"></div>
+    <div id="home-content">Loading content...</div>
   </main>
 
   <footer>
@@ -54,12 +54,6 @@
     // Last inn markdown-innhold
     fetch('content/index.md')
       .then(res => res.text())
-      .then(md => {
-        document.getElementById('home-content').innerHTML = marked.parse(md);
-      });
-  </script>
-</body>
-</html> => res.text())
       .then(md => {
         document.getElementById('home-content').innerHTML = marked.parse(md);
       });
