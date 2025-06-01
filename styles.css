@@ -255,6 +255,10 @@ footer {
   opacity: 0.9;
 }
 
+.footer-pearl {
+  height: 100px;
+}
+
 /* RESPONSIVE MENU */
 @media (max-width: 1100px) {
   .menu-toggle {
