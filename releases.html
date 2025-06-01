@@ -11,7 +11,7 @@
 </head>
 <body>
 
-  <!-- Header importeres dynamisk -->
+  <!-- Header -->
   <div id="main-header"></div>
 
   <main class="page-content">
@@ -24,12 +24,11 @@
   </footer>
 
   <script>
-    // Last inn header og initier meny
+    // Importer header
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
         document.getElementById('main-header').innerHTML = html;
-
         const toggleButton = document.getElementById('menu-toggle');
         const nav = document.querySelector('.main-nav');
         const navLinks = document.querySelectorAll('.main-nav a');
@@ -51,56 +50,56 @@
         }
       });
 
-    // Funksjon for å hente og vise én release-fil
+    // Hent én release
     async function loadRelease(file) {
       const res = await fetch(`/releases/${file}`);
       const text = await res.text();
 
       const artistMatch = text.match(/artist:\s*(.+)/);
       const titleMatch = text.match(/title:\s*(.+)/);
+      const dateMatch = text.match(/date:\s*(.+)/);
       const coverMatch = text.match(/cover:\s*(.+)/);
       const spotifyMatch = text.match(/spotify:\s*(.+)/);
       const traxsourceMatch = text.match(/traxsource:\s*(.+)/);
       const bodyText = text.split('---').pop().trim();
 
-      const artist = artistMatch ? artistMatch[1] : '';
-      const title = titleMatch ? titleMatch[1] : 'Untitled';
-      const cover = coverMatch ? coverMatch[1] : '';
-      const spotify = spotifyMatch ? spotifyMatch[1] : '';
-      const traxsource = traxsourceMatch ? traxsourceMatch[1] : '';
-
-      return `
-        <div class="release">
-          ${artist ? `<div class="release-artist">${artist}</div>` : ''}
-          <div class="release-title">${title}</div>
-          ${cover ? `<a href="${spotify || traxsource || '#'}" target="_blank"><img src="${cover}" alt="${title}" class="release-cover"></a>` : ''}
-          <p>
-            ${spotify ? `<a href="${spotify}" target="_blank">Spotify</a>` : ''}
-            ${traxsource ? `${spotify ? ' | ' : ''}<a href="${traxsource}" target="_blank">Traxsource</a>` : ''}
-          </p>
-          <div class="release-body">${marked.parse(bodyText)}</div>
-        </div>
-      `;
+      return {
+        file,
+        html: `
+          <div class="release">
+            <h2>${artistMatch ? artistMatch[1] : ''}</h2>
+            <h3>${titleMatch ? titleMatch[1] : 'Untitled'}</h3>
+            ${coverMatch ? `<a href="${spotifyMatch || traxsourceMatch || '#'}" target="_blank"><img src="${coverMatch[1]}" alt="${titleMatch ? titleMatch[1] : ''}" class="release-cover"></a>` : ''}
+            <p>
+              ${spotifyMatch ? `<a href="${spotifyMatch[1]}" target="_blank">Spotify</a>` : ''}
+              ${traxsourceMatch ? `${spotifyMatch ? ' | ' : ''}<a href="${traxsourceMatch[1]}" target="_blank">Traxsource</a>` : ''}
+            </p>
+            <div class="release-body">${marked.parse(bodyText)}</div>
+          </div>
+        `,
+        date: dateMatch ? new Date(dateMatch[1]) : new Date(0) // fallback til eldste dato
+      };
     }
 
-    // Hent og vis alle release-filer
-    async function loadAllReleases() {
-      const files = [
-        "get-on-up-feat-emél.md",
-        "okplus-dancing-on-the-clouds-feat-rona-ray.md"
-        // Legg til flere filer her...
-      ];
+    // Hent alle release-filer fra GitHub via et JSON-endepunkt (må manuelt oppdateres)
+    const releaseFiles = [
+      "get-on-up-feat-emél.md",
+      "okplus-dancing-on-the-clouds-feat-rona-ray.md"
+      // legg til flere her
+    ];
 
+    async function loadAllReleases() {
       const container = document.getElementById('releases-content');
       container.innerHTML = '';
 
-      for (const file of files) {
-        try {
-          const html = await loadRelease(file);
-          container.innerHTML += html;
-        } catch (err) {
-          console.error(`Klarte ikke laste ${file}:`, err);
-        }
+      const releasePromises = releaseFiles.map(loadRelease);
+      const releases = await Promise.all(releasePromises);
+
+      // sorter etter dato (nyeste først)
+      releases.sort((a, b) => b.date - a.date);
+
+      for (const release of releases) {
+        container.innerHTML += release.html;
       }
     }
 
