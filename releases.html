@@ -21,6 +21,7 @@
   </footer>
 
   <script>
+    // Sett inn header
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
@@ -53,6 +54,7 @@
 
       const artistMatch = text.match(/artist:\s*(.+)/);
       const titleMatch = text.match(/title:\s*(.+)/);
+      const featuredMatch = text.match(/featured:\s*(.+)/);
       const dateMatch = text.match(/date:\s*(.+)/);
       const coverMatch = text.match(/cover:\s*(.+)/);
       const spotifyMatch = text.match(/spotify:\s*(.+)/);
@@ -64,7 +66,8 @@
         html: `
           <div class="release">
             <h2 class="release-artist">${artistMatch ? artistMatch[1] : ''}</h2>
-            <h3 class="release-title">${titleMatch ? titleMatch[1] : 'Untitled'}</h3>
+            <h3 class="release-title">${titleMatch ? titleMatch[1] : ''}</h3>
+            ${featuredMatch ? `<p class="release-featured">feat. ${featuredMatch[1]}</p>` : ''}
             ${coverMatch ? `<a href="${spotifyMatch?.[1] || traxsourceMatch?.[1] || '#'}" target="_blank"><img src="${coverMatch[1]}" alt="${titleMatch ? titleMatch[1] : ''}" class="release-cover"></a>` : ''}
             <p>
               ${spotifyMatch ? `<a href="${spotifyMatch[1]}" target="_blank">Spotify</a>` : ''}
