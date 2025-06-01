@@ -204,10 +204,6 @@ footer {
     margin: 0;
   }
 
-  .logo-img {
-    max-height: 50px;
-  }
-
   .nav-links a,
   .social-icons a {
     font-size: 1.1rem;
