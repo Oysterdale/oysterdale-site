@@ -1,39 +1,35 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: Oysterdale/oysterdale-site
   branch: main
 
 media_folder: "uploads"
 public_folder: "/uploads"
 
-slug:
-  encoding: "ascii"
-  clean_accents: true
-  sanitize_replacement: "-"
-
 collections:
   - name: "pages"
     label: "Pages"
     files:
-      - name: "index"
-        label: "Home"
+      - label: "Index"
+        name: "index"
         file: "content/index.md"
         fields:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
-      - name: "about"
-        label: "About"
+      - label: "About"
+        name: "about"
         file: "content/about.md"
         fields:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
-      - name: "events"
-        label: "Events"
+      - label: "Events"
+        name: "events"
         file: "content/events.md"
         fields:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
-      - name: "contact"
-        label: "Contact"
+      - label: "Contact"
+        name: "contact"
         file: "content/contact.md"
         fields:
           - { label: "Title", name: "title", widget: "string" }
@@ -44,14 +40,13 @@ collections:
     folder: "releases"
     create: true
     slug: "{{slug}}"
-    extension: "md"
-    format: "frontmatter"
+    sortable_fields: ["date"]
     fields:
       - { label: "Artist", name: "artist", widget: "string" }
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Featured Artist (optional)", name: "featured", widget: "string", required: false }
-      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
-      - { label: "Cover image (optional)", name: "cover", widget: "image", required: false }
-      - { label: "Spotify URL (optional)", name: "spotify", widget: "string", required: false }
-      - { label: "Traxsource URL (optional)", name: "traxsource", widget: "string", required: false }
+      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", default: "" }
+      - { label: "Cover Image", name: "cover", widget: "image", required: false }
+      - { label: "Spotify Link", name: "spotify", widget: "string", required: false }
+      - { label: "Traxsource Link", name: "traxsource", widget: "string", required: false }
       - { label: "Body (optional)", name: "body", widget: "markdown", required: false }
