@@ -1,5 +1,5 @@
 ---
-artist: OKPLUS, Sebastian Emes, Roman Blum
+artist: OKPLUS | Sebastian Emes | Roman Blum
 title: Chasing Rainbows
 date: 2025-08-01
 cover: /uploads/chasing-rainbows-cover-vxyz.jpg
