@@ -8,14 +8,18 @@
   <link rel="icon" href="images/favicon.png" type="image/png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- Lokal styling for artist-kort som matcher releases -->
   <style>
+    .page-content { padding-top: 90px; }
+
     .section { margin: 30px 0 50px; }
     .section h2 { margin: 0 0 16px; }
 
     .artists-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* likt med releases */
       gap: 20px;
+      align-items: stretch; /* lar kort fylle høyden */
     }
     .artist-card {
       background: #111;
@@ -25,17 +29,18 @@
       display: flex;
       flex-direction: column;
       box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      height: 100%;
     }
     .artist-media {
       width: 100%;
-      max-height: 280px; /* begrenser høyden */
-      object-fit: cover;
+      aspect-ratio: 1 / 1;       /* kvadrat */
+      object-fit: cover;         /* cropper pent */
       border-radius: 10px;
       background: #222;
     }
     .artist-name {
       margin: 12px 0 6px;
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: .02em;
@@ -44,14 +49,13 @@
       font-size: 0.95rem;
       line-height: 1.5;
       opacity: 0.95;
-      margin: 6px 0 10px;
-      min-height: 0; /* fjernet tvungen høyde */
+      margin: 4px 0 10px;
     }
     .artist-links {
-      margin-top: auto;
+      margin-top: auto;          /* skyver lenker ned slik at korthøyder blir konsistente */
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
       opacity: 0.95;
     }
@@ -61,16 +65,16 @@
       border: 1px solid #2a2a2a;
       border-radius: 999px;
       padding: 6px 10px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       transition: transform .07s ease;
     }
     .artist-links a:hover { transform: translateY(-1px); }
     .muted { opacity: 0.7; }
-    .page-content { padding-top: 90px; }
   </style>
 </head>
 <body>
 
+  <!-- Last samme header/meny som øvrige sider -->
   <script>
     fetch('header.html')
       .then(res => res.text())
@@ -122,6 +126,7 @@
   </footer>
 
   <script>
+    /* === GitHub repo-konfig (samme som releases.html) === */
     const GITHUB_OWNER = "Oysterdale";
     const GITHUB_REPO  = "oysterdale-site";
     const ARTISTS_PATH = "artists";
@@ -131,8 +136,8 @@
       const res = await fetch(apiUrl, { headers: { "Accept": "application/vnd.github.v3+json" } });
       if (!res.ok) return { producers: [], vocalists: [] };
 
-      const files = await res.json();
-      const mdFiles = files.filter(f => f.type === "file" && /\.md$/i.test(f.name));
+      const items = await res.json();
+      const mdFiles = items.filter(f => f.type === "file" && /\.md$/i.test(f.name));
 
       const artists = [];
       for (const file of mdFiles) {
@@ -140,9 +145,9 @@
         const fmMatch = raw.match(/---([\s\S]*?)---/);
         if (!fmMatch) continue;
 
-        const fmBlock = fmMatch[1];
+        const fm = fmMatch[1];
         const get = (key) => {
-          const m = fmBlock.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
+          const m = fm.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
           return m ? m[1].trim().replace(/^"|"$/g, '') : "";
         };
 
@@ -150,7 +155,7 @@
           name: get("name"),
           role: (get("role") || "").toLowerCase(),
           image: get("image"),
-          bio: get("bio"), // ikke required
+          bio: get("bio"), // vises bare hvis finnes
           spotify: get("spotify"),
           soundcloud: get("soundcloud"),
           instagram: get("instagram"),
@@ -198,10 +203,33 @@
       container.appendChild(frag);
     }
 
+    // Gjør alle kort like høye (desktop) – kjør etter rendering og på resize
+    function equalizeCardHeights() {
+      const grids = [document.getElementById('producers'), document.getElementById('vocalists')];
+      const wide = window.innerWidth >= 700;
+      grids.forEach(grid => {
+        if (!grid) return;
+        const cards = Array.from(grid.querySelectorAll('.artist-card'));
+        cards.forEach(c => c.style.minHeight = ''); // reset
+        if (!wide || cards.length === 0) return;   // ikke lås høyde på mobil
+        const maxH = Math.max(...cards.map(c => c.getBoundingClientRect().height));
+        cards.forEach(c => c.style.minHeight = `${Math.ceil(maxH)}px`);
+      });
+    }
+
+    // Debounce for resize
+    let _t;
+    window.addEventListener('resize', () => {
+      clearTimeout(_t);
+      _t = setTimeout(equalizeCardHeights, 120);
+    });
+
     (async function init() {
       const { producers, vocalists } = await fetchArtists();
       renderArtists(producers, document.getElementById("producers"), document.getElementById("producers-empty"));
       renderArtists(vocalists, document.getElementById("vocalists"), document.getElementById("vocalists-empty"));
+      // Når alt er i DOM, utjevn høyder
+      requestAnimationFrame(equalizeCardHeights);
     })();
   </script>
 </body>
