@@ -24,85 +24,106 @@
   </footer>
 
   <script>
-    // Sett inn header
-    fetch('header.html')
+    /* ====== Konfig: GitHub repo som Netlify deployer fra ====== */
+    const GITHUB_OWNER = "Oysterdale";
+    const GITHUB_REPO  = "oysterdale-site";
+    const RELEASES_PATH = "releases"; // mappen der CMS lagrer .md-filer
+
+    /* ====== Header / mobilmeny ====== */
+    fetch("header.html")
       .then(res => res.text())
-      .then(html => {
-        document.body.insertAdjacentHTML('afterbegin', html);
-
-        const toggleButton = document.getElementById('menu-toggle');
-        const nav = document.querySelector('.main-nav');
-        const navLinks = document.querySelectorAll('.main-nav a');
-
+      .then(data => {
+        document.body.insertAdjacentHTML("afterbegin", data);
+        const toggleButton = document.getElementById("menu-toggle");
+        const nav = document.querySelector(".main-nav");
+        const navLinks = document.querySelectorAll(".main-nav a");
         if (toggleButton && nav) {
-          toggleButton.addEventListener('click', () => {
-            nav.classList.toggle('open');
-            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+          toggleButton.addEventListener("click", () => {
+            nav.classList.toggle("open");
+            toggleButton.textContent = nav.classList.contains("open") ? "✖" : "☰";
           });
-
           navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-              if (nav.classList.contains('open')) {
-                nav.classList.remove('open');
-                toggleButton.textContent = '☰';
+            link.addEventListener("click", () => {
+              if (nav.classList.contains("open")) {
+                nav.classList.remove("open");
+                toggleButton.textContent = "☰";
               }
             });
           });
         }
       });
 
-    // Hent liste over .md-filer i /releases/
+    /* ====== Hent liste over .md-filer fra GitHub ====== */
     async function getReleaseFiles() {
-      const res = await fetch('/releases/');
-      const text = await res.text();
-      const matches = [...text.matchAll(/href="([^"]+\.md)"/g)];
-      return matches.map(m => m[1]);
+      const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${RELEASES_PATH}`;
+      const res = await fetch(url, { headers: { "Accept": "application/vnd.github.v3+json" } });
+      if (!res.ok) throw new Error("Kunne ikke hente releases-listen fra GitHub.");
+      const entries = await res.json();
+      // Ta med kun .md filer
+      return entries
+        .filter(e => e.type === "file" && /\.md$/i.test(e.name))
+        .map(e => ({ name: e.name, download_url: e.download_url }));
     }
 
+    /* ====== Parse én release-fil ====== */
     async function loadRelease(file) {
-      const res = await fetch(`/releases/${file}`);
+      const res = await fetch(file.download_url);
       const text = await res.text();
 
-      const artistMatch = text.match(/artist:\s*(.+)/);
-      const titleMatch = text.match(/title:\s*(.+)/);
-      const featuredMatch = text.match(/featured:\s*(.+)/);
-      const dateMatch = text.match(/date:\s*(.+)/);
-      const coverMatch = text.match(/cover:\s*(.+)/);
-      const spotifyMatch = text.match(/spotify:\s*(.+)/);
-      const traxsourceMatch = text.match(/traxsource:\s*(.+)/);
-      const bodyText = text.split('---').pop().trim();
+      // Del frontmatter vs body
+      const parts = text.split('---');
+      const fm = parts.length >= 3 ? parts[1] : "";
+      const bodyText = parts.length >= 3 ? parts.slice(2).join('---').trim() : "";
 
-      return {
-        html: `
-          <div class="release">
-            <h2 class="release-artist">${artistMatch ? artistMatch[1] : ''}</h2>
-            <h3 class="release-title">${titleMatch ? titleMatch[1] : ''}</h3>
-            ${(() => { 
-              const f = featuredMatch ? featuredMatch[1].trim().replace(/^"|"$/g, '') : ''; 
-              return f ? `<p class="release-featured">feat. ${f}</p>` : ''; 
-            })()}
-            ${coverMatch ? `<a href="${spotifyMatch?.[1] || traxsourceMatch?.[1] || '#'}" target="_blank"><img src="${coverMatch[1]}" alt="${titleMatch ? titleMatch[1] : ''}" class="release-cover"></a>` : ''}
-            <p>
-              ${spotifyMatch ? `<a href="${spotifyMatch[1]}" target="_blank">Spotify</a>` : ''}
-              ${traxsourceMatch ? `${spotifyMatch ? ' | ' : ''}<a href="${traxsourceMatch[1]}" target="_blank">Traxsource</a>` : ''}
-            </p>
-            <div class="release-body">${marked.parse(bodyText)}</div>
-          </div>
-        `,
-        date: dateMatch ? new Date(dateMatch[1]) : new Date(0)
+      // Enkle matcher fra frontmatter
+      const get = (key) => {
+        const m = fm.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
+        return m ? m[1].trim() : "";
       };
+
+      const artist    = get("artist");
+      const title     = get("title");
+      const featured  = get("featured").replace(/^"|"$/g, "").trim(); // fjern ev. ""
+      const dateStr   = get("date");
+      const cover     = get("cover");
+      const spotify   = get("spotify");
+      const traxsource= get("traxsource");
+
+      const date = dateStr ? new Date(dateStr) : new Date(0);
+
+      const coverAnchor = (spotify || traxsource) ? (spotify || traxsource) : "#";
+
+      const html = `
+        <div class="release">
+          <h2 class="release-artist">${artist}</h2>
+          <h3 class="release-title">${title}</h3>
+          ${featured ? `<p class="release-featured">feat. ${featured}</p>` : ""}
+          ${cover ? `<a href="${coverAnchor}" target="_blank"><img src="${cover}" alt="${title}" class="release-cover"></a>` : ""}
+          <p>
+            ${spotify ? `<a href="${spotify}" target="_blank">Spotify</a>` : ""}
+            ${traxsource ? `${spotify ? " | " : ""}<a href="${traxsource}" target="_blank">Traxsource</a>` : ""}
+          </p>
+          <div class="release-body">${marked.parse(bodyText)}</div>
+        </div>
+      `;
+
+      return { html, date };
     }
 
+    /* ====== Hovedløp ====== */
     async function loadAllReleases() {
-      const container = document.getElementById('releases-content');
-      container.innerHTML = '';
+      const container = document.getElementById("releases-content");
+      container.innerHTML = "";
 
-      const files = await getReleaseFiles();
-      const releasePromises = files.map(loadRelease);
-      const releases = await Promise.all(releasePromises);
-
-      releases.sort((a, b) => b.date - a.date);
-      releases.forEach(release => container.innerHTML += release.html);
+      try {
+        const files = await getReleaseFiles();
+        const releases = await Promise.all(files.map(loadRelease));
+        releases.sort((a, b) => b.date - a.date);
+        releases.forEach(r => container.insertAdjacentHTML("beforeend", r.html));
+      } catch (err) {
+        container.innerHTML = `<p>Kunne ikke laste releases akkurat nå.</p>`;
+        console.error(err);
+      }
     }
 
     loadAllReleases();
