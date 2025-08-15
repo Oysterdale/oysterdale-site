@@ -27,7 +27,7 @@
     /* ====== Konfig: GitHub repo som Netlify deployer fra ====== */
     const GITHUB_OWNER = "Oysterdale";
     const GITHUB_REPO  = "oysterdale-site";
-    const RELEASES_PATH = "releases"; // mappen der CMS lagrer .md-filer
+    const RELEASES_PATH = "releases";
 
     /* ====== Header / mobilmeny ====== */
     fetch("header.html")
@@ -59,7 +59,6 @@
       const res = await fetch(url, { headers: { "Accept": "application/vnd.github.v3+json" } });
       if (!res.ok) throw new Error("Kunne ikke hente releases-listen fra GitHub.");
       const entries = await res.json();
-      // Ta med kun .md filer
       return entries
         .filter(e => e.type === "file" && /\.md$/i.test(e.name))
         .map(e => ({ name: e.name, download_url: e.download_url }));
@@ -70,35 +69,31 @@
       const res = await fetch(file.download_url);
       const text = await res.text();
 
-      // Del frontmatter vs body
       const parts = text.split('---');
       const fm = parts.length >= 3 ? parts[1] : "";
       const bodyText = parts.length >= 3 ? parts.slice(2).join('---').trim() : "";
 
-      // Enkle matcher fra frontmatter
       const get = (key) => {
         const m = fm.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
         return m ? m[1].trim() : "";
       };
 
-      const artist    = get("artist");
-      const title     = get("title");
-      const featured  = get("featured").replace(/^"|"$/g, "").trim(); // fjern ev. ""
-      const dateStr   = get("date");
-      const cover     = get("cover");
-      const spotify   = get("spotify");
-      const traxsource= get("traxsource");
-
-      const date = dateStr ? new Date(dateStr) : new Date(0);
-
-      const coverAnchor = (spotify || traxsource) ? (spotify || traxsource) : "#";
+      const artist     = get("artist");
+      const title      = get("title");
+      const featured   = get("featured").replace(/^"|"$/g, "").trim();
+      const dateStr    = get("date");
+      const cover      = get("cover");
+      const spotify    = get("spotify");
+      const traxsource = get("traxsource");
+      const date       = dateStr ? new Date(dateStr) : new Date(0);
+      const coverHref  = (spotify || traxsource) ? (spotify || traxsource) : "#";
 
       const html = `
         <div class="release">
           <h2 class="release-artist">${artist}</h2>
           <h3 class="release-title">${title}</h3>
           ${featured ? `<p class="release-featured">feat. ${featured}</p>` : ""}
-          ${cover ? `<a href="${coverAnchor}" target="_blank"><img src="${cover}" alt="${title}" class="release-cover"></a>` : ""}
+          ${cover ? `<a href="${coverHref}" target="_blank"><img src="${cover}" alt="${title}" class="release-cover"></a>` : ""}
           <p>
             ${spotify ? `<a href="${spotify}" target="_blank">Spotify</a>` : ""}
             ${traxsource ? `${spotify ? " | " : ""}<a href="${traxsource}" target="_blank">Traxsource</a>` : ""}
@@ -106,7 +101,6 @@
           <div class="release-body">${marked.parse(bodyText)}</div>
         </div>
       `;
-
       return { html, date };
     }
 
@@ -114,7 +108,6 @@
     async function loadAllReleases() {
       const container = document.getElementById("releases-content");
       container.innerHTML = "";
-
       try {
         const files = await getReleaseFiles();
         const releases = await Promise.all(files.map(loadRelease));
@@ -125,7 +118,6 @@
         console.error(err);
       }
     }
-
     loadAllReleases();
   </script>
 </body>
