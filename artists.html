@@ -8,13 +8,11 @@
   <link rel="icon" href="images/favicon.png" type="image/png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- Lokal, liten styling for ryddige kort -->
   <style>
-    .section {
-      margin: 30px 0 50px;
-    }
-    .section h2 {
-      margin: 0 0 16px;
-    }
+    .section { margin: 30px 0 50px; }
+    .section h2 { margin: 0 0 16px; }
+
     .artists-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -23,7 +21,7 @@
     .artist-card {
       background: #111;
       color: #fff;
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 16px;
       display: flex;
       flex-direction: column;
@@ -39,15 +37,16 @@
     .artist-name {
       margin: 12px 0 6px;
       font-size: 1.15rem;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
+      letter-spacing: .02em;
     }
     .artist-bio {
       font-size: 0.95rem;
       line-height: 1.5;
       opacity: 0.95;
       margin: 6px 0 10px;
-      min-height: 72px;
+      min-height: 72px; /* gjør kortene jevne */
     }
     .artist-links {
       margin-top: auto;
@@ -68,21 +67,51 @@
     }
     .artist-links a:hover { transform: translateY(-1px); }
     .muted { opacity: 0.7; }
+    .page-content { padding-top: 90px; } /* plass til sticky header hvis nødvendig */
   </style>
 </head>
 <body>
 
+  <!-- Header/meny lastes inn likt som på de andre sidene -->
+  <script>
+    fetch('header.html')
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('afterbegin', html);
+
+        // Mobilmeny logikk (samme som de andre sidene)
+        const toggleButton = document.getElementById('menu-toggle');
+        const nav = document.querySelector('.main-nav');
+        const navLinks = document.querySelectorAll('.main-nav a');
+
+        if (toggleButton && nav) {
+          toggleButton.addEventListener('click', () => {
+            nav.classList.toggle('open');
+            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+          });
+          navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+              if (nav.classList.contains('open')) {
+                nav.classList.remove('open');
+                toggleButton.textContent = '☰';
+              }
+            });
+          });
+        }
+      });
+  </script>
+
   <main class="page-content">
-    <h1>Artists</h1>
+    <h1>ARTISTS</h1>
 
     <section class="section">
-      <h2>Label Artists</h2>
+      <h2>LABEL ARTISTS</h2>
       <div id="producers" class="artists-grid"></div>
       <p id="producers-empty" class="muted" style="display:none;">No producers yet.</p>
     </section>
 
     <section class="section">
-      <h2>Featured Vocalists</h2>
+      <h2>FEATURED VOCALISTS</h2>
       <div id="vocalists" class="artists-grid"></div>
       <p id="vocalists-empty" class="muted" style="display:none;">No vocalists yet.</p>
     </section>
@@ -96,62 +125,71 @@
   </footer>
 
   <script>
+    /* === GitHub repo-konfig (samme som releases.html) === */
     const GITHUB_OWNER = "Oysterdale";
     const GITHUB_REPO  = "oysterdale-site";
     const ARTISTS_PATH = "artists";
 
     async function fetchArtists() {
       const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${ARTISTS_PATH}`;
-      const res = await fetch(apiUrl);
+      const res = await fetch(apiUrl, { headers: { "Accept": "application/vnd.github.v3+json" } });
+      if (!res.ok) {
+        console.error("Kunne ikke hente artists-listen.");
+        return { producers: [], vocalists: [] };
+      }
       const files = await res.json();
-      const mdFiles = files.filter(f => f.name.endsWith(".md"));
+      const mdFiles = files.filter(f => f.type === "file" && /\.md$/i.test(f.name));
 
       const artists = [];
       for (const file of mdFiles) {
         const raw = await fetch(file.download_url).then(r => r.text());
-        const frontmatterMatch = raw.match(/---([\s\S]*?)---/);
-        if (!frontmatterMatch) continue;
+        const fmMatch = raw.match(/---([\s\S]*?)---/);
+        if (!fmMatch) continue;
 
-        const fmLines = frontmatterMatch[1].split("\n").map(l => l.trim()).filter(Boolean);
-        const fm = {};
-        fmLines.forEach(line => {
-          const [key, ...rest] = line.split(":");
-          fm[key.trim()] = rest.join(":").trim().replace(/^"|"$/g, '');
-        });
+        const fmBlock = fmMatch[1];
+        const get = (key) => {
+          const m = fmBlock.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
+          return m ? m[1].trim().replace(/^"|"$/g, '') : "";
+        };
 
         artists.push({
-          name: fm.name || "",
-          role: (fm.role || "").toLowerCase(),
-          image: fm.image || "",
-          bio: fm.bio || "",
-          spotify: fm.spotify || "",
-          soundcloud: fm.soundcloud || "",
-          instagram: fm.instagram || "",
-          website: fm.website || "",
-          mixcloud: fm.mixcloud || "",
-          bandcamp: fm.bandcamp || ""
+          name: get("name"),
+          role: (get("role") || "").toLowerCase(),
+          image: get("image"),
+          bio: get("bio"),
+          spotify: get("spotify"),
+          soundcloud: get("soundcloud"),
+          instagram: get("instagram"),
+          website: get("website"),
+          mixcloud: get("mixcloud"),
+          bandcamp: get("bandcamp"),
         });
       }
 
-      const producers = artists.filter(a => a.role === "producer" || a.role === "main").sort((a,b) => a.name.localeCompare(b.name));
-      const vocalists = artists.filter(a => a.role === "vocalist").sort((a,b) => a.name.localeCompare(b.name));
+      const producers = artists
+        .filter(a => a.role === "producer" || a.role === "main")
+        .sort((a,b) => a.name.localeCompare(b.name, undefined, {sensitivity: "base"}));
 
-      renderArtists(producers, document.getElementById("producers"), document.getElementById("producers-empty"));
-      renderArtists(vocalists, document.getElementById("vocalists"), document.getElementById("vocalists-empty"));
+      const vocalists = artists
+        .filter(a => a.role === "vocalist")
+        .sort((a,b) => a.name.localeCompare(b.name, undefined, {sensitivity: "base"}));
+
+      return { producers, vocalists };
     }
 
     function renderArtists(list, container, emptyMsg) {
-      if (list.length === 0) {
+      if (!list.length) {
         emptyMsg.style.display = "block";
         return;
       }
+      const frag = document.createDocumentFragment();
       list.forEach(a => {
         const card = document.createElement("div");
         card.className = "artist-card";
         card.innerHTML = `
           ${a.image ? `<img class="artist-media" src="${a.image}" alt="${a.name}">` : ""}
-          <div class="artist-name">${a.name}</div>
-          <div class="artist-bio">${a.bio}</div>
+          <div class="artist-name">${a.name || ""}</div>
+          <div class="artist-bio">${a.bio || ""}</div>
           <div class="artist-links">
             ${a.spotify ? `<a href="${a.spotify}" target="_blank"><i class="fab fa-spotify"></i> Spotify</a>` : ""}
             ${a.soundcloud ? `<a href="${a.soundcloud}" target="_blank"><i class="fab fa-soundcloud"></i> SoundCloud</a>` : ""}
@@ -161,11 +199,16 @@
             ${a.bandcamp ? `<a href="${a.bandcamp}" target="_blank"><i class="fab fa-bandcamp"></i> Bandcamp</a>` : ""}
           </div>
         `;
-        container.appendChild(card);
+        frag.appendChild(card);
       });
+      container.appendChild(frag);
     }
 
-    fetchArtists();
+    (async function init() {
+      const { producers, vocalists } = await fetchArtists();
+      renderArtists(producers, document.getElementById("producers"), document.getElementById("producers-empty"));
+      renderArtists(vocalists, document.getElementById("vocalists"), document.getElementById("vocalists-empty"));
+    })();
   </script>
 </body>
 </html>
