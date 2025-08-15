@@ -6,4 +6,3 @@ cover: /uploads/img_3563.png
 spotify: https://open.spotify.com/track/52hElNjPFNd8QIpF4T8Odt?si=2261ec1441444f19
 traxsource: https://www.traxsource.com/track/13802587/don-t-hold-me-back-extended-mix
 ---
-R﻿elease date: 15.08.25
