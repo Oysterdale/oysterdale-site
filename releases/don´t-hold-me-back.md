@@ -1,5 +1,5 @@
 ---
-artist: MINIJACK, Emél, EL 360
+artist: MINIJACK | Emél | EL 360
 title: Don´t Hold Me Back
 date: 2025-08-15
 cover: /uploads/img_3563.png
