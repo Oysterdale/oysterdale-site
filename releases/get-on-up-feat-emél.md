@@ -1,5 +1,5 @@
 ---
-artist: OKPLUS, Emél
+artist: OKPLUS | Emél
 title: Get On Up
 featured: ""
 date: 2025-06-27
