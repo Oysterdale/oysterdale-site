@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: Oysterdale/oysterdale-site   # <-- sjekk at dette stemmer
+  repo: Oysterdale/oysterdale-site # Endre hvis repo/owner heter noe annet
   branch: main
 
 media_folder: "uploads"
@@ -27,9 +27,15 @@ collections:
         fields:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
-      - label: "Events"
-        name: "events"
-        file: "content/events.md"
+      - label: "Releases"
+        name: "releasespage"
+        file: "content/releases.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+      - label: "Artists"
+        name: "artistspage"
+        file: "content/artists.md"
         fields:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
@@ -54,6 +60,7 @@ collections:
       - { label: "Cover Image", name: "cover", widget: "image", required: false }
       - { label: "Spotify Link", name: "spotify", widget: "string", required: false }
       - { label: "Traxsource Link", name: "traxsource", widget: "string", required: false }
+      - { label: "Beatport Link", name: "beatport", widget: "string", required: false }
       - { label: "Body (optional)", name: "body", widget: "markdown", required: false }
 
   - name: "artists"
@@ -69,8 +76,8 @@ collections:
         options:
           - { label: "Producer / Main Artist", value: "producer" }
           - { label: "Vocalist", value: "vocalist" }
-      - { label: "Profile Image", name: "image", widget: "image", allow_multiple: false }
-      - { label: "Bio", name: "bio", widget: "text" }
+      - { label: "Profile Image", name: "image", widget: "image", allow_multiple: false, required: false }
+      - { label: "Bio", name: "bio", widget: "text", required: false }
       - { label: "Spotify", name: "spotify", widget: "string", required: false }
       - { label: "SoundCloud", name: "soundcloud", widget: "string", required: false }
       - { label: "Instagram", name: "instagram", widget: "string", required: false }
