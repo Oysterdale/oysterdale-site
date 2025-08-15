@@ -51,6 +51,14 @@
         }
       });
 
+    // Hent liste over .md-filer i /releases/
+    async function getReleaseFiles() {
+      const res = await fetch('/releases/');
+      const text = await res.text();
+      const matches = [...text.matchAll(/href="([^"]+\.md)"/g)];
+      return matches.map(m => m[1]);
+    }
+
     async function loadRelease(file) {
       const res = await fetch(`/releases/${file}`);
       const text = await res.text();
@@ -65,12 +73,14 @@
       const bodyText = text.split('---').pop().trim();
 
       return {
-        file,
         html: `
           <div class="release">
             <h2 class="release-artist">${artistMatch ? artistMatch[1] : ''}</h2>
             <h3 class="release-title">${titleMatch ? titleMatch[1] : ''}</h3>
-            ${featuredMatch ? `<p class="release-featured">feat. ${featuredMatch[1]}</p>` : ''}
+            ${(() => { 
+              const f = featuredMatch ? featuredMatch[1].trim().replace(/^"|"$/g, '') : ''; 
+              return f ? `<p class="release-featured">feat. ${f}</p>` : ''; 
+            })()}
             ${coverMatch ? `<a href="${spotifyMatch?.[1] || traxsourceMatch?.[1] || '#'}" target="_blank"><img src="${coverMatch[1]}" alt="${titleMatch ? titleMatch[1] : ''}" class="release-cover"></a>` : ''}
             <p>
               ${spotifyMatch ? `<a href="${spotifyMatch[1]}" target="_blank">Spotify</a>` : ''}
@@ -83,23 +93,16 @@
       };
     }
 
-    const releaseFiles = [
-      "get-on-up-feat-emél.md",
-      "okplus-dancing-on-the-clouds-feat-rona-ray.md"
-    ];
-
     async function loadAllReleases() {
       const container = document.getElementById('releases-content');
       container.innerHTML = '';
 
-      const releasePromises = releaseFiles.map(loadRelease);
+      const files = await getReleaseFiles();
+      const releasePromises = files.map(loadRelease);
       const releases = await Promise.all(releasePromises);
 
       releases.sort((a, b) => b.date - a.date);
-
-      for (const release of releases) {
-        container.innerHTML += release.html;
-      }
+      releases.forEach(release => container.innerHTML += release.html);
     }
 
     loadAllReleases();
