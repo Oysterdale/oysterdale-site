@@ -1,6 +1,5 @@
 backend:
-  name: github
-  repo: Oysterdale/oysterdale-site
+  name: git-gateway
   branch: main
 
 media_folder: "uploads"
@@ -10,27 +9,15 @@ collections:
   - name: "pages"
     label: "Pages"
     files:
-      - label: "Index"
+      - file: "index.md"
+        label: "Home Page"
         name: "index"
-        file: "content/index.md"
         fields:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
-      - label: "About"
+      - file: "about.md"
+        label: "About Page"
         name: "about"
-        file: "content/about.md"
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Body", name: "body", widget: "markdown" }
-      - label: "Events"
-        name: "events"
-        file: "content/events.md"
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Body", name: "body", widget: "markdown" }
-      - label: "Contact"
-        name: "contact"
-        file: "content/contact.md"
         fields:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
@@ -40,13 +27,32 @@ collections:
     folder: "releases"
     create: true
     slug: "{{slug}}"
-    sortable_fields: ["date"]
     fields:
-      - { label: "Artist", name: "artist", widget: "string" }
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Featured Artist (optional)", name: "featured", widget: "string", required: false }
-      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", default: "" }
-      - { label: "Cover Image", name: "cover", widget: "image", required: false }
-      - { label: "Spotify Link", name: "spotify", widget: "string", required: false }
-      - { label: "Traxsource Link", name: "traxsource", widget: "string", required: false }
-      - { label: "Body (optional)", name: "body", widget: "markdown", required: false }
+      - { label: "Artists", name: "artists", widget: "string" }
+      - { label: "Featuring Artists", name: "featuring", widget: "string", required: false }
+      - { label: "Release Date", name: "release_date", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "Cover Image", name: "cover", widget: "image", allow_multiple: false }
+      - { label: "Buy/Stream Link", name: "link", widget: "string", required: false }
+
+  - name: "artists"
+    label: "Artists"
+    folder: "artists"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - label: "Role"
+        name: "role"
+        widget: "select"
+        options:
+          - { label: "Producer / Main Artist", value: "producer" }
+          - { label: "Vocalist", value: "vocalist" }
+      - { label: "Profile Image", name: "image", widget: "image", allow_multiple: false }
+      - { label: "Bio", name: "bio", widget: "text" }
+      - { label: "Spotify", name: "spotify", widget: "string", required: false }
+      - { label: "SoundCloud", name: "soundcloud", widget: "string", required: false }
+      - { label: "Instagram", name: "instagram", widget: "string", required: false }
+      - { label: "Website", name: "website", widget: "string", required: false }
+      - { label: "Mixcloud", name: "mixcloud", widget: "string", required: false }
+      - { label: "Bandcamp", name: "bandcamp", widget: "string", required: false }
