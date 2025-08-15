@@ -8,6 +8,54 @@
   <link rel="icon" href="images/favicon.png" type="image/png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    .releases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .release {
+      display: flex;
+      flex-direction: column;
+      background: #111;
+      padding: 15px;
+      border-radius: 8px;
+      color: white;
+    }
+    .release-header {
+      min-height: 90px; /* sørger for lik høyde for overskrifter */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .release-artist {
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .release-title {
+      font-size: 1rem;
+      font-weight: normal;
+      text-transform: uppercase;
+      margin: 5px 0 0;
+    }
+    .release-featured {
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+    .release-cover {
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 4px;
+    }
+    .release p {
+      margin: 8px 0;
+    }
+    .release-body {
+      margin-top: auto;
+    }
+  </style>
 </head>
 <body>
 
@@ -24,12 +72,10 @@
   </footer>
 
   <script>
-    /* ====== Konfig: GitHub repo som Netlify deployer fra ====== */
     const GITHUB_OWNER = "Oysterdale";
     const GITHUB_REPO  = "oysterdale-site";
     const RELEASES_PATH = "releases";
 
-    /* ====== Header / mobilmeny ====== */
     fetch("header.html")
       .then(res => res.text())
       .then(data => {
@@ -53,7 +99,6 @@
         }
       });
 
-    /* ====== Hent liste over .md-filer fra GitHub ====== */
     async function getReleaseFiles() {
       const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${RELEASES_PATH}`;
       const res = await fetch(url, { headers: { "Accept": "application/vnd.github.v3+json" } });
@@ -64,11 +109,9 @@
         .map(e => ({ name: e.name, download_url: e.download_url }));
     }
 
-    /* ====== Parse én release-fil ====== */
     async function loadRelease(file) {
       const res = await fetch(file.download_url);
       const text = await res.text();
-
       const parts = text.split('---');
       const fm = parts.length >= 3 ? parts[1] : "";
       const bodyText = parts.length >= 3 ? parts.slice(2).join('---').trim() : "";
@@ -90,21 +133,23 @@
 
       const html = `
         <div class="release">
-          <h2 class="release-artist">${artist}</h2>
-          <h3 class="release-title">${title}</h3>
-          ${featured ? `<p class="release-featured">feat. ${featured}</p>` : ""}
+          <div class="release-header">
+            <h2 class="release-artist">${artist}</h2>
+            <h3 class="release-title">${title}</h3>
+            ${featured ? `<p class="release-featured">feat. ${featured}</p>` : ""}
+          </div>
           ${cover ? `<a href="${coverHref}" target="_blank"><img src="${cover}" alt="${title}" class="release-cover"></a>` : ""}
           <p>
             ${spotify ? `<a href="${spotify}" target="_blank">Spotify</a>` : ""}
             ${traxsource ? `${spotify ? " | " : ""}<a href="${traxsource}" target="_blank">Traxsource</a>` : ""}
           </p>
+          <p>Release date: ${dateStr}</p>
           <div class="release-body">${marked.parse(bodyText)}</div>
         </div>
       `;
       return { html, date };
     }
 
-    /* ====== Hovedløp ====== */
     async function loadAllReleases() {
       const container = document.getElementById("releases-content");
       container.innerHTML = "";
