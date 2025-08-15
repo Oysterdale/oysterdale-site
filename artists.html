@@ -7,23 +7,85 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="images/favicon.png" type="image/png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    .section {
+      margin: 30px 0 50px;
+    }
+    .section h2 {
+      margin: 0 0 16px;
+    }
+    .artists-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .artist-card {
+      background: #111;
+      color: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    }
+    .artist-media {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 10px;
+      object-fit: cover;
+      background: #222;
+    }
+    .artist-name {
+      margin: 12px 0 6px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .artist-bio {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      opacity: 0.95;
+      margin: 6px 0 10px;
+      min-height: 72px;
+    }
+    .artist-links {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      opacity: 0.95;
+    }
+    .artist-links a {
+      text-decoration: none;
+      color: #fff;
+      border: 1px solid #2a2a2a;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.85rem;
+      transition: transform .07s ease;
+    }
+    .artist-links a:hover { transform: translateY(-1px); }
+    .muted { opacity: 0.7; }
+  </style>
 </head>
 <body>
 
   <main class="page-content">
     <h1>Artists</h1>
-    <div class="artist-list">
-      <div class="artist">
-        <img src="uploads/OKPLUS_pressebilder-5.jpg" alt="OKPLUS" class="artist-photo">
-        <h2>OKPLUS</h2>
-        <p>OKPLUS is a Norwegian disco-house trio blending live instrumentation, vintage groove and modern club energy. Their sound is warm, danceable and rich in both musicianship and emotion. Releases include both original productions and remixes — always grounded in funk, soul and rhythm.</p>
-        <p><strong>Releases on Oysterdale:</strong></p>
-        <ul>
-          <li><a href="https://open.spotify.com/track/..." target="_blank">Get On Up (feat. Emél)</a></li>
-          <li><a href="https://open.spotify.com/track/..." target="_blank">Dancing On The Clouds (feat. Rona Ray)</a></li>
-        </ul>
-      </div>
-    </div>
+
+    <section class="section">
+      <h2>Label Artists</h2>
+      <div id="producers" class="artists-grid"></div>
+      <p id="producers-empty" class="muted" style="display:none;">No producers yet.</p>
+    </section>
+
+    <section class="section">
+      <h2>Featured Vocalists</h2>
+      <div id="vocalists" class="artists-grid"></div>
+      <p id="vocalists-empty" class="muted" style="display:none;">No vocalists yet.</p>
+    </section>
   </main>
 
   <footer>
@@ -34,31 +96,76 @@
   </footer>
 
   <script>
-    fetch('header.html')
-      .then(res => res.text())
-      .then(html => {
-        document.body.insertAdjacentHTML('afterbegin', html);
+    const GITHUB_OWNER = "Oysterdale";
+    const GITHUB_REPO  = "oysterdale-site";
+    const ARTISTS_PATH = "artists";
 
-        const toggleButton = document.getElementById('menu-toggle');
-        const nav = document.querySelector('.main-nav');
-        const navLinks = document.querySelectorAll('.main-nav a');
+    async function fetchArtists() {
+      const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${ARTISTS_PATH}`;
+      const res = await fetch(apiUrl);
+      const files = await res.json();
+      const mdFiles = files.filter(f => f.name.endsWith(".md"));
 
-        if (toggleButton && nav) {
-          toggleButton.addEventListener('click', () => {
-            nav.classList.toggle('open');
-            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
-          });
+      const artists = [];
+      for (const file of mdFiles) {
+        const raw = await fetch(file.download_url).then(r => r.text());
+        const frontmatterMatch = raw.match(/---([\s\S]*?)---/);
+        if (!frontmatterMatch) continue;
 
-          navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-              if (nav.classList.contains('open')) {
-                nav.classList.remove('open');
-                toggleButton.textContent = '☰';
-              }
-            });
-          });
-        }
+        const fmLines = frontmatterMatch[1].split("\n").map(l => l.trim()).filter(Boolean);
+        const fm = {};
+        fmLines.forEach(line => {
+          const [key, ...rest] = line.split(":");
+          fm[key.trim()] = rest.join(":").trim().replace(/^"|"$/g, '');
+        });
+
+        artists.push({
+          name: fm.name || "",
+          role: (fm.role || "").toLowerCase(),
+          image: fm.image || "",
+          bio: fm.bio || "",
+          spotify: fm.spotify || "",
+          soundcloud: fm.soundcloud || "",
+          instagram: fm.instagram || "",
+          website: fm.website || "",
+          mixcloud: fm.mixcloud || "",
+          bandcamp: fm.bandcamp || ""
+        });
+      }
+
+      const producers = artists.filter(a => a.role === "producer" || a.role === "main").sort((a,b) => a.name.localeCompare(b.name));
+      const vocalists = artists.filter(a => a.role === "vocalist").sort((a,b) => a.name.localeCompare(b.name));
+
+      renderArtists(producers, document.getElementById("producers"), document.getElementById("producers-empty"));
+      renderArtists(vocalists, document.getElementById("vocalists"), document.getElementById("vocalists-empty"));
+    }
+
+    function renderArtists(list, container, emptyMsg) {
+      if (list.length === 0) {
+        emptyMsg.style.display = "block";
+        return;
+      }
+      list.forEach(a => {
+        const card = document.createElement("div");
+        card.className = "artist-card";
+        card.innerHTML = `
+          ${a.image ? `<img class="artist-media" src="${a.image}" alt="${a.name}">` : ""}
+          <div class="artist-name">${a.name}</div>
+          <div class="artist-bio">${a.bio}</div>
+          <div class="artist-links">
+            ${a.spotify ? `<a href="${a.spotify}" target="_blank"><i class="fab fa-spotify"></i> Spotify</a>` : ""}
+            ${a.soundcloud ? `<a href="${a.soundcloud}" target="_blank"><i class="fab fa-soundcloud"></i> SoundCloud</a>` : ""}
+            ${a.instagram ? `<a href="${a.instagram}" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>` : ""}
+            ${a.website ? `<a href="${a.website}" target="_blank"><i class="fas fa-globe"></i> Website</a>` : ""}
+            ${a.mixcloud ? `<a href="${a.mixcloud}" target="_blank"><i class="fab fa-mixcloud"></i> Mixcloud</a>` : ""}
+            ${a.bandcamp ? `<a href="${a.bandcamp}" target="_blank"><i class="fab fa-bandcamp"></i> Bandcamp</a>` : ""}
+          </div>
+        `;
+        container.appendChild(card);
       });
+    }
+
+    fetchArtists();
   </script>
 </body>
 </html>
