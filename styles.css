@@ -149,8 +149,7 @@ h1, h2, h3 {
 .home-hero {
   width: 100%;
   min-height: 525px;
-  background:
-          url('uploads/Forsidebilde_Oysterdale_med_svart.png') center center / cover no-repeat;
+  background: url('uploads/Forsidebilde_Oysterdale_med_svart.png') center center / cover no-repeat;
   background-color: #000;
   display: flex;
   align-items: center;
@@ -172,8 +171,14 @@ h1, h2, h3 {
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   min-height: 650px; /* fast høyde */
+}
+
+.release-content {
+  flex: 1; /* fyller alt areal over datoen */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .release img.release-cover {
@@ -216,7 +221,7 @@ h1, h2, h3 {
   font-size: 0.95rem;
   color: #ccc;
   text-align: center;
-  margin-bottom: 0.5rem;
+  padding-top: 1rem;
 }
 
 /* ARTIST LAYOUT */
@@ -345,11 +350,12 @@ footer {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;   /* større boble */
+  width: 44px;
   height: 44px;
   border-radius: 999px;
   background: rgba(255,255,255,0.06);
   transition: transform .12s ease, background .12s ease, opacity .12s ease;
+  line-height: 0;
 }
 
 .platform-icons a:hover,
@@ -358,11 +364,16 @@ footer {
   transform: translateY(-1px);
 }
 
-.platform-icons img,
+.platform-icons img {
+  display: block;
+  height: 24px;
+  width: auto;
+}
+
 .platform-icons i {
   display: block;
-  height: 22px;  /* større ikon */
-  width: auto;
+  font-size: 24px;
+  line-height: 1;
 }
 
 @media (max-width: 420px) {
