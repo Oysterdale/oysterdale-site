@@ -6,14 +6,13 @@
   <title>Oysterdale Records – Releases</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="images/favicon.png" type="image/png" />
-  <!-- Font Awesome for brand icons -->
+  <!-- Font Awesome for brand icons (Spotify, YouTube, Amazon, Bandcamp) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Markdown renderer -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <main>
-    <!-- WRAPPER LAGT TIL: sørger for samme bredde/innrykk som resten av siden -->
     <div class="page-content">
       <h1>Releases</h1>
       <div id="releases-content" class="releases-grid">Loading releases...</div>
@@ -32,7 +31,7 @@
     const GITHUB_REPO  = "oysterdale-site";
     const RELEASES_PATH = "releases";
 
-    // Header
+    // Inject header
     fetch("header.html")
       .then(res => res.text())
       .then(data => {
@@ -87,15 +86,16 @@
       const featured   = (get("featured") || "").replace(/^"|"$/g, "").trim();
       const dateStr    = get("date");
       const cover      = get("cover");
+
       const spotify    = get("spotify");
       const traxsource = get("traxsource");
       const beatport   = get("beatport");
-      const apple      = get("apple_music");
+      const apple      = get("apple_music"); // Apple Music
       const deezer     = get("deezer");
       const amazon     = get("amazon_music");
       const ytmusic    = get("youtube_music");
       const tidal      = get("tidal");
-      const itunes     = get("itunes");
+      const itunes     = get("itunes");      // iTunes Store
       const bandcamp   = get("bandcamp");
 
       const date       = dateStr ? new Date(dateStr) : new Date(0);
@@ -106,29 +106,30 @@
 
       const html = `
         <div class="release">
-          <div class="release-header">
-            <h2 class="release-artist">${artist}</h2>
-            <h3 class="release-title">${title}</h3>
-            ${featured ? `<p class="release-featured">feat. ${featured}</p>` : ""}
-          </div>
-          ${cover ? `<a href="${coverHref}" target="_blank" rel="noopener"><img src="${cover}" alt="${title}" class="release-cover"></a>` : ""}
+          <div class="release-content">
+            <div class="release-header">
+              <h2 class="release-artist">${artist}</h2>
+              <h3 class="release-title">${title}</h3>
+              ${featured ? `<p class="release-featured">feat. ${featured}</p>` : ""}
+            </div>
 
-          <div class="platform-icons">
-            ${spotify   ? `<a href="${spotify}" target="_blank" rel="noopener" aria-label="Open on Spotify"><i class="fa-brands fa-spotify"></i></a>` : ""}
-            ${apple     ? `<a href="${apple}" target="_blank" rel="noopener" aria-label="Open on Apple Music"><i class="fa-brands fa-apple"></i></a>` : ""}
-            ${deezer    ? `<a href="${deezer}" target="_blank" rel="noopener" aria-label="Open on Deezer"><img src="images/platforms/deezer.svg" alt="Deezer"></a>` : ""}
-            ${amazon    ? `<a href="${amazon}" target="_blank" rel="noopener" aria-label="Open on Amazon Music"><i class="fa-brands fa-amazon"></i></a>` : ""}
-            ${ytmusic   ? `<a href="${ytmusic}" target="_blank" rel="noopener" aria-label="Open on YouTube Music"><i class="fa-brands fa-youtube"></i></a>` : ""}
-            ${tidal     ? `<a href="${tidal}" target="_blank" rel="noopener" aria-label="Open on Tidal"><img src="images/platforms/tidal.svg" alt="Tidal"></a>` : ""}
-            ${itunes    ? `<a href="${itunes}" target="_blank" rel="noopener" aria-label="Open on iTunes Store"><i class="fa-brands fa-apple"></i></a>` : ""}
-            ${beatport  ? `<a href="${beatport}" target="_blank" rel="noopener" aria-label="Open on Beatport"><img src="images/platforms/beatport.svg" alt="Beatport"></a>` : ""}
-            ${traxsource? `<a href="${traxsource}" target="_blank" rel="noopener" aria-label="Open on Traxsource"><img src="images/platforms/traxsource.svg" alt="Traxsource"></a>` : ""}
-            ${bandcamp  ? `<a href="${bandcamp}" target="_blank" rel="noopener" aria-label="Open on Bandcamp"><i class="fa-brands fa-bandcamp"></i></a>` : ""}
+            ${cover ? `<a href="${coverHref}" target="_blank" rel="noopener"><img src="${cover}" alt="${title}" class="release-cover"></a>` : ""}
+
+            <div class="platform-icons">
+              ${spotify   ? `<a href="${spotify}" target="_blank" rel="noopener" aria-label="Open on Spotify"><i class="fa-brands fa-spotify"></i></a>` : ""}
+              ${apple     ? `<a href="${apple}" target="_blank" rel="noopener" aria-label="Open on Apple Music"><img src="images/platforms/applemusic.svg" alt="Apple Music"></a>` : ""}
+              ${deezer    ? `<a href="${deezer}" target="_blank" rel="noopener" aria-label="Open on Deezer"><img src="images/platforms/deezer.svg" alt="Deezer"></a>` : ""}
+              ${amazon    ? `<a href="${amazon}" target="_blank" rel="noopener" aria-label="Open on Amazon Music"><i class="fa-brands fa-amazon"></i></a>` : ""}
+              ${ytmusic   ? `<a href="${ytmusic}" target="_blank" rel="noopener" aria-label="Open on YouTube Music"><i class="fa-brands fa-youtube"></i></a>` : ""}
+              ${tidal     ? `<a href="${tidal}" target="_blank" rel="noopener" aria-label="Open on Tidal"><img src="images/platforms/tidal.svg" alt="Tidal"></a>` : ""}
+              ${itunes    ? `<a href="${itunes}" target="_blank" rel="noopener" aria-label="Open on iTunes Store"><img src="images/platforms/itunes.svg" alt="iTunes Store"></a>` : ""}
+              ${beatport  ? `<a href="${beatport}" target="_blank" rel="noopener" aria-label="Open on Beatport"><img src="images/platforms/beatport.svg" alt="Beatport"></a>` : ""}
+              ${traxsource? `<a href="${traxsource}" target="_blank" rel="noopener" aria-label="Open on Traxsource"><img src="images/platforms/traxsource.svg" alt="Traxsource"></a>` : ""}
+              ${bandcamp  ? `<a href="${bandcamp}" target="_blank" rel="noopener" aria-label="Open on Bandcamp"><i class="fa-brands fa-bandcamp"></i></a>` : ""}
+            </div>
           </div>
 
           ${dateStr ? `<p class="release-date">Release date: ${dateStr}</p>` : ""}
-
-          ${bodyText ? `<div class="release-body">${marked.parse(bodyText)}</div>` : ""}
         </div>
       `;
       return { date, html };
@@ -140,7 +141,7 @@
         const files = await getReleaseFiles();
         const releases = await Promise.all(files.map(loadRelease));
         releases.sort((a, b) => b.date - a.date);
-        container.innerHTML = ""; // fjern "Loading releases..."
+        container.innerHTML = "";
         releases.forEach(r => container.insertAdjacentHTML("beforeend", r.html));
       } catch (err) {
         container.innerHTML = `<p>Kunne ikke laste releases akkurat nå.</p>`;
