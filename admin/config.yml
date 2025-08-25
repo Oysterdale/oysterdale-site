@@ -15,35 +15,23 @@ collections:
   - name: "pages"
     label: "Pages"
     files:
-      - label: "Index"
-        name: "index"
-        file: "content/index.md"
+      - file: "index.html"
+        label: "Home"
+        name: "home"
         fields:
-          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Title", name: "title", widget: "string", required: false }
           - { label: "Body", name: "body", widget: "markdown" }
-      - label: "About"
+      - file: "about.html"
+        label: "About"
         name: "about"
-        file: "content/about.md"
         fields:
-          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Title", name: "title", widget: "string", required: false }
           - { label: "Body", name: "body", widget: "markdown" }
-      - label: "Releases"
-        name: "releasespage"
-        file: "content/releases.md"
+      - file: "releases.html"
+        label: "Releases Page"
+        name: "releases_page"
         fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Body", name: "body", widget: "markdown" }
-      - label: "Artists"
-        name: "artistspage"
-        file: "content/artists.md"
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Body", name: "body", widget: "markdown" }
-      - label: "Contact"
-        name: "contact"
-        file: "content/contact.md"
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Title", name: "title", widget: "string", required: false }
           - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "releases"
@@ -61,6 +49,13 @@ collections:
       - { label: "Spotify Link", name: "spotify", widget: "string", required: false }
       - { label: "Traxsource Link", name: "traxsource", widget: "string", required: false }
       - { label: "Beatport Link", name: "beatport", widget: "string", required: false }
+      - { label: "Apple Music Link", name: "apple_music", widget: "string", required: false }
+      - { label: "Deezer Link", name: "deezer", widget: "string", required: false }
+      - { label: "Amazon Music Link", name: "amazon_music", widget: "string", required: false }
+      - { label: "YouTube Music Link", name: "youtube_music", widget: "string", required: false }
+      - { label: "Tidal Link", name: "tidal", widget: "string", required: false }
+      - { label: "iTunes Store Link", name: "itunes", widget: "string", required: false }
+      - { label: "Bandcamp Link", name: "bandcamp", widget: "string", required: false }
       - { label: "Body (optional)", name: "body", widget: "markdown", required: false }
 
   - name: "artists"
