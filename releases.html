@@ -6,15 +6,18 @@
   <title>Oysterdale Records – Releases</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="images/favicon.png" type="image/png" />
-  <!-- Font Awesome for brand icons (Spotify, Apple, YouTube, Amazon, Bandcamp) -->
+  <!-- Font Awesome for brand icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Markdown renderer for body text -->
+  <!-- Markdown renderer -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <main>
-    <h1>Releases</h1>
-    <div id="releases-content" class="releases-grid">Loading releases...</div>
+    <!-- WRAPPER LAGT TIL: sørger for samme bredde/innrykk som resten av siden -->
+    <div class="page-content">
+      <h1>Releases</h1>
+      <div id="releases-content" class="releases-grid">Loading releases...</div>
+    </div>
   </main>
 
   <footer>
@@ -29,7 +32,7 @@
     const GITHUB_REPO  = "oysterdale-site";
     const RELEASES_PATH = "releases";
 
-    // Inject header
+    // Header
     fetch("header.html")
       .then(res => res.text())
       .then(data => {
@@ -59,7 +62,6 @@
       return files.filter(f => f.name.endsWith(".md"));
     }
 
-    // Fjerner "Release date:" / "Releasedato:"-linjer fra body før rendering
     function sanitizeBody(bodyText) {
       const lines = bodyText.split(/\r?\n/);
       const filtered = lines.filter(l => !/^\s*(release\s*date|releasedato)\s*:/i.test(l.trim()));
@@ -98,7 +100,6 @@
 
       const date       = dateStr ? new Date(dateStr) : new Date(0);
 
-      // Cover klikker til første tilgjengelige tjeneste i prioritert rekkefølge
       const coverHref  = (spotify || apple || traxsource || beatport || ytmusic || deezer || tidal || amazon || bandcamp || itunes)
         ? (spotify || apple || traxsource || beatport || ytmusic || deezer || tidal || amazon || bandcamp || itunes)
         : "#";
@@ -112,7 +113,6 @@
           </div>
           ${cover ? `<a href="${coverHref}" target="_blank" rel="noopener"><img src="${cover}" alt="${title}" class="release-cover"></a>` : ""}
 
-          <!-- IKONRADEN (bruker images/platforms/* siden du endret mappenavnet) -->
           <div class="platform-icons">
             ${spotify   ? `<a href="${spotify}" target="_blank" rel="noopener" aria-label="Open on Spotify"><i class="fa-brands fa-spotify"></i></a>` : ""}
             ${apple     ? `<a href="${apple}" target="_blank" rel="noopener" aria-label="Open on Apple Music"><i class="fa-brands fa-apple"></i></a>` : ""}
@@ -140,8 +140,7 @@
         const files = await getReleaseFiles();
         const releases = await Promise.all(files.map(loadRelease));
         releases.sort((a, b) => b.date - a.date);
-        // Fjern "Loading releases..." før vi legger inn kortene
-        container.innerHTML = "";
+        container.innerHTML = ""; // fjern "Loading releases..."
         releases.forEach(r => container.insertAdjacentHTML("beforeend", r.html));
       } catch (err) {
         container.innerHTML = `<p>Kunne ikke laste releases akkurat nå.</p>`;
