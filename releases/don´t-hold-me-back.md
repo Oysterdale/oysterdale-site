@@ -5,4 +5,5 @@ date: 2025-08-15
 cover: /uploads/dhmb-cover.jpg
 spotify: https://open.spotify.com/track/52hElNjPFNd8QIpF4T8Odt?si=2261ec1441444f19
 traxsource: https://www.traxsource.com/track/13802587/don-t-hold-me-back-extended-mix
+apple_music: https://music.apple.com/no/album/dont-hold-me-back-single/1830055814?l=nb
 ---
