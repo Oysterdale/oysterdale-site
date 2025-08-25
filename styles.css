@@ -8,12 +8,12 @@
 
 html, body {
   width: 100%;
-  overflow-x: hidden; /* ← Hindrer all sideways scroll */
+  overflow-x: hidden; /* Hindrer sideveis scroll */
 }
 
 img, svg, video, canvas {
   max-width: 100%;
-  height: auto;       /* ← Alt media skalerer riktig */
+  height: auto;
   display: block;
 }
 
@@ -182,7 +182,7 @@ h1, h2, h3 {
   box-shadow: 0 0 10px rgba(255,255,255,0.05);
 
   display: flex;
-  flex-direction: column;  /* footer (dato) under alt */
+  flex-direction: column;
 }
 
 .release-content {
@@ -190,7 +190,6 @@ h1, h2, h3 {
   flex-direction: column;
 }
 
-/* Cover + tekster */
 .release img.release-cover {
   border-radius: 10px;
   margin-top: 1rem;
@@ -198,7 +197,6 @@ h1, h2, h3 {
   width: 100%;
 }
 
-/* Tekst */
 .release-artist {
   font-size: 1.4rem;
   font-weight: bold;
@@ -226,7 +224,6 @@ h1, h2, h3 {
   color: #ccc;
 }
 
-/* Dato – konsekvent under ikonene */
 .release-date {
   margin-top: 1rem;
   font-size: 0.95rem;
@@ -271,15 +268,20 @@ footer {
 }
 
 .footer-logo {
+  display: flex;
+  justify-content: center;
   margin-bottom: 1rem;
 }
 
 .footer-logo-img {
   height: 260px;
   opacity: 0.9;
+  margin: 0 auto;
 }
 
 .footer-pearl {
+  display: block;
+  margin: 0 auto;
   height: 100px;
 }
 
@@ -338,26 +340,24 @@ footer {
 
 @media (max-width: 768px) {
   .releases-grid {
-    grid-template-columns: 1fr;  /* ← én kolonne på mobil */
+    grid-template-columns: 1fr;
   }
   .page-content {
     padding: 1.5rem 4.5%;
   }
   h1 {
-    font-size: 2rem;             /* «RELEASES» mer mobilvennlig */
+    font-size: 2rem;
   }
 }
 
-/* --- Platform icon row for releases --- */
+/* PLATFORM ICONS */
 .platform-icons {
   display: flex;
-  flex-wrap: wrap;               /* ← Viktig: la bryte linjer på mobil */
+  flex-wrap: wrap;
   gap: 14px;
   justify-content: center;
   align-items: center;
   margin-top: 14px;
-
-  /* maks 5 ikoner på første rad på større skjermer */
   max-width: calc(5 * 44px + 4 * 14px);
   margin-left: auto;
   margin-right: auto;
@@ -372,8 +372,8 @@ footer {
   border-radius: 999px;
   background: rgba(255,255,255,0.06);
   transition: transform .12s ease, background .12s ease, opacity .12s ease;
-  line-height: 0;                /* fjern baseline */
-  color: #fff;                   /* FA-ikoner hvite */
+  line-height: 0;
+  color: #fff;
 }
 
 .platform-icons a:hover,
@@ -382,20 +382,17 @@ footer {
   transform: translateY(-1px);
 }
 
-/* SVG- og FA-størrelser */
 .platform-icons img { display: block; height: 24px; width: auto; }
 .platform-icons i   { display: block; font-size: 24px; line-height: 1; }
 
-/* Gjør fargede SVG-er hvite uten å endre filene */
+/* gjør Deezer og Traxsource hvite */
 .platform-icons img[src$="deezer.svg"],
 .platform-icons img[src$="traxsource.svg"] {
   filter: brightness(0) invert(1);
 }
 
-/* Små telefoner: ALDRI horisontal scrolling pga ikon-rad */
 @media (max-width: 420px) {
   .platform-icons {
-    max-width: 100%;   /* ← ingen kunstig bredde */
-    /* ikke overflow-x her; vi lar ikonene bryte til flere linjer */
+    max-width: 100%;
   }
 }
