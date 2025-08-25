@@ -11,6 +11,6 @@ apple_music: https://music.apple.com/no/album/dancing-on-the-clouds-single/18231
 deezer: https://www.deezer.com/en/album/778993921
 amazon_music: https://music.amazon.com/albums/B0FFRVGVMX
 youtube_music: https://www.youtube.com/watch?v=lGATtxY-7GU&list=RDlGATtxY-7GU&start_radio=1
-tidal: https://tidal.com/browse/album/444561923?u
+tidal: https://tidal.com/browse/album/444561923
 itunes: https://music.apple.com/no/album/dancing-on-the-clouds-single/1823123654?l=nb
 ---
