@@ -150,9 +150,8 @@ h1, h2, h3 {
   width: 100%;
   min-height: 525px;
   background:
-          /* linear-gradients fjernet med hensikt */
           url('uploads/Forsidebilde_Oysterdale_med_svart.png') center center / cover no-repeat;
-  background-color: #000; /* fallback bakgrunn */
+  background-color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -320,9 +319,16 @@ footer {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  justify-content: center;       /* midtstill ikonene */
   align-items: center;
   margin-top: 14px;
+
+  /* maks 5 ikoner på første rad: 5*36px bredde + 4*12px gap = 228px */
+  max-width: calc(5 * 36px + 4 * 12px);
+  margin-left: auto;
+  margin-right: auto;
 }
+
 .platform-icons a {
   display: inline-flex;
   align-items: center;
@@ -333,16 +339,25 @@ footer {
   background: rgba(255,255,255,0.06);
   transition: transform .12s ease, background .12s ease, opacity .12s ease;
 }
+
 .platform-icons a:hover,
 .platform-icons a:focus {
   background: rgba(255,255,255,0.12);
   transform: translateY(-1px);
 }
-.platform-icons img, .platform-icons i {
+
+.platform-icons img,
+.platform-icons i {
   display: block;
   height: 18px;
   width: auto;
 }
+
 @media (max-width: 420px) {
-  .platform-icons { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .platform-icons {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: none; /* la den scrolle på veldig smale skjermer */
+  }
 }
