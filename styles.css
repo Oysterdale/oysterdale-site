@@ -169,6 +169,11 @@ h1, h2, h3 {
   max-width: 500px;
   text-align: center;
   box-shadow: 0 0 10px rgba(255,255,255,0.05);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 650px; /* fast høyde */
 }
 
 .release img.release-cover {
@@ -204,6 +209,14 @@ h1, h2, h3 {
 .release-body {
   margin-top: 1rem;
   color: #ccc;
+}
+
+.release-date {
+  margin-top: auto;
+  font-size: 0.95rem;
+  color: #ccc;
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 /* ARTIST LAYOUT */
@@ -314,17 +327,16 @@ footer {
   }
 }
 
-/* --- Platform icon row for releases (ADD-ON) --- */
+/* --- Platform icon row for releases --- */
 .platform-icons {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;       /* midtstill ikonene */
+  gap: 14px;
+  justify-content: center;
   align-items: center;
   margin-top: 14px;
 
-  /* maks 5 ikoner på første rad: 5*36px bredde + 4*12px gap = 228px */
-  max-width: calc(5 * 36px + 4 * 12px);
+  max-width: calc(5 * 44px + 4 * 14px); /* maks 5 ikoner per rad */
   margin-left: auto;
   margin-right: auto;
 }
@@ -333,8 +345,8 @@ footer {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;   /* større boble */
+  height: 44px;
   border-radius: 999px;
   background: rgba(255,255,255,0.06);
   transition: transform .12s ease, background .12s ease, opacity .12s ease;
@@ -349,7 +361,7 @@ footer {
 .platform-icons img,
 .platform-icons i {
   display: block;
-  height: 18px;
+  height: 22px;  /* større ikon */
   width: auto;
 }
 
@@ -358,6 +370,6 @@ footer {
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    max-width: none; /* la den scrolle på veldig smale skjermer */
+    max-width: none;
   }
 }
