@@ -190,6 +190,15 @@ h1, h2, h3 {
   flex-direction: column;
 }
 
+/* Sørg for lik startposisjon for coveret på tvers av 1–2 linjer overskrift */
+.release-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  /* Responsiv minimumshøyde: liten skjerm → lavere, stor skjerm → høyere */
+  min-height: clamp(88px, 10vw, 138px);
+}
+
 .release img.release-cover {
   border-radius: 10px;
   margin-top: 1rem;
@@ -200,22 +209,20 @@ h1, h2, h3 {
 .release-artist {
   font-size: 1.4rem;
   font-weight: bold;
-  margin-bottom: 0.2rem;
   text-align: center;
 }
 
 .release-title {
   font-size: 1.2rem;
   font-weight: 500;
-  margin-bottom: 0.3rem;
   text-align: center;
+  color: #ddd;
 }
 
 .release-featured {
   font-size: 1rem;
   font-style: italic;
   color: #ccc;
-  margin-bottom: 1rem;
   text-align: center;
 }
 
@@ -224,6 +231,7 @@ h1, h2, h3 {
   color: #ccc;
 }
 
+/* Dato – konsekvent under ikonene */
 .release-date {
   margin-top: 1rem;
   font-size: 0.95rem;
