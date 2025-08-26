@@ -190,13 +190,33 @@ h1, h2, h3 {
   flex-direction: column;
 }
 
-/* Sørg for lik startposisjon for coveret på tvers av 1–2 linjer overskrift */
 .release-header {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  /* Responsiv minimumshøyde: liten skjerm → lavere, stor skjerm → høyere */
-  min-height: clamp(88px, 10vw, 138px);
+}
+
+/* Artist-linje – alltid én linje, fonten skalerer */
+.release-artist {
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  font-size: clamp(0.9rem, 2vw, 1.4rem);
+  line-height: 1.2;
+}
+
+/* Tittel-linje – samme logikk */
+.release-title {
+  font-weight: 500;
+  text-align: center;
+  color: #ddd;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  font-size: clamp(0.8rem, 1.8vw, 1.2rem);
+  line-height: 1.2;
 }
 
 .release img.release-cover {
@@ -204,19 +224,6 @@ h1, h2, h3 {
   margin-top: 1rem;
   margin-bottom: 1rem;
   width: 100%;
-}
-
-.release-artist {
-  font-size: 1.4rem;
-  font-weight: bold;
-  text-align: center;
-}
-
-.release-title {
-  font-size: 1.2rem;
-  font-weight: 500;
-  text-align: center;
-  color: #ddd;
 }
 
 .release-featured {
@@ -233,7 +240,7 @@ h1, h2, h3 {
 
 /* Dato – konsekvent under ikonene */
 .release-date {
-  margin-top: 1rem;
+  margin-top: auto;
   font-size: 0.95rem;
   color: #ccc;
   text-align: center;
