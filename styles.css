@@ -3,10 +3,7 @@
 html,body{width:100%;overflow-x:hidden}
 img,svg,video,canvas{max-width:100%;height:auto;display:block}
 
-body{
-  font-family:'Segoe UI',sans-serif;
-  color:#fff;background:#000;line-height:1.6;animation:fadeIn 1s ease-in-out
-}
+body{font-family:'Segoe UI',sans-serif;color:#fff;background:#000;line-height:1.6;animation:fadeIn 1s ease-in-out}
 a{color:#fff;text-decoration:none}
 a:hover{color:#999;text-decoration:none}
 
@@ -26,7 +23,7 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 .social-icons a:hover{color:#999}
 .menu-toggle{display:none;font-size:1.5rem;color:#fff;border:0;background:none;cursor:pointer}
 
-/* CONTENT WRAPPER */
+/* CONTENT */
 .page-content{padding:2rem 5%;max-width:1000px;margin:0 auto;animation:fadeIn 1.3s ease-in-out}
 .page-content p{padding-bottom:1rem}
 
@@ -45,41 +42,49 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 
 /* RELEASE CARD */
 .release{
-  background:#111;padding:2rem;border-radius:10px;margin:2rem auto;max-width:500px;text-align:center;
-  box-shadow:0 0 10px rgba(255,255,255,.05);display:flex;flex-direction:column
+  background:#111;padding:2rem 2rem 1rem;border-radius:10px;margin:2rem auto;max-width:500px;text-align:center;
+  box-shadow:0 0 10px rgba(255,255,255,.05);display:flex;flex-direction:column;
+
+  /* like høyder (kan justeres) */
+  min-height:780px;
 }
+@media (max-width:1023px){ .release{ min-height:740px; } }
+@media (max-width:767px) { .release{ min-height:680px; } }
+
 .release-content{display:flex;flex-direction:column}
 
-/* Header-blokk: gi plass til 1–2 linjer artist + 1 linje tittel */
+/* Strammere header → mindre luft før cover */
 .release-header{
-  display:flex;flex-direction:column;gap:6px;
-  min-height:clamp(96px,10vw,140px); /* ← viktig for lik start på cover */
+  display:flex;flex-direction:column;gap:4px;
+  min-height:clamp(84px,9vw,124px); /* nok plass for 1–2 linjer + tittel */
 }
 
-/* FULL TEKST – kan bryte linjer (ingen ellipsis) */
+/* Full tekst (kan bryte linjer) */
 .release-artist{
-  font-weight:700;text-align:center;line-height:1.25;
-  font-size:clamp(1rem,2.1vw,1.35rem); /* responsiv, men ingen tvang til én linje */
+  font-weight:700;text-align:center;line-height:1.22;
+  font-size:clamp(1rem,2.05vw,1.35rem);
   white-space:normal;overflow:visible
 }
 .release-title{
-  font-weight:500;text-align:center;color:#ddd;line-height:1.25;
-  font-size:clamp(.95rem,1.9vw,1.2rem);
+  font-weight:500;text-align:center;color:#ddd;line-height:1.22;
+  font-size:clamp(.95rem,1.85vw,1.2rem);
   white-space:normal;overflow:visible
 }
 
+/* Cover – identisk størrelse + mindre top-margin (tettere på tittel) */
 .release img.release-cover{
-  width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;margin:1rem 0
+  width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;
+  margin-top:.5rem;margin-bottom:1rem;
 }
 
 .release-featured{font-size:1rem;font-style:italic;color:#ccc;text-align:center}
 .release-body{margin-top:1rem;color:#ccc}
 
-/* Platform icons – gi området fast min-høyde (≈ to rader) for jevn kort-høyde */
+/* Platform icons – stabil høyde (≈ to rader) */
 .platform-icons{
   display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;margin-top:14px;
   max-width:calc(5 * 44px + 4 * 14px);margin-left:auto;margin-right:auto;
-  min-height:102px; /* ← 2 rader á 44px + gap, jevnere kort selv ved ulikt ikon-antall */
+  min-height:102px;
 }
 .platform-icons a{
   display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;
@@ -92,7 +97,13 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 .platform-icons img[src$="deezer.svg"],.platform-icons img[src$="traxsource.svg"]{filter:brightness(0) invert(1)}
 @media (max-width:420px){.platform-icons{max-width:100%}}
 
-.release-date{margin-top:auto;font-size:.95rem;color:#ccc;text-align:center}
+/* Dato – enda litt lavere i boksen (nær bunn) */
+.release-date{
+  margin-top:auto;          /* skyver datoen ned */
+  padding-top:8px;
+  margin-bottom:0;          /* ikke ekstra luft under */
+  font-size:.95rem;color:#ccc;text-align:center;
+}
 
 /* GRID */
 .releases-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-top:2rem}
