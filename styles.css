@@ -40,51 +40,72 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
   display:flex;align-items:center;justify-content:center;animation:fadeIn 1.2s ease-in-out forwards
 }
 
-/* RELEASE CARD */
+/* RELEASE CARD (kompakt) */
 .release{
-  background:#111;padding:2rem 2rem 1rem;border-radius:10px;margin:2rem auto;max-width:500px;text-align:center;
-  box-shadow:0 0 10px rgba(255,255,255,.05);display:flex;flex-direction:column;
+  background:#111;
+  padding:1.5rem 1.5rem 1rem;        /* kompakt padding */
+  border-radius:10px;
+  margin:2rem auto;
+  max-width:500px;
+  text-align:center;
+  box-shadow:0 0 10px rgba(255,255,255,.05);
+  display:flex;
+  flex-direction:column;
 
-  /* like høyder (kan justeres) */
-  min-height:780px;
+  /* like høyder (kompakt) */
+  min-height:680px;
 }
-@media (max-width:1023px){ .release{ min-height:740px; } }
-@media (max-width:767px) { .release{ min-height:680px; } }
+@media (max-width:1023px){ .release{ min-height:640px; } }
+@media (max-width:767px) { .release{ min-height:600px; } }
 
 .release-content{display:flex;flex-direction:column}
 
-/* Strammere header → mindre luft før cover */
+/* Header – nesten ingen luft, tett på cover */
 .release-header{
-  display:flex;flex-direction:column;gap:4px;
-  min-height:clamp(84px,9vw,124px); /* nok plass for 1–2 linjer + tittel */
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-height:auto;                 /* ingen tvungen høyde */
+  margin-bottom:.5rem;             /* tett før cover */
 }
 
-/* Full tekst (kan bryte linjer) */
+/* Full tekst (kan bryte linjer) – moderate, responsive størrelser */
 .release-artist{
-  font-weight:700;text-align:center;line-height:1.22;
+  font-weight:700;
+  text-align:center;
+  line-height:1.15;
   font-size:clamp(1rem,2.05vw,1.35rem);
   white-space:normal;overflow:visible
 }
 .release-title{
-  font-weight:500;text-align:center;color:#ddd;line-height:1.22;
-  font-size:clamp(.95rem,1.85vw,1.2rem);
+  font-weight:500;
+  text-align:center;
+  color:#ddd;
+  line-height:1.15;
+  font-size:clamp(.9rem,1.85vw,1.15rem);
   white-space:normal;overflow:visible
 }
 
-/* Cover – identisk størrelse + mindre top-margin (tettere på tittel) */
+/* Cover – identisk størrelse, tett til tittel/ikoner */
 .release img.release-cover{
-  width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;
-  margin-top:.5rem;margin-bottom:1rem;
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:10px;
+  margin:.3rem 0 .8rem;            /* veldig lite over, lite under */
 }
 
 .release-featured{font-size:1rem;font-style:italic;color:#ccc;text-align:center}
 .release-body{margin-top:1rem;color:#ccc}
 
-/* Platform icons – stabil høyde (≈ to rader) */
+/* Platform icons – stabil høyde, liten luft opp/ned */
 .platform-icons{
-  display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;margin-top:14px;
-  max-width:calc(5 * 44px + 4 * 14px);margin-left:auto;margin-right:auto;
-  min-height:102px;
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;
+  margin-top:.2rem;                 /* liten luft over */
+  margin-bottom:.8rem;              /* liten luft under */
+  max-width:calc(5 * 44px + 4 * 14px);
+  margin-left:auto;margin-right:auto;
+  min-height:102px;                 /* ≈ to rader */
 }
 .platform-icons a{
   display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;
@@ -97,12 +118,12 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 .platform-icons img[src$="deezer.svg"],.platform-icons img[src$="traxsource.svg"]{filter:brightness(0) invert(1)}
 @media (max-width:420px){.platform-icons{max-width:100%}}
 
-/* Dato – enda litt lavere i boksen (nær bunn) */
+/* Dato – alltid nederst i boksen */
 .release-date{
-  margin-top:auto;          /* skyver datoen ned */
-  padding-top:8px;
-  margin-bottom:0;          /* ikke ekstra luft under */
-  font-size:.95rem;color:#ccc;text-align:center;
+  margin-top:auto;
+  font-size:.9rem;
+  color:#ccc;
+  text-align:center;
 }
 
 /* GRID */
