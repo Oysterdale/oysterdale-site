@@ -1,130 +1,135 @@
 // scripts/migrate-frontmatter.js
-// Kjør med: node scripts/migrate-frontmatter.js
-// Krever Node 18+
+// Kjør: node scripts/migrate-frontmatter.js
+// Krever: Node 18+ og js-yaml (npm i js-yaml)
 
 const fs = require('fs');
 const path = require('path');
+const yaml = require('js-yaml');
 
-const RELEASES_DIR = path.join(process.cwd(), 'releases');
-const ARTISTS_DIR  = path.join(process.cwd(), 'artists');
+const ROOT = process.cwd();
+const RELEASES_DIR = path.join(ROOT, 'releases');
+const ARTISTS_DIR  = path.join(ROOT, 'artists');
 
-function parseFrontmatter(md) {
-  if (!md.startsWith('---')) return { data: {}, body: md };
-  const end = md.indexOf('\n---', 3);
-  if (end === -1) return { data: {}, body: md };
-  const yaml = md.slice(3, end + 1).replace(/^\n/, '').replace(/\n$/, '');
-  const body = md.slice(end + 4);
-  const data = {};
-  yaml.split('\n').forEach(line => {
-    const m = line.match(/^(\w[\w_]*):\s*(.*)$/);
-    if (!m) return;
-    let [, key, val] = m;
-    val = val.replace(/^"(.*)"$/, '$1').replace(/^'(.*)'$/, '$1');
-    data[key] = val;
-  });
-  return { data, body };
-}
-
-function stringifyFrontmatter(data, body) {
-  const lines = [];
-  const simpleKeys = [];
-  const objectKeys = [];
-
-  for (const [k, v] of Object.entries(data)) {
-    if (v === undefined || v === null || v === '') continue;
-    if (Array.isArray(v) || typeof v === 'object') objectKeys.push([k, v]);
-    else simpleKeys.push([k, v]);
+// Les frontmatter (--- ... ---) trygt
+function readFM(filePath) {
+  const raw = fs.readFileSync(filePath, 'utf8');
+  const m = raw.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
+  if (!m) return { data: {}, body: raw, raw };
+  const [, y, body] = m;
+  let data = {};
+  try { data = yaml.load(y) || {}; } catch (e) {
+    console.error(`YAML-feil i ${filePath}:`, e.message);
   }
-
-  simpleKeys.forEach(([k, v]) => {
-    lines.push(`${k}: ${String(v)}`);
-  });
-
-  objectKeys.forEach(([k, v]) => {
-    lines.push(`${k}:`);
-    if (Array.isArray(v)) {
-      v.forEach(item => {
-        if (typeof item === 'object') {
-          lines.push(`  -`);
-          for (const [ik, iv] of Object.entries(item)) {
-            if (iv !== undefined && iv !== '') lines.push(`    ${ik}: ${String(iv)}`);
-          }
-        } else {
-          lines.push(`  - ${String(item)}`);
-        }
-      });
-    } else {
-      for (const [ik, iv] of Object.entries(v)) {
-        if (iv !== undefined && iv !== '') lines.push(`  ${ik}: ${String(iv)}`);
-      }
-    }
-  });
-
-  return `---\n${lines.join('\n')}\n---\n${body.replace(/^\n/, '')}`;
+  return { data, body, raw };
 }
 
-function migrateReleaseData(data) {
+function writeFM(filePath, data, body) {
+  const y = yaml.dump(data, { noRefs: true, lineWidth: 1000 });
+  fs.writeFileSync(filePath, `---\n${y}---\n${body.replace(/^\n/, '')}`, 'utf8');
+}
+
+// Hent første definerte verdi fra en liste med nøkler (støtter hyphen keys)
+const getFirst = (obj, keys) => {
+  for (const k of keys) {
+    if (k.includes('.')) {
+      // støtte nested som links.spotify
+      const parts = k.split('.');
+      let cur = obj;
+      for (const p of parts) cur = cur && cur[p] !== undefined ? cur[p] : undefined;
+      if (cur) return cur;
+    } else if (obj[k]) {
+      return obj[k];
+    }
+  }
+  return undefined;
+};
+
+// ---------------- Releases: migrer til cover, artists[], links.* ----------------
+function migrateRelease(data) {
   const out = { ...data };
 
-  // image -> cover
-  if (!out.cover && out.image) out.cover = out.image;
-  delete out.image;
-
-  // artist (string) -> artists: [{name: ...}]
-  if (!out.artists && out.artist) {
-    out.artists = [{ name: out.artist }];
-    delete out.artist;
+  // Tittel og dato lar vi være hvis de finnes
+  // Bilde: sett begge (cover + image) for å ikke bryte frontend
+  const img = getFirst(out, ['cover', 'image']);
+  if (img) {
+    out.cover = img;
+    out.image = img; // behold legacy
   }
 
-  // links fra gamle felter
+  // Artists: støtt string, array av strings, eller allerede [{name}]
+  let artists = out.artists;
+  if (typeof artists === 'string') artists = [artists];
+  if (!artists) {
+    const one = getFirst(out, ['artist', 'artist_name', 'artist-name', 'map-name']);
+    if (one) artists = [one];
+  }
+  if (Array.isArray(artists)) {
+    out.artists = artists.map(a =>
+      typeof a === 'string' ? { name: a } :
+      (a && typeof a === 'object' && a.name ? a : { name: String(a ?? '') })
+    );
+  }
+
+  // Links: samle fra mange mulige feltnavn
   const links = {
-    spotify: out.spotify_link || out.spotify || '',
-    apple: out.apple_music || out.itunes || out.apple || '',
-    beatport: out.beatport_link || out.beatport || '',
-    traxsource: out.traxsource_link || out.traxsource || '',
-    youtube: out.youtube_link || out.youtube || '',
+    spotify:   getFirst(out, ['links.spotify','spotify_link','spotify-url','spotifyUrl','spotify']),
+    apple:     getFirst(out, ['links.apple','apple_music','itunes','apple-music','apple']),
+    beatport:  getFirst(out, ['links.beatport','beatport_link','beatport-url','beatport']),
+    traxsource:getFirst(out, ['links.traxsource','traxsource_link','traxsource-url','traxsource']),
+    youtube:   getFirst(out, ['links.youtube','youtube_link','youtube-url','youtube']),
   };
-  ['spotify_link','spotify','apple_music','itunes','apple','beatport_link','beatport','traxsource_link','traxsource','youtube_link','youtube']
-    .forEach(k => delete out[k]);
-  if (Object.values(links).some(Boolean)) out.links = links;
+  if (Object.values(links).some(Boolean)) {
+    out.links = { ...(out.links || {}), ...links };
+    // Viktig: IKKE slett legacy nøkler nå (frontend holdes uendret)
+  }
 
   return out;
 }
 
-function migrateArtistData(data) {
+// ---------------- Artists: migrer til title, photo, socials[] ----------------
+function migrateArtist(data) {
   const out = { ...data };
 
-  // image -> photo
-  if (!out.photo && out.image) out.photo = out.image;
-  delete out.image;
+  // Navn -> title (støtt mange gamle nøkkelnavn)
+  const title = getFirst(out, ['title', 'name', 'map-name', 'artist', 'artist_name', 'artist-name']);
+  if (title) out.title = title;
 
-  // lag socials fra flat struktur
+  // Bilde: sett begge (photo + image) for å ikke bryte frontend
+  const pic = getFirst(out, ['photo', 'image']);
+  if (pic) {
+    out.photo = pic;
+    out.image = pic; // behold legacy
+  }
+
+  // Socials: bygg liste fra flate felter (og behold flate felter for frontend)
   const socials = [];
-  if (out.instagram)  socials.push({ platform: 'Instagram', url: out.instagram });
-  if (out.spotify)    socials.push({ platform: 'Spotify',   url: out.spotify });
-  if (out.youtube)    socials.push({ platform: 'YouTube',   url: out.youtube });
-  if (out.soundcloud) socials.push({ platform: 'SoundCloud',url: out.soundcloud });
-  if (out.website)    socials.push({ platform: 'Website',   url: out.website });
-  ['instagram','spotify','youtube','soundcloud','website'].forEach(k => delete out[k]);
+  const add = (platform, keys) => {
+    const url = getFirst(out, keys);
+    if (url) socials.push({ platform, url });
+  };
+  add('Instagram',  ['instagram', 'instagram_url', 'insta']);
+  add('Spotify',    ['spotify', 'spotify_url']);
+  add('YouTube',    ['youtube', 'youtube_url', 'yt']);
+  add('SoundCloud', ['soundcloud', 'soundcloud_url', 'sc']);
+  add('Website',    ['website', 'site', 'url']);
+  add('Facebook',   ['facebook', 'facebook_url', 'fb']);
+  add('X',          ['x', 'twitter', 'twitter_url']); // hvis aktuelt
+
   if (socials.length) out.socials = socials;
 
   return out;
 }
 
+// ---------------- Hovedløp ----------------
 function migrateDir(dir, kind) {
   if (!fs.existsSync(dir)) return;
   const files = fs.readdirSync(dir).filter(f => f.endsWith('.md'));
-  for (const file of files) {
-    const full = path.join(dir, file);
-    const raw = fs.readFileSync(full, 'utf8');
-    const { data, body } = parseFrontmatter(raw);
-    let migrated;
-    if (kind === 'release') migrated = migrateReleaseData(data);
-    else if (kind === 'artist') migrated = migrateArtistData(data);
-    else migrated = data;
-    const out = stringifyFrontmatter(migrated, body);
-    fs.writeFileSync(full, out, 'utf8');
-    console.log(`Migrert: ${path.relative(process.cwd(), full)}`);
+  for (const f of files) {
+    const full = path.join(dir, f);
+    const { data, body } = readFM(full);
+    const migrated = kind === 'release' ? migrateRelease(data) : migrateArtist(data);
+    writeFM(full, migrated, body);
+    console.log(`Migrert: ${path.relative(ROOT, full)}`);
   }
 }
 
