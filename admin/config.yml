@@ -1,12 +1,12 @@
 backend:
   name: github
-  repo: Oysterdale/oysterdale-site   # <-- endre hvis org/repo er annerledes
-  branch: main                       # <-- endre hvis du bruker annen branch
+  repo: Oysterdale/oysterdale-site   # <- endre org/repo hvis nødvendig
+  branch: main
 
 publish_mode: simple
 
-media_folder: "static/uploads"   # lagringsmappe i repo
-public_folder: "/uploads"        # slik filene refereres i HTML
+media_folder: "static/uploads"   # filer lagres her i repo
+public_folder: "/uploads"        # slik refereres de i HTML
 
 editor:
   preview: true
@@ -24,9 +24,7 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Body",  name: "body",  widget: "markdown", required: false }
-      # Bruker samme bildefelt som mange statiske oppsett: "image"
-      - { label: "Hero Image", name: "image", widget: "image", required: false }
-
+      - { label: "Hero Image", name: "hero_image", widget: "image", required: false }
       - label: "SEO"
         name: "seo"
         widget: "object"
@@ -51,20 +49,29 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Date",  name: "date",  widget: "datetime", required: false }
 
-      # Viktig: beholder eksakt feltnavn "image" som cover-bilde
-      - { label: "Cover Image", name: "image", widget: "image", required: false }
+      # Ryddig og tydelig cover-felt
+      - { label: "Cover", name: "cover", widget: "image", required: false }
 
-      # Artists: mange av filene dine bruker enkel streng "artist"
-      - { label: "Artist", name: "artist", widget: "string", required: false }
+      # Artists som liste (enkelt å legge til flere)
+      - label: "Artists"
+        name: "artists"
+        widget: "list"
+        required: false
+        field: { label: "Name", name: "name", widget: "string" }
 
-      # Flate lenkefelter som du allerede har i filene:
-      - { label: "Spotify URL",    name: "spotify_link",    widget: "string", required: false }
-      - { label: "Apple Music URL",name: "apple_music",     widget: "string", required: false }  # (evt. itunes)
-      - { label: "Beatport URL",   name: "beatport_link",   widget: "string", required: false }
-      - { label: "Traxsource URL", name: "traxsource_link", widget: "string", required: false }
-      - { label: "YouTube URL",    name: "youtube_link",    widget: "string", required: false }
+      # Strukturerte lenker – lett å vedlikeholde
+      - label: "Links"
+        name: "links"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Spotify",    name: "spotify",    widget: "string", required: false }
+          - { label: "Apple Music",name: "apple",      widget: "string", required: false }
+          - { label: "Beatport",   name: "beatport",   widget: "string", required: false }
+          - { label: "Traxsource", name: "traxsource", widget: "string", required: false }
+          - { label: "YouTube",    name: "youtube",    widget: "string", required: false }
 
-      # Tracklist (hvis du bruker den)
+      # Tracklist (om/ når du trenger det)
       - label: "Tracklist"
         name: "tracklist"
         widget: "list"
@@ -97,20 +104,18 @@ collections:
     extension: "md"
     slug: "{{slug}}"
     fields:
-      # De fleste av artist-filene dine bruker title for navn.
       - { label: "Name",  name: "title", widget: "string" }
+      - { label: "Photo", name: "photo", widget: "image", required: false }
 
-      # Foto: behold det mest brukte navnet "image"
-      - { label: "Photo", name: "image", widget: "image", required: false }
+      - label: "Socials"
+        name: "socials"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Platform", name: "platform", widget: "string" }
+          - { label: "URL",      name: "url",      widget: "string" }
 
-      # Enkle sosiale lenker hvis du har dem flatt i frontmatter:
-      - { label: "Instagram",  name: "instagram",  widget: "string", required: false }
-      - { label: "Spotify",    name: "spotify",    widget: "string", required: false }
-      - { label: "YouTube",    name: "youtube",    widget: "string", required: false }
-      - { label: "SoundCloud", name: "soundcloud", widget: "string", required: false }
-      - { label: "Website",    name: "website",    widget: "string", required: false }
-
-      - { label: "Bio",   name: "body", widget: "markdown", required: false }
+      - { label: "Bio", name: "body", widget: "markdown", required: false }
 
       - label: "SEO"
         name: "seo"
