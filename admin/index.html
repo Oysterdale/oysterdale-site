@@ -5,15 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Oysterdale Admin</title>
 
-    <!-- Sveltia finner /admin/config.yml automatisk.
-         Denne linjen kan stå (trygt), og matcher vanlig praksis. -->
+    <!-- Hvis du allerede har en config.yml i /admin/, trenger du ikke å endre noe her.
+         Denne linken er valgfri; Sveltia finner /admin/config.yml automatisk.
+         Behold den hvis den finnes hos deg i dag. -->
     <link href="./config.yml" type="text/yaml" rel="cms-config-url" />
   </head>
   <body>
-    <!-- Admin mount-point (som før) -->
+    <!-- Admin-appen mountes her (samme som før) -->
     <div id="nc-root"></div>
 
-    <!-- SVELTIA CMS (eneste reelle byttet fra Decap/Netlify CMS) -->
+    <!-- BYTTET TIL SVELTIA CMS (eneste endring) -->
     <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+
+    <!-- Hvis du tidligere hadde Netlify Identity-widgeten, kan denne trygt fjernes.
+         Å la den stå gjør ingenting funksjonelt, men er ikke nødvendig:
+         <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    -->
   </body>
 </html>
