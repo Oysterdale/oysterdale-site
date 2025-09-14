@@ -4,18 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Oysterdale Admin</title>
-
-    <!-- Sveltia peker automatisk på /admin/config.yml, men vi spesifiserer den eksplisitt -->
     <link href="./config.yml" type="text/yaml" rel="cms-config-url" />
-
     <style>
-      /* Kun for admin-preview (ikke på nettsiden) */
       .preview-wrap { max-width: 900px; margin: 24px auto; line-height: 1.5; }
-      .preview-card { border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; }
+      .preview-card { border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 16px; }
       .preview-cover { width: 100%; max-width: 360px; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; }
       .preview-title { font-size: 1.8rem; font-weight: 700; margin: 12px 0 4px; }
       .preview-sub { opacity: 0.85; margin-bottom: 12px; }
-      .tag { display: inline-block; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; margin-right: 6px; font-size: 0.85rem; }
       .links { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
       .link-pill { padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.15); text-decoration: none; }
       .tracklist { margin-top: 12px; }
@@ -25,80 +20,80 @@
   <body>
     <div id="nc-root"></div>
 
-    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+    <!-- Sveltia CMS -->
+    <script src="https://unpkg.com/@sveltia/cms@latest/dist/sveltia-cms.js" type="module"></script>
     <script>
-      // Sveltia er kompatibel med Decap-APIene:
-      // Vi bruker en lettvekts preview-template for Releases og Artists.
-      function safe(obj, path, fallback = "") {
-        try {
-          return path.split('.').reduce((o, k) => (o && o[k] !== undefined) ? o[k] : undefined, obj) ?? fallback;
-        } catch { return fallback; }
-      }
+      const linkOrder = [
+        ["Spotify", "spotify"],
+        ["Apple Music", "apple_music"],
+        ["Traxsource", "traxsource"],
+        ["Beatport", "beatport"],
+        ["Deezer", "deezer"],
+        ["Amazon Music", "amazon_music"],
+        ["YouTube Music", "youtube_music"],
+        ["Tidal", "tidal"],
+        ["iTunes", "itunes"],
+        ["Bandcamp", "bandcamp"],
+      ];
 
       const ReleasesPreview = ({ entry }) => {
-        const data = entry.get('data');
-        const title = data.get('title');
-        const date  = data.get('date');
-        const cover = data.get('cover');
-        const artists = (data.get('artists') || []).toJS?.() || [];
-        const links = data.get('links') || {};
-        const tracklist = (data.get('tracklist') || []).toJS?.() || [];
+        const d = entry.get('data');
+        const artist = d.get('artist') || '';
+        const featured = d.get('featured') || '';
+        const title = d.get('title') || '';
+        const date  = d.get('date') || '';
+        const cover = d.get('cover') || '';
 
-        const artistText = artists.length ? artists.map(a => a.name).join(' · ') : '';
-        const linkList = [
-          { label: 'Spotify', key: 'spotify' },
-          { label: 'Apple',   key: 'apple'   },
-          { label: 'Beatport',key: 'beatport'},
-          { label: 'Traxsource', key: 'traxsource' },
-          { label: 'YouTube', key: 'youtube'}
-        ].map(l => {
-          const url = links.get ? links.get(l.key) : safe(links, l.key, '');
-          return url ? `<a class="link-pill" href="${url}" target="_blank" rel="noopener">${l.label}</a>` : '';
-        }).join('');
-
-        const tracks = tracklist.map(t => {
-          const tt = t.title || '';
-          const vv = t.version ? ` (${t.version})` : '';
-          const ii = t.isrc ? ` — ${t.isrc}` : '';
-          return `<li>${tt}${vv}${ii}</li>`;
+        const who = featured ? `${artist} feat. ${featured}` : artist;
+        const linkHtml = linkOrder.map(([label,key]) => {
+          const url = d.get(key);
+          return url ? `<a class="link-pill" href="${url}" target="_blank" rel="noopener">${label}</a>` : '';
         }).join('');
 
         return `
           <div class="preview-wrap">
             <div class="preview-card">
               ${cover ? `<img class="preview-cover" src="${cover}" alt="">` : ''}
-              <div class="preview-title">${title || ''}</div>
-              <div class="preview-sub">${artistText}${date ? (artistText ? ' · ' : '') + new Date(date).toLocaleDateString() : ''}</div>
-              <div class="links">${linkList}</div>
-              ${tracks ? `<div class="tracklist"><strong>Tracklist</strong><ul>${tracks}</ul></div>` : ''}
+              <div class="preview-title">${title}</div>
+              <div class="preview-sub">${who}${date ? (who ? ' · ' : '') + new Date(date).toLocaleDateString() : ''}</div>
+              <div class="links">${linkHtml}</div>
             </div>
           </div>`;
       };
 
       const ArtistsPreview = ({ entry }) => {
-        const data = entry.get('data');
-        const name = data.get('title');
-        const photo = data.get('photo');
-        const socials = (data.get('socials') || []).toJS?.() || [];
-        const body = data.get('body') || '';
-
-        const socialLinks = socials.map(s => `<a class="link-pill" href="${s.url}" target="_blank" rel="noopener">${s.platform}</a>`).join('');
+        const d = entry.get('data');
+        const name  = d.get('name') || '';
+        const role  = d.get('role') || '';
+        const photo = d.get('image') || '';
+        const bio   = d.get('bio') || '';
+        const socials = [
+          ["Spotify", "spotify"],
+          ["SoundCloud", "soundcloud"],
+          ["Instagram", "instagram"],
+          ["Website", "website"],
+          ["Mixcloud", "mixcloud"],
+          ["Bandcamp", "bandcamp"],
+        ].map(([label,key]) => {
+          const url = d.get(key);
+          return url ? `<a class="link-pill" href="${url}" target="_blank" rel="noopener">${label}</a>` : '';
+        }).join('');
 
         return `
           <div class="preview-wrap">
             <div class="preview-card">
               ${photo ? `<img class="preview-cover" src="${photo}" alt="">` : ''}
-              <div class="preview-title">${name || ''}</div>
-              <div class="links">${socialLinks}</div>
-              ${body ? `<div class="preview-body">${body}</div>` : ''}
+              <div class="preview-title">${name}</div>
+              <div class="preview-sub">${role || ''}</div>
+              <div class="links">${socials}</div>
+              ${bio ? `<div class="preview-body">${bio}</div>` : ''}
             </div>
           </div>`;
       };
 
-      // Registrer templates
       if (window.CMS) {
         CMS.registerPreviewTemplate('releases', ReleasesPreview);
-        CMS.registerPreviewTemplate('artists', ArtistsPreview);
+        CMS.registerPreviewTemplate('artists',  ArtistsPreview);
       }
     </script>
   </body>
