@@ -1,20 +1,22 @@
 backend:
   name: github
-  repo: Oysterdale/oysterdale-site   # <-- bytt hvis repo/organisasjon heter noe annet
-  branch: main                       # <-- bytt hvis du bruker en annen branch
+  repo: Oysterdale/oysterdale-site   # <-- endre hvis org/repo heter noe annet
+  branch: main                       # <-- endre hvis du bruker annen branch
 
-# Sveltia støtter ikke editorial_workflow ennå
+# Sveltia støtter ikke editorial workflow per nå
 publish_mode: simple
 
-# Behold eksisterende media-stier (slik at lenker/bilder ikke brekker)
-media_folder: "static/uploads"   # hvor filer lagres i repo
-public_folder: "/uploads"        # hvordan de refereres i HTML
+# Viktig: behold samme media-stier som før, så gamle bilder/lenker ikke brekker
+media_folder: "static/uploads"   # filer lagres her i repo
+public_folder: "/uploads"        # filer refereres slik i HTML
 
 editor:
   preview: true
 
 collections:
-  # 1) PAGES (markdown-filer i /content)
+  # -------------------------
+  # PAGES  (content/*.md)
+  # -------------------------
   - name: "pages"
     label: "Pages"
     folder: "content"
@@ -23,10 +25,15 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Body", name: "body", widget: "markdown" }
-      # Valgfri illustrasjon/hero om du ønsker (påvirker ikke eksisterende sider hvis du lar feltet stå tomt)
-      - { label: "Hero Image", name: "hero_image", widget: "image", required: false }
-      # SEO-felter (ligger i frontmatter, men vises ikke på siden før vi evt. kobler dem inn)
+
+      # Body-innhold
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
+      # BAKOVER-KOMPATIBLE BILDEFELT (behold begge, ett av dem vil matche gamle filer)
+      - { label: "Hero Image (legacy: hero_image)", name: "hero_image", widget: "image", required: false }
+      - { label: "Hero Image (alt navn: image)", name: "image", widget: "image", required: false }
+
+      # SEO (påvirker ikke frontend før vi kobler det inn i <head>)
       - label: "SEO"
         name: "seo"
         widget: "object"
@@ -38,7 +45,9 @@ collections:
           - { label: "Canonical URL", name: "canonical", widget: "string", required: false }
           - { label: "Open Graph Image", name: "og_image", widget: "image", required: false }
 
-  # 2) RELEASES (markdown-filer i /releases)
+  # -------------------------
+  # RELEASES  (releases/*.md)
+  # -------------------------
   - name: "releases"
     label: "Releases"
     folder: "releases"
@@ -48,25 +57,39 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime", required: false }
-      - { label: "Cover", name: "cover", widget: "image", required: false }
-      # Valgfritt: artister/medvirkende
-      - label: "Artists"
+
+      # BAKOVER-KOMPATIBLE COVER-FELT
+      - { label: "Cover (nytt navn)", name: "cover", widget: "image", required: false }
+      - { label: "Cover (legacy: image)", name: "image", widget: "image", required: false }
+
+      # ARTISTS – støtt både liste og enkel streng (legacy)
+      - label: "Artists (list)"
         name: "artists"
         widget: "list"
         required: false
         field: { label: "Name", name: "name", widget: "string" }
-      # Valgfritt: streaming-lenker
-      - label: "Links"
+      - { label: "Artist (legacy enkel streng)", name: "artist", widget: "string", required: false }
+
+      # LENKER – støtt både pakket objekt OG flate legacy-felter
+      - label: "Links (object)"
         name: "links"
         widget: "object"
         required: false
         fields:
-          - { label: "Spotify", name: "spotify", widget: "string", required: false }
-          - { label: "Apple Music", name: "apple", widget: "string", required: false }
-          - { label: "Beatport", name: "beatport", widget: "string", required: false }
+          - { label: "Spotify",    name: "spotify",    widget: "string", required: false }
+          - { label: "Apple Music",name: "apple",      widget: "string", required: false }
+          - { label: "Beatport",   name: "beatport",   widget: "string", required: false }
           - { label: "Traxsource", name: "traxsource", widget: "string", required: false }
-          - { label: "YouTube", name: "youtube", widget: "string", required: false }
-      # Valgfritt: tracklist
+          - { label: "YouTube",    name: "youtube",    widget: "string", required: false }
+
+      # Legacy flate felter som noen ganger brukes i gamle filer:
+      - { label: "Spotify (legacy: spotify_link)",        name: "spotify_link", widget: "string", required: false }
+      - { label: "Apple (legacy: apple_music / itunes)",  name: "apple_music",  widget: "string", required: false }
+      - { label: "Beatport (legacy)",                     name: "beatport_link", widget: "string", required: false }
+      - { label: "Traxsource (legacy)",                   name: "traxsource_link", widget: "string", required: false }
+      - { label: "YouTube (legacy: youtube_link)",        name: "youtube_link", widget: "string", required: false }
+
+      # TRACKLIST (valgfritt)
       - label: "Tracklist"
         name: "tracklist"
         widget: "list"
@@ -75,8 +98,11 @@ collections:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Version/Mix", name: "version", widget: "string", required: false }
           - { label: "ISRC", name: "isrc", widget: "string", required: false }
+
+      # BODY-tekst
       - { label: "Body", name: "body", widget: "markdown", required: false }
-      # SEO-felter
+
+      # SEO
       - label: "SEO"
         name: "seo"
         widget: "object"
@@ -88,7 +114,9 @@ collections:
           - { label: "Canonical URL", name: "canonical", widget: "string", required: false }
           - { label: "Open Graph Image", name: "og_image", widget: "image", required: false }
 
-  # 3) ARTISTS (markdown-filer i /artists)
+  # -------------------------
+  # ARTISTS  (artists/*.md)
+  # -------------------------
   - name: "artists"
     label: "Artists"
     folder: "artists"
@@ -96,17 +124,32 @@ collections:
     extension: "md"
     slug: "{{slug}}"
     fields:
-      - { label: "Name", name: "title", widget: "string" }   # bruker 'title' for å matche eventuelle eksisterende felter
-      - { label: "Photo", name: "photo", widget: "image", required: false }
-      - label: "Socials"
+      # Navn – støtt både 'title' (nytt) og 'name' (legacy)
+      - { label: "Name (title)", name: "title", widget: "string" }
+      - { label: "Name (legacy: name)", name: "name", widget: "string", required: false }
+
+      # Bilde – støtt både 'photo' og 'image' (legacy)
+      - { label: "Photo (nytt navn)", name: "photo", widget: "image", required: false }
+      - { label: "Photo (legacy: image)", name: "image", widget: "image", required: false }
+
+      # Sosiale lenker – både strukturert liste og én-til-én legacy-felter
+      - label: "Socials (list)"
         name: "socials"
         widget: "list"
         required: false
         fields:
           - { label: "Platform", name: "platform", widget: "string" }
           - { label: "URL", name: "url", widget: "string" }
+      - { label: "Instagram (legacy)", name: "instagram", widget: "string", required: false }
+      - { label: "Spotify (legacy)", name: "spotify", widget: "string", required: false }
+      - { label: "YouTube (legacy)", name: "youtube", widget: "string", required: false }
+      - { label: "SoundCloud (legacy)", name: "soundcloud", widget: "string", required: false }
+      - { label: "Website (legacy)", name: "website", widget: "string", required: false }
+
+      # Bio-tekst
       - { label: "Body", name: "body", widget: "markdown", required: false }
-      # SEO-felter
+
+      # SEO
       - label: "SEO"
         name: "seo"
         widget: "object"
