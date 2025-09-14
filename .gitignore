@@ -1,3 +1,7 @@
 .idea
 .DS_STORE
 .github
+node_modules/
+.DS_Store
+npm-debug.log*
+yarn-error.log*

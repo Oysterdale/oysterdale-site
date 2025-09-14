@@ -1,0 +1,26 @@
+{
+  "name": "oysterdale-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oysterdale/oysterdale-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Oysterdale/oysterdale-site/issues"
+  },
+  "homepage": "https://github.com/Oysterdale/oysterdale-site#readme",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}
