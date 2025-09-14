@@ -1,53 +1,119 @@
 backend:
   name: github
-  repo: Oysterdale/oysterdale-site # Endre hvis repo/owner heter noe annet
-  branch: main
+  repo: Oysterdale/oysterdale-site   # <-- bytt hvis repo/organisasjon heter noe annet
+  branch: main                       # <-- bytt hvis du bruker en annen branch
 
-media_folder: "uploads"
-public_folder: "/uploads"
+# Sveltia støtter ikke editorial_workflow ennå
+publish_mode: simple
 
-slug:
-  encoding: "ascii"
-  clean_accents: true
-  sanitize_replacement: "-"
+# Behold eksisterende media-stier (slik at lenker/bilder ikke brekker)
+media_folder: "static/uploads"   # hvor filer lagres i repo
+public_folder: "/uploads"        # hvordan de refereres i HTML
+
+editor:
+  preview: true
 
 collections:
+  # 1) PAGES (markdown-filer i /content)
   - name: "pages"
     label: "Pages"
-    files:
-      - file: "index.html"
-        label: "Home"
-        name: "home"
+    folder: "content"
+    create: true
+    extension: "md"
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }
+      # Valgfri illustrasjon/hero om du ønsker (påvirker ikke eksisterende sider hvis du lar feltet stå tomt)
+      - { label: "Hero Image", name: "hero_image", widget: "image", required: false }
+      # SEO-felter (ligger i frontmatter, men vises ikke på siden før vi evt. kobler dem inn)
+      - label: "SEO"
+        name: "seo"
+        widget: "object"
+        collapsed: true
         fields:
-          - { label: "Title", name: "title", widget: "string", required: false }
-          - { label: "Body", name: "body", widget: "markdown" }
-      - file: "about.html"
-        label: "About"
-        name: "about"
-        fields:
-          - { label: "Title", name: "title", widget: "string", required: false }
-          - { label: "Body", name: "body", widget: "markdown" }
-      - file: "releases.html"
-        label: "Releases Page"
-        name: "releases_page"
-        fields:
-          - { label: "Title", name: "title", widget: "string", required: false }
-          - { label: "Body", name: "body", widget: "markdown" }
+          - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
+          - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
+          - { label: "Keywords (comma-separated)", name: "keywords", widget: "string", required: false }
+          - { label: "Canonical URL", name: "canonical", widget: "string", required: false }
+          - { label: "Open Graph Image", name: "og_image", widget: "image", required: false }
 
+  # 2) RELEASES (markdown-filer i /releases)
   - name: "releases"
     label: "Releases"
     folder: "releases"
     create: true
+    extension: "md"
     slug: "{{slug}}"
-    sortable_fields: ["date"]
     fields:
-      - { label: "Artist", name: "artist", widget: "string" }
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Featured Artist (optional)", name: "featured", widget: "string", required: false }
-      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", default: "" }
-      - { label: "Cover Image", name: "cover", widget: "image", required: false }
-      - { label: "Spotify Link", name: "spotify", widget: "string", required: false }
-      - { label: "Traxsource Link", name: "traxsource", widget: "string", required: false }
-      - { label: "Beatport Link", name: "beatport", widget: "string", required: false }
-      - { label: "Apple Music Link", name: "apple_music", widget: "string", required: false }
-      - { label: "Deezer Li
+      - { label: "Date", name: "date", widget: "datetime", required: false }
+      - { label: "Cover", name: "cover", widget: "image", required: false }
+      # Valgfritt: artister/medvirkende
+      - label: "Artists"
+        name: "artists"
+        widget: "list"
+        required: false
+        field: { label: "Name", name: "name", widget: "string" }
+      # Valgfritt: streaming-lenker
+      - label: "Links"
+        name: "links"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Spotify", name: "spotify", widget: "string", required: false }
+          - { label: "Apple Music", name: "apple", widget: "string", required: false }
+          - { label: "Beatport", name: "beatport", widget: "string", required: false }
+          - { label: "Traxsource", name: "traxsource", widget: "string", required: false }
+          - { label: "YouTube", name: "youtube", widget: "string", required: false }
+      # Valgfritt: tracklist
+      - label: "Tracklist"
+        name: "tracklist"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Version/Mix", name: "version", widget: "string", required: false }
+          - { label: "ISRC", name: "isrc", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+      # SEO-felter
+      - label: "SEO"
+        name: "seo"
+        widget: "object"
+        collapsed: true
+        fields:
+          - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
+          - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
+          - { label: "Keywords (comma-separated)", name: "keywords", widget: "string", required: false }
+          - { label: "Canonical URL", name: "canonical", widget: "string", required: false }
+          - { label: "Open Graph Image", name: "og_image", widget: "image", required: false }
+
+  # 3) ARTISTS (markdown-filer i /artists)
+  - name: "artists"
+    label: "Artists"
+    folder: "artists"
+    create: true
+    extension: "md"
+    slug: "{{slug}}"
+    fields:
+      - { label: "Name", name: "title", widget: "string" }   # bruker 'title' for å matche eventuelle eksisterende felter
+      - { label: "Photo", name: "photo", widget: "image", required: false }
+      - label: "Socials"
+        name: "socials"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Platform", name: "platform", widget: "string" }
+          - { label: "URL", name: "url", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+      # SEO-felter
+      - label: "SEO"
+        name: "seo"
+        widget: "object"
+        collapsed: true
+        fields:
+          - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
+          - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
+          - { label: "Keywords (comma-separated)", name: "keywords", widget: "string", required: false }
+          - { label: "Canonical URL", name: "canonical", widget: "string", required: false }
+          - { label: "Open Graph Image", name: "og_image", widget: "image", required: false }
