@@ -7,7 +7,7 @@
   // Bygg Netlify Image CDN-URL med ønsket bredde + format/kompresjon
   function buildCdnUrl(path, w) {
     const fm = "webp";   // moderne format
-    const q  = "74";     // kompresjon (0-100). 70–80 er ofte fint for hero
+    const q  = "65";     // kompresjon (0-100). 65 gir god balanse
     const fit = "cover"; // matcher CSS object-fit: cover
 
     // Hvis path allerede peker på Netlify Image CDN, oppdater parametere
