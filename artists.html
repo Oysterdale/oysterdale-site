@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records – Artists</title>
 
-  <!-- SEO loader: henter data fra JSON og setter KUN meta-tags i <head> -->
+  <!-- (Valgfritt) Runtime-SEO fallback. Build-steget skriver uansett meta i <head>. -->
   <script src="js/seo.js" defer data-seo="/content/seo/artists.json"></script>
 
   <link rel="stylesheet" href="styles.css" />
@@ -19,11 +19,10 @@
     fetch('header.html').then(r=>r.text()).then(html=>{
       document.body.insertAdjacentHTML('afterbegin', html);
       const btn=document.getElementById('menu-toggle'), nav=document.querySelector('.main-nav');
-      const navLinks=document.querySelectorAll('.main-nav a');
       if(btn&&nav){
-        const toggle=()=>{ const o=nav.classList.toggle('open'); btn.textContent=o?'✖':'☰'; };
-        btn.addEventListener('click',toggle);
-        navLinks.forEach(a=>a.addEventListener('click',()=>{ if(nav.classList.contains('open')){ nav.classList.remove('open'); btn.textContent='☰'; } }));
+        const t=()=>{const o=nav.classList.toggle('open'); btn.textContent=o?'✖':'☰';};
+        btn.addEventListener('click',t);
+        document.addEventListener('click',e=>{ if(e.target.closest('.nav-links a')) {nav.classList.remove('open'); btn.textContent='☰';} });
       }
     });
   </script>
@@ -55,9 +54,8 @@
     async function listFiles(){
       const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
       if(!r.ok) throw new Error("GitHub list failed");
-      return (await r.json()).filter(f=>f.type==="file" && f.name.endsWith(".md"));
+      return (await r.json()).filter(f=>f.name.endsWith(".md"));
     }
-
     function parseFrontmatter(md){
       const parts=md.split('---');
       if(parts.length<3) return {data:{}, body:md};
@@ -72,49 +70,18 @@
       });
       return {data, body};
     }
-
-    function clean(v){ return (v ?? "").toString().trim().replace(/^"(.*)"$/,'$1').replace(/^'(.*)'$/,'$1'); }
-    function has(v){ const s=clean(v); return !!s && !/^(-+|—+|none|n\/a)$/i.test(s); }
-
     function card(a){
-      const name = clean(a.name || a.title || "");
-      const role = clean(a.role || "");
-      const img  = clean(a.image || a.photo || "");
-      const url  = clean(a.website || a.url || a.link || "");
-      const socials = {
-        spotify: clean(a.spotify),
-        soundcloud: clean(a.soundcloud),
-        instagram: clean(a.instagram),
-        bandcamp: clean(a.bandcamp),
-        mixcloud: clean(a.mixcloud)
-      };
-
-      const socialHtml = Object.entries(socials)
-        .filter(([,u])=>has(u))
-        .map(([k,u])=>{
-          const cls = {
-            spotify:"fa-brands fa-spotify",
-            soundcloud:"fa-brands fa-soundcloud",
-            instagram:"fa-brands fa-instagram",
-            bandcamp:"fa-brands fa-bandcamp",
-            mixcloud:"fa-brands fa-mixcloud"
-          }[k] || "fa-solid fa-link";
-          return `<a href="${u}" target="_blank" rel="noopener" aria-label="${k}"><i class="${cls}"></i></a>`;
-        }).join('');
-
+      const name=a.name||a.title||"";
+      const img=a.image||a.photo||"";
+      const link=a.url||a.link||"";
       return `
         <div class="artist">
           ${img ? `<img class="artist-photo" src="${img}" alt="${name}">` : ""}
           <h3>${name}</h3>
-          ${has(role) ? `<p class="artist-role">${role}</p>` : ""}
-          <div class="artist-links">
-            ${has(url) ? `<a class="btn" href="${url}" target="_blank" rel="noopener">Website</a>` : ""}
-            ${socialHtml}
-          </div>
+          ${link ? `<p style="margin-top:8px;"><a class="btn" href="${link}" target="_blank" rel="noopener">More</a></p>` : ""}
         </div>
       `;
     }
-
     (async ()=>{
       try{
         const files=await listFiles();
@@ -131,8 +98,6 @@
         document.getElementById('vocalists').innerHTML = vocalists.map(card).join('');
       }catch(e){
         console.error(e);
-        document.getElementById('producers').innerHTML = '<p>Could not load artists.</p>';
-        document.getElementById('vocalists').innerHTML = '';
       }
     })();
   </script>
