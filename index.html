@@ -46,12 +46,19 @@
 
   <!-- Header settes inn dynamisk -->
   <div class="home-hero">
-    <!-- Hero-bildet kan byttes i admin (Site Settings → Home) -->
+    <!-- Hero-bildet lastes nå via Netlify Image CDN -->
     <img
       id="home-hero"
       class="hero-image"
-      src="images/forsidebilde.png"
-      data-fallback="images/forsidebilde.png"
+      src="/.netlify/images?url=/images/forsidebilde.png&width=1200"
+      srcset="
+        /.netlify/images?url=/images/forsidebilde.png&width=480 480w,
+        /.netlify/images?url=/images/forsidebilde.png&width=800 800w,
+        /.netlify/images?url=/images/forsidebilde.png&width=1200 1200w,
+        /.netlify/images?url=/images/forsidebilde.png&width=1600 1600w
+      "
+      sizes="100vw"
+      data-fallback="/.netlify/images?url=/images/forsidebilde.png&width=1200"
       alt="Oysterdale Records hero image"
     />
   </div>
@@ -125,12 +132,4 @@
       .then(res => res.text())
       .then(md => {
         const clean = stripFrontmatter(md);
-        document.getElementById('home-content').innerHTML = marked.parse(clean);
-      })
-      .catch(err => console.error('Index markdown load error:', err));
-  </script>
-
-  <!-- Nytt: script som bytter hero-bildet via admin -->
-  <script src="js/hero.js" defer></script>
-</body>
-</html>
+        document.getElementById('home-content').i
