@@ -3,32 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
-  <!-- SEO-START (auto-injected; do not edit by hand) -->
+
+  <!-- SEO -->
   <title>Contact — Oysterdale Records</title>
   <link rel="canonical" href="https://oysterdalerecords.com/contact">
   <link rel="icon" href="images/favicon.png" type="image/png" />
-  <meta name="description" content="Demos, bookings and general enquiries. Get in touch with Oysterdale.">
-
-  <meta property="og:site_name" content="Oysterdale Records">
-  <meta property="og:title" content="Contact — Oysterdale Records">
-  <meta property="og:description" content="Demos, bookings and general enquiries. Get in touch with Oysterdale.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://oysterdalerecords.com/contact">
-  <meta property="og:image" content="uploads/og-contact.jpg">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@OysterdaleRecs">
-  <meta name="twitter:title" content="Contact — Oysterdale Records">
-  <meta name="twitter:description" content="Demos, bookings and general enquiries. Get in touch with Oysterdale.">
-  <meta name="twitter:image" content="uploads/og-contact.jpg">
-  <!-- SEO-END -->
+  <meta name="description" content="Demos, bookings and general enquiries. Get in touch with Oysterdale Records." />
+  <meta property="og:site_name" content="Oysterdale Records" />
+  <meta property="og:title" content="Contact — Oysterdale Records" />
+  <meta property="og:description" content="Demos, bookings and general enquiries. Get in touch with Oysterdale." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://oysterdalerecords.com/contact" />
+  <meta property="og:image" content="uploads/og-contact.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contact — Oysterdale Records" />
+  <meta name="twitter:description" content="Demos, bookings and general enquiries. Get in touch with Oysterdale." />
+  <meta name="twitter:image" content="uploads/og-contact.jpg" />
+  <!-- /SEO -->
 
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <!-- resten av contact.html som før -->
+  <div id="site-header"></div>
+
+  <main class="page-content">
+    <h1 class="page-title">Contact</h1>
+    <div id="contact-content" class="document-container">Loading…</div>
+  </main>
+
+  <footer>
+    <div class="footer-logo">
+      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
+    </div>
+    <p>&copy; <span id="year"></span> Oysterdale Records. All rights reserved.</p>
+  </footer>
+
+  <script>
+    fetch("header.html").then(r => r.text()).then(html => {
+      document.getElementById("site-header").innerHTML = html;
+      const btn = document.getElementById("menu-toggle");
+      if (btn) btn.addEventListener("click", () => document.body.classList.toggle("nav-open"));
+    });
+
+    // Contact text managed in CMS (markdown)
+    fetch("content/contact.md")
+      .then(r => r.text())
+      .then(md => { document.getElementById("contact-content").innerHTML = marked.parse(md); })
+      .catch(() => { document.getElementById("contact-content").textContent = "Content failed to load."; });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
