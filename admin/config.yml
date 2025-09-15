@@ -265,3 +265,22 @@ collections:
         allow_multiple: false
         media_folder: "uploads/og"
         public_folder: "/uploads/og"
+
+  # -------------------------
+  # SITE SETTINGS (NY) – hero-bilde for Home
+  # -------------------------
+  - name: "site_settings"
+    label: "Site Settings"
+    files:
+      - file: "data/home.json"
+        label: "Home"
+        name: "home_settings"
+        format: "json"
+        fields:
+          - label: "Forsidebilde (Home)"
+            name: "hero_image"
+            widget: "image"
+            choose_url: true
+            allow_multiple: false
+            required: false
+            hint: "Velg/last opp forsidebildet. Hvis tomt brukes standardbildet i index.html."
