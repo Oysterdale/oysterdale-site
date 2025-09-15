@@ -3,174 +3,121 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
-  <!-- SEO-START (auto-injected; do not edit by hand) -->
+
+  <!-- SEO -->
   <title>Artists — Oysterdale Records</title>
   <link rel="canonical" href="https://oysterdalerecords.com/artists">
   <link rel="icon" href="images/favicon.png" type="image/png" />
-  <meta name="description" content="Meet the artists releasing on Oysterdale: bios, links and featured tracks.">
-
-  <meta property="og:site_name" content="Oysterdale Records">
-  <meta property="og:title" content="Artists — Oysterdale Records">
-  <meta property="og:description" content="Meet the artists releasing on Oysterdale: bios, links and featured tracks.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://oysterdalerecords.com/artists">
-  <meta property="og:image" content="uploads/og-artists.jpg">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@OysterdaleRecs">
-  <meta name="twitter:title" content="Artists — Oysterdale Records">
-  <meta name="twitter:description" content="Meet the artists releasing on Oysterdale: bios, links and featured tracks.">
-  <meta name="twitter:image" content="uploads/og-artists.jpg">
-  <!-- SEO-END -->
+  <meta name="description" content="Artists releasing on Oysterdale Records — producers and vocalists." />
+  <meta property="og:title" content="Artists — Oysterdale Records" />
+  <meta property="og:description" content="Producers and vocalists releasing on Oysterdale Records." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://oysterdalerecords.com/artists" />
+  <meta property="og:image" content="uploads/og-artists.jpg" />
+  <!-- /SEO -->
 
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Lokal styling for artist-kort -->
-  <style>
-    .page-content { padding-top: 90px; }
-    .section { margin: 30px 0 50px; }
-    .section h2 { margin: 0 0 16px; }
-    .artists-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      align-items: stretch;
-    }
-    .artist-card {
-      background: #111;
-      color: #fff;
-      border-radius: 16px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-      height: 100%;
-    }
-    .artist-media {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border-radius: 10px;
-      background: #222;
-    }
-    .artist-name {
-      margin: 12px 0 6px;
-      font-size: 1.05rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .02em;
-    }
-    .artist-bio {
-      font-size: 0.95rem;
-      line-height: 1.5;
-      opacity: 0.95;
-      margin: 4px 0 10px;
-    }
-    .artist-links {
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      opacity: 0.95;
-    }
-    .artist-links a {
-      text-decoration: none;
-      color: #fff;
-      border: 1px solid #2a2a2a;
-      border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 0.82rem;
-      transition: transform .07s ease;
-    }
-    .artist-links a:hover { transform: translateY(-1px); }
-    .muted { opacity: 0.7; }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-
-  <!-- Header -->
-  <script>
-    fetch('header.html')
-      .then(res => res.text())
-      .then(html => {
-        document.body.insertAdjacentHTML('afterbegin', html);
-        const toggleButton = document.getElementById('menu-toggle');
-        const nav = document.querySelector('.main-nav');
-        const navLinks = document.querySelectorAll('.main-nav a');
-        if (toggleButton && nav) {
-          toggleButton.addEventListener('click', () => {
-            nav.classList.toggle('open');
-            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
-          });
-          navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-              if (nav.classList.contains('open')) {
-                nav.classList.remove('open');
-                toggleButton.textContent = '☰';
-              }
-            });
-          });
-        }
-      });
-  </script>
+  <div id="site-header"></div>
 
   <main class="page-content">
-    <h1>ARTISTS</h1>
-    <section class="section">
-      <h2>PRODUCERS</h2>
-      <div id="producers" class="artists-grid"></div>
-      <p id="producers-empty" class="muted" style="display:none;">No producers yet.</p>
-    </section>
-    <section class="section">
-      <h2>VOCALISTS</h2>
-      <div id="vocalists" class="artists-grid"></div>
-      <p id="vocalists-empty" class="muted" style="display:none;">No vocalists yet.</p>
-    </section>
+    <h1 class="page-title">Artists</h1>
+
+    <h2 class="section-title">Producers</h2>
+    <div id="producers" class="cards-grid"></div>
+
+    <h2 class="section-title">Vocalists</h2>
+    <div id="vocalists" class="cards-grid"></div>
   </main>
 
   <footer>
     <div class="footer-logo">
       <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
     </div>
-    <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
+    <p>&copy; <span id="year"></span> Oysterdale Records. All rights reserved.</p>
   </footer>
 
   <script>
-    const GITHUB_OWNER = "Oysterdale";
-    const GITHUB_REPO  = "oysterdale-site";
-    const ARTISTS_PATH = "artists";
-    // (fetch + render-artists script ditt som før)
-  </script>
-
-  <!-- Structured data (JSON-LD) -->
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const domain = "https://oysterdalerecords.com";
-    const artists = document.querySelectorAll(".artist-card");
-    const items = [];
-    artists.forEach(a => {
-      const name  = a.querySelector(".artist-name")?.textContent?.trim();
-      const img   = a.querySelector(".artist-media")?.getAttribute("src");
-      const bio   = a.querySelector(".artist-bio")?.textContent?.trim();
-      const url   = domain + "/artists";
-      const links = Array.from(a.querySelectorAll(".artist-links a")).map(l => l.href);
-      if (name) {
-        const obj = {
-          "@type": "MusicGroup",
-          "name": name,
-          "url": url
-        };
-        if (img) obj.image = img;
-        if (bio) obj.description = bio;
-        if (links.length) obj.sameAs = links;
-        items.push(obj);
-      }
+    // Shared header
+    fetch("header.html").then(r => r.text()).then(html => {
+      document.getElementById("site-header").innerHTML = html;
+      const btn = document.getElementById("menu-toggle");
+      if (btn) btn.addEventListener("click", () => document.body.classList.toggle("nav-open"));
     });
-    if (items.length) {
-      const jsonld = { "@context": "https://schema.org", "@graph": items };
-      const s = document.createElement("script");
-      s.type = "application/ld+json";
-      s.textContent = JSON.stringify(jsonld, null, 
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Fetch artist markdown list from GitHub directory and render cards
+    const GH_OWNER = "Oysterdale";
+    const GH_REPO  = "oysterdale-site";
+    const DIR      = "artists";
+
+    async function listArtistFiles() {
+      const api = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${DIR}`;
+      const res = await fetch(api);
+      if (!res.ok) throw new Error("GitHub list failed");
+      return (await res.json()).filter(x => x.type === "file" && x.name.endsWith(".md"));
+    }
+
+    function parseFrontmatter(md) {
+      // Simple YAML frontmatter parser: ---\nkey: value\n---\n
+      const m = md.match(/^---\n([\s\S]*?)\n---/);
+      const fm = {};
+      if (m) {
+        m[1].split(/\n/).forEach(line => {
+          const idx = line.indexOf(":");
+          if (idx > -1) {
+            const k = line.slice(0, idx).trim();
+            const v = line.slice(idx+1).trim().replace(/^"|"$/g, "");
+            fm[k] = v;
+          }
+        });
+      }
+      return fm;
+    }
+
+    function cardTemplate(a) {
+      const img = a.image || a.photo || "images/placeholder-artist.png";
+      const name = a.name || "Artist";
+      const role = a.role || "";
+      const site = a.url || a.link || "";
+      return `
+        <article class="card artist-card">
+          <div class="thumb"><img loading="lazy" src="${img}" alt="${name}"></div>
+          <div class="card-body">
+            <h3 class="card-title">${name}</h3>
+            ${role ? `<p class="muted">${role}</p>` : ""}
+            ${site ? `<p><a class="btn btn-small" target="_blank" rel="noopener" href="${site}">More</a></p>` : ""}
+          </div>
+        </article>
+      `;
+    }
+
+    async function renderArtists() {
+      try {
+        const files = await listArtistFiles();
+        const items = await Promise.all(files.map(async f => {
+          const raw = f.download_url || `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${DIR}/${f.name}`;
+          const md = await fetch(raw).then(r => r.text());
+          const fm = parseFrontmatter(md);
+          return fm;
+        }));
+
+        const producers = items.filter(x => String(x.role || "").toLowerCase().includes("producer"));
+        const vocalists = items.filter(x => String(x.role || "").toLowerCase().includes("vocal"));
+
+        document.getElementById("producers").innerHTML = producers.map(cardTemplate).join("");
+        document.getElementById("vocalists").innerHTML = vocalists.map(cardTemplate).join("");
+      } catch (e) {
+        console.error(e);
+        document.getElementById("producers").innerHTML = "<p>Could not load artists.</p>";
+        document.getElementById("vocalists").innerHTML = "";
+      }
+    }
+
+    renderArtists();
+  </script>
+</body>
+</html>
