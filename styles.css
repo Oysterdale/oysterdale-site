@@ -14,34 +14,36 @@ a:hover{color:#999;text-decoration:none}
 
 @keyframes fadeIn{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
 h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
-h1{font-size:clamp(1.8rem,4.5vw,2.4rem);letter-spacing:.05em}
-h2{font-size:clamp(1.3rem,3.2vw,1.8rem);letter-spacing:.06em;margin-top:1rem}
-h3{font-size:clamp(1.1rem,2.6vw,1.4rem);letter-spacing:.06em;margin:1rem 0 .5rem}
 
-/* CONTAINER */
-.page-content{max-width:1024px;margin:0 auto;padding:2rem 6%}
-
-/* HEADER (sticky) */
+/* HEADER – FIXED */
 .site-header{
-  position:fixed;top:0;left:0;right:0;z-index:1000;background:#000;
-  border-bottom:1px solid #111;display:flex;align-items:center;justify-content:space-between;
-  padding:12px 18px
+  position:fixed; top:0; left:0; right:0; width:100%;
+  z-index:1000; background:#000;
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  padding:20px 5%; height:100px; border-bottom:1px solid #111;
 }
-.logo img{height:38px;width:auto}
-.main-nav{display:flex;gap:26px;align-items:center}
-.nav-links{display:flex;gap:22px;align-items:center}
-.nav-links a{font-size:.95rem;letter-spacing:.08em;text-transform:uppercase}
-.social-icons{display:flex;gap:14px}
-.social-icons a{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px}
-.social-icons i{font-size:18px}
+.logo-img{max-height:60px;height:auto;width:auto}
+.main-nav{display:flex;align-items:center;gap:30px;transition:.3s}
+.nav-links a{font-weight:700;text-transform:uppercase;font-size:.95rem;margin:0 12px}
+.nav-links a:hover,.nav-links a:active,.nav-links a.active{border-bottom:2px solid #fff}
+.social-icons a{font-size:1.2rem;margin-left:15px}
+.social-icons a:hover{color:#999}
+.menu-toggle{display:none;font-size:1.5rem;color:#fff;border:0;background:none;cursor:pointer}
 
-/* MENU-TOGGLE (desktop skjult) */
-.menu-toggle{display:none;background:transparent;border:0;cursor:pointer}
-.menu-toggle .bar{display:block;width:26px;height:2px;background:#fff;margin:6px 0;transition:.25s}
+/* CONTENT */
+.page-content{padding:2rem 5%;max-width:1000px;margin:0 auto;animation:fadeIn 1.3s ease-in-out}
+.page-content p{padding-bottom:1rem}
 
-/* HERO (forsidebanner) */
-.hero{
-  position:relative;margin:0 auto;max-width:1200px;width:100%;min-height:525px;
+/* HERO */
+.page-hero{width:100%;display:flex;align-items:center;justify-content:center;position:relative;animation:fadeIn 1.2s ease-in-out forwards}
+.page-hero h1{
+  padding-top:200px;font-size:3rem;font-weight:700;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.8);
+  position:absolute
+}
+.hero-image{height:525px;width:100%;object-fit:cover;object-position:center 28%}
+@media (max-width:600px){.hero-image{object-fit:contain;object-position:center;height:auto;width:99%}}
+.home-hero{
+  width:100%;min-height:525px;
   background:url('uploads/Forsidebilde_Oysterdale_med_svart.png') center/cover no-repeat #000;
   display:flex;align-items:center;justify-content:center;animation:fadeIn 1.2s ease-in-out forwards
 }
@@ -49,7 +51,7 @@ h3{font-size:clamp(1.1rem,2.6vw,1.4rem);letter-spacing:.06em;margin:1rem 0 .5rem
 /* RELEASE CARD (kompakt) */
 .release{
   background:#111;
-  padding:1.5rem 1.5rem 1rem;
+  padding:1.5rem 1.5rem 1rem;        /* kompakt padding */
   border-radius:10px;
   margin:2rem auto;
   max-width:500px;
@@ -57,60 +59,62 @@ h3{font-size:clamp(1.1rem,2.6vw,1.4rem);letter-spacing:.06em;margin:1rem 0 .5rem
   box-shadow:0 0 10px rgba(255,255,255,.05);
   display:flex;
   flex-direction:column;
+
+  /* like høyder (kompakt) */
   min-height:680px;
 }
 @media (max-width:1023px){ .release{ min-height:640px; } }
 @media (max-width:767px) { .release{ min-height:600px; } }
 
 .release-content{display:flex;flex-direction:column}
-.release-header{display:flex;flex-direction:column;gap:2px;min-height:auto;margin-bottom:.5rem}
-.release-artist{font-weight:700;text-align:center;line-height:1.15;font-size:clamp(1rem,2.05vw,1.35rem)}
-.release-title{font-weight:500;text-align:center;color:#ddd;line-height:1.15;font-size:clamp(.9rem,1.85vw,1.15rem)}
-.release img.release-cover{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;margin:.3rem 0 .8rem}
+
+/* Header – nesten ingen luft, tett på cover */
+.release-header{
+  display:flex; flex-direction:column; gap:2px;
+  min-height:auto;               /* ingen tvungen høyde */
+  margin-bottom:.5rem;           /* tett før cover */
+}
+
+/* Full tekst (kan bryte linjer) – moderate, responsive størrelser */
+.release-artist{
+  font-weight:700; text-align:center; line-height:1.15;
+  font-size:clamp(1rem,2.05vw,1.35rem);
+  white-space:normal; overflow:visible;
+}
+.release-title{
+  font-weight:500; text-align:center; color:#ddd; line-height:1.15;
+  font-size:clamp(.9rem,1.85vw,1.15rem);
+  white-space:normal; overflow:visible;
+}
+
+/* Cover – identisk størrelse, tett til tittel/ikoner */
+.release img.release-cover{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:10px;
+  margin:.3rem 0 .8rem;          /* lite over, lite under */
+}
+
 .release-featured{font-size:1rem;font-style:italic;color:#ccc;text-align:center}
 .release-body{margin-top:1rem;color:#ccc}
-.platform-icons{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;margin-top:.2rem;margin-bottom:.8rem;max-width:calc(5*44px+4*14px);margin-left:auto;margin-right:auto;min-height:102px}
-.platform-icons a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;background:rgba(255,255,255,.06);transition:transform .12s ease,background .12s ease,opacity .12s ease;line-height:0;color:#fff}
+
+/* Platform icons – stabil høyde, liten luft opp/ned */
+.platform-icons{
+  display:flex; flex-wrap:wrap; gap:14px; justify-content:center; align-items:center;
+  margin-top:.2rem; margin-bottom:.8rem;
+  max-width:calc(5 * 44px + 4 * 14px);
+  margin-left:auto; margin-right:auto;
+  min-height:102px;              /* ≈ to rader */
+}
+.platform-icons a{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:44px; height:44px; border-radius:999px;
+  background:rgba(255,255,255,.06);
+  transition:transform .12s ease, background .12s ease, opacity .12s ease;
+  line-height:0; color:#fff;
+}
 .platform-icons a:hover,.platform-icons a:focus{background:rgba(255,255,255,.12);transform:translateY(-1px)}
 .platform-icons img{display:block;height:24px;width:auto}
 .platform-icons i{display:block;font-size:24px;line-height:1}
-.release-date{margin-top:auto;font-size:.9rem;color:#ccc;text-align:center}
-.releases-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-top:2rem}
-@media (max-width:768px){.releases-grid{grid-template-columns:1fr}.page-content{padding:1.5rem 4.5%}h1{font-size:2rem}}
-
-/* ARTIST PAGE CARDS */
-.artist{
-  background:#111;
-  padding:2rem;
-  border-radius:10px;
-  margin:2rem auto;
-  max-width:500px;
-  text-align:center;
-  box-shadow:0 0 10px rgba(255,255,255,.05)
-}
-
-/* ARTIST PHOTOS: fast størrelse og format */
-.artist-photo {
-  width: 100%;
-  aspect-ratio: 1 / 1;   /* kvadratisk */
-  object-fit: cover;     /* cropper til ramma */
-  border-radius: 10px;
-  display: block;
-  margin: 0 auto 1rem;
-}
-
-/* FOOTER */
-footer{text-align:center;padding:2rem;font-size:.9rem;color:#555;background:#000;border-top:1px solid #111}
-.footer-logo{display:flex;justify-content:center;margin-bottom:1rem}
-.footer-logo-img{height:260px;opacity:.9;margin:0 auto}
-.footer-pearl{display:block;margin:0 auto;height:100px}
-
-/* MOBILE NAV */
-@media (max-width:1150px){
-  .menu-toggle{display:block;position:absolute;top:20px;right:20px;z-index:1001}
-  .main-nav{display:none;flex-direction:column;background:#000;width:100%;text-align:center;position:absolute;top:100px;left:0;padding:20px 0}
-  .main-nav.open{display:flex}
-  .nav-links{display:flex;flex-direction:column;gap:20px;margin-bottom:20px}
-  .social-icons{display:flex;justify-content:center;flex-wrap:wrap;gap:15px}
-  .logo-img{max-height:60px}
-}
+.platform-icons img[src$="deezer.svg"],.platform-icons img[sr]()
