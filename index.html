@@ -1,12 +1,3 @@
----
-title: ''
-seo:
-  meta_title: ''
-  meta_description: ''
-  og_title: ''
-  og_description: ''
-  og_image: /uploads/OysterdaleRecords_whitelogo_black_background.jpg
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,98 +15,64 @@ seo:
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
-    .intro-section {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      color: white;
-    }
-
-    .spotify-embed {
-      margin-top: 2rem;
+    /* evt. små stilting her om du hadde det */
+    .home-hero {
+      background: linear-gradient(90deg, #b024ff 0%, #ff3d6e 100%);
+      min-height: 60vh;
       display: flex;
+      align-items: center;
       justify-content: center;
     }
-
-    .spotify-embed iframe {
-      width: 100%;
-      max-width: 600px;
-      height: 600px;
-      border-radius: 12px;
-    }
-
-    @media (max-width: 768px) {
-      .spotify-embed iframe {
-        height: 500px;
-      }
-    }
+    .home-hero img { max-width: 90%; height: auto; }
+    .page-content { max-width: 1100px; margin: 0 auto; padding: 2rem 1rem; }
+    .spotify-embed { margin: 2rem 0; }
   </style>
 </head>
 <body>
 
   <!-- Header settes inn dynamisk -->
-  <div class="home-hero"></div>
+  <div id="header-mount"></div>
+
+  <div class="home-hero">
+    <img src="images/hero_oysterdale.png" alt="Oysterdale Records Hero">
+  </div>
 
   <main class="page-content">
     <div id="home-content">Loading content...</div>
 
-    <section class="intro-section">
-      <!-- Spotify embed -->
-      <div class="spotify-embed">
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
+    <section class="spotify-embed">
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e?utm_source=generator"
+        width="100%" height="352" frameborder="0" allowfullscreen=""
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"></iframe>
     </section>
   </main>
 
-  <footer>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs">
-      <img src="images/pearl.png" alt="An image of a pearl" class="footer-pearl"/>
-    </a>
-    <p><b><em>YOU FOUND A HIDDEN PEARL</em></b></p>
-
-    <div class="footer-logo">
-      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
-    </div>
-    <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
-  </footer>
-
   <script>
-    // Sett inn header øverst i body og aktiver meny
-    fetch('header.html')
-      .then(res => res.text())
+    // Header-loader
+    fetch("header.html")
+      .then(r => r.text())
       .then(html => {
-        document.body.insertAdjacentHTML('afterbegin', html);
-
-        const toggleButton = document.getElementById('menu-toggle');
-        const nav = document.querySelector('.main-nav');
-        const navLinks = document.querySelectorAll('.main-nav a');
-
-        if (toggleButton && nav) {
-          toggleButton.addEventListener('click', () => {
-            nav.classList.toggle('open');
-            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
-          });
-
-          navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-              if (nav.classList.contains('open')) {
-                nav.classList.remove('open');
-                toggleButton.textContent = '☰';
-              }
-            });
-          });
+        document.getElementById("header-mount").insertAdjacentHTML("afterbegin", html);
+        const btn = document.getElementById("menu-toggle");
+        const nav = document.querySelector(".main-nav");
+        if (btn && nav) {
+          const toggle = () => {
+            const open = nav.classList.toggle("open");
+            btn.textContent = open ? "✖" : "☰";
+          };
+          btn.addEventListener("click", toggle);
         }
-      });
+      })
+      .catch(err => console.error("Header load error:", err));
 
-    // Stripp YAML-frontmatter (--- … ---) fra markdown før rendering,
-    // så metadata aldri kan vises som tekst i body.
+    // Hent markdown-innhold og STRIPP frontmatter før render
     function stripFrontmatter(text) {
-      const fm = /^\\s_---\\s\*\\n[\\s\\S]_?\\n---\\s\*\\n?/;
+      const fm = text.match(/^\s*---[\s\S]*?---\s*/);
+      if (!fm) return text;
       return text.replace(fm, '');
     }
 
-    // Last og render innholdet
     fetch('content/index.md')
       .then(res => res.text())
       .then(md => {
