@@ -3,56 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Oysterdale Records — Every Record Is a Pearl</title>
-
-  <!-- SEO basics -->
-  <link rel="canonical" href="https://oysterdalerecords.com/">
-  <meta name="description" content="Independent label releasing Soulful House, Disco and Electronic music from Oslo, Norway." />
-
+  <title>Oysterdale Records</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="images/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    .intro-section {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      color: white;
+    }
+
+    .spotify-embed {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .spotify-embed iframe {
+      width: 100%;
+      max-width: 600px;
+    }
+  </style>
 </head>
 <body>
-  <div id="site-header"></div>
+
+  <!-- Header settes inn dynamisk -->
+  <div class="home-hero"></div>
 
   <main class="page-content">
-    <!-- Hero/logo-bilde styres av .hero i styles.css -->
-    <div class="hero" aria-hidden="true"></div>
+      <div id="home-content">Loading content...</div>
 
-    <!-- Tekstblokk under slik du har hatt -->
-    <section class="document-container" style="margin-top:16px;">
-      <p>We’re an independent label releasing Soulful House, Disco, and Electronic music — carefully crafted and digitally
-      distributed to the world from Oslo, Norway.</p>
-      <p>Driven by groove, guided by feeling.</p>
-    </section>
-
-    <!-- Spotify-embed (kan byttes til din spilleliste) -->
-    <section class="spotify-embed" style="margin-top:18px;">
-      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX0BcQWzuB7ZO?utm_source=generator"
-        width="100%" height="352" frameborder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <section class="intro-section">
+      <!-- Spotify embed -->
+      <div class="spotify-embed">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
     </section>
   </main>
 
+  <!-- Footer -->
   <footer>
-    <div class="footer-logo"><img class="footer-logo-img" src="uploads/OysterdaleRecords_white_logo.png" alt=""></div>
-    <p>&copy; <span id="year"></span> Oysterdale Records</p>
+    <div class="footer-logo">
+      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
+    </div>
+    <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
   </footer>
 
-  <!-- Header + meny (må være lik på alle sider) -->
   <script>
-    fetch("header.html").then(r=>r.text()).then(html=>{
-      document.getElementById("site-header").innerHTML = html;
-      const btn = document.querySelector(".menu-toggle");
-      const nav = document.querySelector(".main-nav");
-      if (btn && nav) {
-        const toggle=()=>{ const open=nav.classList.toggle("open"); btn.setAttribute("aria-expanded", String(open)); };
-        btn.addEventListener("click", toggle);
-        document.addEventListener("click", e=>{ if(e.target.closest(".nav-links a")) nav.classList.remove("open"); });
-        document.addEventListener("keydown", e=>{ if(e.key==="Escape") nav.classList.remove("open"); });
-      }
-    });
-    document.getElementById("year").textContent=new Date().getFullYear();
+    fetch('header.html')
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('afterbegin', html);
+
+        const toggleButton = document.getElementById('menu-toggle');
+        const nav = document.querySelector('.main-nav');
+        const navLinks = document.querySelectorAll('.main-nav a');
+
+        if (toggleButton && nav) {
+          toggleButton.addEventListener('click', () => {
+            nav.classList.toggle('open');
+            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+          });
+
+          navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+              if (nav.classList.contains('open')) {
+                nav.classList.remove('open');
+                toggleButton.textContent = '☰';
+              }
+            });
+          });
+        }
+      });
+
+
+    fetch('content/index.md')
+      .then(res => res.text())
+      .then(md => {
+        document.getElementById('home-content').innerHTML = marked.parse(md);
+      });
   </script>
 </body>
 </html>
