@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records – About</title>
 
-  <!-- SEO loader: henter data fra JSON og setter meta-tags -->
+  <!-- SEO loader: henter data fra JSON og skriver KUN meta-tags i <head> -->
   <script src="js/seo.js" defer data-seo="/content/seo/about.json"></script>
 
   <link rel="stylesheet" href="styles.css" />
@@ -36,6 +36,7 @@
 
   <!-- Header & nav script -->
   <script>
+    // Sett inn header øverst i body og aktiver meny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
@@ -61,11 +62,21 @@
         }
       });
 
+    // Stripp YAML-frontmatter (--- … ---) fra markdown før rendering,
+    // så metadata aldri kan vises som tekst i body.
+    function stripFrontmatter(text) {
+      const fm = /^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
+      return text.replace(fm, '');
+    }
+
+    // Last og render innholdet
     fetch('content/about.md')
       .then(res => res.text())
       .then(md => {
-        document.getElementById('about-content').innerHTML = marked.parse(md);
-      });
+        const clean = stripFrontmatter(md);
+        document.getElementById('about-content').innerHTML = marked.parse(clean);
+      })
+      .catch(err => console.error('About markdown load error:', err));
   </script>
 </body>
 </html>
