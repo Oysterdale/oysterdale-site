@@ -3,150 +3,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <!-- SEO -->
   <title>Releases — Oysterdale Records</title>
-  <link rel="canonical" href="https://oysterdalerecords.com/releases">
-  <link rel="icon" href="images/favicon.png" type="image/png" />
-  <meta name="description" content="All Oysterdale Records releases — stream & buy on your favourite platform." />
-  <meta property="og:title" content="Releases — Oysterdale Records" />
-  <meta property="og:description" content="Stream & buy Oysterdale releases." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://oysterdalerecords.com/releases" />
-  <meta property="og:image" content="uploads/og-releases.jpg" />
-  <!-- /SEO -->
-
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   <div id="site-header"></div>
 
   <main class="page-content">
-    <h1 class="page-title">Releases</h1>
-    <div id="releases-grid" class="cards-grid"></div>
+    <h1>Releases</h1>
+    <div class="releases-grid" id="releases"></div>
   </main>
 
   <footer>
-    <div class="footer-logo">
-      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
-    </div>
-    <p>&copy; <span id="year"></span> Oysterdale Records. All rights reserved.</p>
+    <div class="footer-logo"><img class="footer-logo-img" src="uploads/OysterdaleRecords_white_logo.png" alt=""></div>
+    <p>&copy; <span id="year"></span> Oysterdale Records</p>
   </footer>
 
   <script>
-    // Shared header
-    fetch("header.html").then(r => r.text()).then(html => {
+    // header + meny
+    fetch("header.html").then(r=>r.text()).then(html=>{
       document.getElementById("site-header").innerHTML = html;
-      const btn = document.getElementById("menu-toggle");
-      if (btn) btn.addEventListener("click", () => document.body.classList.toggle("nav-open"));
-    });
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    const GH_OWNER = "Oysterdale";
-    const GH_REPO  = "oysterdale-site";
-    const DIR      = "releases";
-
-    function niceDate(iso) {
-      if (!iso) return "";
-      const d = new Date(iso);
-      if (isNaN(d)) return iso;
-      return d.toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" });
-    }
-
-    function parseFrontmatter(md) {
-      const m = md.match(/^---\n([\s\S]*?)\n---/);
-      const fm = {};
-      if (m) {
-        m[1].split(/\n/).forEach(line => {
-          const i = line.indexOf(":");
-          if (i > -1) {
-            const key = line.slice(0,i).trim();
-            let val = line.slice(i+1).trim();
-            val = val.replace(/^"(.*)"$/,'$1'); // strip quotes
-            fm[key] = val;
-          }
-        });
+      const btn=document.querySelector(".menu-toggle"), nav=document.querySelector(".main-nav");
+      if(btn&&nav){
+        const t=()=>{const o=nav.classList.toggle("open");btn.setAttribute("aria-expanded",String(o));};
+        btn.addEventListener("click",t);
+        document.addEventListener("click",e=>{if(e.target.closest(".nav-links a")) nav.classList.remove("open");});
+        document.addEventListener("keydown",e=>{if(e.key==="Escape") nav.classList.remove("open");});
       }
-      fm.body = md.replace(/^---[\s\S]*?---\s*/, "");
+    });
+    document.getElementById("year").textContent=new Date().getFullYear();
+
+    // data -> kort
+    const GH_OWNER="Oysterdale", GH_REPO="oysterdale-site", DIR="releases";
+    async function listFiles(){
+      const r = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${DIR}`);
+      if(!r.ok) throw new Error("GitHub list failed");
+      return (await r.json()).filter(x=>x.type==="file" && x.name.endsWith(".md"));
+    }
+    function parseFM(md){
+      const m=md.match(/^---\n([\s\S]*?)\n---/); const fm={};
+      if(m){ m[1].split(/\n/).forEach(l=>{ const i=l.indexOf(":"); if(i>-1){ const k=l.slice(0,i).trim(); let v=l.slice(i+1).trim(); fm[k]=v.replace(/^"(.*)"$/,"$1"); } }); }
       return fm;
     }
-
-    function platformIcon(url, label) {
-      const ic = {
-        spotify: "fa-brands fa-spotify",
-        apple: "fa-brands fa-apple",
-        itunes: "fa-brands fa-apple",
-        beatport: "fa-solid fa-b",
-        traxsource: "fa-solid fa-record-vinyl",
-        bandcamp: "fa-brands fa-bandcamp",
-        youtube: "fa-brands fa-youtube",
-        tidal: "fa-solid fa-music",
-        soundcloud: "fa-brands fa-soundcloud",
-        amazon: "fa-brands fa-amazon"
-      };
-      const k = Object.keys(ic).find(k => url.includes(k));
-      const cls = k ? ic[k] : "fa-solid fa-link";
-      const aria = label || (k ? k.charAt(0).toUpperCase() + k.slice(1) : "Link");
-      return `<a class="icon-btn" target="_blank" rel="noopener" href="${url}" aria-label="${aria}"><i class="${cls}"></i></a>`;
+    function niceDate(iso){ if(!iso) return ""; const d=new Date(iso); return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}); }
+    function icon(url,label){
+      const map={spotify:"fab fa-spotify",apple:"fab fa-apple",itunes:"fab fa-apple",beatport:"fa-solid fa-b",traxsource:"fa-solid fa-record-vinyl",bandcamp:"fab fa-bandcamp",youtube:"fab fa-youtube",tidal:"fa-solid fa-music",soundcloud:"fab fa-soundcloud",amazon:"fab fa-amazon"};
+      const key=Object.keys(map).find(k=>url.includes(k))||"link"; const cls=map[key]||"fa-solid fa-link";
+      return `<a href="${url}" target="_blank" rel="noopener" aria-label="${label||key}"><i class="${cls}"></i></a>`;
     }
-
-    function releaseCard(r) {
-      const art = r.cover || r.image || "images/placeholder-release.png";
-      const artists = r.artists || r.artist || "";
-      const title = r.title || "";
-      const subtitle = artists ? `${artists} — ${title}` : title;
-
-      // Collect platform links from known frontmatter keys
-      const links = [];
-      ["spotify","apple","itunes","beatport","traxsource","bandcamp","youtube","tidal","soundcloud","amazon"]
-        .forEach(k => { if (r[k]) links.push(platformIcon(r[k], k)); });
-
+    function card(r){
+      const title=r.title||"", artists=r.artists||r.artist||"";
+      const cover=r.cover||r.image||"images/placeholder-release.png";
+      const links=[];
+      ["spotify","apple","itunes","beatport","traxsource","bandcamp","youtube","tidal","soundcloud","amazon"].forEach(k=>{ if(r[k]) links.push(icon(r[k],k)); });
       return `
-        <article class="card release-card">
-          <div class="thumb"><img loading="lazy" src="${art}" alt="${subtitle}"></div>
-          <div class="card-body">
-            <h3 class="card-title">${title}</h3>
-            ${artists ? `<p class="muted">${artists}</p>` : ""}
-            <div class="platforms">${links.join("")}</div>
-            ${r.date ? `<p class="muted small">Release date: ${niceDate(r.date)}</p>` : ""}
+        <article class="release">
+          <div class="release-content">
+            <div class="release-header">
+              <div class="release-artist">${artists}</div>
+              <div class="release-title">${title}</div>
+            </div>
+            <img class="release-cover" src="${cover}" alt="${artists ? artists + ' – ' : ''}${title}">
+            <div class="platform-icons">${links.join("")}</div>
+            ${r.date ? `<div class="release-date">Release date: ${niceDate(r.date)}</div>` : ""}
           </div>
         </article>
       `;
     }
-
-    async function listReleaseFiles() {
-      const api = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${DIR}`;
-      const res = await fetch(api);
-      if (!res.ok) throw new Error("GitHub list failed");
-      return (await res.json()).filter(x => x.type === "file" && x.name.endsWith(".md"));
-    }
-
-    async function renderReleases() {
-      try {
-        const files = await listReleaseFiles();
-
-        // Download, parse, then sort by date desc
-        const items = await Promise.all(files.map(async f => {
-          const raw = f.download_url || `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${DIR}/${f.name}`;
-          const md = await fetch(raw).then(r => r.text());
-          const fm = parseFrontmatter(md);
-          // normalize common keys from your frontmatter
-          // expected: title, artists, cover, date, spotify, apple, beatport, traxsource, bandcamp, youtube, tidal, soundcloud, amazon
-          return fm;
+    (async ()=>{
+      try{
+        const files=await listFiles();
+        const items=await Promise.all(files.map(async f=>{
+          const raw=f.download_url || `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${DIR}/${f.name}`;
+          const md=await fetch(raw).then(r=>r.text());
+          return parseFM(md);
         }));
-
-        items.sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0));
-
-        document.getElementById("releases-grid").innerHTML =
-          items.map(releaseCard).join("");
-      } catch (e) {
-        console.error(e);
-        document.getElementById("releases-grid").innerHTML = "<p>Could not load releases.</p>";
-      }
-    }
-
-    renderReleases();
+        items.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
+        document.getElementById("releases").innerHTML = items.map(card).join("");
+      }catch(e){ console.error(e); document.getElementById("releases").innerHTML = "<p>Could not load releases.</p>"; }
+    })();
   </script>
 </body>
 </html>
