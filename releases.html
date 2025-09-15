@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records – Releases</title>
 
-  <!-- SEO loader: henter data fra JSON og setter KUN meta-tags i <head> -->
+  <!-- (Valgfritt) Runtime-SEO fallback. Build-steget skriver uansett meta i <head>. -->
   <script src="js/seo.js" defer data-seo="/content/seo/releases.json"></script>
 
   <link rel="stylesheet" href="styles.css" />
@@ -19,11 +19,10 @@
     fetch("header.html").then(r=>r.text()).then(html=>{
       document.body.insertAdjacentHTML("afterbegin", html);
       const btn=document.getElementById("menu-toggle"), nav=document.querySelector(".main-nav");
-      const navLinks = document.querySelectorAll('.main-nav a');
       if(btn&&nav){
-        const toggle=()=>{const o=nav.classList.toggle("open"); btn.textContent=o?"✖":"☰";};
-        btn.addEventListener("click",toggle);
-        navLinks.forEach(a=>a.addEventListener('click',()=>{ if(nav.classList.contains('open')){ nav.classList.remove('open'); btn.textContent='☰'; }}));
+        const t=()=>{const o=nav.classList.toggle("open");btn.textContent=o?"✖":"☰";};
+        btn.addEventListener("click",t);
+        document.addEventListener("click",e=>{ if(e.target.closest(".nav-links a")) {nav.classList.remove("open"); btn.textContent="☰";} });
       }
     });
   </script>
@@ -86,9 +85,7 @@
     }
 
     /* ---------- IKONER ---------- */
-    // SVG-ikoner i /images/platforms/ for disse:
     const IMG_PLATFORMS = new Set(["deezer","tidal","beatport","traxsource","itunes"]);
-    // Font Awesome for resten:
     const ICONS = {
       spotify:"fa-brands fa-spotify",
       apple:"fa-brands fa-apple",
@@ -97,7 +94,6 @@
       amazon:"fa-brands fa-amazon",
       bandcamp:"fa-brands fa-bandcamp",
       soundcloud:"fa-brands fa-soundcloud",
-      // svg-plattformene bruker <img>, derfor tom klasse:
       itunes:"", deezer:"", tidal:"", beatport:"", traxsource:""
     };
 
