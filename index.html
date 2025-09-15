@@ -45,7 +45,16 @@
 <body>
 
   <!-- Header settes inn dynamisk -->
-  <div class="home-hero"></div>
+  <div class="home-hero">
+    <!-- Hero-bildet kan byttes i admin (Site Settings → Home) -->
+    <img
+      id="home-hero"
+      class="hero-image"
+      src="images/forsidebilde.png"
+      data-fallback="images/forsidebilde.png"
+      alt="Oysterdale Records hero image"
+    />
+  </div>
 
   <main class="page-content">
     <div id="home-content">Loading content...</div>
@@ -120,5 +129,8 @@
       })
       .catch(err => console.error('Index markdown load error:', err));
   </script>
+
+  <!-- Nytt: script som bytter hero-bildet via admin -->
+  <script src="js/hero.js" defer></script>
 </body>
 </html>
