@@ -1,5 +1,6 @@
 {
-  "meta_title": "About \u2013 Oysterdale Records",
+  "page": "About",
+  "meta_title": "About – Oysterdale Records",
   "meta_description": "About Oysterdale Records: an independent Oslo-based label focused on club-first house and disco. Every record is a pearl.",
   "keywords": [
     "Oysterdale Records",
@@ -10,5 +11,5 @@
   ],
   "og_title": "About Oysterdale Records",
   "og_description": "Learn more about our label, artists and releases.",
-  "og_image": "/uploads/og/oysterdale_og.jpg"
+  "og_image": "/uploads/OysterdaleRecords_whitelogo_black_background.jpg"
 }
