@@ -47,7 +47,7 @@
     async function listFiles(){
       const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
       if(!r.ok) throw new Error("GitHub list failed");
-      return (await r.json()).filter(f=>f.name.endsWith(".md"));
+      return (await r.json()).filter(f=>f.type==="file" && f.name.endsWith(".md"));
     }
 
     function parseFrontmatter(md){
@@ -65,62 +65,67 @@
       return { data, body };
     }
 
-    function niceDate(iso){ if(!iso) return ""; const d=new Date(iso); return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}); }
+    function clean(v){
+      return (v ?? "").toString().trim()
+        .replace(/^"(.*)"$/,'$1')
+        .replace(/^'(.*)'$/,'$1');
+    }
+    function hasValue(v){
+      const s = clean(v);
+      return !!s && !/^(-+|—+|none|n\/a)$/i.test(s);
+    }
+    function niceDate(iso){
+      if(!iso) return "";
+      const d=new Date(iso);
+      return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+    }
 
-    // godkjente plattformer (INGEN default-ikon -> ingen rare “safari”-lenker)
-    const PLATFORMS = [
-      "spotify","apple","itunes","deezer","amazon","youtube","ytmusic","tidal","beatport","traxsource","bandcamp","soundcloud"
-    ];
+    /* ---------- IKONER (SAMME PRAKSIS SOM ORIGINAL) ---------- */
+    // SVG fra /images/platforms/ for disse:
+    const IMG_PLATFORMS = new Set(["deezer","tidal","beatport","traxsource","itunes"]);
+    // Font Awesome for resten:
     const ICONS = {
       spotify:"fa-brands fa-spotify",
       apple:"fa-brands fa-apple",
-      itunes:"fa-brands fa-apple",
-      deezer:"",           // bruker svg under /images/platforms om du har
-      amazon:"fa-brands fa-amazon",
       youtube:"fa-brands fa-youtube",
       ytmusic:"fa-brands fa-youtube",
-      tidal:"",
-      beatport:"",
-      traxsource:"",
+      amazon:"fa-brands fa-amazon",
       bandcamp:"fa-brands fa-bandcamp",
-      soundcloud:"fa-brands fa-soundcloud"
+      soundcloud:"fa-brands fa-soundcloud",
+      // svg-plattformene bruker <img>, derfor tom klasse:
+      itunes:"", deezer:"", tidal:"", beatport:"", traxsource:""
     };
 
     function platformButton(key,url){
-      if(!url) return "";
-      // Bruk egne svg-filer hvis du har dem i /images/platforms/
-      if (["deezer","tidal","beatport","traxsource","itunes","apple"].includes(key) && !ICONS[key]) {
-        const svg = key === "itunes" ? "itunes" : key; // iTunes egen fil
-        return `<a href="${url}" target="_blank" rel="noopener"><img src="images/platforms/${svg}.svg" alt="${key}"></a>`;
+      const u = clean(url);
+      if(!u) return "";
+      if(IMG_PLATFORMS.has(key)){
+        const file = key === "itunes" ? "itunes" : key;
+        return `<a href="${u}" target="_blank" rel="noopener"><img src="images/platforms/${file}.svg" alt="${key}"></a>`;
       }
       const cls = ICONS[key];
-      return cls ? `<a href="${url}" target="_blank" rel="noopener" aria-label="${key}"><i class="${cls}"></i></a>` : "";
+      return cls ? `<a href="${u}" target="_blank" rel="noopener" aria-label="${key}"><i class="${cls}"></i></a>` : "";
     }
 
     async function loadCard(file){
       const md = await fetch(file.download_url).then(r=>r.text());
-      const {data, body} = parseFrontmatter(md);
+      const {data} = parseFrontmatter(md);
 
-      // NØKKELPOENG:
-      // - artistnavn hentes KUN fra artists/artist (ikke ‘name’)
-      // - tittel hentes fra title
-      // - feat vises bare hvis faktisk innhold
-      const title   = (data.title || "").trim();
-      const artists = (data.artists || data.artist || "").trim();
-      const featRaw = (data.featured || data.feat || "").trim();
-      const featured = featRaw && !/^("|')?\s*$/ .test(featRaw) ? featRaw : "";
+      const title   = clean(data.title);
+      const artists = clean(data.artists || data.artist);
+      const featRaw = clean(data.featured || data.feat);
+      const featured = hasValue(featRaw) ? featRaw : "";
 
-      const cover   = (data.cover || data.image || "").trim();
-      const dateStr = (data.date || "").trim();
+      const cover   = clean(data.cover || data.image);
+      const dateStr = clean(data.date);
 
-      // bygg kun kjente plattform-lenker
+      const PLATFORMS = ["spotify","apple","itunes","deezer","amazon","youtube","ytmusic","tidal","beatport","traxsource","bandcamp","soundcloud"];
       const links = PLATFORMS
-        .map(k => [k, (data[k] || "").trim()])
-        .filter(([,v]) => v)
-        .map(([k,v]) => platformButton(k,v))
+        .map(k => platformButton(k, data[k]))
+        .filter(Boolean)
         .join("");
 
-      const coverHref = (data.spotify || data.apple || data.youtube || data.ytmusic || data.deezer || data.amazon || data.tidal || data.itunes || data.beatport || data.traxsource || data.bandcamp || "").trim();
+      const coverHref = PLATFORMS.map(k => clean(data[k])).find(Boolean) || "";
 
       return {
         date: dateStr ? new Date(dateStr) : new Date(0),
