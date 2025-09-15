@@ -3,12 +3,10 @@
     let el = document.querySelector(selector);
     if (!el) {
       el = document.createElement('meta');
-      // apply first attr to decide selector type
       const firstKey = Object.keys(attrs)[0];
       el.setAttribute(firstKey, attrs[firstKey]);
       document.head.appendChild(el);
     }
-    // set remaining/other attrs
     Object.keys(attrs).forEach((k) => el.setAttribute(k, attrs[k]));
     return el;
   }
@@ -19,7 +17,7 @@
   }
 
   function applySEO(seo) {
-    // Title (fallback til eksisterende <title> hvis tom)
+    // Title
     if (seo.meta_title && typeof seo.meta_title === 'string') {
       document.title = seo.meta_title;
     }
@@ -32,7 +30,7 @@
       });
     }
 
-    // Keywords (tar både array og string)
+    // Keywords (array eller string)
     if (seo.keywords && (Array.isArray(seo.keywords) || typeof seo.keywords === 'string')) {
       const kw = Array.isArray(seo.keywords) ? seo.keywords.join(', ') : seo.keywords;
       setOrCreateMeta('meta[name="keywords"]', { name: 'keywords', content: kw });
