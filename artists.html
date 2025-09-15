@@ -3,121 +3,69 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <!-- SEO -->
   <title>Artists — Oysterdale Records</title>
-  <link rel="canonical" href="https://oysterdalerecords.com/artists">
-  <link rel="icon" href="images/favicon.png" type="image/png" />
-  <meta name="description" content="Artists releasing on Oysterdale Records — producers and vocalists." />
-  <meta property="og:title" content="Artists — Oysterdale Records" />
-  <meta property="og:description" content="Producers and vocalists releasing on Oysterdale Records." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://oysterdalerecords.com/artists" />
-  <meta property="og:image" content="uploads/og-artists.jpg" />
-  <!-- /SEO -->
-
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <div id="site-header"></div>
 
   <main class="page-content">
-    <h1 class="page-title">Artists</h1>
-
-    <h2 class="section-title">Producers</h2>
-    <div id="producers" class="cards-grid"></div>
-
-    <h2 class="section-title">Vocalists</h2>
-    <div id="vocalists" class="cards-grid"></div>
+    <h1>Artists</h1>
+    <div class="releases-grid" id="artistsGrid"></div>
   </main>
 
   <footer>
-    <div class="footer-logo">
-      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
-    </div>
-    <p>&copy; <span id="year"></span> Oysterdale Records. All rights reserved.</p>
+    <div class="footer-logo"><img class="footer-logo-img" src="uploads/OysterdaleRecords_white_logo.png" alt=""></div>
+    <p>&copy; <span id="year"></span> Oysterdale Records</p>
   </footer>
 
   <script>
-    // Shared header
-    fetch("header.html").then(r => r.text()).then(html => {
+    fetch("header.html").then(r=>r.text()).then(html=>{
       document.getElementById("site-header").innerHTML = html;
-      const btn = document.getElementById("menu-toggle");
-      if (btn) btn.addEventListener("click", () => document.body.classList.toggle("nav-open"));
-    });
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // Fetch artist markdown list from GitHub directory and render cards
-    const GH_OWNER = "Oysterdale";
-    const GH_REPO  = "oysterdale-site";
-    const DIR      = "artists";
-
-    async function listArtistFiles() {
-      const api = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${DIR}`;
-      const res = await fetch(api);
-      if (!res.ok) throw new Error("GitHub list failed");
-      return (await res.json()).filter(x => x.type === "file" && x.name.endsWith(".md"));
-    }
-
-    function parseFrontmatter(md) {
-      // Simple YAML frontmatter parser: ---\nkey: value\n---\n
-      const m = md.match(/^---\n([\s\S]*?)\n---/);
-      const fm = {};
-      if (m) {
-        m[1].split(/\n/).forEach(line => {
-          const idx = line.indexOf(":");
-          if (idx > -1) {
-            const k = line.slice(0, idx).trim();
-            const v = line.slice(idx+1).trim().replace(/^"|"$/g, "");
-            fm[k] = v;
-          }
-        });
+      const btn=document.querySelector(".menu-toggle"), nav=document.querySelector(".main-nav");
+      if(btn&&nav){
+        const t=()=>{const o=nav.classList.toggle("open");btn.setAttribute("aria-expanded",String(o));};
+        btn.addEventListener("click",t);
+        document.addEventListener("click",e=>{if(e.target.closest(".nav-links a")) nav.classList.remove("open");});
+        document.addEventListener("keydown",e=>{if(e.key==="Escape") nav.classList.remove("open");});
       }
+    });
+    document.getElementById("year").textContent=new Date().getFullYear();
+
+    const GH_OWNER="Oysterdale", GH_REPO="oysterdale-site", DIR="artists";
+    async function listFiles(){
+      const r = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${DIR}`);
+      if(!r.ok) throw new Error("GitHub list failed");
+      return (await r.json()).filter(x=>x.type==="file" && x.name.endsWith(".md"));
+    }
+    function parseFM(md){
+      const m=md.match(/^---\n([\s\S]*?)\n---/); const fm={};
+      if(m){ m[1].split(/\n/).forEach(l=>{ const i=l.indexOf(":"); if(i>-1){ const k=l.slice(0,i).trim(); let v=l.slice(i+1).trim(); fm[k]=v.replace(/^"(.*)"$/,"$1"); } }); }
       return fm;
     }
-
-    function cardTemplate(a) {
-      const img = a.image || a.photo || "images/placeholder-artist.png";
-      const name = a.name || "Artist";
-      const role = a.role || "";
-      const site = a.url || a.link || "";
+    function card(a){
+      const name=a.name||"", role=a.role||"", img=a.image||a.photo||"images/placeholder-artist.png", link=a.url||a.link||"";
       return `
-        <article class="card artist-card">
-          <div class="thumb"><img loading="lazy" src="${img}" alt="${name}"></div>
-          <div class="card-body">
-            <h3 class="card-title">${name}</h3>
-            ${role ? `<p class="muted">${role}</p>` : ""}
-            ${site ? `<p><a class="btn btn-small" target="_blank" rel="noopener" href="${site}">More</a></p>` : ""}
-          </div>
+        <article class="artist">
+          <img class="artist-photo" src="${img}" alt="${name}">
+          <h3>${name}</h3>
+          ${role?`<p style="color:#ccc">${role}</p>`:""}
+          ${link?`<p><a class="btn" target="_blank" rel="noopener" href="${link}">More</a></p>`:""}
         </article>
       `;
     }
-
-    async function renderArtists() {
-      try {
-        const files = await listArtistFiles();
-        const items = await Promise.all(files.map(async f => {
-          const raw = f.download_url || `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${DIR}/${f.name}`;
-          const md = await fetch(raw).then(r => r.text());
-          const fm = parseFrontmatter(md);
-          return fm;
+    (async ()=>{
+      try{
+        const files=await listFiles();
+        const items=await Promise.all(files.map(async f=>{
+          const raw=f.download_url || `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${DIR}/${f.name}`;
+          const md=await fetch(raw).then(r=>r.text());
+          return parseFM(md);
         }));
-
-        const producers = items.filter(x => String(x.role || "").toLowerCase().includes("producer"));
-        const vocalists = items.filter(x => String(x.role || "").toLowerCase().includes("vocal"));
-
-        document.getElementById("producers").innerHTML = producers.map(cardTemplate).join("");
-        document.getElementById("vocalists").innerHTML = vocalists.map(cardTemplate).join("");
-      } catch (e) {
-        console.error(e);
-        document.getElementById("producers").innerHTML = "<p>Could not load artists.</p>";
-        document.getElementById("vocalists").innerHTML = "";
-      }
-    }
-
-    renderArtists();
+        document.getElementById("artistsGrid").innerHTML = items.map(card).join("");
+      }catch(e){ console.error(e); document.getElementById("artistsGrid").innerHTML = "<p>Could not load artists.</p>"; }
+    })();
   </script>
 </body>
 </html>
