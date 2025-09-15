@@ -7,7 +7,7 @@
   // Bygg Netlify Image CDN-URL med ønsket bredde + format/kompresjon
   function buildCdnUrl(path, w) {
     const fm = "webp";   // moderne format
-    const q  = "65";     // kompresjon (0-100). 65 gir god balanse
+    const q  = "55";     // kompresjon (0-100). 55 gir lav filstørrelse, fortsatt god kvalitet
     const fit = "cover"; // matcher CSS object-fit: cover
 
     // Hvis path allerede peker på Netlify Image CDN, oppdater parametere
@@ -26,9 +26,10 @@
 
   // Sett responsivt bilde (src + srcset + sizes)
   function setResponsiveImage(path) {
-    const widths = [480, 768, 1024, 1280, 1366, 1440, 1600];
+    const widths = [360, 414, 428, 480, 640, 750, 828, 1024, 1200, 1280, 1366];
 
-    img.src    = buildCdnUrl(path, 1366); // god default nær typisk visningsbredde
+    // Sett default til 1200 for balansert desktop
+    img.src    = buildCdnUrl(path, 1200);
     img.srcset = widths.map(w => `${buildCdnUrl(path, w)} ${w}w`).join(", ");
     img.sizes  = "100vw";
 
