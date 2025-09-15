@@ -30,6 +30,176 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <!-- resten av releases.html som før -->
+  <main>
+    <div class="page-content">
+      <h1>Releases</h1>
+      <div id="releases-content" class="releases-grid">Loading releases...</div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-logo">
+      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
+    </div>
+    <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const GITHUB_OWNER = "Oysterdale";
+    const GITHUB_REPO  = "oysterdale-site";
+    const RELEASES_PATH = "releases";
+
+    // Inject header
+    fetch("header.html")
+      .then(res => res.text())
+      .then(data => {
+        document.body.insertAdjacentHTML("afterbegin", data);
+        const toggleButton = document.getElementById("menu-toggle");
+        const nav = document.querySelector(".main-nav");
+        const navLinks = document.querySelectorAll(".main-nav a");
+        if (toggleButton && nav) {
+          toggleButton.addEventListener("click", () => {
+            nav.classList.toggle("open");
+            toggleButton.textContent = nav.classList.contains("open") ? "✖" : "☰";
+          });
+          navLinks.forEach(link => {
+            link.addEventListener("click", () => {
+              nav.classList.remove("open");
+              toggleButton.textContent = "☰";
+            });
+          });
+        }
+      });
+
+    async function getReleaseFiles() {
+      const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${RELEASES_PATH}`;
+      const res = await fetch(apiUrl);
+      if (!res.ok) throw new Error("Kunne ikke hente release-filer fra GitHub.");
+      const files = await res.json();
+      return files.filter(f => f.name.endsWith(".md"));
+    }
+
+    function sanitizeBody(bodyText) {
+      const lines = bodyText.split(/\r?\n/);
+      const filtered = lines.filter(l => !/^\s*(release\s*date|releasedato)\s*:/i.test(l.trim()));
+      return filtered.join("\n");
+    }
+
+    async function loadRelease(file) {
+      const res = await fetch(file.download_url);
+      const text = await res.text();
+
+      const parts = text.split('---');
+      const fm = parts.length >= 3 ? parts[1] : "";
+      const rawBody = parts.length >= 3 ? parts.slice(2).join('---').trim() : "";
+      const bodyText = sanitizeBody(rawBody);
+
+      const get = (key) => {
+        const m = fm.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
+        return m ? m[1].trim() : "";
+      };
+
+      const artist     = get("artist");
+      const title      = get("title");
+      const featured   = (get("featured") || "").replace(/^"|"$/g, "").trim();
+      const dateStr    = get("date");
+      const cover      = get("cover");
+
+      const spotify    = get("spotify");
+      const traxsource = get("traxsource");
+      const beatport   = get("beatport");
+      const apple      = get("apple_music");
+      const deezer     = get("deezer");
+      const amazon     = get("amazon_music");
+      const ytmusic    = get("youtube_music");
+      const tidal      = get("tidal");
+      const itunes     = get("itunes");
+      const bandcamp   = get("bandcamp");
+
+      const date       = dateStr ? new Date(dateStr) : new Date(0);
+
+      const coverHref  = (spotify || apple || traxsource || beatport || ytmusic || deezer || tidal || amazon || bandcamp || itunes)
+        ? (spotify || apple || traxsource || beatport || ytmusic || deezer || tidal || amazon || bandcamp || itunes)
+        : "#";
+
+      const html = `
+        <div class="release">
+          <div class="release-content">
+            <div class="release-header">
+              <h2 class="release-artist">${artist}</h2>
+              <h3 class="release-title">${title}</h3>
+              ${featured ? `<p class="release-featured">feat. ${featured}</p>` : ""}
+            </div>
+            ${cover ? `<a href="${coverHref}" target="_blank" rel="noopener"><img src="${cover}" alt="${title}" class="release-cover"></a>` : ""}
+            <div class="platform-icons">
+              ${spotify   ? `<a href="${spotify}" target="_blank" rel="noopener"><i class="fa-brands fa-spotify"></i></a>` : ""}
+              ${apple     ? `<a href="${apple}" target="_blank" rel="noopener"><img src="images/platforms/applemusic.svg" alt="Apple Music"></a>` : ""}
+              ${deezer    ? `<a href="${deezer}" target="_blank" rel="noopener"><img src="images/platforms/deezer.svg" alt="Deezer"></a>` : ""}
+              ${amazon    ? `<a href="${amazon}" target="_blank" rel="noopener"><i class="fa-brands fa-amazon"></i></a>` : ""}
+              ${ytmusic   ? `<a href="${ytmusic}" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i></a>` : ""}
+              ${tidal     ? `<a href="${tidal}" target="_blank" rel="noopener"><img src="images/platforms/tidal.svg" alt="Tidal"></a>` : ""}
+              ${itunes    ? `<a href="${itunes}" target="_blank" rel="noopener"><img src="images/platforms/itunes.svg" alt="iTunes Store"></a>` : ""}
+              ${beatport  ? `<a href="${beatport}" target="_blank" rel="noopener"><img src="images/platforms/beatport.svg" alt="Beatport"></a>` : ""}
+              ${traxsource? `<a href="${traxsource}" target="_blank" rel="noopener"><img src="images/platforms/traxsource.svg" alt="Traxsource"></a>` : ""}
+              ${bandcamp  ? `<a href="${bandcamp}" target="_blank" rel="noopener"><i class="fa-brands fa-bandcamp"></i></a>` : ""}
+            </div>
+          </div>
+          ${dateStr ? `<p class="release-date">Release date: ${dateStr}</p>` : ""}
+        </div>
+      `;
+      return { date, html };
+    }
+
+    async function loadAllReleases() {
+      const container = document.getElementById("releases-content");
+      try {
+        const files = await getReleaseFiles();
+        const releases = await Promise.all(files.map(loadRelease));
+        releases.sort((a, b) => b.date - a.date);
+        container.innerHTML = "";
+        releases.forEach(r => container.insertAdjacentHTML("beforeend", r.html));
+      } catch (err) {
+        container.innerHTML = `<p>Kunne ikke laste releases akkurat nå.</p>`;
+        console.error(err);
+      }
+    }
+    loadAllReleases();
+  </script>
+
+  <!-- Structured data (JSON-LD) -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const domain = "https://oysterdalerecords.com";
+    const releases = document.querySelectorAll(".release");
+    const items = [];
+    releases.forEach(r => {
+      const title   = r.querySelector(".release-title")?.textContent?.trim();
+      const artist  = r.querySelector(".release-artist")?.textContent?.trim();
+      const dateStr = r.querySelector(".release-date")?.textContent?.replace("Release date:", "").trim();
+      const img     = r.querySelector("img.release-cover")?.getAttribute("src");
+      const url     = domain + "/releases";
+      if (title && artist) {
+        const obj = {
+          "@type": "MusicRecording",
+          "name": title,
+          "byArtist": { "@type": "MusicGroup", "name": artist },
+          "url": url
+        };
+        if (dateStr) obj.datePublished = dateStr;
+        if (img) obj.image = img;
+        const links = Array.from(r.querySelectorAll(".platform-icons a")).map(a => a.href).filter(Boolean);
+        if (links.length) obj.sameAs = links;
+        items.push(obj);
+      }
+    });
+    if (items.length) {
+      const jsonld = { "@context": "https://schema.org", "@graph": items };
+      const s = document.createElement("script");
+      s.type = "application/ld+json";
+      s.textContent = JSON.stringify(jsonld, null, 2);
+      document.head.appendChild(s);
+    }
+  });
+  </script>
 </body>
 </html>
