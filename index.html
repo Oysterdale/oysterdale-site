@@ -1,3 +1,12 @@
+---
+title: ''
+seo:
+  meta_title: ''
+  meta_description: ''
+  og_title: ''
+  og_description: ''
+  og_image: /uploads/OysterdaleRecords_whitelogo_black_background.jpg
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -102,7 +111,7 @@
     // Stripp YAML-frontmatter (--- … ---) fra markdown før rendering,
     // så metadata aldri kan vises som tekst i body.
     function stripFrontmatter(text) {
-      const fm = /^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
+      const fm = /^\\s_---\\s\*\\n[\\s\\S]_?\\n---\\s\*\\n?/;
       return text.replace(fm, '');
     }
 
