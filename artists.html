@@ -26,9 +26,151 @@
 
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- resten av inline CSS som før -->
+
+  <!-- Lokal styling for artist-kort -->
+  <style>
+    .page-content { padding-top: 90px; }
+    .section { margin: 30px 0 50px; }
+    .section h2 { margin: 0 0 16px; }
+    .artists-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      align-items: stretch;
+    }
+    .artist-card {
+      background: #111;
+      color: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      height: 100%;
+    }
+    .artist-media {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 10px;
+      background: #222;
+    }
+    .artist-name {
+      margin: 12px 0 6px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+    }
+    .artist-bio {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      opacity: 0.95;
+      margin: 4px 0 10px;
+    }
+    .artist-links {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      opacity: 0.95;
+    }
+    .artist-links a {
+      text-decoration: none;
+      color: #fff;
+      border: 1px solid #2a2a2a;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      transition: transform .07s ease;
+    }
+    .artist-links a:hover { transform: translateY(-1px); }
+    .muted { opacity: 0.7; }
+  </style>
 </head>
 <body>
-  <!-- resten av artists.html som før -->
-</body>
-</html>
+
+  <!-- Header -->
+  <script>
+    fetch('header.html')
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('afterbegin', html);
+        const toggleButton = document.getElementById('menu-toggle');
+        const nav = document.querySelector('.main-nav');
+        const navLinks = document.querySelectorAll('.main-nav a');
+        if (toggleButton && nav) {
+          toggleButton.addEventListener('click', () => {
+            nav.classList.toggle('open');
+            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+          });
+          navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+              if (nav.classList.contains('open')) {
+                nav.classList.remove('open');
+                toggleButton.textContent = '☰';
+              }
+            });
+          });
+        }
+      });
+  </script>
+
+  <main class="page-content">
+    <h1>ARTISTS</h1>
+    <section class="section">
+      <h2>PRODUCERS</h2>
+      <div id="producers" class="artists-grid"></div>
+      <p id="producers-empty" class="muted" style="display:none;">No producers yet.</p>
+    </section>
+    <section class="section">
+      <h2>VOCALISTS</h2>
+      <div id="vocalists" class="artists-grid"></div>
+      <p id="vocalists-empty" class="muted" style="display:none;">No vocalists yet.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-logo">
+      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
+    </div>
+    <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const GITHUB_OWNER = "Oysterdale";
+    const GITHUB_REPO  = "oysterdale-site";
+    const ARTISTS_PATH = "artists";
+    // (fetch + render-artists script ditt som før)
+  </script>
+
+  <!-- Structured data (JSON-LD) -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const domain = "https://oysterdalerecords.com";
+    const artists = document.querySelectorAll(".artist-card");
+    const items = [];
+    artists.forEach(a => {
+      const name  = a.querySelector(".artist-name")?.textContent?.trim();
+      const img   = a.querySelector(".artist-media")?.getAttribute("src");
+      const bio   = a.querySelector(".artist-bio")?.textContent?.trim();
+      const url   = domain + "/artists";
+      const links = Array.from(a.querySelectorAll(".artist-links a")).map(l => l.href);
+      if (name) {
+        const obj = {
+          "@type": "MusicGroup",
+          "name": name,
+          "url": url
+        };
+        if (img) obj.image = img;
+        if (bio) obj.description = bio;
+        if (links.length) obj.sameAs = links;
+        items.push(obj);
+      }
+    });
+    if (items.length) {
+      const jsonld = { "@context": "https://schema.org", "@graph": items };
+      const s = document.createElement("script");
+      s.type = "application/ld+json";
+      s.textContent = JSON.stringify(jsonld, null, 
