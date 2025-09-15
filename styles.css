@@ -14,34 +14,36 @@ a:hover{color:#999;text-decoration:none}
 
 @keyframes fadeIn{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
 h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
-h1{font-size:clamp(1.8rem,4.5vw,2.4rem);letter-spacing:.05em}
-h2{font-size:clamp(1.3rem,3.2vw,1.8rem);letter-spacing:.06em;margin-top:1rem}
-h3{font-size:clamp(1.1rem,2.6vw,1.4rem);letter-spacing:.06em;margin:1rem 0 .5rem}
 
-/* CONTAINER */
-.page-content{max-width:1024px;margin:0 auto;padding:2rem 6%}
-
-/* HEADER (sticky) */
+/* HEADER – FIXED */
 .site-header{
-  position:fixed;top:0;left:0;right:0;z-index:1000;background:#000;
-  border-bottom:1px solid #111;display:flex;align-items:center;justify-content:space-between;
-  padding:12px 18px
+  position:fixed; top:0; left:0; right:0; width:100%;
+  z-index:1000; background:#000;
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  padding:20px 5%; height:100px; border-bottom:1px solid #111;
 }
-.logo img{height:38px;width:auto}
-.main-nav{display:flex;gap:26px;align-items:center}
-.nav-links{display:flex;gap:22px;align-items:center}
-.nav-links a{font-size:.95rem;letter-spacing:.08em;text-transform:uppercase}
-.social-icons{display:flex;gap:14px}
-.social-icons a{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px}
-.social-icons i{font-size:18px}
+.logo-img{max-height:60px;height:auto;width:auto}
+.main-nav{display:flex;align-items:center;gap:30px;transition:.3s}
+.nav-links a{font-weight:700;text-transform:uppercase;font-size:.95rem;margin:0 12px}
+.nav-links a:hover,.nav-links a:active,.nav-links a.active{border-bottom:2px solid #fff}
+.social-icons a{font-size:1.2rem;margin-left:15px}
+.social-icons a:hover{color:#999}
+.menu-toggle{display:none;font-size:1.5rem;color:#fff;border:0;background:none;cursor:pointer}
 
-/* MENU-TOGGLE (desktop skjult) */
-.menu-toggle{display:none;background:transparent;border:0;cursor:pointer}
-.menu-toggle .bar{display:block;width:26px;height:2px;background:#fff;margin:6px 0;transition:.25s}
+/* CONTENT */
+.page-content{padding:2rem 5%;max-width:1000px;margin:0 auto;animation:fadeIn 1.3s ease-in-out}
+.page-content p{padding-bottom:1rem}
 
-/* HERO (forsidebanner) */
-.hero{
-  position:relative;margin:0 auto;max-width:1200px;width:100%;min-height:525px;
+/* HERO */
+.page-hero{width:100%;display:flex;align-items:center;justify-content:center;position:relative;animation:fadeIn 1.2s ease-in-out forwards}
+.page-hero h1{
+  padding-top:200px;font-size:3rem;font-weight:700;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.8);
+  position:absolute
+}
+.hero-image{height:525px;width:100%;object-fit:cover;object-position:center 28%}
+@media (max-width:600px){.hero-image{object-fit:contain;object-position:center;height:auto;width:99%}}
+.home-hero{
+  width:100%;min-height:525px;
   background:url('uploads/Forsidebilde_Oysterdale_med_svart.png') center/cover no-repeat #000;
   display:flex;align-items:center;justify-content:center;animation:fadeIn 1.2s ease-in-out forwards
 }
