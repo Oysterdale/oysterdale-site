@@ -1,18 +1,24 @@
-/* Oysterdale Records – SEO injector
- * Reads per-page JSON (e.g. /content/seo/index.json) and injects <meta> tags into <head>.
- * Works on static HTML (Netlify), no templating. Never writes to <body>.
+/* Oysterdale Records – SEO injector (v2)
+ * Static HTML friendly (Netlify). No templating. No body mutations.
+ * - Fetches per-page JSON (data-seo or derived from URL)
+ * - Injects <title>, <meta name="description">, <meta name="keywords">
+ *   and Open Graph tags into <head> only.
+ * - Logs clear errors/warnings to console; never writes to body.
  */
 
 (function () {
-  /** Utilities **/
-  function logError(...args) { console.error("[seo.js]", ...args); }
-  function logWarn(...args)  { console.warn("[seo.js]", ...args); }
+  "use strict";
 
-  function setOrCreateMetaBySelector(selector, attrs) {
-    let el = document.querySelector(selector);
+  /** ---------- utilities ---------- **/
+  function logError(...a) { console.error("[seo.js]", ...a); }
+  function logWarn (...a) { console.warn ("[seo.js]", ...a); }
+
+  // create/update a <meta> selected by CSS selector (e.g. meta[name="description"])
+  function setOrCreateMeta(selector, attrs) {
+    let el = document.head.querySelector(selector);
     if (!el) {
       el = document.createElement("meta");
-      // Ensure selector stays valid by setting the key used in the selector first
+      // ensure selector key is present first
       const firstKey = Object.keys(attrs)[0];
       el.setAttribute(firstKey, attrs[firstKey]);
       document.head.appendChild(el);
@@ -23,40 +29,18 @@
 
   function setNameMeta(name, content) {
     if (!content) return;
-    setOrCreateMetaBySelector(`meta[name="${name}"]`, { name, content });
+    setOrCreateMeta(`meta[name="${name}"]`, { name, content });
   }
 
   function setPropMeta(property, content) {
     if (!content) return;
-    setOrCreateMetaBySelector(`meta[property="${property}"]`, { property, content });
+    setOrCreateMeta(`meta[property="${property}"]`, { property, content });
   }
 
   function absolutize(url) {
+    if (!url) return url;
     try { return new URL(url, window.location.origin).toString(); }
-    catch { return url; } // If it's already absolute or invalid, just return as-is
-  }
-
-  function deriveSeoJsonFromPath() {
-    // Fallback if data-seo attr is missing:
-    // Map /, /index.html => /content/seo/index.json
-    // Map /about.html    => /content/seo/about.json
-    // Map /artists/      => /content/seo/artists.json  (treat trailing slash as a "page" name)
-    let path = window.location.pathname;
-
-    if (path === "/" || path === "") return "/content/seo/index.json";
-
-    // Remove leading slash
-    if (path.startsWith("/")) path = path.slice(1);
-
-    // If ends with .html -> trim extension
-    if (path.endsWith(".html")) path = path.replace(/\.html$/i, "");
-
-    // If ends with slash -> trim it
-    if (path.endsWith("/")) path = path.slice(0, -1);
-
-    // If still empty, use index
-    const slug = path || "index";
-    return `/content/seo/${slug}.json`;
+    catch { return url; }
   }
 
   function normalizeKeywords(kw) {
@@ -66,17 +50,34 @@
     return null;
   }
 
-  /** Main application **/
+  function deriveSeoJsonFromPath() {
+    // Fallback hvis data-seo mangler
+    // /           -> /content/seo/index.json
+    // /about.html -> /content/seo/about.json
+    // /artists/   -> /content/seo/artists.json
+    let path = window.location.pathname;
+    if (path === "/" || path === "") return "/content/seo/index.json";
+    if (path.startsWith("/")) path = path.slice(1);
+    if (path.endsWith(".html")) path = path.replace(/\.html$/i, "");
+    if (path.endsWith("/")) path = path.slice(0, -1);
+    const slug = path || "index";
+    return `/content/seo/${slug}.json`;
+  }
+
+  // prevent double-run on hot reloads etc.
+  if (document.documentElement.hasAttribute("data-seo-applied")) {
+    return;
+  }
+  document.documentElement.setAttribute("data-seo-applied", "1");
+
+  /** ---------- main ---------- **/
   async function applySEOFrom(seoUrl) {
     let data;
     try {
       const res = await fetch(seoUrl, { cache: "no-store" });
       if (!res.ok) {
-        if (res.status === 404) {
-          logError(`SEO JSON not found (404): ${seoUrl}`);
-        } else {
-          logError(`Failed to load SEO JSON (${res.status}): ${seoUrl}`);
-        }
+        if (res.status === 404) logError("SEO JSON not found (404):", seoUrl);
+        else logError(`Failed to load SEO JSON (${res.status}):`, seoUrl);
         return;
       }
       data = await res.json();
@@ -90,27 +91,24 @@
       return;
     }
 
-    // Title
+    // title
     if (typeof data.meta_title === "string" && data.meta_title.trim()) {
       document.title = data.meta_title.trim();
     } else {
       logWarn("meta_title missing in SEO JSON.");
     }
 
-    // Description
+    // description
     if (typeof data.meta_description === "string" && data.meta_description.trim()) {
       setNameMeta("description", data.meta_description.trim());
     } else {
       logWarn("meta_description missing in SEO JSON.");
     }
 
-    // Keywords
+    // keywords (string or array)
     const kw = normalizeKeywords(data.keywords);
-    if (kw) {
-      setNameMeta("keywords", kw);
-    } else {
-      logWarn("keywords missing/empty in SEO JSON.");
-    }
+    if (kw) setNameMeta("keywords", kw);
+    else logWarn("keywords missing/empty in SEO JSON.");
 
     // Open Graph
     const pageUrl = window.location.href.split("#")[0];
@@ -120,7 +118,6 @@
     if (data.og_title && data.og_title.trim()) {
       setPropMeta("og:title", data.og_title.trim());
     } else if (data.meta_title && data.meta_title.trim()) {
-      // Fallback to meta_title if og_title is missing
       setPropMeta("og:title", data.meta_title.trim());
       logWarn("og_title missing – fell back to meta_title.");
     } else {
@@ -130,7 +127,6 @@
     if (data.og_description && data.og_description.trim()) {
       setPropMeta("og:description", data.og_description.trim());
     } else if (data.meta_description && data.meta_description.trim()) {
-      // Fallback to meta_description if og_description is missing
       setPropMeta("og:description", data.meta_description.trim());
       logWarn("og_description missing – fell back to meta_description.");
     } else {
@@ -145,7 +141,7 @@
   }
 
   function init() {
-    // Read data-seo attribute from the script tag if present; otherwise derive from URL.
+    // aldri skriv til body – kun les fra currentScript og injiser i head
     const self = document.currentScript;
     let seoUrl = (self && self.dataset && self.dataset.seo) ? self.dataset.seo : null;
     if (!seoUrl) seoUrl = deriveSeoJsonFromPath();
