@@ -4,7 +4,7 @@ title: Dancing On The Clouds
 featured: ''
 date: 2025-08-01T00:00:00.000Z
 cover: /uploads/dancingontheclouds_v2.jpg
-spotify: ''
+spotify: https://open.spotify.com/track/6bWcWjQ571RfzvOfiFlZG1?si=6617b203961a4d83
 traxsource: ''
 beatport: ''
 apple_music: ''
