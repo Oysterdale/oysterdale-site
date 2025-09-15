@@ -3,56 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <!-- SEO -->
   <title>About — Oysterdale Records</title>
   <link rel="canonical" href="https://oysterdalerecords.com/about">
-  <link rel="icon" href="images/favicon.png" type="image/png" />
-  <meta name="description" content="About Oysterdale Records — house & disco label from Oslo. ‘Every Record Is a Pearl’." />
-  <meta property="og:site_name" content="Oysterdale Records" />
-  <meta property="og:title" content="About — Oysterdale Records" />
-  <meta property="og:description" content="House & disco label from Oslo. ‘Every Record Is a Pearl’." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://oysterdalerecords.com/about" />
-  <meta property="og:image" content="uploads/og-about.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="About — Oysterdale Records" />
-  <meta name="twitter:description" content="House & disco label from Oslo. ‘Every Record Is a Pearl’." />
-  <meta name="twitter:image" content="uploads/og-about.jpg" />
-  <!-- /SEO -->
-
+  <meta name="description" content="About Oysterdale Records — ‘Every Record Is a Pearl’." />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <div id="site-header"></div>
 
   <main class="page-content">
-    <h1 class="page-title">About</h1>
-    <div id="about-content" class="document-container">Loading…</div>
+    <h1>About</h1>
+    <div class="document-container">
+      <p><em>Every record is a pearl!</em></p>
+      <p>Oysterdale Records is a house & disco label from Oslo, Norway. We release music monthly and
+      focus on DJ-friendly cuts that work on the floor — both digital and vinyl.</p>
+    </div>
   </main>
 
   <footer>
-    <div class="footer-logo">
-      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
-    </div>
-    <p>&copy; <span id="year"></span> Oysterdale Records. All rights reserved.</p>
+    <div class="footer-logo"><img class="footer-logo-img" src="uploads/OysterdaleRecords_white_logo.png" alt=""></div>
+    <p>&copy; <span id="year"></span> Oysterdale Records</p>
   </footer>
 
   <script>
-    fetch("header.html").then(r => r.text()).then(html => {
+    fetch("header.html").then(r=>r.text()).then(html=>{
       document.getElementById("site-header").innerHTML = html;
-      const btn = document.getElementById("menu-toggle");
-      if (btn) btn.addEventListener("click", () => document.body.classList.toggle("nav-open"));
+      const btn=document.querySelector(".menu-toggle"), nav=document.querySelector(".main-nav");
+      if(btn&&nav){
+        const t=()=>{const o=nav.classList.toggle("open");btn.setAttribute("aria-expanded",String(o));};
+        btn.addEventListener("click",t);
+        document.addEventListener("click",e=>{if(e.target.closest(".nav-links a")) nav.classList.remove("open");});
+        document.addEventListener("keydown",e=>{if(e.key==="Escape") nav.classList.remove("open");});
+      }
     });
-
-    fetch("content/about.md")
-      .then(r => r.text())
-      .then(md => { document.getElementById("about-content").innerHTML = marked.parse(md); })
-      .catch(() => { document.getElementById("about-content").textContent = "Content failed to load."; });
-
-    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("year").textContent=new Date().getFullYear();
   </script>
 </body>
 </html>
