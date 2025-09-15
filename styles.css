@@ -79,13 +79,21 @@ h3{font-size:clamp(1.1rem,2.6vw,1.4rem);letter-spacing:.06em;margin:1rem 0 .5rem
 @media (max-width:768px){.releases-grid{grid-template-columns:1fr}.page-content{padding:1.5rem 4.5%}h1{font-size:2rem}}
 
 /* ARTIST PAGE CARDS */
-.artist{background:#111;padding:2rem;border-radius:10px;margin:2rem auto;max-width:500px;text-align:center;box-shadow:0 0 10px rgba(255,255,255,.05)}
+.artist{
+  background:#111;
+  padding:2rem;
+  border-radius:10px;
+  margin:2rem auto;
+  max-width:500px;
+  text-align:center;
+  box-shadow:0 0 10px rgba(255,255,255,.05)
+}
 
-/* FIX: alle artist-bilder samme format */
+/* ARTIST PHOTOS: fast størrelse og format */
 .artist-photo {
   width: 100%;
   aspect-ratio: 1 / 1;   /* kvadratisk */
-  object-fit: cover;     /* cropper til kvadrat */
+  object-fit: cover;     /* cropper til ramma */
   border-radius: 10px;
   display: block;
   margin: 0 auto 1rem;
