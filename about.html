@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records – About</title>
 
-  <!-- SEO loader: henter data fra JSON og skriver KUN meta-tags i <head> -->
+  <!-- (Valgfritt) Runtime-SEO fallback. Build-steget skriver uansett meta i <head>. -->
   <script src="js/seo.js" defer data-seo="/content/seo/about.json"></script>
 
   <link rel="stylesheet" href="styles.css" />
@@ -62,8 +62,7 @@
         }
       });
 
-    // Stripp YAML-frontmatter (--- … ---) fra markdown før rendering,
-    // så metadata aldri kan vises som tekst i body.
+    // Stripp YAML-frontmatter (--- … ---) fra markdown før rendering
     function stripFrontmatter(text) {
       const fm = /^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
       return text.replace(fm, '');
