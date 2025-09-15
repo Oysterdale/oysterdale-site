@@ -29,18 +29,18 @@ collections:
             widget: "object"
             collapsed: true
             fields:
-          - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
-          - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
-          - label: "Open Graph Image"
-            name: "og_image"
-            widget: "image"
-            required: false
-            allow_multiple: false
-            media_folder: "uploads/og"
-            public_folder: "/uploads/og"
               - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
               - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
               - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
+              - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
+              - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
+              - label: "Open Graph Image"
+                name: "og_image"
+                widget: "image"
+                required: false
+                allow_multiple: false
+                media_folder: "uploads/og"
+                public_folder: "/uploads/og"
 
       - file: "about.html"
         label: "About"
@@ -53,18 +53,18 @@ collections:
             widget: "object"
             collapsed: true
             fields:
-          - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
-          - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
-          - label: "Open Graph Image"
-            name: "og_image"
-            widget: "image"
-            required: false
-            allow_multiple: false
-            media_folder: "uploads/og"
-            public_folder: "/uploads/og"
               - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
               - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
               - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
+              - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
+              - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
+              - label: "Open Graph Image"
+                name: "og_image"
+                widget: "image"
+                required: false
+                allow_multiple: false
+                media_folder: "uploads/og"
+                public_folder: "/uploads/og"
 
       - file: "releases.html"
         label: "Releases Page"
@@ -77,18 +77,18 @@ collections:
             widget: "object"
             collapsed: true
             fields:
-          - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
-          - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
-          - label: "Open Graph Image"
-            name: "og_image"
-            widget: "image"
-            required: false
-            allow_multiple: false
-            media_folder: "uploads/og"
-            public_folder: "/uploads/og"
               - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
               - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
               - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
+              - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
+              - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
+              - label: "Open Graph Image"
+                name: "og_image"
+                widget: "image"
+                required: false
+                allow_multiple: false
+                media_folder: "uploads/og"
+                public_folder: "/uploads/og"
 
       - file: "artists.html"
         label: "Artists Page"
@@ -101,18 +101,18 @@ collections:
             widget: "object"
             collapsed: true
             fields:
-          - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
-          - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
-          - label: "Open Graph Image"
-            name: "og_image"
-            widget: "image"
-            required: false
-            allow_multiple: false
-            media_folder: "uploads/og"
-            public_folder: "/uploads/og"
               - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
               - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
               - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
+              - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
+              - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
+              - label: "Open Graph Image"
+                name: "og_image"
+                widget: "image"
+                required: false
+                allow_multiple: false
+                media_folder: "uploads/og"
+                public_folder: "/uploads/og"
 
       - file: "contact.html"
         label: "Contact"
@@ -125,18 +125,18 @@ collections:
             widget: "object"
             collapsed: true
             fields:
-          - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
-          - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
-          - label: "Open Graph Image"
-            name: "og_image"
-            widget: "image"
-            required: false
-            allow_multiple: false
-            media_folder: "uploads/og"
-            public_folder: "/uploads/og"
               - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
               - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
               - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
+              - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
+              - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
+              - label: "Open Graph Image"
+                name: "og_image"
+                widget: "image"
+                required: false
+                allow_multiple: false
+                media_folder: "uploads/og"
+                public_folder: "/uploads/og"
 
   # -------------------------
   # RELEASES (mappebasert)
@@ -181,6 +181,9 @@ collections:
         widget: "object"
         collapsed: true
         fields:
+          - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
+          - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
+          - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
           - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
           - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
           - label: "Open Graph Image"
@@ -190,9 +193,6 @@ collections:
             allow_multiple: false
             media_folder: "uploads/og"
             public_folder: "/uploads/og"
-          - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
-          - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
-          - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
 
   # -------------------------
   # ARTISTS (mappebasert)
@@ -227,6 +227,9 @@ collections:
         widget: "object"
         collapsed: true
         fields:
+          - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
+          - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
+          - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
           - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
           - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
           - label: "Open Graph Image"
@@ -236,6 +239,29 @@ collections:
             allow_multiple: false
             media_folder: "uploads/og"
             public_folder: "/uploads/og"
-          - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
-          - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
-          - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
+
+  # -------------------------
+  # SEO JSON (for seo.js)
+  # -------------------------
+  - name: "seo_pages"
+    label: "SEO (Pages JSON)"
+    label_singular: "SEO Page"
+    folder: "content/seo"
+    create: true
+    extension: "json"
+    format: "json"
+    identifier_field: "page"
+    fields:
+      - { label: "Page", name: "page", widget: "string", hint: "f.eks. index, about, releases, artists, contact", required: true }
+      - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
+      - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
+      - { label: "Keywords", name: "keywords", widget: "list", required: false }
+      - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
+      - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
+      - label: "Open Graph Image"
+        name: "og_image"
+        widget: "image"
+        required: false
+        allow_multiple: false
+        media_folder: "uploads/og"
+        public_folder: "/uploads/og"
