@@ -4,18 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <!-- SEO / Open Graph -->
-  <title>{{ seo.meta_title | default(title) }}</title>
-  {% if seo.meta_description %}<meta name="description" content="{{ seo.meta_description }}">{% endif %}
-  {% if seo.keywords and seo.keywords.size > 0 %}
-    <meta name="keywords" content="{{ seo.keywords | join: ', ' }}">
-  {% endif %}
+  <title>Oysterdale Records</title>
 
-  {% if seo.og_title %}<meta property="og:title" content="{{ seo.og_title }}">{% endif %}
-  {% if seo.og_description %}<meta property="og:description" content="{{ seo.og_description }}">{% endif %}
-  {% if seo.og_image %}<meta property="og:image" content="{{ seo.og_image }}">{% endif %}
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <!-- SEO loader: peker til JSON med SEO-data for denne siden -->
+  <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="images/favicon.png" type="image/png" />
@@ -61,8 +53,7 @@
     <section class="intro-section">
       <!-- Spotify embed -->
       <div class="spotify-embed">
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>      
-      </div>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>      </div>
     </section>
   </main>
 
@@ -107,6 +98,7 @@
           });
         }
       });
+
 
     fetch('content/index.md')
       .then(res => res.text())
