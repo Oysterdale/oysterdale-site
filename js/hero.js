@@ -4,24 +4,42 @@
 
   const fallbackSrc = img.getAttribute("data-fallback") || img.getAttribute("src");
 
+  // Bygg Netlify Image CDN-URL med ønsket bredde + format/kompresjon
   function buildCdnUrl(path, w) {
+    const fm = "webp";   // moderne format
+    const q  = "74";     // kompresjon (0-100). 70–80 er ofte fint for hero
+    const fit = "cover"; // matcher CSS object-fit: cover
+
+    // Hvis path allerede peker på Netlify Image CDN, oppdater parametere
     if (path.startsWith("/.netlify/images")) {
       const u = new URL(path, window.location.origin);
       u.searchParams.set("w", String(w));
+      u.searchParams.set("fm", fm);
+      u.searchParams.set("q", q);
+      u.searchParams.set("fit", fit);
       return u.pathname + "?" + u.searchParams.toString();
     }
-    return `/.netlify/images?url=${encodeURIComponent(path)}&w=${w}`;
+
+    // Ellers pakk originalsti (kan være /uploads/… eller full https-URL)
+    return `/.netlify/images?url=${encodeURIComponent(path)}&w=${w}&fm=${fm}&q=${q}&fit=${fit}`;
   }
 
+  // Sett responsivt bilde (src + srcset + sizes)
   function setResponsiveImage(path) {
-    const widths = [480, 800, 1200, 1600];
-    img.src    = buildCdnUrl(path, 1200);
+    const widths = [480, 768, 1024, 1280, 1366, 1440, 1600];
+
+    img.src    = buildCdnUrl(path, 1366); // god default nær typisk visningsbredde
     img.srcset = widths.map(w => `${buildCdnUrl(path, w)} ${w}w`).join(", ");
     img.sizes  = "100vw";
+
+    // Bedre LCP for hero
+    img.setAttribute("fetchpriority", "high");
+    img.removeAttribute("loading"); // hero skal ikke lazy-loades
   }
 
+  // Hent hero-bilde fra admin (data/home.json). Fallback brukes hvis tomt/feil.
   fetch("data/home.json", { cache: "no-store" })
-    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(r => (r.ok ? r.json() : Promise.reject()))
     .then(cfg => {
       const url = (cfg && cfg.hero_image) ? String(cfg.hero_image).trim() : "";
       setResponsiveImage(url || fallbackSrc);
