@@ -3,41 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About — Oysterdale Records</title>
-  <link rel="canonical" href="https://oysterdalerecords.com/about">
-  <meta name="description" content="About Oysterdale Records — ‘Every Record Is a Pearl’." />
+  <title>Oysterdale Records – About</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="images/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <div id="site-header"></div>
 
-  <main class="page-content">
+  <!-- Hero image with title -->
+  <div class="page-hero">
+    <img class="hero-image" src="uploads/okplus_bjorvika.jpg" alt="Image of OkPlus in front of a city landscape"/>
     <h1>About</h1>
-    <div class="document-container">
-      <p><em>Every record is a pearl!</em></p>
-      <p>Oysterdale Records is a house & disco label from Oslo, Norway. We release music monthly and
-      focus on DJ-friendly cuts that work on the floor — both digital and vinyl.</p>
-    </div>
+  </div>
+
+  <!-- Main content -->
+  <main class="page-content">
+    <div id="about-content">Loading content...</div>
   </main>
 
+  <!-- Footer -->
   <footer>
-    <div class="footer-logo"><img class="footer-logo-img" src="uploads/OysterdaleRecords_white_logo.png" alt=""></div>
-    <p>&copy; <span id="year"></span> Oysterdale Records</p>
+    <div class="footer-logo">
+      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
+    </div>
+    <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
   </footer>
 
+  <!-- Header & nav script -->
   <script>
-    fetch("header.html").then(r=>r.text()).then(html=>{
-      document.getElementById("site-header").innerHTML = html;
-      const btn=document.querySelector(".menu-toggle"), nav=document.querySelector(".main-nav");
-      if(btn&&nav){
-        const t=()=>{const o=nav.classList.toggle("open");btn.setAttribute("aria-expanded",String(o));};
-        btn.addEventListener("click",t);
-        document.addEventListener("click",e=>{if(e.target.closest(".nav-links a")) nav.classList.remove("open");});
-        document.addEventListener("keydown",e=>{if(e.key==="Escape") nav.classList.remove("open");});
-      }
-    });
-    document.getElementById("year").textContent=new Date().getFullYear();
+    fetch('header.html')
+      .then(res => res.text())
+      .then(html => {
+        document.body.insertAdjacentHTML('afterbegin', html);
+
+        const toggleButton = document.getElementById('menu-toggle');
+        const nav = document.querySelector('.main-nav');
+        const navLinks = document.querySelectorAll('.main-nav a');
+
+        if (toggleButton && nav) {
+          toggleButton.addEventListener('click', () => {
+            nav.classList.toggle('open');
+            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+          });
+          navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+              if (nav.classList.contains('open')) {
+                nav.classList.remove('open');
+                toggleButton.textContent = '☰';
+              }
+            });
+          });
+        }
+      });
+
+    fetch('content/about.md')
+      .then(res => res.text())
+      .then(md => {
+        document.getElementById('about-content').innerHTML = marked.parse(md);
+      });
   </script>
 </body>
 </html>
