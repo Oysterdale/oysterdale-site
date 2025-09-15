@@ -5,7 +5,7 @@ featured: ''
 date: 2025-08-01T00:00:00.000Z
 cover: /uploads/dancingontheclouds_v2.jpg
 spotify: https://open.spotify.com/track/6bWcWjQ571RfzvOfiFlZG1?si=6617b203961a4d83
-traxsource: ''
+traxsource: https://www.traxsource.com/track/13686015/dancing-on-the-clouds-extended-mix
 beatport: ''
 apple_music: ''
 deezer: https://www.deezer.com/en/album/778993921
