@@ -1,36 +1,103 @@
-(function () {
-  const img = document.getElementById("home-hero");
-  if (!img) return;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oysterdale Records</title>
 
-  const fallbackSrc = img.getAttribute("data-fallback") || img.getAttribute("src");
+  <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
-  // Bygg Netlify Image CDN-URL
-  function buildCdnUrl(path, w) {
-    // Hvis path allerede er en CDN-URL, bare oppdater w-parameteren
-    if (path.startsWith("/.netlify/images")) {
-      const u = new URL(path, window.location.origin);
-      u.searchParams.set("w", String(w));
-      return u.pathname + "?" + u.searchParams.toString();
-    }
-    // Ellers pakk inn originalsti
-    return `/.netlify/images?url=${encodeURIComponent(path)}&w=${w}`;
-    // (Netlify støtter også eksterne URLer her hvis du skulle lagre full https-URL)
-  }
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="images/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  function setResponsiveImage(path) {
-    const widths = [480, 800, 1200, 1600];
-    img.src    = buildCdnUrl(path, 1200);
-    img.srcset = widths.map(w => `${buildCdnUrl(path, w)} ${w}w`).join(", ");
-    img.sizes  = "100vw";
-  }
+  <style>
+    .intro-section{max-width:800px;margin:2rem auto;padding:0 1rem;color:white}
+    .spotify-embed{margin-top:2rem;display:flex;justify-content:center}
+    .spotify-embed iframe{width:100%;max-width:600px;height:600px;border-radius:12px}
+    @media (max-width:768px){.spotify-embed iframe{height:500px}}
+  </style>
+</head>
+<body>
 
-  fetch("data/home.json", { cache: "no-store" })
-    .then(r => r.ok ? r.json() : Promise.reject())
-    .then(cfg => {
-      const url = (cfg && cfg.hero_image) ? String(cfg.hero_image).trim() : "";
-      setResponsiveImage(url || fallbackSrc);
-    })
-    .catch(() => {
-      setResponsiveImage(fallbackSrc);
+  <div class="home-hero">
+    <!-- Hero via Netlify Image CDN (NB: w=) -->
+    <img
+      id="home-hero"
+      class="hero-image"
+      src="/.netlify/images?url=/images/forsidebilde.png&w=1200"
+      srcset="
+        /.netlify/images?url=/images/forsidebilde.png&w=480 480w,
+        /.netlify/images?url=/images/forsidebilde.png&w=800 800w,
+        /.netlify/images?url=/images/forsidebilde.png&w=1200 1200w,
+        /.netlify/images?url=/images/forsidebilde.png&w=1600 1600w
+      "
+      sizes="100vw"
+      data-fallback="/.netlify/images?url=/images/forsidebilde.png&w=1200"
+      alt="Oysterdale Records hero image"
+    />
+  </div>
+
+  <main class="page-content">
+    <div id="home-content">Loading content...</div>
+
+    <section class="intro-section">
+      <div class="spotify-embed">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs">
+      <img src="images/pearl.png" alt="An image of a pearl" class="footer-pearl"/>
+    </a>
+    <p><b><em>YOU FOUND A HIDDEN PEARL</em></b></p>
+
+    <div class="footer-logo">
+      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
+    </div>
+    <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
+  </footer>
+
+  <script>
+    fetch('header.html').then(res=>res.text()).then(html=>{
+      document.body.insertAdjacentHTML('afterbegin', html);
+      const toggleButton=document.getElementById('menu-toggle');
+      const nav=document.querySelector('.main-nav');
+      const navLinks=document.querySelectorAll('.main-nav a');
+      if(toggleButton&&nav){
+        toggleButton.addEventListener('click', ()=>{
+          nav.classList.toggle('open');
+          toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+        });
+        navLinks.forEach(link=>{
+          link.addEventListener('click', ()=>{
+            if(nav.classList.contains('open')){
+              nav.classList.remove('open'); toggleButton.textContent='☰';
+            }
+          });
+        });
+      }
     });
-})();
+
+    function stripFrontmatter(text){
+      const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
+      return text.replace(fm,'');
+    }
+    fetch('content/index.md')
+      .then(res=>res.text())
+      .then(md=>{ document.getElementById('home-content').innerHTML = marked.parse(stripFrontmatter(md)); })
+      .catch(err=>console.error('Index markdown load error:', err));
+  </script>
+
+  <!-- Viktig: ekstern JS som EGEN fil, ikke lim inn koden her -->
+  <script src="js/hero.js" defer></script>
+</body>
+</html>
