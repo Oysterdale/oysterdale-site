@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records – Contact</title>
 
-  <!-- SEO loader: henter data fra JSON og setter meta-tags -->
+  <!-- SEO loader: henter data fra JSON og skriver KUN meta-tags i <head> -->
   <script src="js/seo.js" defer data-seo="/content/seo/contact.json"></script>
 
   <link rel="stylesheet" href="styles.css" />
@@ -25,6 +25,7 @@
   </footer>
 
   <script>
+    // Sett inn header + mobilmeny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
@@ -51,11 +52,21 @@
         }
       });
 
+    // Stripp YAML-frontmatter (--- … ---) før markdown-rendering,
+    // så metadata aldri kan lekke til body.
+    function stripFrontmatter(text) {
+      const fm = /^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
+      return text.replace(fm, '');
+    }
+
+    // Last og render innholdet
     fetch('content/contact.md')
       .then(res => res.text())
       .then(md => {
-        document.getElementById('contact-content').innerHTML = marked.parse(md);
-      });
+        const clean = stripFrontmatter(md);
+        document.getElementById('contact-content').innerHTML = marked.parse(clean);
+      })
+      .catch(err => console.error('Contact markdown load error:', err));
   </script>
 </body>
 </html>
