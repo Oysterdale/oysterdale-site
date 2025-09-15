@@ -40,12 +40,31 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
   padding-top:200px;font-size:3rem;font-weight:700;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.8);
   position:absolute
 }
-.hero-image{height:525px;width:100%;object-fit:cover;object-position:center 28%}
-@media (max-width:600px){.hero-image{object-fit:contain;object-position:center;height:auto;width:99%}}
+
+/* NY HERO-STIL – midtstill alltid */
 .home-hero{
-  width:100%;min-height:525px;
-  background:url('uploads/Forsidebilde_Oysterdale_med_svart.png') center/cover no-repeat #000;
-  display:flex;align-items:center;justify-content:center;animation:fadeIn 1.2s ease-in-out forwards
+  position: relative;
+  width: 100%;
+  min-height: 525px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  animation:fadeIn 1.2s ease-in-out forwards;
+  background: #000;
+}
+
+.hero-image{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  object-fit: cover;
 }
 
 /* RELEASE CARD (kompakt) */
