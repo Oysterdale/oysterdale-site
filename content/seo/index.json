@@ -1,8 +1,15 @@
 {
+  "page": "Home",
   "meta_title": "Oysterdale Records – House & Disco for the Floor",
   "meta_description": "Independent label from Oslo. Club-first house & disco released monthly. Every record is a pearl.",
-  "keywords": ["Oysterdale Records", "OKPLUS", "House", "Disco", "Oslo"],
+  "keywords": [
+    "Oysterdale Records",
+    "OKPLUS",
+    "House",
+    "Disco",
+    "Oslo"
+  ],
   "og_title": "Oysterdale Records",
-  "og_description": "Every Record Is a Pearl.",
-  "og_image": "/uploads/og/oysterdale_og.jpg"
+  "og_description": "Experience the best pearls of house, disco, and electronic music. Explore our latest releases, join the Oysterdale community, and discover unique sounds.",
+  "og_image": "/uploads/OysterdaleRecords_whitelogo_black_background.jpg"
 }
