@@ -1,14 +1,20 @@
 {
-  "meta_title": "Releases \u2013 Oysterdale Records",
+  "page": "Releases",
+  "meta_title": "Releases – Oysterdale Records",
   "meta_description": "Explore Oysterdale Records releases across house and disco: stream, buy, and support the artists.",
   "keywords": [
     "Oysterdale Records",
     "Releases",
     "House",
     "Disco",
-    "Music"
+    "Music",
+    "Oslo House",
+    "Housemusikk",
+    "Disco House",
+    "Disco House Oslo",
+    "House plateselskap"
   ],
   "og_title": "Oysterdale Releases",
   "og_description": "Discover the latest tracks and catalog from Oysterdale Records.",
-  "og_image": "/uploads/og/oysterdale_og.jpg"
+  "og_image": "/uploads/OysterdaleRecords_whitelogo_black_background.jpg"
 }
