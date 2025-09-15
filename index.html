@@ -6,7 +6,7 @@
 
   <title>Oysterdale Records</title>
 
-  <!-- SEO loader: peker til JSON med SEO-data for denne siden -->
+  <!-- SEO loader: henter data fra JSON og setter meta-tags -->
   <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
   <link rel="stylesheet" href="styles.css" />
@@ -53,7 +53,8 @@
     <section class="intro-section">
       <!-- Spotify embed -->
       <div class="spotify-embed">
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>      </div>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>      
+      </div>
     </section>
   </main>
 
@@ -98,7 +99,6 @@
           });
         }
       });
-
 
     fetch('content/index.md')
       .then(res => res.text())
