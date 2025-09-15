@@ -1,157 +1,157 @@
-/* ===========================
-   RESET & BASE
-   =========================== */
-* { margin:0; padding:0; box-sizing:border-box; }
-html, body { width:100%; overflow-x:hidden; }
-img, svg, video, canvas { max-width:100%; height:auto; display:block; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oysterdale Records – Releases</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="images/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <script>
+    fetch("header.html").then(r=>r.text()).then(html=>{
+      document.body.insertAdjacentHTML("afterbegin", html);
+      const btn=document.getElementById("menu-toggle"), nav=document.querySelector(".main-nav");
+      if(btn&&nav){
+        const t=()=>{const o=nav.classList.toggle("open");btn.textContent=o?"✖":"☰";};
+        btn.addEventListener("click",t);
+        document.addEventListener("click",e=>{ if(e.target.closest(".nav-links a")) {nav.classList.remove("open"); btn.textContent="☰";} });
+      }
+    });
+  </script>
 
-body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  color:#fff;
-  background:#000;
-  line-height:1.6;
-  padding-top:100px; /* plass til header */
-}
+  <main class="page-content">
+    <section id="releases-header" class="fade-in">
+      <h1>RELEASES</h1>
+      <p>Stream or buy from your preferred platform.</p>
+    </section>
 
-/* Tekst */
-a { color:#fff; text-decoration:none; }
-a:hover { color:#bbb; }
-h1, h2, h3 { text-transform:uppercase; letter-spacing:.04em; }
+    <div id="releases-content" class="releases-grid">Loading releases...</div>
+  </main>
 
-/* Container */
-.page-content { max-width:1000px; margin:0 auto; padding:2rem 5%; }
+  <footer>
+    <div class="footer-logo">
+      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
+    </div>
+    <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
+  </footer>
 
-/* ===========================
-   HEADER (STICKY)
-   =========================== */
-.site-header{
-  position:fixed; inset:0 0 auto 0; z-index:1000;
-  display:flex; align-items:center; justify-content:space-between;
-  background:#000; border-bottom:1px solid #111;
-  height:100px; padding:20px 5%;
-}
-.logo-img{ height:38px; width:auto; } /* normal logo-størrelse */
+  <script>
+    const OWNER="Oysterdale", REPO="oysterdale-site", DIR="releases";
 
-.main-nav{ display:flex; align-items:center; gap:26px; }
-.nav-links{ display:flex; gap:22px; }
-.nav-links a{ font-size:.95rem; font-weight:700; }
-.nav-links a:hover, .nav-links a.active{ border-bottom:2px solid #fff; }
+    async function listFiles(){
+      const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
+      if(!r.ok) throw new Error("GitHub list failed");
+      return (await r.json()).filter(f=>f.type==="file" && f.name.endsWith(".md"));
+    }
+    function parseFM(md){
+      const parts=md.split('---');
+      if(parts.length<3) return {data:{}, body:md};
+      const yaml=parts[1], body=parts.slice(2).join('---').trim();
+      const data={};
+      yaml.split(/\r?\n/).forEach(line=>{
+        const m=line.match(/^([^:]+):\s*(.*)$/);
+        if(m){
+          let v=m[2].trim().replace(/^"(.*)"$/,'$1');
+          data[m[1].trim()] = v;
+        }
+      });
+      return {data, body};
+    }
+    function niceDate(iso){ if(!iso) return ""; const d=new Date(iso); return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}); }
 
-.social-icons{ display:flex; gap:14px; }
-.social-icons i{ font-size:18px; }
-.menu-toggle{ display:none; border:0; background:transparent; color:#fff; font-size:1.5rem; cursor:pointer; }
+    // Kun godkjente plattformer – ingen fallback => ingen "safari"-/link-ikon
+    const IMG_PLATFORMS = new Set(["deezer","tidal","beatport","traxsource","itunes"]);
+    const ICONS = {
+      spotify: "fa-brands fa-spotify",
+      apple:   "fa-brands fa-apple",
+      youtube: "fa-brands fa-youtube",
+      ytmusic: "fa-brands fa-youtube",
+      amazon:  "fa-brands fa-amazon",
+      bandcamp:"fa-brands fa-bandcamp",
+      soundcloud:"fa-brands fa-soundcloud",
+      itunes: "", deezer: "", tidal: "", beatport: "", traxsource: ""
+    };
+    function platformButton(key,url){
+      if(!url) return "";
+      if(IMG_PLATFORMS.has(key)){
+        const file = key === "itunes" ? "itunes" : key;
+        return `<a href="${url}" target="_blank" rel="noopener"><img src="images/platforms/${file}.svg" alt="${key}"></a>`;
+      }
+      const cls = ICONS[key];
+      return cls ? `<a href="${url}" target="_blank" rel="noopener" aria-label="${key}"><i class="${cls}"></i></a>` : "";
+    }
 
-/* ===========================
-   HERO / TOPP-BILDER
-   =========================== */
-.home-hero{
-  width:100%; min-height:525px;
-  background:url('uploads/Forsidebilde_Oysterdale_med_svart.png') center/cover no-repeat #000;
-}
+    async function loadRelease(file){
+      const md = await fetch(file.download_url).then(r=>r.text());
+      const {data} = parseFM(md);
 
-.page-hero{ position:relative; width:100%; }
-.page-hero h1{
-  position:absolute; left:5%; top:24px; font-size:2.2rem; font-weight:800;
-}
-.hero-image{
-  width:100%; height:525px; object-fit:cover; object-position:center 28%;
-}
-@media (max-width:600px){
-  .hero-image{ object-fit:contain; height:auto; width:99%; }
-}
+      const title   = (data.title   || "").trim();
+      const artist  = (data.artists || data.artist || "").trim();
+      // feat. vises kun hvis det faktisk finnes innhold
+      const featRaw = (data.featured || data.feat || "").trim().replace(/^"(.*)"$/, "$1");
+      const featured = featRaw && featRaw !== "''" && featRaw !== '""' ? featRaw : "";
 
-/* ===========================
-   RELEASES
-   =========================== */
-.releases-grid{
-  display:grid; grid-template-columns:repeat(2,1fr); gap:2rem; margin-top:2rem;
-}
-@media (max-width:768px){ .releases-grid{ grid-template-columns:1fr; } }
+      const cover   = (data.cover || data.image || "").trim();
+      const dateStr = (data.date  || "").trim();
 
-.release{
-  background:#111; border-radius:10px;
-  padding:1.25rem; text-align:center;
-  box-shadow:0 0 10px rgba(255,255,255,.06);
-  display:flex; flex-direction:column;
-}
+      // bygg kun ikoner for plattformer som har lenke
+      const platforms = ["spotify","apple","itunes","deezer","amazon","youtube","ytmusic","tidal","beatport","traxsource","bandcamp","soundcloud"];
+      const links = platforms
+        .map(k => platformButton(k, (data[k]||"").trim()))
+        .filter(Boolean)
+        .join("");
 
-.release-header{ margin-bottom:.6rem; }
-.release-artist{
-  font-weight:800; font-size:1.05rem; line-height:1.1;
-}
-.release-title{
-  color:#ddd; font-weight:600; font-size:.98rem; line-height:1.1;
-  margin-top:.15rem;
-}
-.release-featured{ color:#ccc; font-style:italic; margin-top:.15rem; }
+      // coverklikk sender til første prioriterte lenke hvis den finnes
+      const coverHref = [data.spotify,data.apple,data.youtube,data.ytmusic,data.deezer,data.amazon,data.tidal,data.itunes,data.beatport,data.traxsource,data.bandcamp]
+        .find(Boolean);
 
-.release-cover{
-  width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:10px;
-  margin:.35rem 0 .8rem;
-}
+      return `
+        <article class="release">
+          <div class="release-content">
+            <div class="release-header">
+              ${artist ? `<div class="release-artist">${artist}</div>` : ``}
+              ${title  ? `<div class="release-title">${title}</div>` : ``}
+              ${featured ? `<div class="release-featured">feat. ${featured}</div>` : ``}
+            </div>
 
-/* Plattform-ikoner (runde knapper) */
-.platform-icons{
-  display:flex; flex-wrap:wrap; justify-content:center; align-items:center;
-  gap:12px; margin:.2rem 0 .8rem;
-}
-.platform-icons a{
-  width:42px; height:42px; border-radius:999px;
-  background:rgba(255,255,255,.06);
-  display:inline-flex; align-items:center; justify-content:center;
-  transition:transform .12s ease, background .12s ease;
-}
-.platform-icons a:hover{ background:rgba(255,255,255,.12); transform:translateY(-1px); }
-.platform-icons i{ font-size:22px; line-height:1; }
-.platform-icons img{ height:22px; width:auto; filter:brightness(0) invert(1); }
+            ${cover ? `${coverHref?`<a href="${coverHref}" target="_blank" rel="noopener">`:``}
+              <img class="release-cover" src="${cover}" alt="${artist ? artist + ' – ' : ''}${title}">
+            ${coverHref?`</a>`:``}` : ``}
 
-.release-date{
-  margin-top:auto; color:#ccc; font-size:.92rem;
-}
+            <div class="platform-icons">${links}</div>
+            ${dateStr ? `<div class="release-date">Release date: ${niceDate(dateStr)}</div>` : ``}
+          </div>
+        </article>
+      `;
+    }
 
-/* ===========================
-   ARTISTS
-   =========================== */
-.artist{
-  background:#111; border-radius:10px; padding:1.4rem;
-  box-shadow:0 0 10px rgba(255,255,255,.06);
-  text-align:center;
-}
-.artist h3{ margin:.8rem 0 0; font-size:1rem; }
+    (async ()=>{
+      const container = document.getElementById("releases-content");
+      try{
+        const files = await listFiles();
+        const items = await Promise.all(files.map(loadRelease));
+        // sortér nyeste først
+        const withDate = await Promise.all(files.map(async f=>{
+          const md = await fetch(f.download_url).then(r=>r.text());
+          const {data} = parseFM(md);
+          return {date: new Date(data.date||0), file:f};
+        }));
+        // ordne samme rekkefølge i html
+        const sorted = (await Promise.all(files.map(async f=>{
+          const md = await fetch(f.download_url).then(r=>r.text());
+          const {data} = parseFM(md);
+          return { html: await loadRelease(f), date: new Date(data.date||0) };
+        }))).sort((a,b)=>b.date-a.date);
 
-/* Ensartet bildeformat uten å bli for stort */
-.artist-photo{
-  width:100%;
-  max-width:400px;           /* hindrer at de blir gigantiske */
-  aspect-ratio:1/1;          /* alle vises kvadratisk */
-  object-fit:cover;
-  border-radius:10px;
-  margin:0 auto .8rem;
-  display:block;
-}
-
-/* ===========================
-   FOOTER
-   =========================== */
-footer{
-  text-align:center; padding:2rem 1rem;
-  color:#666; border-top:1px solid #111; background:#000;
-}
-.footer-pearl{ height:70px; margin:0 auto 10px; }           /* mindre perle */
-.footer-logo{ display:flex; justify-content:center; margin-top:12px; }
-.footer-logo-img{ height:140px; opacity:.92; }               /* mindre footer-logo */
-
-/* ===========================
-   MOBILNAV
-   =========================== */
-@media (max-width:1150px){
-  .menu-toggle{ display:block; position:absolute; right:20px; top:20px; }
-  .main-nav{
-    position:absolute; left:0; right:0; top:100px;
-    display:none; flex-direction:column; align-items:center;
-    background:#000; padding:18px 0; border-top:1px solid #111;
-  }
-  .main-nav.open{ display:flex; }
-  .nav-links{ flex-direction:column; gap:18px; margin-bottom:14px; }
-  .social-icons{ justify-content:center; flex-wrap:wrap; gap:14px; }
-}
+        container.innerHTML = sorted.map(x=>x.html).join("");
+      }catch(e){
+        console.error(e);
+        container.innerHTML = "<p>Could not load releases.</p>";
+      }
+    })();
+  </script>
+</body>
+</html>
