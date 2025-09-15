@@ -1,13 +1,3 @@
----
-title: ''
-seo:
-  meta_title: Housemusikk
-  meta_description: Housemusikk
-  keywords:
-    - Housemusikk
-  og_title: Housemusikk
-  og_description: Housemusikk
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +6,7 @@ seo:
 
   <title>Oysterdale Records</title>
 
-  <!-- SEO loader: henter data fra JSON og setter meta-tags -->
+  <!-- SEO loader: henter data fra JSON og setter KUN meta-tags i <head> -->
   <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
   <link rel="stylesheet" href="styles.css" />
@@ -58,12 +48,12 @@ seo:
   <div class="home-hero"></div>
 
   <main class="page-content">
-      <div id="home-content">Loading content...</div>
+    <div id="home-content">Loading content...</div>
 
     <section class="intro-section">
       <!-- Spotify embed -->
       <div class="spotify-embed">
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>      
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
     </section>
   </main>
@@ -79,7 +69,6 @@ seo:
       <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
     </div>
     <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
-
   </footer>
 
   <script>
@@ -110,11 +99,21 @@ seo:
         }
       });
 
+    // Stripp YAML-frontmatter (--- … ---) fra markdown før rendering,
+    // så metadata aldri kan vises som tekst i body.
+    function stripFrontmatter(text) {
+      const fm = /^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
+      return text.replace(fm, '');
+    }
+
+    // Last og render innholdet
     fetch('content/index.md')
       .then(res => res.text())
       .then(md => {
-        document.getElementById('home-content').innerHTML = marked.parse(md);
-      });
+        const clean = stripFrontmatter(md);
+        document.getElementById('home-content').innerHTML = marked.parse(clean);
+      })
+      .catch(err => console.error('Index markdown load error:', err));
   </script>
 </body>
 </html>
