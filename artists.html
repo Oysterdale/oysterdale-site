@@ -25,24 +25,9 @@
   </noscript>
 
   <link rel="icon" href="images/favicon.png" type="image/png" />
-
-  <!-- Spesifikk styling for artist-bilder -->
-  <style>
-    .artist-photo {
-      width: 240px;
-      height: 240px;
-      object-fit: cover;
-      border-radius: 8px;
-      display: block;
-      margin: 0 auto;
-    }
-    .artist {
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
-  <!-- Header (henter felles header med a11y-fikser) -->
+  <!-- Header (felles) -->
   <script>
     fetch('header.html').then(r=>r.text()).then(html=>{
       document.body.insertAdjacentHTML('afterbegin', html);
@@ -76,8 +61,7 @@
         alt="Oysterdale Records Logo"
         class="footer-logo-img"
         width="260" height="260"
-        loading="lazy"
-        decoding="async"
+        loading="lazy" decoding="async"
       >
     </div>
     <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
@@ -86,16 +70,15 @@
   <script>
     const OWNER="Oysterdale", REPO="oysterdale-site", DIR="artists";
 
-    // Bygg Netlify Image URL for responsive bilder
+    // Netlify Image helper (samme fil, ulike bredder)
     function ni(url, w){
-      const u = encodeURIComponent(url);
-      return `/.netlify/images?url=${u}&w=${w}&fm=webp&q=74&fit=cover`;
+      return `/.netlify/images?url=${encodeURIComponent(url)}&w=${w}&fm=webp&q=74&fit=cover`;
     }
 
-    function listFiles(){
-      return fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`)
-        .then(r=>{ if(!r.ok) throw new Error("GitHub list failed"); return r.json(); })
-        .then(arr=>arr.filter(f=>f.name.endsWith(".md")));
+    async function listFiles(){
+      const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
+      if(!r.ok) throw new Error("GitHub list failed");
+      return (await r.json()).filter(f=>f.name.endsWith(".md"));
     }
 
     function parseFrontmatter(md){
@@ -115,17 +98,19 @@
 
     function imgTag(src, alt){
       if(!src) return "";
-      const src240 = ni(src,240);
-      const src480 = ni(src,480);
+      // Behold visuelt uttrykk: maks ~400px kvadrat i kortet
+      const w200 = ni(src,200);
+      const w320 = ni(src,320);
+      const w400 = ni(src,400);
+      const w600 = ni(src,600);
       return `
         <img
           class="artist-photo"
-          src="${src240}"
-          srcset="${src240} 240w, ${src480} 480w"
-          sizes="240px"
+          src="${w400}"
+          srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
+          sizes="(max-width: 768px) 90vw, 400px"
           alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
-          loading="lazy"
-          decoding="async"
+          loading="lazy" decoding="async"
         >
       `;
     }
