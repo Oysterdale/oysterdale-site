@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records</title>
 
-  <!-- Anti-FOUC -->
-  <style>body{opacity:0; transition:opacity .18s ease}</style>
+  <!-- Anti-FOUC: vis siden straks DOM + CSS er klar -->
+  <style>
+    body.preload { opacity: 0; transition: opacity .18s ease; }
+  </style>
 
   <!-- Preload LCP hero -->
   <link
@@ -40,7 +42,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Font Awesome -->
+  <!-- Font Awesome (non-blocking) -->
   <link rel="preload"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         as="style" crossorigin
@@ -68,13 +70,8 @@
     @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
   </style>
-
-  <!-- Fade inn body -->
-  <script>
-    window.addEventListener('load', () => { document.body.style.opacity = 1; });
-  </script>
 </head>
-<body>
+<body class="preload">
 
   <!-- HEADER -->
   <header class="site-header">
@@ -101,7 +98,13 @@
         <a href="contact.html">Contact</a>
       </div>
       <div class="social-icons">
-        <!-- Social icons her -->
+        <a href="https://www.instagram.com/oysterdalerecords/" target="_blank" rel="noopener noreferrer" aria-label="Instagram – Oysterdale Records" title="Instagram – Oysterdale Records"><i class="fab fa-instagram" aria-hidden="true"></i><span class="sr-only">Instagram</span></a>
+        <a href="https://www.tiktok.com/@oysterdalerecords" target="_blank" rel="noopener noreferrer" aria-label="TikTok – Oysterdale Records" title="TikTok – Oysterdale Records"><i class="fab fa-tiktok" aria-hidden="true"></i><span class="sr-only">TikTok</span></a>
+        <a href="https://www.youtube.com/@OysterdaleRecords" target="_blank" rel="noopener noreferrer" aria-label="YouTube – Oysterdale Records" title="YouTube – Oysterdale Records"><i class="fab fa-youtube" aria-hidden="true"></i><span class="sr-only">YouTube</span></a>
+        <a href="https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am" target="_blank" rel="noopener noreferrer" aria-label="Spotify – Oysterdale Records" title="Spotify – Oysterdale Records"><i class="fab fa-spotify" aria-hidden="true"></i><span class="sr-only">Spotify</span></a>
+        <a href="https://www.twitch.tv/oysterdalerecords" target="_blank" rel="noopener noreferrer" aria-label="Twitch – Oysterdale Records" title="Twitch – Oysterdale Records"><i class="fab fa-twitch" aria-hidden="true"></i><span class="sr-only">Twitch</span></a>
+        <a href="https://soundcloud.com/oysterdale-records" target="_blank" rel="noopener noreferrer" aria-label="SoundCloud – Oysterdale Records" title="SoundCloud – Oysterdale Records"><i class="fab fa-soundcloud" aria-hidden="true"></i><span class="sr-only">SoundCloud</span></a>
+        <a href="https://www.mixcloud.com/OysterdaleRecords/" target="_blank" rel="noopener noreferrer" aria-label="Mixcloud – Oysterdale Records" title="Mixcloud – Oysterdale Records"><i class="fab fa-mixcloud" aria-hidden="true"></i><span class="sr-only">Mixcloud</span></a>
       </div>
     </nav>
   </header>
@@ -114,8 +117,16 @@
       src="/.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1200&fm=webp&q=50&fit=cover"
       srcset="
         /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=360&fm=webp&q=50&fit=cover 360w,
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=768&fm=webp&q=50&fit=cover 768w,
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=414&fm=webp&q=50&fit=cover 414w,
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=428&fm=webp&q=50&fit=cover 428w,
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=480&fm=webp&q=50&fit=cover 480w,
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=540&fm=webp&q=50&fit=cover 540w,
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=640&fm=webp&q=50&fit=cover 640w,
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=720&fm=webp&q=50&fit=cover 720w,
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=828&fm=webp&q=50&fit=cover 828w,
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=960&fm=webp&q=50&fit=cover 960w,
         /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1200&fm=webp&q=50&fit=cover 1200w,
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1440&fm=webp&q=50&fit=cover 1440w,
         /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1600&fm=webp&q=50&fit=cover 1600w
       "
       sizes="(min-width: 1280px) 1200px, 100vw"
@@ -130,10 +141,12 @@
       <div class="skeleton" style="height:14px;width:72%;margin:12px 0;"></div>
       <div class="skeleton" style="height:14px;width:64%;margin:12px 0;"></div>
     </div>
+
     <section class="intro-section">
       <div class="spotify-embed">
         <iframe
           title="Oysterdale Records – Spotify-playliste"
+          style="border-radius:12px"
           src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e"
           width="100%"
           height="352"
@@ -147,7 +160,8 @@
 
   <!-- Hidden pearl -->
   <section style="text-align:center;padding:2rem 0;">
-    <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs" target="_blank" rel="noopener noreferrer">
+    <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs" target="_blank" rel="noopener noreferrer"
+       aria-label="Hidden pearl – åpner SoundCloud" title="Hidden pearl – SoundCloud">
       <img
         src="/.netlify/images?url=/images/pearl.png&w=100&h=100&fit=cover&fm=webp&q=74"
         alt="An image of a pearl"
@@ -155,6 +169,7 @@
         width="100" height="100"
         decoding="async"
       />
+      <span class="sr-only">Hidden pearl – SoundCloud</span>
     </a>
     <p><b><em>YOU FOUND A HIDDEN PEARL</em></b></p>
   </section>
@@ -171,14 +186,18 @@
             ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
             : '/uploads/OysterdaleRecords_white_logo_260.webp';
           const linksHtml = (cfg.links && cfg.links.length)
-            ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>` : "";
+            ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
+            : "";
           const html = `
             <footer>
               <div class="footer-logo">
-                <img src="${logoSrc}" alt="Oysterdale Records Logo"
-                     class="footer-logo-img"
-                     width="${w}" height="${w}"
-                     loading="lazy" decoding="async">
+                <img
+                  src="${logoSrc}"
+                  alt="Oysterdale Records Logo"
+                  class="footer-logo-img"
+                  width="${w}" height="${w}"
+                  loading="lazy" decoding="async"
+                >
               </div>
               <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
               ${linksHtml}
@@ -195,7 +214,51 @@
   })();
   </script>
 
-  <!-- Meny og markdown som før -->
+  <!-- Meny -->
+  <script>
+    (function(){
+      const toggleButton=document.getElementById('menu-toggle');
+      const nav=document.querySelector('.main-nav');
+      const navLinks=document.querySelectorAll('.main-nav a');
+      if(toggleButton&&nav){
+        toggleButton.addEventListener('click', ()=>{
+          nav.classList.toggle('open');
+          toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+        });
+        navLinks.forEach(link=>{
+          link.addEventListener('click', ()=>{
+            if(nav.classList.contains('open')){
+              nav.classList.remove('open'); toggleButton.textContent='☰';
+            }
+          });
+        });
+      }
+    })();
+  </script>
+
+  <!-- Markdown -->
+  <script>
+    function stripFrontmatter(text){
+      const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
+      return text.replace(fm,'');
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const target = document.querySelector('#home-content');
+      if (!target) return;
+      fetch('/content/index.md', { cache: 'force-cache' })
+        .then(res=>res.ok ? res.text() : '')
+        .then(md=>{ if(md) target.innerHTML = marked.parse(stripFrontmatter(md)); })
+        .catch(()=>{});
+    });
+  </script>
+
   <script src="js/hero.js" defer></script>
+
+  <!-- Slå av preload-klasse når DOM er klar (viktig for LCP/FCP) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.remove('preload');
+    });
+  </script>
 </body>
 </html>
