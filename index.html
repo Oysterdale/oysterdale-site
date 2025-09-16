@@ -5,41 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records</title>
 
-  <!-- Preload LCP hero image (samme srcset/sizes som <img id="home-hero">) -->
+  <!-- Preload LCP hero image -->
   <link
     rel="preload"
     as="image"
-    href="/.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover"
+    href="/.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1200&fm=webp&q=55&fit=cover"
     imagesrcset="
-      /.netlify/images?url=/images/forsidebilde.png&w=360&fm=webp&q=55&fit=cover 360w,
-      /.netlify/images?url=/images/forsidebilde.png&w=414&fm=webp&q=55&fit=cover 414w,
-      /.netlify/images?url=/images/forsidebilde.png&w=428&fm=webp&q=55&fit=cover 428w,
-      /.netlify/images?url=/images/forsidebilde.png&w=480&fm=webp&q=55&fit=cover 480w,
-      /.netlify/images?url=/images/forsidebilde.png&w=640&fm=webp&q=55&fit=cover 640w,
-      /.netlify/images?url=/images/forsidebilde.png&w=750&fm=webp&q=55&fit=cover 750w,
-      /.netlify/images?url=/images/forsidebilde.png&w=828&fm=webp&q=55&fit=cover 828w,
-      /.netlify/images?url=/images/forsidebilde.png&w=1024&fm=webp&q=55&fit=cover 1024w,
-      /.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover 1200w,
-      /.netlify/images?url=/images/forsidebilde.png&w=1280&fm=webp&q=55&fit=cover 1280w,
-      /.netlify/images?url=/images/forsidebilde.png&w=1366&fm=webp&q=55&fit=cover 1366w
+      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=360&fm=webp&q=55&fit=cover 360w,
+      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=414&fm=webp&q=55&fit=cover 414w,
+      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=428&fm=webp&q=55&fit=cover 428w,
+      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=768&fm=webp&q=55&fit=cover 768w,
+      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1200&fm=webp&q=55&fit=cover 1200w,
+      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1600&fm=webp&q=55&fit=cover 1600w
     "
     imagesizes="100vw"
   />
 
-  <!-- Preconnect til eksterne CDN-er (PSI-anbefalinger) -->
+  <!-- Preconnects -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
   <link rel="preconnect" href="https://image-cdn-ak.spotifycdn.com" crossorigin>
   <link rel="preconnect" href="https://encore.scdn.co" crossorigin>
-  <link rel="preconnect" href="https://o22381.ingest.us.sentry.io" crossorigin>
-  <link rel="preconnect" href="https://japresolve.spotify.com" crossorigin>
 
-  <!-- Hoved-CSS: PRELOAD + gjør ikke-blokkerende -->
+  <!-- CSS preload -->
   <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="styles.css"></noscript>
 
-  <!-- Font Awesome: non-blocking -->
+  <!-- Font Awesome -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin
         onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
@@ -48,13 +41,12 @@
 
   <link rel="icon" href="images/favicon.png" type="image/png" />
 
-  <!-- Marked – defer (ikke kritisk for LCP) -->
+  <!-- Marked -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 
   <!-- SEO runtime -->
   <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
-  <!-- Litt hjelpecss for fallback-teksten (inline = kritisk) -->
   <style>
     .intro-section{max-width:800px;margin:2rem auto;padding:0 1rem;color:white}
     .spotify-embed{margin-top:2rem;display:flex;justify-content:center}
@@ -66,7 +58,7 @@
 </head>
 <body>
 
-  <!-- INLINE HEADER -->
+  <!-- HEADER -->
   <header class="site-header">
     <div class="logo-title">
       <a href="index.html">
@@ -78,9 +70,7 @@
         >
       </a>
     </div>
-
     <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">☰</button>
-
     <nav class="main-nav">
       <div class="nav-links">
         <a href="index.html">Home</a>
@@ -90,13 +80,13 @@
         <a href="contact.html">Contact</a>
       </div>
       <div class="social-icons">
-        <a href="https://www.instagram.com/oysterdalerecords/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.tiktok.com/@oysterdalerecords" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-        <a href="https://www.youtube.com/@OysterdaleRecords" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-        <a href="https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am" target="_blank" aria-label="Spotify"><i class="fab fa-spotify"></i></a>
-        <a href="https://www.twitch.tv/oysterdalerecords" target="_blank" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
-        <a href="https://soundcloud.com/oysterdale-records" target="_blank" aria-label="SoundCloud"><i class="fab fa-soundcloud"></i></a>
-        <a href="https://www.mixcloud.com/OysterdaleRecords/" target="_blank" aria-label="Mixcloud"><i class="fab fa-mixcloud"></i></a>
+        <a href="https://www.instagram.com/oysterdalerecords/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@oysterdalerecords" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.youtube.com/@OysterdaleRecords" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am" target="_blank"><i class="fab fa-spotify"></i></a>
+        <a href="https://www.twitch.tv/oysterdalerecords" target="_blank"><i class="fab fa-twitch"></i></a>
+        <a href="https://soundcloud.com/oysterdale-records" target="_blank"><i class="fab fa-soundcloud"></i></a>
+        <a href="https://www.mixcloud.com/OysterdaleRecords/" target="_blank"><i class="fab fa-mixcloud"></i></a>
       </div>
     </nav>
   </header>
@@ -106,29 +96,23 @@
     <img
       id="home-hero"
       class="hero-image"
-      src="/.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover"
+      src="/.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1200&fm=webp&q=55&fit=cover"
       srcset="
-        /.netlify/images?url=/images/forsidebilde.png&w=360&fm=webp&q=55&fit=cover 360w,
-        /.netlify/images?url=/images/forsidebilde.png&w=414&fm=webp&q=55&fit=cover 414w,
-        /.netlify/images?url=/images/forsidebilde.png&w=428&fm=webp&q=55&fit=cover 428w,
-        /.netlify/images?url=/images/forsidebilde.png&w=480&fm=webp&q=55&fit=cover 480w,
-        /.netlify/images?url=/images/forsidebilde.png&w=640&fm=webp&q=55&fit=cover 640w,
-        /.netlify/images?url=/images/forsidebilde.png&w=750&fm=webp&q=55&fit=cover 750w,
-        /.netlify/images?url=/images/forsidebilde.png&w=828&fm=webp&q=55&fit=cover 828w,
-        /.netlify/images?url=/images/forsidebilde.png&w=1024&fm=webp&q=55&fit=cover 1024w,
-        /.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover 1200w,
-        /.netlify/images?url=/images/forsidebilde.png&w=1280&fm=webp&q=55&fit=cover 1280w,
-        /.netlify/images?url=/images/forsidebilde.png&w=1366&fm=webp&q=55&fit=cover 1366w
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=360&fm=webp&q=55&fit=cover 360w,
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=768&fm=webp&q=55&fit=cover 768w,
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1200&fm=webp&q=55&fit=cover 1200w,
+        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1600&fm=webp&q=55&fit=cover 1600w
       "
       sizes="100vw"
-      data-fallback="/.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover"
       alt="Oysterdale Records hero image"
       fetchpriority="high"
     />
+    <noscript>
+      <img src="/uploads/Oysterdale_forsidebilde_nettside_optimized.webp" alt="Oysterdale Records hero image" />
+    </noscript>
   </div>
 
   <main class="page-content">
-    <!-- Fallback-innhold (vises umiddelbart, overskrives av markdown når den er lastet) -->
     <div id="home-content">
       <div class="skeleton" style="height:14px;width:55%;margin:12px 0;"></div>
       <div class="skeleton" style="height:14px;width:72%;margin:12px 0;"></div>
@@ -140,7 +124,7 @@
         <iframe
           title="Oysterdale Records – Spotify-playliste"
           style="border-radius:12px"
-          src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e?utm_source=generator"
+          src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e"
           width="100%"
           height="352"
           frameborder="0"
@@ -152,11 +136,6 @@
   </main>
 
   <footer>
-    <br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br>
     <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs">
       <img
         src="/.netlify/images?url=/images/pearl.png&w=100&h=100&fit=cover&fm=webp&q=74"
@@ -178,7 +157,7 @@
     <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
   </footer>
 
-  <!-- Meny (mobil) -->
+  <!-- Meny -->
   <script>
     (function(){
       const toggleButton=document.getElementById('menu-toggle');
@@ -200,42 +179,19 @@
     })();
   </script>
 
-  <!-- Markdown: last inn først når seksjonen nærmer seg viewport -->
+  <!-- Markdown -->
   <script>
     function stripFrontmatter(text){
       const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
       return text.replace(fm,'');
     }
-
     window.addEventListener('DOMContentLoaded', () => {
       const target = document.querySelector('#home-content');
-      if (!('IntersectionObserver' in window) || !target) {
-        // Fallback: last veldig sent (etter idle) om IO ikke finnes
-        (window.requestIdleCallback || function(cb){setTimeout(cb,2000)})(function(){
-          fetch('/content/index.md', { cache: 'force-cache' })
-            .then(res=>res.ok ? res.text() : '')
-            .then(md=>{ if(md) target.innerHTML = marked.parse(stripFrontmatter(md)); })
-            .catch(()=>{});
-        });
-        return;
-      }
-
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            fetch('/content/index.md', { cache: 'force-cache' })
-              .then(res=>res.ok ? res.text() : '')
-              .then(md=>{
-                if (!md) return;
-                target.innerHTML = marked.parse(stripFrontmatter(md));
-              })
-              .catch(()=>{});
-            observer.disconnect();
-          }
-        });
-      }, { rootMargin: '200px' });
-
-      observer.observe(target);
+      if (!target) return;
+      fetch('/content/index.md', { cache: 'force-cache' })
+        .then(res=>res.ok ? res.text() : '')
+        .then(md=>{ if(md) target.innerHTML = marked.parse(stripFrontmatter(md)); })
+        .catch(()=>{});
     });
   </script>
 
