@@ -5,26 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records – Artists</title>
 
+  <!-- Anti-FOUC: skjul siden til alt er klart -->
+  <style>body{opacity:0; transition:opacity .18s ease}</style>
+
+  <!-- Viktig: CSS skal lastes blokkende, ikke via preload -->
+  <link rel="stylesheet" href="styles.css" />
+
   <!-- SEO runtime (fallback) -->
   <script src="js/seo.js" defer data-seo="/content/seo/artists.json"></script>
 
-  <!-- Preconnects -->
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preconnect" href="https://api.github.com" crossorigin>
-
-  <!-- CSS: preload + non-blocking -->
-  <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="styles.css"></noscript>
-
-  <!-- Font Awesome: non-blocking -->
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin
+  <!-- Font Awesome (non-blocking med preload + noscript fallback) -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        as="style" crossorigin
         onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          crossorigin>
   </noscript>
 
   <link rel="icon" href="images/favicon.png" type="image/png" />
+
+  <!-- Når alt er lastet, fade inn body -->
+  <script>
+    window.addEventListener('load', () => { document.body.style.opacity = 1; });
+  </script>
 </head>
 <body>
   <!-- Header (felles) -->
@@ -90,7 +95,6 @@
   <script>
     const OWNER="Oysterdale", REPO="oysterdale-site", DIR="artists";
 
-    // Netlify Image helper (samme fil, ulike bredder)
     function ni(url, w){
       return `/.netlify/images?url=${encodeURIComponent(url)}&w=${w}&fm=webp&q=74`;
     }
