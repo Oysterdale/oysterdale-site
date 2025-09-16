@@ -5,13 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records – About</title>
 
+  <!-- Anti-FOUC: skjul siden til alt er klart -->
+  <style>body{opacity:0; transition:opacity .18s ease}</style>
+
+  <!-- Viktig: blokkende CSS -->
+  <link rel="stylesheet" href="styles.css" />
+
   <!-- SEO runtime (fallback) -->
   <script src="js/seo.js" defer data-seo="/content/seo/about.json"></script>
 
-  <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="images/favicon.png" type="image/png" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Font Awesome (non-blocking med preload + noscript fallback) -->
+  <link rel="preload"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        as="style" crossorigin
+        onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          crossorigin>
+  </noscript>
+
+  <!-- Marked til markdown-render (defer så den ikke blokkerer) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+
+  <!-- Fade inn når alt er lastet -->
+  <script>
+    window.addEventListener('load', () => { document.body.style.opacity = 1; });
+  </script>
 </head>
 <body>
 
@@ -23,7 +45,11 @@
       if(btn&&nav){
         const t=()=>{const o=nav.classList.toggle('open'); btn.textContent=o?'✖':'☰';};
         btn.addEventListener('click',t);
-        document.addEventListener('click',e=>{ if(e.target.closest('.nav-links a')) {nav.classList.remove('open'); btn.textContent='☰';} });
+        document.addEventListener('click',e=>{
+          if(e.target.closest('.nav-links a')){
+            nav.classList.remove('open'); btn.textContent='☰';
+          }
+        });
       }
     });
   </script>
@@ -45,13 +71,18 @@
       const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
       return text.replace(fm,'');
     }
-    fetch('content/about.md')
-      .then(res=>res.text())
-      .then(md=>{ document.getElementById('about-content').innerHTML = marked.parse(stripFrontmatter(md)); })
-      .catch(err=>console.error('About markdown load error:', err));
+    (async () => {
+      try{
+        const res = await fetch('content/about.md', { cache: 'force-cache' });
+        const md = await res.text();
+        document.getElementById('about-content').innerHTML = marked.parse(stripFrontmatter(md));
+      }catch(err){
+        console.error('About markdown load error:', err);
+      }
+    })();
   </script>
 
-  <!-- Dynamisk FOOTER (henter fra content/settings/footer.json) -->
+  <!-- Dynamisk FOOTER (med linker som på index) -->
   <script>
   (async function loadFooter(){
     try{
@@ -62,6 +93,10 @@
       const logoSrc = cfg.logo
         ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
         : '/uploads/OysterdaleRecords_white_logo_260.webp';
+
+      const linksHtml = (cfg.links && cfg.links.length)
+        ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
+        : "";
 
       const html = `
         <footer>
@@ -75,6 +110,7 @@
             >
           </div>
           <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
+          ${linksHtml}
         </footer>
       `;
       document.body.insertAdjacentHTML('beforeend', html);
