@@ -19,13 +19,8 @@
     <div id="contact-content">Loading content...</div>
   </main>
 
-  <footer>
-    <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
-    <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
-  </footer>
-
+  <!-- Header & mobilmeny -->
   <script>
-    // Sett inn header og mobilmeny
     fetch('header.html')
       .then(res => res.text())
       .then(html => {
@@ -51,8 +46,10 @@
           });
         }
       });
+  </script>
 
-    // Stripp frontmatter før markdown-render
+  <!-- Stripp frontmatter og render markdown -->
+  <script>
     function stripFrontmatter(text) {
       const fm = /^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
       return text.replace(fm, '');
@@ -65,6 +62,39 @@
         document.getElementById('contact-content').innerHTML = marked.parse(clean);
       })
       .catch(err => console.error('Contact markdown load error:', err));
+  </script>
+
+  <!-- Dynamisk FOOTER (henter fra content/settings/footer.json) -->
+  <script>
+  (async function loadFooter(){
+    try{
+      const r = await fetch('/content/settings/footer.json', {cache:'no-store'});
+      const cfg = await r.json();
+
+      const w = Number(cfg.width) || 260;
+      const logoSrc = cfg.logo
+        ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
+        : '/uploads/OysterdaleRecords_white_logo_260.webp';
+
+      const html = `
+        <footer>
+          <div class="footer-logo">
+            <img
+              src="${logoSrc}"
+              alt="Oysterdale Records Logo"
+              class="footer-logo-img"
+              width="${w}" height="${w}"
+              loading="lazy" decoding="async"
+            >
+          </div>
+          <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
+        </footer>
+      `;
+      document.body.insertAdjacentHTML('beforeend', html);
+    }catch(e){
+      console.error('Footer load failed', e);
+    }
+  })();
   </script>
 </body>
 </html>
