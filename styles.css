@@ -42,8 +42,8 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 
 /* HERO – fyller bredde, kompakt høyde, hele logoen synlig */
 .home-hero{
-  width: 100%;
-  height: clamp(320px, 40vw, 62vh); /* litt lavere enn før = “zoomet ut” */
+  width: 100vw;                        /* alltid hele skjermbredden */
+  height: clamp(320px, 40vw, 62vh);    /* kompakt høyde → “zoomet ut” */
   position: relative;
   overflow: hidden;
   background: #000;
@@ -56,10 +56,10 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 .hero-image{
   width: 100%;
   height: 100%;
-  object-fit: contain;    /* <-- viktig for at HELE logoen alltid vises */
+  object-fit: contain;    /* hele logoen alltid synlig */
   object-position: center;
   display: block;
-  background:#000;        /* sorte “letterbox”-kanter når nødvendig */
+  background:#000;        /* sorte “letterbox”-kanter ved behov */
 }
 
 /* Mobiljustering – litt lavere på mobil */
