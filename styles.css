@@ -138,15 +138,17 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 }
 .artist h3{margin:.8rem 0 0;font-size:1rem}
 
-/* Kvadratisk thumbnail – maks bredde 400px (som før) */
+/* Kvadratisk thumbnail – maks bredde 400px, med litt oppjustert utsnitt */
 .artist-photo{
   width:100%;
   max-width:400px;
   aspect-ratio:1/1;
   object-fit:cover;
+  object-position:center 20%;
   border-radius:10px;
   margin:0 auto .8rem;
   display:block;
+  background:#000;
 }
 
 /* FOOTER */
