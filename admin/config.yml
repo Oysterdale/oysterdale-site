@@ -263,10 +263,10 @@ collections:
         public_folder: "/uploads/og"
 
   # -------------------------
-  # SITE SETTINGS – hero-bilde for Home
+  # SETTINGS (samlet: Home + Footer)
   # -------------------------
-  - name: "site_settings"
-    label: "Site Settings"
+  - name: "settings"
+    label: "Settings"
     files:
       - file: "data/home.json"
         label: "Home"
@@ -281,12 +281,6 @@ collections:
             required: false
             hint: "Velg/last opp forsidebildet. Hvis tomt brukes standardbildet i index.html."
 
-  # -------------------------
-  # SETTINGS – Footer (JSON, redigerbar)
-  # -------------------------
-  - name: "settings"
-    label: "Settings"
-    files:
       - file: "content/settings/footer.json"
         label: "Footer"
         name: "footer"
