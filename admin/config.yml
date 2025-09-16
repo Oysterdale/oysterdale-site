@@ -138,6 +138,30 @@ collections:
                 media_folder: "uploads/og"
                 public_folder: "/uploads/og"
 
+      - file: "privacy.html"
+        label: "Privacy Policy"
+        name: "privacy"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+          - label: "SEO"
+            name: "seo"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
+              - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
+              - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
+              - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
+              - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
+              - label: "Open Graph Image"
+                name: "og_image"
+                widget: "image"
+                required: false
+                allow_multiple: false
+                media_folder: "uploads/og"
+                public_folder: "/uploads/og"
+
   # -------------------------
   # RELEASES (mappebasert)
   # -------------------------
