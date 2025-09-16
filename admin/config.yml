@@ -13,17 +13,16 @@ slug:
 
 collections:
   # -------------------------
-  # PAGES (enkeltfiler)
+  # PAGES (HTML-layoutfiler) – ingen Body-felt her
   # -------------------------
   - name: "pages"
-    label: "Pages"
+    label: "Pages (Layout)"
     files:
       - file: "index.html"
-        label: "Home"
+        label: "Home (layout)"
         name: "home"
         fields:
           - { label: "Title", name: "title", widget: "string", required: false }
-          - { label: "Body", name: "body", widget: "markdown" }
           - label: "SEO"
             name: "seo"
             widget: "object"
@@ -43,11 +42,10 @@ collections:
                 public_folder: "/uploads/og"
 
       - file: "about.html"
-        label: "About"
+        label: "About (layout)"
         name: "about"
         fields:
           - { label: "Title", name: "title", widget: "string", required: false }
-          - { label: "Body", name: "body", widget: "markdown" }
           - label: "SEO"
             name: "seo"
             widget: "object"
@@ -67,11 +65,10 @@ collections:
                 public_folder: "/uploads/og"
 
       - file: "releases.html"
-        label: "Releases Page"
+        label: "Releases Page (layout)"
         name: "releases_page"
         fields:
           - { label: "Title", name: "title", widget: "string", required: false }
-          - { label: "Body", name: "body", widget: "markdown" }
           - label: "SEO"
             name: "seo"
             widget: "object"
@@ -91,11 +88,10 @@ collections:
                 public_folder: "/uploads/og"
 
       - file: "artists.html"
-        label: "Artists Page"
+        label: "Artists Page (layout)"
         name: "artists_page"
         fields:
           - { label: "Title", name: "title", widget: "string", required: false }
-          - { label: "Body", name: "body", widget: "markdown" }
           - label: "SEO"
             name: "seo"
             widget: "object"
@@ -115,11 +111,10 @@ collections:
                 public_folder: "/uploads/og"
 
       - file: "contact.html"
-        label: "Contact"
+        label: "Contact (layout)"
         name: "contact"
         fields:
           - { label: "Title", name: "title", widget: "string", required: false }
-          - { label: "Body", name: "body", widget: "markdown" }
           - label: "SEO"
             name: "seo"
             widget: "object"
@@ -139,11 +134,10 @@ collections:
                 public_folder: "/uploads/og"
 
       - file: "privacy.html"
-        label: "Privacy Policy"
+        label: "Privacy Policy (layout)"
         name: "privacy"
         fields:
           - { label: "Title", name: "title", widget: "string", required: false }
-          - { label: "Body", name: "body", widget: "markdown" }
           - label: "SEO"
             name: "seo"
             widget: "object"
@@ -161,6 +155,61 @@ collections:
                 allow_multiple: false
                 media_folder: "uploads/og"
                 public_folder: "/uploads/og"
+
+  # -------------------------
+  # PAGE CONTENT (Markdown) – her redigerer du tekstinnholdet
+  # -------------------------
+  - name: "page_content"
+    label: "Page Content"
+    files:
+      - file: "content/index.md"
+        label: "Home Content"
+        name: "index_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - file: "content/about.md"
+        label: "About Content"
+        name: "about_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - file: "content/releases.md"
+        label: "Releases Content"
+        name: "releases_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - file: "content/artists.md"
+        label: "Artists Content"
+        name: "artists_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - file: "content/contact.md"
+        label: "Contact Content"
+        name: "contact_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - file: "content/events.md"
+        label: "Events Content"
+        name: "events_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - file: "content/privacy.md"
+        label: "Privacy Policy Content"
+        name: "privacy_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
 
   # -------------------------
   # RELEASES (mappebasert)
@@ -272,7 +321,7 @@ collections:
     format: "json"
     identifier_field: "page"
     fields:
-      - { label: "Page", name: "page", widget: "string", hint: "f.eks. index, about, releases, artists, contact", required: true }
+      - { label: "Page", name: "page", widget: "string", hint: "f.eks. index, about, releases, artists, contact, privacy", required: true }
       - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
       - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
       - { label: "Keywords", name: "keywords", widget: "list", required: false }
@@ -287,7 +336,7 @@ collections:
         public_folder: "/uploads/og"
 
   # -------------------------
-  # SETTINGS (samlet: Home + Footer)
+  # SETTINGS (Home + Footer)
   # -------------------------
   - name: "settings"
     label: "Settings"
