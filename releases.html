@@ -5,13 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records – Releases</title>
 
-  <!-- (Valgfritt) Runtime-SEO fallback. Build-steget skriver uansett meta i <head>. -->
+  <!-- Anti-FOUC -->
+  <style>body{opacity:0; transition:opacity .18s ease}</style>
+
+  <!-- Viktig: blokkende CSS -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- (Valgfritt) Runtime-SEO fallback -->
   <script src="js/seo.js" defer data-seo="/content/seo/releases.json"></script>
 
-  <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="images/favicon.png" type="image/png" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Font Awesome (non-blocking med preload + noscript fallback) -->
+  <link rel="preload"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        as="style" crossorigin
+        onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          crossorigin>
+  </noscript>
+
+  <!-- Marked (defer) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+
+  <!-- Fade inn når alt er lastet -->
+  <script>
+    window.addEventListener('load', () => { document.body.style.opacity = 1; });
+  </script>
 </head>
 <body>
   <!-- Header -->
@@ -22,7 +44,11 @@
       if(btn&&nav){
         const t=()=>{const o=nav.classList.toggle("open");btn.textContent=o?"✖":"☰";};
         btn.addEventListener("click",t);
-        document.addEventListener("click",e=>{ if(e.target.closest(".nav-links a")) {nav.classList.remove("open"); btn.textContent="☰";} });
+        document.addEventListener("click",e=>{
+          if(e.target.closest(".nav-links a")){
+            nav.classList.remove("open"); btn.textContent="☰";
+          }
+        });
       }
     });
   </script>
@@ -38,7 +64,7 @@
     </div>
   </main>
 
-  <!-- Dynamisk FOOTER (henter fra content/settings/footer.json) -->
+  <!-- Dynamisk FOOTER (med linker som på index) -->
   <script>
   (async function loadFooter(){
     try{
@@ -49,6 +75,10 @@
       const logoSrc = cfg.logo
         ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
         : '/uploads/OysterdaleRecords_white_logo_260.webp';
+
+      const linksHtml = (cfg.links && cfg.links.length)
+        ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
+        : "";
 
       const html = `
         <footer>
@@ -62,6 +92,7 @@
             >
           </div>
           <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
+          ${linksHtml}
         </footer>
       `;
       document.body.insertAdjacentHTML('beforeend', html);
