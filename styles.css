@@ -10,7 +10,7 @@ body{
 }
 
 a{color:#fff;text-decoration:none}
-a:hover{color:#999;text-decoration:none}
+a:hover{color:#bbb;text-decoration:none}
 
 @keyframes fadeIn{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
 h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
@@ -33,40 +33,38 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 .nav-links a{font-weight:700;text-transform:uppercase;font-size:.95rem;margin:0 12px}
 .nav-links a:hover,.nav-links a:active,.nav-links a.active{border-bottom:2px solid #fff}
 .social-icons a{font-size:1.2rem;margin-left:15px}
-.social-icons a:hover{color:#999}
+.social-icons a:hover{color:#bbb}
 .menu-toggle{display:none;font-size:1.5rem;color:#fff;border:0;background:none;cursor:pointer}
 
 /* CONTENT */
 .page-content{padding:2rem 5%;max-width:1000px;margin:0 auto;animation:fadeIn 1.3s ease-in-out}
 .page-content p{padding-bottom:1rem}
 
-/* HERO – fyller bredde, kompakt høyde, hele logoen synlig */
+/* HERO – full bredde (cover) med høyde som matcher skjermbildet */
 .home-hero{
-  width: 100vw;                        /* alltid hele skjermbredden */
-  height: clamp(320px, 40vw, 62vh);    /* kompakt høyde → “zoomet ut” */
-  position: relative;
-  overflow: hidden;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fadeIn 1.2s ease-in-out forwards;
+  width:100vw;                     /* strekk alltid til vindusbredde */
+  height:clamp(420px, 50vw, 78vh); /* “stor” hero lik tidligere */
+  position:relative;
+  overflow:hidden;
+  background:#000;
+  display:block;
+  animation:fadeIn 1.2s ease-in-out forwards;
 }
 
 .hero-image{
-  width: 100%;
-  height: 100%;
-  object-fit: contain;    /* hele logoen alltid synlig */
-  object-position: center;
-  display: block;
-  background:#000;        /* sorte “letterbox”-kanter ved behov */
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;               /* fyll bredden, ingen svarte kanter */
+  object-position:center 42%;     /* litt opp for å holde motivet fint i fokus */
+  display:block;
 }
 
-/* Mobiljustering – litt lavere på mobil */
+/* Mobil – litt lavere høyde for å unngå at hero dominerer */
 @media (max-width: 768px){
   .home-hero{
-    height: clamp(240px, 55vw, 55vh);
+    height:clamp(300px, 58vw, 66vh);
   }
+  .hero-image{ object-position:center 45%; }
 }
 
 /* RELEASE CARD (kompakt) */
@@ -168,11 +166,17 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
   display:block;
 }
 
-/* FOOTER */
-footer{text-align:center;padding:2rem;font-size:.9rem;color:#555;background:#000;border-top:1px solid #111}
+/* FOOTER – bedre kontrast */
+footer{
+  text-align:center;padding:2rem;font-size:.95rem;
+  color:#e8e8e8;background:#000;border-top:1px solid #111
+}
+footer p, footer em, footer a{color:#f1f1f1}
+footer a:hover{color:#ffffff}
 .footer-logo{display:flex;justify-content:center;margin-bottom:1rem}
-.footer-logo-img{height:260px;opacity:.9;margin:0 auto}
+.footer-logo-img{height:260px;opacity:.95;margin:0 auto;filter:none}
 .footer-pearl{display:block;margin:0 auto;height:100px}
+footer em{font-style:normal;font-weight:800;letter-spacing:.02em}
 
 /* MOBILE NAV */
 @media (max-width:1150px){
