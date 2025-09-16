@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records</title>
 
+  <!-- Anti-FOUC: skjul siden til alt er klart -->
+  <style>body{opacity:0; transition:opacity .18s ease}</style>
+
   <!-- Preload LCP hero image -->
   <link
     rel="preload"
@@ -28,11 +31,10 @@
   <link rel="preconnect" href="https://image-cdn-ak.spotifycdn.com" crossorigin>
   <link rel="preconnect" href="https://encore.scdn.co" crossorigin>
 
-  <!-- CSS preload -->
-  <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="styles.css"></noscript>
+  <!-- Viktig: blokkende CSS (ikke preload-hack) -->
+  <link rel="stylesheet" href="styles.css" />
 
-  <!-- Font Awesome -->
+  <!-- Font Awesome (non-blocking med preload + noscript fallback) -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin
         onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
@@ -60,6 +62,11 @@
     footer nav.footer-nav a{margin:0 .5rem;color:#fff;text-decoration:none}
     footer nav.footer-nav a:hover{color:#bbb}
   </style>
+
+  <!-- Når alt er lastet, fade inn body -->
+  <script>
+    window.addEventListener('load', () => { document.body.style.opacity = 1; });
+  </script>
 </head>
 <body>
 
