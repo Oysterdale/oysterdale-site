@@ -26,14 +26,6 @@
     <div id="about-content">Loading content...</div>
   </main>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-logo">
-      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
-    </div>
-    <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
-  </footer>
-
   <!-- Header & nav script -->
   <script>
     // Sett inn header øverst i body og aktiver meny
@@ -76,6 +68,39 @@
         document.getElementById('about-content').innerHTML = marked.parse(clean);
       })
       .catch(err => console.error('About markdown load error:', err));
+  </script>
+
+  <!-- Dynamisk FOOTER (henter fra content/settings/footer.json) -->
+  <script>
+  (async function loadFooter(){
+    try{
+      const r = await fetch('/content/settings/footer.json', {cache:'no-store'});
+      const cfg = await r.json();
+
+      const w = Number(cfg.width) || 260;
+      const logoSrc = cfg.logo
+        ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
+        : '/uploads/OysterdaleRecords_white_logo_260.webp';
+
+      const html = `
+        <footer>
+          <div class="footer-logo">
+            <img
+              src="${logoSrc}"
+              alt="Oysterdale Records Logo"
+              class="footer-logo-img"
+              width="${w}" height="${w}"
+              loading="lazy" decoding="async"
+            >
+          </div>
+          <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
+        </footer>
+      `;
+      document.body.insertAdjacentHTML('beforeend', html);
+    }catch(e){
+      console.error('Footer load failed', e);
+    }
+  })();
   </script>
 </body>
 </html>
