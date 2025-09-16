@@ -26,6 +26,9 @@
     imagesizes="100vw"
   />
 
+  <!-- Prefetch markdown lavprioritert, så det ikke havner i LCP-kjeden -->
+  <link rel="prefetch" href="/content/index.md" as="fetch" crossorigin>
+
   <!-- Preconnect til eksterne CDN-er (PSI-anbefalinger) -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -40,8 +43,7 @@
   <noscript><link rel="stylesheet" href="styles.css"></noscript>
 
   <!-- Font Awesome: non-blocking -->
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin
-        onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin>
   </noscript>
@@ -200,19 +202,23 @@
     })();
   </script>
 
-  <!-- Markdown etter idle (ENESTE henting av content/index.md) -->
+  <!-- Markdown lastes først ETTER load + liten utsettelse (ikke i LCP-kjede) -->
   <script>
     function stripFrontmatter(text){
       const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
       return text.replace(fm,'');
     }
-    (window.requestIdleCallback || function(cb){setTimeout(cb,1)})(function(){
-      fetch('content/index.md')
-        .then(res=>res.text())
-        .then(md=>{
-          document.getElementById('home-content').innerHTML = marked.parse(stripFrontmatter(md));
-        })
-        .catch(err=>console.error('Index markdown load error:', err));
+    window.addEventListener('load', function () {
+      setTimeout(() => {
+        fetch('/content/index.md', { cache: 'force-cache' })
+          .then(res => res.ok ? res.text() : '')
+          .then(md => {
+            if (!md) return;
+            document.getElementById('home-content').innerHTML =
+              marked.parse(stripFrontmatter(md));
+          })
+          .catch(()=>{});
+      }, 350);
     });
   </script>
 
