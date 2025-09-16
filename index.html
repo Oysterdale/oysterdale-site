@@ -5,20 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records</title>
 
+  <!-- Preload LCP hero image (samme srcset/sizes som <img id="home-hero">) -->
+  <link
+    rel="preload"
+    as="image"
+    href="/.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover"
+    imagesrcset="
+      /.netlify/images?url=/images/forsidebilde.png&w=360&fm=webp&q=55&fit=cover 360w,
+      /.netlify/images?url=/images/forsidebilde.png&w=414&fm=webp&q=55&fit=cover 414w,
+      /.netlify/images?url=/images/forsidebilde.png&w=428&fm=webp&q=55&fit=cover 428w,
+      /.netlify/images?url=/images/forsidebilde.png&w=480&fm=webp&q=55&fit=cover 480w,
+      /.netlify/images?url=/images/forsidebilde.png&w=640&fm=webp&q=55&fit=cover 640w,
+      /.netlify/images?url=/images/forsidebilde.png&w=750&fm=webp&q=55&fit=cover 750w,
+      /.netlify/images?url=/images/forsidebilde.png&w=828&fm=webp&q=55&fit=cover 828w,
+      /.netlify/images?url=/images/forsidebilde.png&w=1024&fm=webp&q=55&fit=cover 1024w,
+      /.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover 1200w,
+      /.netlify/images?url=/images/forsidebilde.png&w=1280&fm=webp&q=55&fit=cover 1280w,
+      /.netlify/images?url=/images/forsidebilde.png&w=1366&fm=webp&q=55&fit=cover 1366w
+    "
+    imagesizes="100vw"
+  />
+
+  <!-- Preconnect til eksterne CDN-er (PSI-anbefalinger) -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
+  <link rel="preconnect" href="https://image-cdn-ak.spotifycdn.com" crossorigin>
+  <link rel="preconnect" href="https://encore.scdn.co" crossorigin>
+  <link rel="preconnect" href="https://o22381.ingest.us.sentry.io" crossorigin>
+  <link rel="preconnect" href="https://japresolve.spotify.com" crossorigin>
+
+  <!-- Hoved-CSS: PRELOAD + gjør ikke-blokkerende -->
+  <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="styles.css"></noscript>
+
+  <!-- Font Awesome: non-blocking -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin
+        onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin>
+  </noscript>
+
   <link rel="icon" href="images/favicon.png" type="image/png" />
 
-  <!-- Vanlig, stabil lasting av CSS (ingen onload-hack) -->
-  <link rel="stylesheet" href="styles.css" />
-
-  <!-- Font Awesome (normal link). NB: ikke @import i styles.css (tar vi etterpå) -->
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin>
-
-  <!-- SEO + Marked (defer = ikke render-blokkerende) -->
-  <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
+  <!-- Marked – defer (ikke kritisk for LCP) -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 
-  <!-- Kun litt hjelpecss for skeleton (ufarlig) -->
+  <!-- SEO runtime -->
+  <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
+
+  <!-- Litt hjelpecss for fallback-teksten (inline = kritisk) -->
   <style>
     .intro-section{max-width:800px;margin:2rem auto;padding:0 1rem;color:white}
     .spotify-embed{margin-top:2rem;display:flex;justify-content:center}
@@ -30,7 +66,7 @@
 </head>
 <body>
 
-  <!-- Header inline (identisk utseende) -->
+  <!-- INLINE HEADER -->
   <header class="site-header">
     <div class="logo-title">
       <a href="index.html">
@@ -65,7 +101,7 @@
     </nav>
   </header>
 
-  <!-- HERO (samme bilde/URL som før, men med fetchpriority) -->
+  <!-- HERO -->
   <div class="home-hero">
     <img
       id="home-hero"
@@ -85,25 +121,25 @@
         /.netlify/images?url=/images/forsidebilde.png&w=1366&fm=webp&q=55&fit=cover 1366w
       "
       sizes="100vw"
+      data-fallback="/.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover"
       alt="Oysterdale Records hero image"
       fetchpriority="high"
-      decoding="async"
-      loading="eager"
     />
   </div>
 
   <main class="page-content">
-    <!-- Fallback-tekst (erstattes av markdown når den er klar) -->
-    <section id="home-content">
+    <!-- Fallback-innhold (vises umiddelbart, overskrives av markdown når den er lastet) -->
+    <div id="home-content">
       <div class="skeleton" style="height:14px;width:55%;margin:12px 0;"></div>
       <div class="skeleton" style="height:14px;width:72%;margin:12px 0;"></div>
       <div class="skeleton" style="height:14px;width:64%;margin:12px 0;"></div>
-    </section>
+    </div>
 
     <section class="intro-section">
       <div class="spotify-embed">
         <iframe
           title="Oysterdale Records – Spotify-playliste"
+          style="border-radius:12px"
           src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e?utm_source=generator"
           width="100%"
           height="352"
@@ -116,6 +152,11 @@
   </main>
 
   <footer>
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br>
     <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs">
       <img
         src="/.netlify/images?url=/images/pearl.png&w=100&h=100&fit=cover&fm=webp&q=74"
@@ -159,7 +200,7 @@
     })();
   </script>
 
-  <!-- Markdown: last inn når seksjonen er i nærheten -->
+  <!-- Markdown: last inn først når seksjonen nærmer seg viewport -->
   <script>
     function stripFrontmatter(text){
       const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
@@ -169,10 +210,11 @@
     window.addEventListener('DOMContentLoaded', () => {
       const target = document.querySelector('#home-content');
       if (!('IntersectionObserver' in window) || !target) {
+        // Fallback: last veldig sent (etter idle) om IO ikke finnes
         (window.requestIdleCallback || function(cb){setTimeout(cb,2000)})(function(){
           fetch('/content/index.md', { cache: 'force-cache' })
             .then(res=>res.ok ? res.text() : '')
-            .then(md=>{ if(md && window.marked) target.innerHTML = marked.parse(stripFrontmatter(md)); })
+            .then(md=>{ if(md) target.innerHTML = marked.parse(stripFrontmatter(md)); })
             .catch(()=>{});
         });
         return;
@@ -184,7 +226,7 @@
             fetch('/content/index.md', { cache: 'force-cache' })
               .then(res=>res.ok ? res.text() : '')
               .then(md=>{
-                if (!md || !window.marked) return;
+                if (!md) return;
                 target.innerHTML = marked.parse(stripFrontmatter(md));
               })
               .catch(()=>{});
