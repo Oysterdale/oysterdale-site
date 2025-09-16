@@ -3,6 +3,9 @@
   "logo": "/uploads/OysterdaleRecords_white_logo_260.webp",
   "width": 260,
   "links": [
-    { "label": "Privacy Policy", "href": "privacy.html" }
+    {
+      "label": "Privacy Policy",
+      "href": "https://oysterdalerecords.com/privacy"
+    }
   ]
 }
