@@ -40,10 +40,10 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 .page-content{padding:2rem 5%;max-width:1000px;margin:0 auto;animation:fadeIn 1.3s ease-in-out}
 .page-content p{padding-bottom:1rem}
 
-/* HERO – full bredde (cover) med høyde som matcher skjermbildet */
+/* HERO – full bredde, justert høyde og posisjon */
 .home-hero{
-  width:100vw;                     /* strekk alltid til vindusbredde */
-  height:clamp(420px, 50vw, 78vh); /* “stor” hero lik tidligere */
+  width:100vw;
+  height:clamp(380px, 46vw, 70vh); /* litt lavere høyde enn før */
   position:relative;
   overflow:hidden;
   background:#000;
@@ -54,17 +54,17 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 .hero-image{
   position:absolute; inset:0;
   width:100%; height:100%;
-  object-fit:cover;               /* fyll bredden, ingen svarte kanter */
-  object-position:center 42%;     /* litt opp for å holde motivet fint i fokus */
+  object-fit:cover;
+  object-position:center 35%;  /* flyttet opp så hele logoen vises */
   display:block;
 }
 
-/* Mobil – litt lavere høyde for å unngå at hero dominerer */
+/* Mobil – litt lavere høyde */
 @media (max-width: 768px){
   .home-hero{
-    height:clamp(300px, 58vw, 66vh);
+    height:clamp(280px, 55vw, 60vh);
   }
-  .hero-image{ object-position:center 45%; }
+  .hero-image{ object-position:center 38%; }
 }
 
 /* RELEASE CARD (kompakt) */
@@ -169,12 +169,12 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 /* FOOTER – bedre kontrast */
 footer{
   text-align:center;padding:2rem;font-size:.95rem;
-  color:#e8e8e8;background:#000;border-top:1px solid #111
+  color:#f5f5f5;background:#000;border-top:1px solid #111
 }
-footer p, footer em, footer a{color:#f1f1f1}
+footer p, footer em, footer a{color:#fafafa}
 footer a:hover{color:#ffffff}
 .footer-logo{display:flex;justify-content:center;margin-bottom:1rem}
-.footer-logo-img{height:260px;opacity:.95;margin:0 auto;filter:none}
+.footer-logo-img{height:260px;opacity:.95;margin:0 auto}
 .footer-pearl{display:block;margin:0 auto;height:100px}
 footer em{font-style:normal;font-weight:800;letter-spacing:.02em}
 
