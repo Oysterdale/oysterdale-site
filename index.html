@@ -8,6 +8,7 @@
   <!-- Preconnect til eksterne CDN-er -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
   <link rel="preconnect" href="https://image-cdn-ak.spotifycdn.com" crossorigin>
   <link rel="preconnect" href="https://encore.scdn.co" crossorigin>
   <link rel="preconnect" href="https://o22381.ingest.us.sentry.io" crossorigin>
@@ -159,7 +160,7 @@
       }
     })();
 
-    // Markdown etter idle
+    // Markdown etter idle (ENESTE henting av content/index.md)
     function stripFrontmatter(text){
       const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
       return text.replace(fm,'');
@@ -167,7 +168,9 @@
     (window.requestIdleCallback || function(cb){setTimeout(cb,1)})(function(){
       fetch('content/index.md')
         .then(res=>res.text())
-        .then(md=>{ document.getElementById('home-content').innerHTML = marked.parse(stripFrontmatter(md)); })
+        .then(md=>{
+          document.getElementById('home-content').innerHTML = marked.parse(stripFrontmatter(md));
+        })
         .catch(err=>console.error('Index markdown load error:', err));
     });
   </script>
