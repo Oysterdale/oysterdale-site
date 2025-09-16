@@ -184,6 +184,16 @@ footer a:hover{color:#ffffff}
 .footer-pearl{display:block;margin:0 auto;height:100px}
 footer em{font-style:normal;font-weight:800;letter-spacing:.02em}
 
+/* Footer nav links – samme stil på alle sider */
+footer nav.footer-nav a{
+  margin:0 .5rem;
+  color:#fff;
+  text-decoration:none;
+}
+footer nav.footer-nav a:hover{
+  color:#bbb;
+}
+
 /* MOBILE NAV */
 @media (max-width:1150px){
   .menu-toggle{display:block;position:absolute;top:20px;right:20px;z-index:1001}
