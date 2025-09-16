@@ -40,10 +40,10 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 .page-content{padding:2rem 5%;max-width:1000px;margin:0 auto;animation:fadeIn 1.3s ease-in-out}
 .page-content p{padding-bottom:1rem}
 
-/* HERO – full bredde, riktig utsnitt og høyde */
+/* HERO – full bredde, litt mindre zoom, hele logoen innenfor */
 .home-hero{
   width:100vw;
-  height:clamp(360px, 43vw, 62vh);  /* litt lavere, mer kompakt */
+  height:clamp(360px, 54vw, 68vh);   /* nær 16:9 (56.25vw) -> mindre cropping/zoom */
   position:relative;
   overflow:hidden;
   background:#000;
@@ -54,17 +54,17 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 .hero-image{
   position:absolute; inset:0;
   width:100%; height:100%;
-  object-fit:cover;               /* fyll bredden */
-  object-position:center 72%;     /* FOKUS NEDRE DEL – viser mer av logoen nederst */
+  object-fit:cover;                /* fyller bredden */
+  object-position:center 58%;      /* litt nedover = logoen lengre ned (synlig) */
   display:block;
 }
 
-/* Mobil – kompakt + nesten samme fokus */
+/* Mobil – kompakt + tilsvarende fokus */
 @media (max-width: 768px){
   .home-hero{
-    height:clamp(260px, 52vw, 56vh);
+    height:clamp(260px, 60vw, 60vh);
   }
-  .hero-image{ object-position:center 70%; }
+  .hero-image{ object-position:center 62%; }
 }
 
 /* RELEASE CARD (kompakt) */
