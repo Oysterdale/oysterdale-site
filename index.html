@@ -5,6 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records</title>
 
+  <!-- Preload LCP hero image (samme srcset/sizes som <img id="home-hero">) -->
+  <link
+    rel="preload"
+    as="image"
+    href="/.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover"
+    imagesrcset="
+      /.netlify/images?url=/images/forsidebilde.png&w=360&fm=webp&q=55&fit=cover 360w,
+      /.netlify/images?url=/images/forsidebilde.png&w=414&fm=webp&q=55&fit=cover 414w,
+      /.netlify/images?url=/images/forsidebilde.png&w=428&fm=webp&q=55&fit=cover 428w,
+      /.netlify/images?url=/images/forsidebilde.png&w=480&fm=webp&q=55&fit=cover 480w,
+      /.netlify/images?url=/images/forsidebilde.png&w=640&fm=webp&q=55&fit=cover 640w,
+      /.netlify/images?url=/images/forsidebilde.png&w=750&fm=webp&q=55&fit=cover 750w,
+      /.netlify/images?url=/images/forsidebilde.png&w=828&fm=webp&q=55&fit=cover 828w,
+      /.netlify/images?url=/images/forsidebilde.png&w=1024&fm=webp&q=55&fit=cover 1024w,
+      /.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover 1200w,
+      /.netlify/images?url=/images/forsidebilde.png&w=1280&fm=webp&q=55&fit=cover 1280w,
+      /.netlify/images?url=/images/forsidebilde.png&w=1366&fm=webp&q=55&fit=cover 1366w
+    "
+    imagesizes="100vw"
+  />
+
   <!-- Preconnect til eksterne CDN-er (PSI-anbefalinger) -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
