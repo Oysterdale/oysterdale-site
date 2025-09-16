@@ -5,16 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records – Artists</title>
 
-  <!-- (Valgfritt) Runtime-SEO fallback. Build-steget skriver uansett meta i <head>. -->
+  <!-- SEO runtime (fallback) -->
   <script src="js/seo.js" defer data-seo="/content/seo/artists.json"></script>
 
-  <link rel="stylesheet" href="styles.css" />
+  <!-- Preconnects -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://api.github.com" crossorigin>
+
+  <!-- CSS: preload + non-blocking -->
+  <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="styles.css"></noscript>
+
+  <!-- Font Awesome: non-blocking -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin
+        onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin>
+  </noscript>
+
   <link rel="icon" href="images/favicon.png" type="image/png" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header (henter felles header med a11y-fikser) -->
   <script>
     fetch('header.html').then(r=>r.text()).then(html=>{
       document.body.insertAdjacentHTML('afterbegin', html);
@@ -43,7 +56,14 @@
 
   <footer>
     <div class="footer-logo">
-      <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo-img">
+      <img
+        src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74"
+        alt="Oysterdale Records Logo"
+        class="footer-logo-img"
+        width="260" height="260"
+        loading="lazy"
+        decoding="async"
+      >
     </div>
     <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
   </footer>
@@ -51,11 +71,19 @@
   <script>
     const OWNER="Oysterdale", REPO="oysterdale-site", DIR="artists";
 
-    async function listFiles(){
-      const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
-      if(!r.ok) throw new Error("GitHub list failed");
-      return (await r.json()).filter(f=>f.name.endsWith(".md"));
+    // Bygg Netlify Image URL for responsive bilder
+    function ni(url, w){
+      // godtar både /uploads/xxx og full URL
+      const u = encodeURIComponent(url);
+      return `/.netlify/images?url=${u}&w=${w}&fm=webp&q=74&fit=cover`;
     }
+
+    function listFiles(){
+      return fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`)
+        .then(r=>{ if(!r.ok) throw new Error("GitHub list failed"); return r.json(); })
+        .then(arr=>arr.filter(f=>f.name.endsWith(".md")));
+    }
+
     function parseFrontmatter(md){
       const parts=md.split('---');
       if(parts.length<3) return {data:{}, body:md};
@@ -70,18 +98,41 @@
       });
       return {data, body};
     }
+
+    function imgTag(src, alt){
+      if(!src) return "";
+      // Sett responsive srcset
+      const src360 = ni(src,360);
+      const src480 = ni(src,480);
+      const src640 = ni(src,640);
+      const src800 = ni(src,800);
+      return `
+        <img
+          class="artist-photo"
+          src="${src480}"
+          srcset="${src360} 360w, ${src480} 480w, ${src640} 640w, ${src800} 800w"
+          sizes="(max-width: 600px) 45vw, 240px"
+          alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
+          loading="lazy"
+          decoding="async"
+        >
+      `;
+    }
+
     function card(a){
       const name=a.name||a.title||"";
+      // Støtt både 'image' og 'photo' felt – antas å være /uploads/fil.webp|png
       const img=a.image||a.photo||"";
       const link=a.url||a.link||"";
       return `
         <div class="artist">
-          ${img ? `<img class="artist-photo" src="${img}" alt="${name}">` : ""}
+          ${imgTag(img, name)}
           <h3>${name}</h3>
-          ${link ? `<p style="margin-top:8px;"><a class="btn" href="${link}" target="_blank" rel="noopener">More</a></p>` : ""}
+          ${link ? `<p style="margin-top:8px;"><a class="btn" href="${link}" target="_blank" rel="noopener noreferrer">More</a></p>` : ""}
         </div>
       `;
     }
+
     (async ()=>{
       try{
         const files=await listFiles();
