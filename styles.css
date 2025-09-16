@@ -155,10 +155,11 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
   text-align:center;
 }
 .artist h3{ margin:.8rem 0 0; font-size:1rem; }
+
+/* Fastsatt kvadratisk thumbnail 240x240 for jevn visning */
 .artist-photo{
-  width:100%;
-  max-width:400px;
-  aspect-ratio:1/1;
+  width:240px;
+  height:240px;
   object-fit:cover;
   border-radius:10px;
   margin:0 auto .8rem;
