@@ -1,5 +1,8 @@
 {
   "text": "© 2025 Oysterdale Records. All rights reserved.",
   "logo": "/uploads/OysterdaleRecords_white_logo_260.webp",
-  "width": 260
+  "width": 260,
+  "links": [
+    { "label": "Privacy Policy", "href": "privacy.html" }
+  ]
 }
