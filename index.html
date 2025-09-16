@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records</title>
 
-  <!-- Preconnect til eksterne CDN-er -->
+  <!-- Preconnect til eksterne CDN-er (PSI-anbefalinger) -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
@@ -14,10 +14,11 @@
   <link rel="preconnect" href="https://o22381.ingest.us.sentry.io" crossorigin>
   <link rel="preconnect" href="https://japresolve.spotify.com" crossorigin>
 
-  <!-- Din hoved-CSS (kritisk) -->
-  <link rel="stylesheet" href="styles.css" />
+  <!-- Hoved-CSS: PRELOAD + gjør ikke-blokkerende -->
+  <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="styles.css"></noscript>
 
-  <!-- Font Awesome preload + non-blocking -->
+  <!-- Font Awesome: non-blocking -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin
         onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
@@ -32,11 +33,14 @@
   <!-- SEO runtime -->
   <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
+  <!-- Litt hjelpecss for fallback-teksten (inline = kritisk) -->
   <style>
     .intro-section{max-width:800px;margin:2rem auto;padding:0 1rem;color:white}
     .spotify-embed{margin-top:2rem;display:flex;justify-content:center}
     .spotify-embed iframe{width:100%;max-width:600px;height:600px;border-radius:12px}
     @media (max-width:768px){.spotify-embed iframe{height:500px}}
+    .skeleton{background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:8px}
+    @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
   </style>
 </head>
 <body>
@@ -103,7 +107,12 @@
   </div>
 
   <main class="page-content">
-    <div id="home-content">Loading content...</div>
+    <!-- Fallback-innhold (vises umiddelbart, overskrives av markdown når den er lastet) -->
+    <div id="home-content">
+      <div class="skeleton" style="height:14px;width:55%;margin:12px 0;"></div>
+      <div class="skeleton" style="height:14px;width:72%;margin:12px 0;"></div>
+      <div class="skeleton" style="height:14px;width:64%;margin:12px 0;"></div>
+    </div>
 
     <section class="intro-section">
       <div class="spotify-embed">
@@ -159,8 +168,10 @@
         });
       }
     })();
+  </script>
 
-    // Markdown etter idle (ENESTE henting av content/index.md)
+  <!-- Markdown etter idle (ENESTE henting av content/index.md) -->
+  <script>
     function stripFrontmatter(text){
       const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
       return text.replace(fm,'');
