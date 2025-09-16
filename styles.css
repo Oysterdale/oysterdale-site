@@ -47,33 +47,31 @@ h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
   position:absolute
 }
 
-/* NY HERO-STIL – vis alltid hele logoen og fyll bredden */
+/* NY HERO-STIL – fyll alltid bredde, hele logoen synlig */
 .home-hero{
+  width: 100vw;                     /* alltid full skjermbredde */
+  height: clamp(300px, 56.25vw, 85vh); /* ~16:9 høyde, min 300px, maks 85vh */
+  margin: 0 auto;
   position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
+  display: block;
+  background: #000;
   animation: fadeIn 1.2s ease-in-out forwards;
-  background: #000; /* sort bakgrunn for letterbox */
 }
 
 .hero-image{
-  width: 100%;              /* alltid fylle bredden */
-  height: auto;             /* behold proporsjonene */
-  max-height: 85vh;         /* ikke ta hele skjermen i høyden */
-  object-fit: contain;      /* hele logoen vises */
-  object-position: center;  /* midtstilt */
+  width: 100%;
+  height: 100%;
   display: block;
-  margin: 0 auto;
-  background: #000;
+  object-fit: contain;     /* hele bildet/Logoen alltid synlig */
+  object-position: center; /* midtstilt */
+  background: #000;        /* “letterbox” feltene blir sorte */
 }
 
-/* Mobiljustering – mer kompakt */
-@media (max-width: 768px) {
-  .hero-image {
-    max-height: 60vh;
+/* Mobiljustering – lavere høyde */
+@media (max-width: 768px){
+  .home-hero{
+    height: clamp(240px, 56.25vw, 60vh);
   }
 }
 
