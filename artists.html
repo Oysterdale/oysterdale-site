@@ -72,7 +72,7 @@
 
     // Netlify Image helper (samme fil, ulike bredder)
     function ni(url, w){
-      return `/.netlify/images?url=${encodeURIComponent(url)}&w=${w}&fm=webp&q=74&fit=cover`;
+      return `/.netlify/images?url=${encodeURIComponent(url)}&w=${w}&fm=webp&q=74`;
     }
 
     async function listFiles(){
@@ -98,20 +98,20 @@
 
     function imgTag(src, alt){
       if(!src) return "";
-      // Behold visuelt uttrykk: maks ~400px kvadrat i kortet
       const w200 = ni(src,200);
       const w320 = ni(src,320);
       const w400 = ni(src,400);
       const w600 = ni(src,600);
       return `
-        <img
-          class="artist-photo"
-          src="${w400}"
-          srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
-          sizes="(max-width: 768px) 90vw, 400px"
-          alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
-          loading="lazy" decoding="async"
-        >
+        <div class="thumb">
+          <img
+            src="${w400}"
+            srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
+            sizes="(max-width: 768px) 90vw, 400px"
+            alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
+            loading="lazy" decoding="async"
+          >
+        </div>
       `;
     }
 
