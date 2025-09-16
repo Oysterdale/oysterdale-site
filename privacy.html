@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oysterdale Records – Privacy Policy</title>
+
+  <!-- SEO (kan redigeres via seo.js/json hvis du bruker det der) -->
+  <script src="js/seo.js" defer data-seo="/content/seo/privacy.json"></script>
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="images/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <script>
+    fetch("header.html").then(r=>r.text()).then(html=>{
+      document.body.insertAdjacentHTML("afterbegin", html);
+      const btn=document.getElementById("menu-toggle"), nav=document.querySelector(".main-nav");
+      if(btn&&nav){
+        const t=()=>{const o=nav.classList.toggle("open");btn.textContent=o?"✖":"☰";};
+        btn.addEventListener("click",t);
+      }
+    });
+  </script>
+
+  <main class="page-content fade-in">
+    <h1 class="page-heading">PRIVACY POLICY</h1>
+    <section>
+      <p><strong>Last updated:</strong> September 2025</p>
+
+      <h2>Introduction</h2>
+      <p>Oysterdale Records respects your privacy. This website is a simple, informational site and we do not collect or store any personal data directly.</p>
+
+      <h2>Cookies and Third-Party Services</h2>
+      <ul>
+        <li>We do not set cookies ourselves.</li>
+        <li>We use third-party embeds such as <strong>Spotify</strong> to provide music playback. These services may place cookies in your browser for functionality, analytics, or personalization.</li>
+        <li>You can control or delete cookies at any time through your browser settings.</li>
+      </ul>
+
+      <h2>Data Collection</h2>
+      <p>We do not run analytics, tracking pixels, or advertising scripts on this site. If you contact us via email, we will only use your information to reply to your inquiry.</p>
+
+      <h2>Your Rights</h2>
+      <p>If you are based in the EU/EEA, you have the right to request access to, correction of, or deletion of personal data we may hold about you (e.g., from direct email correspondence).</p>
+
+      <h2>Contact</h2>
+      <p>If you have any questions about this Privacy Policy, please contact us at:</p>
+      <p><strong>Email:</strong> <a href="mailto:contact@oysterdalerecords.com">contact@oysterdalerecords.com</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <img src="uploads/OysterdaleRecords_white_logo.png" alt="Oysterdale Records Logo" class="footer-logo"/>
+    <p>© 2025 Oysterdale Records. All rights reserved.</p>
+    <nav class="footer-nav">
+      <a href="about.html">About</a> |
+      <a href="releases.html">Releases</a> |
+      <a href="artists.html">Artists</a> |
+      <a href="contact.html">Contact</a> |
+      <a href="privacy.html">Privacy Policy</a>
+    </nav>
+  </footer>
+</body>
+</html>
