@@ -289,3 +289,10 @@ collections:
           - { label: "Footer text", name: "text", widget: "string", required: false, hint: "F.eks. © 2025 Oysterdale Records. All rights reserved." }
           - { label: "Logo", name: "logo", widget: "image", required: false, media_folder: "uploads", public_folder: "/uploads", hint: "Last opp WebP for best ytelse" }
           - { label: "Logo width (px)", name: "width", widget: "number", required: false, value_type: "int", min: 120, max: 400, default: 260 }
+          - label: "Links"
+            name: "links"
+            widget: "list"
+            collapsed: true
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "href", widget: "string" }
