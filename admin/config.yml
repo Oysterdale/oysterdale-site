@@ -284,3 +284,21 @@ collections:
             allow_multiple: false
             required: false
             hint: "Velg/last opp forsidebildet. Hvis tomt brukes standardbildet i index.html."
+
+            # ... resten av config.yml over ...
+
+collections:
+  # (dine eksisterende collections her...)
+
+  - name: "settings"
+    label: "Settings"
+    files:
+      - file: "content/settings/footer.json"
+        label: "Footer"
+        name: "footer"
+        format: "json"
+        fields:
+          - { label: "Footer text", name: "text", widget: "string", required: false, hint: "F.eks. © 2025 Oysterdale Records. All rights reserved." }
+          - { label: "Logo", name: "logo", widget: "image", required: false, media_folder: "uploads", public_folder: "/uploads", hint: "Last opp WebP for best ytelse" }
+          - { label: "Logo width (px)", name: "width", widget: "number", required: false, value_type: "int", min: 120, max: 400, default: 260 }
+
