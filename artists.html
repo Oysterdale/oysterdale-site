@@ -25,6 +25,21 @@
   </noscript>
 
   <link rel="icon" href="images/favicon.png" type="image/png" />
+
+  <!-- Spesifikk styling for artist-bilder -->
+  <style>
+    .artist-photo {
+      width: 240px;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+      margin: 0 auto;
+    }
+    .artist {
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
   <!-- Header (henter felles header med a11y-fikser) -->
@@ -73,7 +88,6 @@
 
     // Bygg Netlify Image URL for responsive bilder
     function ni(url, w){
-      // godtar både /uploads/xxx og full URL
       const u = encodeURIComponent(url);
       return `/.netlify/images?url=${u}&w=${w}&fm=webp&q=74&fit=cover`;
     }
@@ -101,17 +115,14 @@
 
     function imgTag(src, alt){
       if(!src) return "";
-      // Sett responsive srcset
-      const src360 = ni(src,360);
+      const src240 = ni(src,240);
       const src480 = ni(src,480);
-      const src640 = ni(src,640);
-      const src800 = ni(src,800);
       return `
         <img
           class="artist-photo"
-          src="${src480}"
-          srcset="${src360} 360w, ${src480} 480w, ${src640} 640w, ${src800} 800w"
-          sizes="(max-width: 600px) 45vw, 240px"
+          src="${src240}"
+          srcset="${src240} 240w, ${src480} 480w"
+          sizes="240px"
           alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
           loading="lazy"
           decoding="async"
@@ -121,7 +132,6 @@
 
     function card(a){
       const name=a.name||a.title||"";
-      // Støtt både 'image' og 'photo' felt – antas å være /uploads/fil.webp|png
       const img=a.image||a.photo||"";
       const link=a.url||a.link||"";
       return `
