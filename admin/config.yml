@@ -231,6 +231,7 @@ collections:
         value_field: "name"
         display_fields: ["name"]
         multiple: true
+        allow_add: true        # ← lar deg opprette ny artist direkte her
         required: false
       - { label: "Release Date", name: "date", widget: "datetime", time_format: false, required: false }
       - { label: "Catalog Number", name: "catalog", widget: "string", required: false }
@@ -241,11 +242,16 @@ collections:
         collapsed: true
         required: false
         fields:
-          - { label: "Spotify", name: "spotify", widget: "string", required: false }
-          - { label: "Apple Music", name: "apple", widget: "string", required: false }
-          - { label: "Beatport", name: "beatport", widget: "string", required: false }
-          - { label: "Traxsource", name: "traxsource", widget: "string", required: false }
-          - { label: "YouTube", name: "youtube", widget: "string", required: false }
+          - { label: "Spotify",        name: "spotify",       widget: "string", required: false }
+          - { label: "Apple Music",    name: "apple",         widget: "string", required: false }
+          - { label: "Beatport",       name: "beatport",      widget: "string", required: false }
+          - { label: "Traxsource",     name: "traxsource",    widget: "string", required: false }
+          - { label: "Bandcamp",       name: "bandcamp",      widget: "string", required: false }
+          - { label: "Deezer",         name: "deezer",        widget: "string", required: false }
+          - { label: "Amazon Music",   name: "amazon",        widget: "string", required: false }
+          - { label: "YouTube Music",  name: "youtube_music", widget: "string", required: false }
+          - { label: "Tidal",          name: "tidal",         widget: "string", required: false }
+          - { label: "YouTube (video)",name: "youtube",       widget: "string", required: false }
       - { label: "Description", name: "body", widget: "markdown", required: false }
       - label: "SEO"
         name: "seo"
