@@ -157,7 +157,7 @@ collections:
                 public_folder: "/uploads/og"
 
   # -------------------------
-  # PAGE CONTENT (Markdown) – her redigerer du tekstinnholdet
+  # PAGE CONTENT (Markdown)
   # -------------------------
   - name: "page_content"
     label: "Page Content"
@@ -212,7 +212,7 @@ collections:
           - { label: "Body", name: "body", widget: "markdown" }
 
   # -------------------------
-  # RELEASES (mappebasert)
+  # RELEASES
   # -------------------------
   - name: "releases"
     label: "Releases"
@@ -227,11 +227,11 @@ collections:
         name: "artists"
         widget: "relation"
         collection: "artists"
-        search_fields: ["name", "role"]
-        value_field: "name"
+        search_fields: ["name"]
+        value_field: "{{slug}}"     # stabil referanse
         display_fields: ["name"]
         multiple: true
-        allow_add: true        # ← lar deg opprette ny artist direkte her
+        allow_add: true            # ← aktiver oppretting her
         required: false
       - { label: "Release Date", name: "date", widget: "datetime", time_format: false, required: false }
       - { label: "Catalog Number", name: "catalog", widget: "string", required: false }
@@ -272,13 +272,14 @@ collections:
             public_folder: "/uploads/og"
 
   # -------------------------
-  # ARTISTS (mappebasert)
+  # ARTISTS
   # -------------------------
   - name: "artists"
     label: "Artists"
     folder: "artists"
     create: true
     slug: "{{slug}}"
+    identifier_field: "name"   # ← gjør “name” til tittel/ID for skjema og slug
     extension: "md"
     format: "frontmatter"
     fields:
