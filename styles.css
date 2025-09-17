@@ -207,42 +207,42 @@ footer nav.footer-nav a:hover{
   .logo-img{max-height:60px}
 }
 
-/* LATEST RELEASE */
-.release.latest {
-  max-width: 360px; /* redusert bredde */
-  margin: 2rem auto;
-  background: #111;
-  border-radius: 12px;
-  padding: 1.2rem;
-  text-align: center;
-  box-shadow: 0 0 12px rgba(255,255,255,0.06);
+/* === Latest Release overrides === */
+.release.latest{
+  max-width: 420px;
+  margin: 1.5rem auto;
+  padding: 1rem 1rem 1.2rem;
+  min-height: auto;
+  box-shadow: 0 0 12px rgba(255,255,255,.06);
 }
 
-.release.latest .release-artist {
-  font-weight: 700;
-  font-size: 1rem;
-  margin-bottom: 0.2rem;
-}
-
-.release.latest .release-title {
-  font-weight: 500;
-  font-size: 0.95rem;
-  color: #ddd;
-  margin-bottom: 0.8rem;
-}
-
-.release.latest .release-cover {
+.release.latest .release-cover{
+  max-width: clamp(160px, 55%, 260px);
   width: 100%;
-  max-width: 180px; /* mindre cover */
   height: auto;
-  margin: 0 auto 1rem;
+  margin: 0 auto 0.9rem;
   border-radius: 8px;
   display: block;
 }
 
-.release.latest .platform-icons {
-  display: flex;
-  justify-content: center;
+.release.latest .platform-icons{
+  min-height: 0;
   gap: 12px;
-  margin-top: 0.8rem;
+  margin-top: .6rem;
+}
+
+.release.latest .release-artist{
+  font-size:1rem;
+  margin-bottom:.2rem;
+}
+
+.release.latest .release-title{
+  font-size:.95rem;
+  color:#ddd;
+  margin-bottom:.6rem;
+}
+
+@media (max-width: 768px){
+  .release.latest{ max-width: 92%; }
+  .release.latest .release-cover{ max-width: clamp(180px, 62%, 280px); }
 }
