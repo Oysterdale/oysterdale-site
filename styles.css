@@ -206,3 +206,48 @@ footer nav.footer-nav a:hover{
   .social-icons{display:flex;justify-content:center;flex-wrap:wrap;gap:15px}
   .logo-img{max-height:60px}
 }
+
+/* LATEST RELEASE */
+.latest-release {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: #111;
+  border-radius: 12px;
+  padding: 1.2rem;
+  text-align: center;
+  box-shadow: 0 0 12px rgba(255,255,255,0.06);
+}
+
+.latest-release h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.latest-release .release-artist {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.latest-release .release-title {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #ddd;
+  margin-bottom: 0.8rem;
+}
+
+.latest-release .release-cover {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  margin: 0 auto 1rem;
+  border-radius: 8px;
+  display: block;
+}
+
+.latest-release .platform-icons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 0.8rem;
+}
