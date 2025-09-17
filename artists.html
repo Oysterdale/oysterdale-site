@@ -1,24 +1,3 @@
----
-title: ''
-seo:
-  meta_title: Artists – Oysterdale Records
-  meta_description: Meet the artists of Oysterdale Records. Producers, vocalists and collaborators shaping our sound.
-  keywords:
-    - Oysterdale
-    - Oysterdale Records
-    - Artister
-    - Artists
-    - Houseprodusent
-    - Houseprodusenter
-    - Vokalister
-    - Plateselskap
-    - Disco House
-    - Deep House
-    - Disco House Oslo
-    - ''
-  og_title: Artists – Oysterdale Records
-  og_description: Meet the artists of Oysterdale Records. Producers, vocalists and collaborators shaping our sound.
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,7 +64,7 @@ seo:
     <div class="releases-grid" id="vocalists"></div>
   </main>
 
-  <!-- Dynamisk FOOTER (med linker som på index) -->
+  <!-- Dynamisk FOOTER -->
   <script>
   (async function loadFooter(){
     try{
@@ -126,10 +105,7 @@ seo:
   <!-- Artists script -->
   <script>
     const OWNER="Oysterdale", REPO="oysterdale-site", DIR="artists";
-
-    function ni(url, w){
-      return `/.netlify/images?url=${encodeURIComponent(url)}&w=${w}&fm=webp&q=74`;
-    }
+    function ni(url, w){ return `/.netlify/images?url=${encodeURIComponent(url)}&w=${w}&fm=webp&q=74`; }
 
     async function listFiles(){
       const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
@@ -154,10 +130,7 @@ seo:
 
     function imgTag(src, alt){
       if(!src) return "";
-      const w200 = ni(src,200);
-      const w320 = ni(src,320);
-      const w400 = ni(src,400);
-      const w600 = ni(src,600);
+      const w200 = ni(src,200), w320 = ni(src,320), w400 = ni(src,400), w600 = ni(src,600);
       return `
         <div class="thumb">
           <img
@@ -165,10 +138,8 @@ seo:
             srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
             sizes="(max-width: 768px) 90vw, 400px"
             alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
-            loading="lazy" decoding="async"
-          >
-        </div>
-      `;
+            loading="lazy" decoding="async">
+        </div>`;
     }
 
     function card(a){
@@ -180,8 +151,7 @@ seo:
           ${imgTag(img, name)}
           <h3>${name}</h3>
           ${link ? `<p style="margin-top:8px;"><a class="btn" href="${link}" target="_blank" rel="noopener noreferrer">More</a></p>` : ""}
-        </div>
-      `;
+        </div>`;
     }
 
     (async ()=>{
@@ -192,15 +162,11 @@ seo:
           const {data}=parseFrontmatter(md);
           return data;
         }));
-
         const producers = items.filter(a => /producer/i.test(a.role||""));
         const vocalists = items.filter(a => /vocal/i.test(a.role||""));
-
         document.getElementById('producers').innerHTML = producers.map(card).join('');
         document.getElementById('vocalists').innerHTML = vocalists.map(card).join('');
-      }catch(e){
-        console.error(e);
-      }
+      }catch(e){ console.error(e); }
     })();
   </script>
 </body>
