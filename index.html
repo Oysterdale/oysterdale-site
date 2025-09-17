@@ -69,6 +69,10 @@
     .skeleton{background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:8px}
     @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+    /* liten justering for latest på forsiden */
+    .latest-wrap{max-width:820px;margin:1.5rem auto 0;padding:0 1rem}
+    .latest-wrap h2{margin:0 0 .6rem}
+    .release.latest {margin:1rem 0;max-width:820px}
   </style>
 </head>
 <body class="preload">
@@ -141,6 +145,12 @@
       <div class="skeleton" style="height:14px;width:72%;margin:12px 0;"></div>
       <div class="skeleton" style="height:14px;width:64%;margin:12px 0;"></div>
     </div>
+
+    <!-- Latest Release -->
+    <section class="latest-wrap">
+      <h2>Latest Release</h2>
+      <div id="latest-release"><div class="skeleton" style="height:300px;border-radius:10px;"></div></div>
+    </section>
 
     <section class="intro-section">
       <div class="spotify-embed">
@@ -236,7 +246,7 @@
     })();
   </script>
 
-  <!-- Markdown -->
+  <!-- Markdown (intro-tekst) -->
   <script>
     function stripFrontmatter(text){
       const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
@@ -250,6 +260,129 @@
         .then(md=>{ if(md) target.innerHTML = marked.parse(stripFrontmatter(md)); })
         .catch(()=>{});
     });
+  </script>
+
+  <!-- Latest Release loader -->
+  <script>
+    (function(){
+      const OWNER="Oysterdale", REPO="oysterdale-site", DIR="releases";
+
+      function clean(v){
+        return (v ?? "").toString().trim()
+          .replace(/^"(.*)"$/,'$1')
+          .replace(/^'(.*)'$/,'$1');
+      }
+      function hasValue(v){
+        const s = clean(v);
+        return !!s && !/^(-+|—+|none|n\/a)$/i.test(s);
+      }
+      function niceDate(iso){
+        if(!iso) return "";
+        const d=new Date(iso);
+        return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+      }
+      function parseFrontmatter(md){
+        const parts = md.split('---');
+        if (parts.length < 3) return { data:{}, body: md };
+        const yaml = parts[1], body = parts.slice(2).join('---').trim();
+        const data = {};
+        yaml.split(/\r?\n/).forEach(line=>{
+          const m=line.match(/^([^:]+):\s*(.*)$/);
+          if(m){
+            let v = m[2].trim().replace(/^"(.*)"$/,'$1');
+            data[m[1].trim()] = v;
+          }
+        });
+        return { data, body };
+      }
+
+      const IMG_PLATFORMS = new Set(["deezer","tidal","beatport","traxsource","itunes"]);
+      const ICONS = {
+        spotify:"fa-brands fa-spotify",
+        apple:"fa-brands fa-apple",
+        youtube:"fa-brands fa-youtube",
+        ytmusic:"fa-brands fa-youtube",
+        amazon:"fa-brands fa-amazon",
+        bandcamp:"fa-brands fa-bandcamp",
+        soundcloud:"fa-brands fa-soundcloud",
+        itunes:"", deezer:"", tidal:"", beatport:"", traxsource:""
+      };
+      function platformButton(key,url){
+        const u = clean(url);
+        if(!u) return "";
+        if(IMG_PLATFORMS.has(key)){
+          const file = key === "itunes" ? "itunes" : key;
+          return `<a href="${u}" target="_blank" rel="noopener"><img src="images/platforms/${file}.svg" alt="${key}"></a>`;
+        }
+        const cls = ICONS[key];
+        return cls ? `<a href="${u}" target="_blank" rel="noopener" aria-label="${key}"><i class="${cls}"></i></a>` : "";
+      }
+
+      async function fetchLatest(){
+        try{
+          const listRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
+          if(!listRes.ok) throw new Error("GitHub list failed");
+          const files = (await listRes.json()).filter(f => f.type==="file" && f.name.endsWith(".md"));
+
+          // hent alle, finn nyeste dato
+          const entries = await Promise.all(files.map(async f=>{
+            const md = await fetch(f.download_url).then(r=>r.text());
+            const {data} = parseFrontmatter(md);
+            const date = data.date ? new Date(clean(data.date)) : new Date(0);
+            return { data, date };
+          }));
+
+          if(!entries.length) return null;
+          entries.sort((a,b)=>b.date - a.date);
+          return entries[0].data;
+        }catch(e){
+          console.error(e);
+          return null;
+        }
+      }
+
+      function renderLatest(data){
+        const wrap = document.getElementById('latest-release');
+        if(!wrap) return;
+
+        if(!data){ wrap.innerHTML = "<p>Could not load latest release.</p>"; return; }
+
+        const title   = clean(data.title);
+        const artists = clean(data.artists || data.artist);
+        const featRaw = clean(data.featured || data.feat);
+        const featured = hasValue(featRaw) ? featRaw : "";
+        const cover   = clean(data.cover || data.image);
+        const dateStr = clean(data.date);
+
+        const PLATFORMS = ["spotify","apple","itunes","deezer","amazon","youtube","ytmusic","tidal","beatport","traxsource","bandcamp","soundcloud"];
+        const links = PLATFORMS.map(k => platformButton(k, data[k])).filter(Boolean).join("");
+        const coverHref = PLATFORMS.map(k => clean(data[k])).find(Boolean) || "";
+
+        wrap.innerHTML = `
+          <div class="release latest">
+            <div class="release-content">
+              <div class="release-header">
+                ${artists ? `<h2 class="release-artist">${artists}</h2>` : ""}
+                ${title   ? `<h3 class="release-title">${title}</h3>` : ""}
+                ${featured? `<p class="release-featured">feat. ${featured}</p>` : ""}
+              </div>
+              ${cover ? `
+                ${coverHref ? `<a href="${coverHref}" target="_blank" rel="noopener">` : ``}
+                  <img src="${cover}" alt="${title}" class="release-cover">
+                ${coverHref ? `</a>` : ``}
+              ` : ""}
+              <div class="platform-icons">${links}</div>
+              ${dateStr ? `<p class="release-date">Release date: ${niceDate(dateStr)}</p>` : ""}
+            </div>
+          </div>
+        `;
+      }
+
+      document.addEventListener('DOMContentLoaded', async ()=>{
+        const latest = await fetchLatest();
+        renderLatest(latest);
+      });
+    })();
   </script>
 
   <script src="js/hero.js" defer></script>
