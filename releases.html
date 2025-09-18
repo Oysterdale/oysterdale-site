@@ -155,6 +155,9 @@
       let artists="";
       if(Array.isArray(data.artists)) {
         artists=data.artists.join(" | ");
+      } else if(typeof data.artists==="string" && data.artists.includes(",")) {
+        // fallback for gamle filer med komma
+        artists=data.artists.split(",").map(a=>a.trim()).join(" | ");
       } else {
         artists=clean(data.artists||data.artist);
       }
