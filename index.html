@@ -89,9 +89,20 @@
   </div>
 
   <main class="page-content">
-    <div id="home-content">
+    <!-- Intro fra admin -->
+    <section id="home-content" class="intro-section">
       <div class="skeleton" style="height:14px;width:55%;margin:12px 0;"></div>
-    </div>
+    </section>
+
+    <!-- Spotify -->
+    <section class="spotify-embed">
+      <iframe style="border-radius:12px"
+        src="https://open.spotify.com/embed/playlist/37i9dQZF1DX0BcQWzuB7ZO?utm_source=generator&theme=0"
+        width="100%" height="600" frameBorder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
+    </section>
 
     <!-- Latest Release -->
     <section class="latest-wrap">
@@ -109,6 +120,22 @@
       }
       window.addEventListener('load', loadFooter);
     })();
+  </script>
+
+  <!-- Intro-content loader -->
+  <script>
+    document.addEventListener('DOMContentLoaded', async ()=>{
+      try {
+        const res = await fetch('/content/index.md');
+        const md = await res.text();
+        const parts = md.split('---');
+        const body = parts.length > 2 ? parts.slice(2).join('---').trim() : md;
+        document.getElementById('home-content').innerHTML = marked.parse(body);
+      } catch(e) {
+        console.error('Failed to load home content', e);
+        document.getElementById('home-content').innerHTML = "<p>Welcome to Oysterdale Records</p>";
+      }
+    });
   </script>
 
   <!-- Latest Release loader -->
