@@ -164,9 +164,12 @@
             const playlists = JSON.parse(fm.spotify_playlists);
             if(Array.isArray(playlists) && playlists.length){
               const grid=document.getElementById('spotify-grid');
-              grid.innerHTML = playlists.map(e=>
-                `<iframe src="${e.embed}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`
-              ).join('');
+              grid.innerHTML = playlists.map(p => `
+                <div class="spotify-card">
+                  ${p.title ? `<h3 style="text-align:center;margin-bottom:0.5rem;">${p.title}</h3>` : ""}
+                  <iframe src="${p.embed}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+                </div>
+              `).join('');
               document.getElementById('spotify-section').style.display='block';
             }
           }catch(e){ console.warn("Spotify parse failed", e); }
