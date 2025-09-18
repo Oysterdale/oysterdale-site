@@ -139,29 +139,41 @@
         const parts = md.split('---');
         let fm = {};
         let body = md;
+
         if(parts.length >= 3){
           const yaml = parts[1];
           body = parts.slice(2).join('---').trim();
+
           yaml.split(/\r?\n/).forEach(line=>{
             const m=line.match(/^([^:]+):\s*(.*)$/);
-            if(m) fm[m[1].trim()] = m[2].trim();
+            if(m){
+              let key = m[1].trim();
+              let value = m[2].trim();
+              value = value.replace(/^"(.*)"$/, "$1"); // fjern anførselstegn
+              fm[key] = value;
+            }
           });
         }
-        // Sett inn tekst
+
+        // Sett inn tekst fra Body
         document.getElementById('home-content').innerHTML = marked.parse(body);
 
-        // Spotify embeds
-        if(fm.spotify){
+        // Spotify embeds fra frontmatter
+        if(fm.spotify_playlists){
           try{
-            const embeds = JSON.parse(fm.spotify);
-            if(Array.isArray(embeds) && embeds.length){
+            const playlists = JSON.parse(fm.spotify_playlists);
+            if(Array.isArray(playlists) && playlists.length){
               const grid=document.getElementById('spotify-grid');
-              grid.innerHTML = embeds.map(e=>`<iframe src="${e.url}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`).join('');
+              grid.innerHTML = playlists.map(e=>
+                `<iframe src="${e.embed}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`
+              ).join('');
               document.getElementById('spotify-section').style.display='block';
             }
           }catch(e){ console.warn("Spotify parse failed", e); }
         }
-      } catch(e){ console.error("Home content load failed", e); }
+      } catch(e){
+        console.error("Home content load failed", e);
+      }
     }
     document.addEventListener('DOMContentLoaded', loadHomeContent);
   </script>
