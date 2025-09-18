@@ -75,7 +75,11 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35; }
 
 /* RELEASE CARD (standard) */
 .release{
-  background:#111; padding:1.5rem 1.5rem 1rem; border-radius:10px;
+  --head-gap: 1rem; /* lik luft over/under heading-blokken */
+
+  background:#111;
+  padding: var(--head-gap) 1.5rem 1rem;  /* topp = --head-gap */
+  border-radius:10px;
   margin:2rem auto; max-width:500px; text-align:center;
   box-shadow:0 0 10px rgba(255,255,255,.05);
   display:flex; flex-direction:column; min-height:680px;
@@ -84,7 +88,10 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35; }
 @media (max-width:767px) { .release{ min-height:600px; } }
 
 .release-content{display:flex;flex-direction:column}
-.release-header{display:flex;flex-direction:column;gap:2px;margin-bottom:.5rem}
+.release-header{
+  display:flex;flex-direction:column;gap:2px;
+  margin: 0 0 var(--head-gap);  /* ned = --head-gap */
+}
 .release-artist{
   font-weight:700;text-align:center;line-height:1.15;
   font-size:clamp(1rem,2.05vw,1.35rem);
@@ -188,6 +195,7 @@ footer nav.footer-nav a:hover{color:#bbb}
 
 /* === Latest Release – kompakt ramme rundt cover === */
 .release.latest{
+  --head-gap: 1rem;          /* samme heading-gap */
   max-width: 340px;
   margin: 1.25rem auto;
   padding: .75rem .9rem;
@@ -197,10 +205,18 @@ footer nav.footer-nav a:hover{color:#bbb}
   text-align:center;
   min-height: 0;
 }
-
-.release.latest .release-header{gap:2px;margin-bottom:.5rem}
-.release.latest .release-artist{font-size:.95rem}
-.release.latest .release-title {font-size:.9rem;color:#ddd}
+.release.latest .release-header{
+  gap:2px;
+  margin: 0 0 var(--head-gap); /* lik luft ned til cover */
+}
+/* Bruk samme typografi som standardkort */
+.release.latest .release-artist{
+  font-size: clamp(1rem, 2.05vw, 1.35rem);
+}
+.release.latest .release-title{
+  font-size: clamp(.9rem, 1.85vw, 1.15rem);
+  color:#ddd;
+}
 
 .release.latest .release-cover{
   width: 300px; height: 300px;
