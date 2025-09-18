@@ -100,12 +100,13 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35; }
 .release-featured{font-size:1rem;font-style:italic;color:#ccc;text-align:center}
 .release-body{margin-top:1rem;color:#ccc}
 
-/* Platform icons — MAX 5 per rad (grid) */
+/* Platform icons — MAX 5 per rad (grid, midtstilt) */
 .platform-icons{
   display:grid;
   grid-template-columns:repeat(auto-fill, minmax(44px, 1fr));
   gap:14px;
-  justify-content:center;
+  justify-content:center;    /* midtstill gridet */
+  justify-items:center;      /* midtstill ikonene i hver celle */
   margin-top:.2rem;margin-bottom:.8rem;
   max-width:calc(5*44px + 4*14px); /* maks 5 ikoner pr rad */
   margin-left:auto;margin-right:auto;
