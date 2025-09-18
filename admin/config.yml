@@ -225,14 +225,9 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - label: "Artists"
         name: "artists"
-        widget: "relation"
-        collection: "artists"
-        search_fields: ["name"]
-        value_field: "name"
-        display_fields: ["name"]
-        multiple: true
-        allow_add: true
-        required: false
+        widget: "list"
+        field:
+          { label: "Artist", name: "artist", widget: "string" }
       - { label: "Release Date", name: "date", widget: "datetime", time_format: false, required: false }
       - { label: "Catalog Number", name: "catalog", widget: "string", required: false }
       - { label: "Cover", name: "cover", widget: "image", required: false, allow_multiple: false }
@@ -377,4 +372,3 @@ collections:
             collapsed: true
             fields:
               - { label: "Label", name: "label", widget: "string" }
-              - { label: "URL", name: "href", widget: "string" }
