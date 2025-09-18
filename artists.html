@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,10 +8,7 @@
   <!-- Anti-FOUC -->
   <style>body{opacity:0; transition:opacity .18s ease}</style>
 
-  <!-- Viktig: blokkende CSS -->
   <link rel="stylesheet" href="styles.css" />
-
-  <!-- SEO runtime (fallback) -->
   <script src="js/seo.js" defer data-seo="/content/seo/artists.json"></script>
 
   <!-- Font Awesome -->
@@ -28,13 +24,12 @@
 
   <link rel="icon" href="images/favicon.png" type="image/png" />
 
-  <!-- Fade inn når alt er lastet -->
   <script>
     window.addEventListener('load', () => { document.body.style.opacity = 1; });
   </script>
 </head>
 <body>
-  <!-- Header (felles) -->
+  <!-- Header -->
   <script>
     fetch('header.html').then(r=>r.text()).then(html=>{
       document.body.insertAdjacentHTML('afterbegin', html);
@@ -65,7 +60,7 @@
     <div class="releases-grid" id="vocalists"></div>
   </main>
 
-  <!-- Dynamisk FOOTER -->
+  <!-- Footer -->
   <script>
   (async function loadFooter(){
     try{
@@ -84,22 +79,16 @@
       const html = `
         <footer>
           <div class="footer-logo">
-            <img
-              src="${logoSrc}"
-              alt="Oysterdale Records Logo"
-              class="footer-logo-img"
-              width="${w}" height="${w}"
-              loading="lazy" decoding="async"
-            >
+            <img src="${logoSrc}" alt="Oysterdale Records Logo"
+                 class="footer-logo-img"
+                 width="${w}" height="${w}"
+                 loading="lazy" decoding="async">
           </div>
           <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
           ${linksHtml}
-        </footer>
-      `;
+        </footer>`;
       document.body.insertAdjacentHTML('beforeend', html);
-    }catch(e){
-      console.error('Footer load failed', e);
-    }
+    }catch(e){ console.error('Footer load failed', e); }
   })();
   </script>
 
@@ -112,6 +101,10 @@
       const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
       if(!r.ok) throw new Error("GitHub list failed");
       return (await r.json()).filter(f=>f.name.endsWith(".md"));
+    }
+
+    function slugify(str){
+      return str.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
     }
 
     function parseFrontmatter(md){
@@ -134,24 +127,27 @@
       const w200 = ni(src,200), w320 = ni(src,320), w400 = ni(src,400), w600 = ni(src,600);
       return `
         <div class="thumb">
-          <img
-            src="${w400}"
-            srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
-            sizes="(max-width: 768px) 90vw, 400px"
-            alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
-            loading="lazy" decoding="async">
+          <img src="${w400}"
+               srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
+               sizes="(max-width: 768px) 90vw, 400px"
+               alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
+               loading="lazy" decoding="async">
         </div>`;
     }
 
     function card(a){
       const name=a.name||a.title||"";
       const img=a.image||a.photo||"";
-      const link=a.url||a.link||"";
+      const slug=slugify(name);
+      const localLink=`/artists/${slug}.html`; // fremtidig individuell side
+      const external=a.website||a.spotify||a.instagram||"";
+      const link=external || localLink;
+
       return `
         <div class="artist">
           ${imgTag(img, name)}
           <h3>${name}</h3>
-          ${link ? `<p style="margin-top:8px;"><a class="btn" href="${link}" target="_blank" rel="noopener noreferrer">More</a></p>` : ""}
+          ${link ? `<p style="margin-top:8px;"><a class="btn" href="${link}" target="_blank" rel="noopener">More</a></p>` : ""}
         </div>`;
     }
 
