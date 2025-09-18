@@ -228,30 +228,32 @@ collections:
         widget: "relation"
         collection: "artists"
         search_fields: ["name"]
-        value_field: "{{slug}}"     # stabil referanse
+        value_field: "{{slug}}"
         display_fields: ["name"]
         multiple: true
-        allow_add: true            # ← aktiver oppretting her
+        allow_add: true
         required: false
       - { label: "Release Date", name: "date", widget: "datetime", time_format: false, required: false }
       - { label: "Catalog Number", name: "catalog", widget: "string", required: false }
       - { label: "Cover", name: "cover", widget: "image", required: false, allow_multiple: false }
+
+      # >>> LINKS – KUN disse 9 feltene <<<
       - label: "Links"
         name: "links"
         widget: "object"
         collapsed: true
         required: false
         fields:
-          - { label: "Spotify",        name: "spotify",       widget: "string", required: false }
-          - { label: "Apple Music",    name: "apple",         widget: "string", required: false }
-          - { label: "Beatport",       name: "beatport",      widget: "string", required: false }
-          - { label: "Traxsource",     name: "traxsource",    widget: "string", required: false }
-          - { label: "Bandcamp",       name: "bandcamp",      widget: "string", required: false }
-          - { label: "Deezer",         name: "deezer",        widget: "string", required: false }
-          - { label: "Amazon Music",   name: "amazon",        widget: "string", required: false }
-          - { label: "YouTube Music",  name: "youtube_music", widget: "string", required: false }
-          - { label: "Tidal",          name: "tidal",         widget: "string", required: false }
-          - { label: "YouTube (video)",name: "youtube",       widget: "string", required: false }
+          - { label: "Spotify",        name: "spotify_url",      widget: "string", required: false }
+          - { label: "Apple Music",    name: "apple_music_url",  widget: "string", required: false }
+          - { label: "iTunes",         name: "itunes_url",       widget: "string", required: false }
+          - { label: "Tidal",          name: "tidal_url",        widget: "string", required: false }
+          - { label: "Amazon Music",   name: "amazon_music_url", widget: "string", required: false }
+          - { label: "YouTube",        name: "youtube_url",      widget: "string", required: false }
+          - { label: "Traxsource",     name: "traxsource_url",   widget: "string", required: false }
+          - { label: "Beatport",       name: "beatport_url",     widget: "string", required: false }
+          - { label: "Deezer",         name: "deezer_url",       widget: "string", required: false }
+
       - { label: "Description", name: "body", widget: "markdown", required: false }
       - label: "SEO"
         name: "seo"
@@ -279,7 +281,7 @@ collections:
     folder: "artists"
     create: true
     slug: "{{slug}}"
-    identifier_field: "name"   # ← gjør “name” til tittel/ID for skjema og slug
+    identifier_field: "name"
     extension: "md"
     format: "frontmatter"
     fields:
