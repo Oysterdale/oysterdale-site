@@ -123,9 +123,14 @@
         if(m){data[m[1].trim()]=m[2].replace(/^["']|["']$/g,'');}
       }
 
-      // 🔑 Normalize artists til alltid å være en liste
+      // Normaliser artists
       if (data.artists) {
-        if (typeof data.artists === "string") {
+        // Hvis artists er en liste av objekter {existing: "..."} eller {custom: "..."}
+        if (Array.isArray(data.artists) && typeof data.artists[0] === "object") {
+          data.artists = data.artists.map(a => a.existing || a.custom || "").filter(Boolean);
+        }
+        // Hvis artists er string eller liste med strings
+        else if (typeof data.artists === "string") {
           data.artists = data.artists.split(",").map(a => a.trim());
         } else if (!Array.isArray(data.artists)) {
           data.artists = [String(data.artists).trim()];
