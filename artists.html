@@ -127,13 +127,14 @@
              sizes="(max-width: 768px) 90vw, 400px"
              alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
              loading="lazy" decoding="async">`;
+      // Bare pakk i <a> hvis det faktisk finnes en link
       return `<div class="thumb">${link ? `<a href="${link}" target="_blank" rel="noopener">${imgHtml}</a>` : imgHtml}</div>`;
     }
 
     function card(a){
       const name=a.name||a.title||"";
       const img=a.image||a.photo||"";
-      // ekstern link (kun hvis lagt inn i admin)
+      // Kun ekstern link hvis den finnes
       const link=a.website||a.spotify||a.instagram||"";
 
       return `
