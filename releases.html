@@ -122,6 +122,16 @@
         const m=line.match(/^([^:]+):\s*(.*)$/);
         if(m){data[m[1].trim()]=m[2].replace(/^["']|["']$/g,'');}
       }
+
+      // 🔑 Normalize artists til alltid å være en liste
+      if (data.artists) {
+        if (typeof data.artists === "string") {
+          data.artists = data.artists.split(",").map(a => a.trim());
+        } else if (!Array.isArray(data.artists)) {
+          data.artists = [String(data.artists).trim()];
+        }
+      }
+
       return{data,body};
     }
 
@@ -152,15 +162,7 @@
       const {data}=parseFrontmatter(md);
 
       const title=clean(data.title);
-      let artists="";
-      if(Array.isArray(data.artists)) {
-        artists=data.artists.join(" | ");
-      } else if(typeof data.artists==="string" && data.artists.includes(",")) {
-        // fallback for gamle filer med komma
-        artists=data.artists.split(",").map(a=>a.trim()).join(" | ");
-      } else {
-        artists=clean(data.artists||data.artist);
-      }
+      const artists=(data.artists||[]).join(" | ");
 
       const cover=clean(data.cover||data.image);
       const dateStr=clean(data.date);
