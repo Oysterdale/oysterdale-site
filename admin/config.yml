@@ -3,6 +3,8 @@ backend:
   repo: Oysterdale/oysterdale-site
   branch: main
 
+publish_mode: simple
+
 media_folder: "uploads"
 public_folder: "/uploads"
 
@@ -165,6 +167,7 @@ collections:
       - file: "content/index.md"
         label: "Home Content"
         name: "index_md"
+        format: "frontmatter"
         fields:
           - { label: "Title", name: "title", widget: "string", required: false }
           - { label: "Body", name: "body", widget: "markdown" }
