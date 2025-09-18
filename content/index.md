@@ -1,5 +1,7 @@
 ---
 title: Welcome to Oysterdale Records
+spotify_playlists:
+  - https://open.spotify.com/playlist/1euFegx110KGHeMkYOam6e?si=c3fa7b54b5934380
 ---
 _Every record is a pearl_
 
