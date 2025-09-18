@@ -46,16 +46,26 @@
   <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
   <style>
-    .intro-section{max-width:800px;margin:2rem auto;padding:0 1rem;color:white}
-    .spotify-embed{margin-top:2rem;display:flex;justify-content:center}
-    .spotify-embed iframe{width:100%;max-width:600px;height:600px;border-radius:12px}
-    @media (max-width:768px){.spotify-embed iframe{height:500px}}
-    .skeleton{background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:8px}
-    @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
-    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
-    .latest-wrap{max-width:820px;margin:1.5rem auto 0;padding:0 1rem}
-    .latest-wrap h2{margin:0 0 .6rem}
-    .release.latest {margin:1rem 0;max-width:820px}
+    .intro-section { max-width:800px; margin:2rem auto; padding:0 1rem; color:white }
+    .spotify-grid {
+      margin: 2rem auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      padding: 0 1rem;
+    }
+    .spotify-grid iframe {
+      width: 100%;
+      min-height: 500px;
+      border-radius: 12px;
+      border: none;
+    }
+    @media (max-width:768px){ .spotify-grid iframe{ min-height: 400px } }
+    .skeleton { background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%); background-size:400% 100%; animation:shimmer 1.4s ease infinite; border-radius:8px }
+    @keyframes shimmer { 0%{background-position:100% 0}100%{background-position:-100% 0} }
+    .latest-wrap{ max-width:820px; margin:2rem auto; padding:0 1rem }
+    .release.latest { margin:1rem 0; max-width:820px }
   </style>
 </head>
 <body class="preload">
@@ -89,19 +99,17 @@
   </div>
 
   <main class="page-content">
-    <!-- Intro fra admin -->
-    <section id="home-content" class="intro-section">
-      <div class="skeleton" style="height:14px;width:55%;margin:12px 0;"></div>
+    <!-- Dynamisk innhold fra index.md -->
+    <section class="intro-section">
+      <div id="home-content">
+        <div class="skeleton" style="height:14px;width:55%;margin:12px 0;"></div>
+      </div>
     </section>
 
-    <!-- Spotify -->
-    <section class="spotify-embed">
-      <iframe style="border-radius:12px"
-        src="https://open.spotify.com/embed/playlist/37i9dQZF1DX0BcQWzuB7ZO?utm_source=generator&theme=0"
-        width="100%" height="600" frameBorder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy">
-      </iframe>
+    <!-- Spotify embeds -->
+    <section id="spotify-section" style="display:none;">
+      <h2 style="text-align:center; margin-bottom:1rem;">Playlists</h2>
+      <div class="spotify-grid" id="spotify-grid"></div>
     </section>
 
     <!-- Latest Release -->
@@ -111,7 +119,7 @@
     </section>
   </main>
 
-  <!-- FOOTER loader -->
+  <!-- FOOTER -->
   <script>
     (function(){
       function loadFooter(){
@@ -122,20 +130,40 @@
     })();
   </script>
 
-  <!-- Intro-content loader -->
+  <!-- Last inn Home Content (markdown + Spotify embeds) -->
   <script>
-    document.addEventListener('DOMContentLoaded', async ()=>{
+    async function loadHomeContent(){
       try {
-        const res = await fetch('/content/index.md');
+        const res = await fetch('/content/index.md', { cache:'no-store' });
         const md = await res.text();
         const parts = md.split('---');
-        const body = parts.length > 2 ? parts.slice(2).join('---').trim() : md;
+        let fm = {};
+        let body = md;
+        if(parts.length >= 3){
+          const yaml = parts[1];
+          body = parts.slice(2).join('---').trim();
+          yaml.split(/\r?\n/).forEach(line=>{
+            const m=line.match(/^([^:]+):\s*(.*)$/);
+            if(m) fm[m[1].trim()] = m[2].trim();
+          });
+        }
+        // Sett inn tekst
         document.getElementById('home-content').innerHTML = marked.parse(body);
-      } catch(e) {
-        console.error('Failed to load home content', e);
-        document.getElementById('home-content').innerHTML = "<p>Welcome to Oysterdale Records</p>";
-      }
-    });
+
+        // Spotify embeds
+        if(fm.spotify){
+          try{
+            const embeds = JSON.parse(fm.spotify);
+            if(Array.isArray(embeds) && embeds.length){
+              const grid=document.getElementById('spotify-grid');
+              grid.innerHTML = embeds.map(e=>`<iframe src="${e.url}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`).join('');
+              document.getElementById('spotify-section').style.display='block';
+            }
+          }catch(e){ console.warn("Spotify parse failed", e); }
+        }
+      } catch(e){ console.error("Home content load failed", e); }
+    }
+    document.addEventListener('DOMContentLoaded', loadHomeContent);
   </script>
 
   <!-- Latest Release loader -->
