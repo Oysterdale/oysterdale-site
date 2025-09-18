@@ -102,6 +102,7 @@
       let inLinks=false; let currentList=null;
       for(const line of lines){
         if(!line.trim()||line.trim().startsWith('#')) continue;
+
         if(/^links\s*:\s*$/.test(line.trim())){inLinks=true;data.links={};continue;}
         if(inLinks){
           if(!/^\s+/.test(line)){inLinks=false;}
@@ -110,9 +111,14 @@
             continue;
           }
         }
+
         const listStart=line.match(/^([A-Za-z0-9_]+):\s*$/);
         if(listStart){currentList=listStart[1];data[currentList]=[];continue;}
-        if(currentList && /^\s*-\s+/.test(line)){data[currentList].push(line.replace(/^\s*-\s+/,'').trim());continue;}
+        if(currentList && /^\s*-\s+/.test(line)){
+          data[currentList].push(line.replace(/^\s*-\s+/,'').trim());
+          continue;
+        }
+
         const m=line.match(/^([^:]+):\s*(.*)$/);
         if(m){data[m[1].trim()]=m[2].replace(/^["']|["']$/g,'');}
       }
@@ -144,14 +150,20 @@
     async function loadCard(file){
       const md=await fetch(file.download_url).then(r=>r.text());
       const {data}=parseFrontmatter(md);
+
       const title=clean(data.title);
       let artists="";
-      if(Array.isArray(data.artists)) artists=data.artists.join(" | ");
-      else artists=clean(data.artists||data.artist);
+      if(Array.isArray(data.artists)) {
+        artists=data.artists.join(" | ");
+      } else {
+        artists=clean(data.artists||data.artist);
+      }
+
       const cover=clean(data.cover||data.image);
       const dateStr=clean(data.date);
       const links=data.links||{};
       const buttons=PLATFORM_DEF.map(def=>platformButton(def,links[def.key])).filter(Boolean).join("");
+
       return {
         date: dateStr?new Date(dateStr):new Date(0),
         html:`
