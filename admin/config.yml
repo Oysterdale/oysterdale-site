@@ -228,7 +228,7 @@ collections:
         widget: "relation"
         collection: "artists"
         search_fields: ["name"]
-        value_field: "{{slug}}"
+        value_field: "name"
         display_fields: ["name"]
         multiple: true
         allow_add: true
@@ -377,4 +377,4 @@ collections:
             collapsed: true
             fields:
               - { label: "Label", name: "label", widget: "string" }
-              - { label: "URL", name: "href", widget: "string" }
+              - { label: "URL", name: "href", widget: "string
