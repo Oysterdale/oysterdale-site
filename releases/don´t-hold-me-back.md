@@ -1,6 +1,9 @@
 ---
 title: Don´t Hold Me Back
-artists: MINIJACK, Emél, EL 360
+artists:
+  - MINIJACK
+  - Emél
+  - EL 360
 date: 2025-08-15
 catalog: ''
 cover: /uploads/DHMB_COVER.webp
@@ -15,4 +18,3 @@ links:
   beatport_url: ''
   deezer_url: https://link.deezer.com/s/3151k9Rr4asqPPUauicvC
 ---
-
