@@ -1,6 +1,8 @@
 ---
 title: Dancing On The Clouds
-artists: OKPLUS, Rona Ray
+artists:
+  - OKPLUS
+  - Rona Ray
 date: 2025-08-01
 catalog: ''
 cover: /uploads/DancingOnTheClouds400x400.webp
@@ -15,4 +17,3 @@ links:
   beatport_url: https://www.beatport.com/track/dancing-on-the-clouds/20696011
   deezer_url: https://www.deezer.com/en/album/778993921
 ---
-
