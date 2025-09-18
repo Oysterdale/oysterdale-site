@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records</title>
 
-  <!-- Preload LCP hero image (samme srcset/sizes som <img id="home-hero">) -->
+  <!-- Preload LCP hero image -->
   <link
     rel="preload"
     as="image"
@@ -32,8 +32,6 @@
   <link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
   <link rel="preconnect" href="https://image-cdn-ak.spotifycdn.com" crossorigin>
   <link rel="preconnect" href="https://encore.scdn.co" crossorigin>
-  <link rel="preconnect" href="https://o22381.ingest.us.sentry.io" crossorigin>
-  <link rel="preconnect" href="https://japresolve.spotify.com" crossorigin>
 
   <!-- CSS -->
   <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -48,7 +46,7 @@
 
   <link rel="icon" href="images/favicon.png" type="image/png" />
 
-  <!-- Marked -->
+  <!-- Marked (markdown) -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 
   <!-- SEO runtime -->
@@ -120,7 +118,6 @@
         /.netlify/images?url=/images/forsidebilde.png&w=1366&fm=webp&q=55&fit=cover 1366w
       "
       sizes="100vw"
-      data-fallback="/.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover"
       alt="Oysterdale Records hero image"
       fetchpriority="high"
     />
@@ -132,7 +129,7 @@
       <div class="skeleton" style="height:14px;width:55%;margin:12px 0;"></div>
     </div>
 
-    <!-- Latest Release (nå OVER Playlists) -->
+    <!-- Latest Release (OVER Playlists) -->
     <section class="latest-wrap">
       <h2>LATEST RELEASE</h2>
       <div id="latest-release"><div class="skeleton" style="height:300px;border-radius:10px;"></div></div>
@@ -189,14 +186,17 @@
     })();
   </script>
 
-  <!-- Markdown + Spotify fra frontmatter -->
+  <!-- Markdown + Spotify fra frontmatter (med støtte for YAML block scalars) -->
   <script>
     function stripFrontmatterBlock(text){
       const m = text.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*[\r\n]+/);
       return m ? text.slice(m[0].length) : text;
     }
 
-    // Liten YAML-parser for frontmatter vi trenger
+    // Parser med støtte for:
+    // - lister av objekter
+    // - child keys (4 spaces)
+    // - block scalars: "|" (behold linjer) og ">" (fold linjer)
     function parseFrontmatter(text){
       const m = text.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*[\r\n]+/);
       if(!m) return {};
@@ -206,69 +206,95 @@
       const root = {};
       let currentKey = null;
       let currentItem = null;
+      let capture = null; // { obj, key, type:'|'|'>', indent, buf:[] }
 
-      lines.forEach(raw=>{
-        const line = raw;
-        if(!line.trim()) return;
+      function flush(){
+        if(!capture) return;
+        const { obj, key, type, buf } = capture;
+        const raw = buf.join('\n');
+        obj[key] = (type === '>') ? raw.replace(/\n+/g,' ').trim() : raw;
+        capture = null;
+      }
 
-        // rot-nøkkel
+      for(let i=0;i<lines.length;i++){
+        const line = lines[i];
+        const indent = (line.match(/^\s*/)||[''])[0].length;
+
+        if(capture){
+          if(indent > capture.indent){
+            capture.buf.push(line.slice(capture.indent+1));
+            continue;
+          } else {
+            flush();
+          }
+        }
+
+        if(!line.trim()) continue;
+
+        // root key
         const top = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
-        if(top && !line.startsWith('  ')){
+        if(top && indent===0){
           currentKey = top[1];
           const val = top[2].trim();
           if(val===''){ root[currentKey] = root[currentKey] ?? null; currentItem=null; }
           else { root[currentKey] = val.replace(/^"(.*)"$/,'$1'); currentItem=null; }
-          return;
+          continue;
         }
 
-        // listepunkt under aktiv nøkkel
-        const li = currentKey && line.match(/^\s{2}-\s*(.*)$/);
-        if(li){
-          if(!Array.isArray(root[currentKey])) root[currentKey] = [];
-          const rest = li[1];
+        // list item
+        if(currentKey){
+          const li = line.match(/^\s{2}-\s*(.*)$/);
+          if(li){
+            if(!Array.isArray(root[currentKey])) root[currentKey] = [];
+            const rest = li[1];
 
-          // kan være "key: value"
-          const kv = rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
-          if(kv){
-            currentItem = {};
-            currentItem[kv[1]] = kv[2].replace(/^"(.*)"$/,'$1');
-            root[currentKey].push(currentItem);
-          } else {
-            root[currentKey].push(rest.replace(/^"(.*)"$/,'$1'));
-            currentItem = null;
+            const kv = rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
+            if(kv){
+              currentItem = {};
+              const k = kv[1], v = kv[2];
+              root[currentKey].push(currentItem);
+              if(v==='|'||v==='>'){ capture={obj:currentItem,key:k,type:v,indent:2,buf:[]}; }
+              else { currentItem[k] = v.replace(/^"(.*)"$/,'$1'); }
+            } else {
+              root[currentKey].push(rest.replace(/^"(.*)"$/,'$1'));
+              currentItem = null;
+            }
+            continue;
           }
-          return;
         }
 
-        // child-felt på forrige liste-objekt
-        const child = currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
-        if(child){ currentItem[child[1]] = child[2].replace(/^"(.*)"$/,'$1'); }
-      });
-
+        // child of list object
+        if(currentItem){
+          const child = line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
+          if(child){
+            const ck = child[1], cv = child[2];
+            if(cv==='|'||cv==='>'){ capture={obj:currentItem,key:ck,type:cv,indent:4,buf:[]}; }
+            else { currentItem[ck] = cv.replace(/^"(.*)"$/,'$1'); }
+            continue;
+          }
+        }
+      }
+      flush();
       return root;
     }
 
-    // Godta både iframe HTML, embed-URL eller vanlig Spotify-URL
+    // Godta iframe-HTML, embed-URL eller vanlig Spotify-URL
     function normalizeSpotifyEmbed(input){
       if(!input) return "";
       const s = String(input).trim();
 
-      // 1) hvis full iframe, trekk ut src
+      // <iframe ... src="...">
       if(/<\s*iframe/i.test(s)){
         const m = s.match(/src\s*=\s*"(.*?)"/i) || s.match(/src\s*=\s*'(.*?)'/i);
         if(m && m[1]) return m[1];
       }
-
-      // 2) hvis vanlig open.spotify.com URL -> gjør om til embed
-      //    støtter playlist/album/track/show/episode
+      // open.spotify.com → embed
       const re = /^https?:\/\/open\.spotify\.com\/(playlist|album|track|show|episode)\/([A-Za-z0-9]+)(\?.*)?$/;
       const mm = s.match(re);
       if(mm){
         return `https://open.spotify.com/embed/${mm[1]}/${mm[2]}?utm_source=generator`;
       }
-
-      // 3) allerede embed-URL eller noe annet – returner som er
-      return s;
+      return s; // allerede embed-URL
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -284,7 +310,7 @@
             const body = stripFrontmatterBlock(md);
             if(target) target.innerHTML = marked.parse(body);
 
-            // Playlists fra frontmatter
+            // Hent playlists fra frontmatter (inkl. block scalars)
             const fm = parseFrontmatter(md);
             const playlists = Array.isArray(fm.spotify_playlists) ? fm.spotify_playlists : [];
 
@@ -308,7 +334,7 @@
           .catch(()=>{});
       };
 
-      // Lazy load som før
+      // Lazy load
       if (!('IntersectionObserver' in window) || !target) {
         (window.requestIdleCallback || function(cb){setTimeout(cb,1200)})(loadIt);
       } else {
@@ -322,7 +348,7 @@
     });
   </script>
 
-  <!-- Latest Release (fra /releases, sortert på dato) -->
+  <!-- Latest Release (fra /releases) -->
   <script>
     (function(){
       const OWNER="Oysterdale", REPO="oysterdale-site", DIR="releases";
@@ -334,71 +360,41 @@
         return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
       }
 
-      // enkel FM-parser (nok for releases)
+      // enkel frontmatter-parser for releases
       function parseFM(md){
         const m = md.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*/);
         const data = {};
         if(!m) return data;
         const yaml = m[1].replace(/\t/g,'  ');
         const lines = yaml.split(/\r?\n/);
+        let key=null, currentItem=null;
 
-        let key = null, inList = false, currentItem = null;
-
-        lines.forEach(raw=>{
-          const line = raw;
+        lines.forEach(line=>{
           if(!line.trim()) return;
-
-          // root key
-          const rootKey = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
-          if(rootKey && !line.startsWith('  ')){
-            key = rootKey[1];
-            const val = rootKey[2].trim();
-            if(val===''){
-              data[key] = data[key] ?? null;
-              inList = false; currentItem = null;
-            } else {
-              data[key] = val.replace(/^"(.*)"$/,'$1');
-              inList = false; currentItem = null;
-            }
+          const top = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
+          if(top && !line.startsWith('  ')){
+            key = top[1]; const val = top[2].trim();
+            if(val===''){ data[key]=data[key]??null; currentItem=null; }
+            else { data[key]=val.replace(/^"(.*)"$/,'$1'); currentItem=null; }
             return;
           }
-
-          // list item under key
-          const listItem = key && line.match(/^\s{2}-\s*(.*)$/);
-          if(listItem){
-            if(!Array.isArray(data[key])) data[key] = [];
-            const rest = listItem[1];
-
-            const kv = rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
-            if(kv){
-              currentItem = {};
-              currentItem[kv[1]] = kv[2].replace(/^"(.*)"$/,'$1');
-              data[key].push(currentItem);
-              inList = true;
-            } else {
-              data[key].push(rest.replace(/^"(.*)"$/,'$1'));
-              currentItem = null; inList = true;
-            }
+          const li = key && line.match(/^\s{2}-\s*(.*)$/);
+          if(li){
+            if(!Array.isArray(data[key])) data[key]=[];
+            const rest=li[1]; const kv=rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
+            if(kv){ currentItem={}; currentItem[kv[1]]=kv[2].replace(/^"(.*)"$/,'$1'); data[key].push(currentItem); }
+            else { data[key].push(rest.replace(/^"(.*)"$/,'$1')); currentItem=null; }
             return;
           }
-
-          // child props on list-object
-          const child = inList && currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
-          if(child){
-            currentItem[child[1]] = child[2].replace(/^"(.*)"$/,'$1');
-          }
+          const child = currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
+          if(child){ currentItem[child[1]] = child[2].replace(/^"(.*)"$/,'$1'); }
         });
-
         return data;
       }
 
       function artistsToString(artists){
         if(Array.isArray(artists)){
-          const names = artists.map(a => {
-            if(typeof a === 'string') return a;
-            if(a && typeof a === 'object') return a.artist || a.name || '';
-            return '';
-          }).filter(Boolean);
+          const names = artists.map(a => typeof a==='string' ? a : (a && (a.artist||a.name)) || '').filter(Boolean);
           return names.join(' | ');
         }
         return clean(artists);
@@ -435,7 +431,7 @@
         try{
           const latest = await fetchLatest();
           if(latest) renderLatest(latest);
-        }catch(e){/* stille fail */ }
+        }catch(e){}
       });
     })();
   </script>
