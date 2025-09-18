@@ -155,8 +155,11 @@
       function renderLatest(data){
         const wrap=document.getElementById('latest-release'); if(!wrap) return;
         let artists="";
-        if(Array.isArray(data.artists)) artists=data.artists.join(" | ");
-        else artists=clean(data.artists||data.artist);
+        if(Array.isArray(data.artists)) {
+          artists=data.artists.join(" | ");
+        } else {
+          artists=clean(data.artists||data.artist);
+        }
         wrap.innerHTML=`
           <div class="release latest">
             <div class="release-header">
