@@ -6,7 +6,7 @@ bio: ''
 spotify: ''
 soundcloud: ''
 instagram: ''
-website: ''
+website: https://www.sebastianemes.com/
 mixcloud: ''
 bandcamp: ''
 photo: /uploads/skjermbilde-2025-08-15-kl.-14.35.08.png
