@@ -100,25 +100,36 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35; }
 .release-featured{font-size:1rem;font-style:italic;color:#ccc;text-align:center}
 .release-body{margin-top:1rem;color:#ccc}
 
-/* Platform icons */
+/* Platform icons — MAX 5 per rad (grid) */
 .platform-icons{
-  display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(44px, 1fr));
+  gap:14px;
+  justify-content:center;
   margin-top:.2rem;margin-bottom:.8rem;
-  max-width:calc(5*44px+4*14px);
+  max-width:calc(5*44px + 4*14px); /* maks 5 ikoner pr rad */
   margin-left:auto;margin-right:auto;
   min-height:102px;
 }
-.platform-icons a{
+/* Delte regler for lenkeknapper (både .platform-icons a og .platform-btn) */
+.platform-icons a, .platform-btn{
   display:inline-flex;align-items:center;justify-content:center;
   width:44px;height:44px;border-radius:999px;
   background:rgba(255,255,255,.06);
   transition:transform .12s ease,background .12s ease,opacity .12s ease;
   line-height:0;color:#fff;
 }
-.platform-icons a:hover,.platform-icons a:focus{background:rgba(255,255,255,.12);transform:translateY(-1px)}
-.platform-icons img{display:block;height:24px;width:auto}
-.platform-icons i{display:block;font-size:24px;line-height:1}
-.platform-icons img[src$="deezer.svg"],.platform-icons img[src$="traxsource.svg"]{filter:brightness(0) invert(1)}
+.platform-icons a:hover,.platform-icons a:focus,
+.platform-btn:hover,.platform-btn:focus{
+  background:rgba(255,255,255,.12);transform:translateY(-1px)
+}
+.platform-icons img, .platform-btn img{display:block;height:24px;width:auto}
+.platform-icons i, .platform-btn i{display:block;font-size:24px;line-height:1}
+/* inverter hvite/monokrome logoer der det trengs */
+.platform-icons img[src$="deezer.svg"],
+.platform-icons img[src$="traxsource.svg"],
+.platform-btn img[src$="deezer.svg"],
+.platform-btn img[src$="traxsource.svg"]{filter:brightness(0) invert(1)}
 @media (max-width:420px){.platform-icons{max-width:100%}}
 
 /* Dato */
