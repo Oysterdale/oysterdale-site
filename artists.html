@@ -134,9 +134,8 @@
       const name=a.name||a.title||"";
       const img=a.image||a.photo||"";
 
-      // sjekk om det faktisk finnes en lenke
-      let link=(a.website||a.spotify||a.instagram||"").trim();
-      if(!link) link = null;
+      // Kun bruk ekstern lenke hvis den er definert
+      const link=(a.website||a.spotify||a.instagram||"").trim() || null;
 
       return `
         <div class="artist">
