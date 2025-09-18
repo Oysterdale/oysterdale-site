@@ -1,6 +1,9 @@
 ---
 title: Chasing Rainbows
-artists: OKPLUS, Sebastian Emes, Roman Blum
+artists:
+  - OKPLUS
+  - Sebastian Emes
+  - Roman Blum
 date: 2025-07-11
 catalog: ''
 cover: /uploads/Chasing_Rainbows_Cover_vxyz.webp
@@ -15,4 +18,3 @@ links:
   beatport_url: https://www.beatport.com/track/chasing-rainbows/20665795
   deezer_url: https://www.deezer.com/en/album/776600281
 ---
-
