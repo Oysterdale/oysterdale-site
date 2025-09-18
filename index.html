@@ -5,44 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records</title>
 
-  <!-- Anti-FOUC: vis siden straks DOM + CSS er klar -->
+  <!-- Anti-FOUC -->
   <style>
     body.preload { opacity: 0; transition: opacity .18s ease; }
   </style>
 
-  <!-- Preload LCP hero -->
+  <!-- Preload hero -->
   <link
     rel="preload"
     as="image"
     href="/.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1200&fm=webp&q=50&fit=cover"
     imagesrcset="
       /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=360&fm=webp&q=50&fit=cover 360w,
-      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=414&fm=webp&q=50&fit=cover 414w,
-      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=428&fm=webp&q=50&fit=cover 428w,
-      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=480&fm=webp&q=50&fit=cover 480w,
-      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=540&fm=webp&q=50&fit=cover 540w,
-      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=640&fm=webp&q=50&fit=cover 640w,
       /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=720&fm=webp&q=50&fit=cover 720w,
-      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=828&fm=webp&q=50&fit=cover 828w,
-      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=960&fm=webp&q=50&fit=cover 960w,
-      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1200&fm=webp&q=50&fit=cover 1200w,
-      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1440&fm=webp&q=50&fit=cover 1440w,
-      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1600&fm=webp&q=50&fit=cover 1600w
+      /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1200&fm=webp&q=50&fit=cover 1200w
     "
     imagesizes="(min-width: 1280px) 1200px, 100vw"
   />
 
-  <!-- Preconnects -->
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
-  <link rel="preconnect" href="https://image-cdn-ak.spotifycdn.com" crossorigin>
-  <link rel="preconnect" href="https://encore.scdn.co" crossorigin>
-
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Font Awesome (non-blocking) -->
+  <!-- Font Awesome -->
   <link rel="preload"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         as="style" crossorigin
@@ -68,8 +52,7 @@
     @media (max-width:768px){.spotify-embed iframe{height:500px}}
     .skeleton{background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:8px}
     @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
-    /* liten justering for latest på forsiden */
+    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
     .latest-wrap{max-width:820px;margin:1.5rem auto 0;padding:0 1rem}
     .latest-wrap h2{margin:0 0 .6rem}
     .release.latest {margin:1rem 0;max-width:820px}
@@ -81,18 +64,12 @@
   <header class="site-header">
     <div class="logo-title">
       <a href="index.html" aria-label="Home">
-        <img
-          src="/.netlify/images?url=/images/oysterdale-logo.png&w=220&h=60&fit=contain&fm=webp&q=74"
-          srcset="/.netlify/images?url=/images/oysterdale-logo.png&w=220&h=60&fit=contain&fm=webp&q=74 1x,
-                  /.netlify/images?url=/images/oysterdale-logo.png&w=440&h=120&fit=contain&fm=webp&q=74 2x"
-          alt="Oysterdale Records Logo"
-          class="logo-img"
-          width="220" height="60"
-          decoding="async"
-        >
+        <img src="/.netlify/images?url=/images/oysterdale-logo.png&w=220&h=60&fit=contain&fm=webp&q=74"
+             alt="Oysterdale Records Logo"
+             class="logo-img" width="220" height="60" decoding="async">
       </a>
     </div>
-    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">☰</button>
+    <button id="menu-toggle" class="menu-toggle">☰</button>
     <nav class="main-nav">
       <div class="nav-links">
         <a href="index.html">Home</a>
@@ -101,49 +78,19 @@
         <a href="artists.html">Artists</a>
         <a href="contact.html">Contact</a>
       </div>
-      <div class="social-icons">
-        <a href="https://www.instagram.com/oysterdalerecords/" target="_blank" rel="noopener noreferrer" aria-label="Instagram – Oysterdale Records" title="Instagram – Oysterdale Records"><i class="fab fa-instagram" aria-hidden="true"></i><span class="sr-only">Instagram</span></a>
-        <a href="https://www.tiktok.com/@oysterdalerecords" target="_blank" rel="noopener noreferrer" aria-label="TikTok – Oysterdale Records" title="TikTok – Oysterdale Records"><i class="fab fa-tiktok" aria-hidden="true"></i><span class="sr-only">TikTok</span></a>
-        <a href="https://www.youtube.com/@OysterdaleRecords" target="_blank" rel="noopener noreferrer" aria-label="YouTube – Oysterdale Records" title="YouTube – Oysterdale Records"><i class="fab fa-youtube" aria-hidden="true"></i><span class="sr-only">YouTube</span></a>
-        <a href="https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am" target="_blank" rel="noopener noreferrer" aria-label="Spotify – Oysterdale Records" title="Spotify – Oysterdale Records"><i class="fab fa-spotify" aria-hidden="true"></i><span class="sr-only">Spotify</span></a>
-        <a href="https://www.twitch.tv/oysterdalerecords" target="_blank" rel="noopener noreferrer" aria-label="Twitch – Oysterdale Records" title="Twitch – Oysterdale Records"><i class="fab fa-twitch" aria-hidden="true"></i><span class="sr-only">Twitch</span></a>
-        <a href="https://soundcloud.com/oysterdale-records" target="_blank" rel="noopener noreferrer" aria-label="SoundCloud – Oysterdale Records" title="SoundCloud – Oysterdale Records"><i class="fab fa-soundcloud" aria-hidden="true"></i><span class="sr-only">SoundCloud</span></a>
-        <a href="https://www.mixcloud.com/OysterdaleRecords/" target="_blank" rel="noopener noreferrer" aria-label="Mixcloud – Oysterdale Records" title="Mixcloud – Oysterdale Records"><i class="fab fa-mixcloud" aria-hidden="true"></i><span class="sr-only">Mixcloud</span></a>
-      </div>
     </nav>
   </header>
 
   <!-- HERO -->
   <div class="home-hero">
-    <img
-      id="home-hero"
-      class="hero-image"
-      src="/.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1200&fm=webp&q=50&fit=cover"
-      srcset="
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=360&fm=webp&q=50&fit=cover 360w,
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=414&fm=webp&q=50&fit=cover 414w,
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=428&fm=webp&q=50&fit=cover 428w,
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=480&fm=webp&q=50&fit=cover 480w,
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=540&fm=webp&q=50&fit=cover 540w,
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=640&fm=webp&q=50&fit=cover 640w,
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=720&fm=webp&q=50&fit=cover 720w,
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=828&fm=webp&q=50&fit=cover 828w,
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=960&fm=webp&q=50&fit=cover 960w,
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1200&fm=webp&q=50&fit=cover 1200w,
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1440&fm=webp&q=50&fit=cover 1440w,
-        /.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1600&fm=webp&q=50&fit=cover 1600w
-      "
-      sizes="(min-width: 1280px) 1200px, 100vw"
-      alt="Oysterdale Records hero image"
-      fetchpriority="high"
-    />
+    <img id="home-hero" class="hero-image"
+         src="/.netlify/images?url=/uploads/Oysterdale_forsidebilde_nettside_optimized.webp&w=1200&fm=webp&q=50&fit=cover"
+         alt="Oysterdale Records hero image">
   </div>
 
   <main class="page-content">
     <div id="home-content">
       <div class="skeleton" style="height:14px;width:55%;margin:12px 0;"></div>
-      <div class="skeleton" style="height:14px;width:72%;margin:12px 0;"></div>
-      <div class="skeleton" style="height:14px;width:64%;margin:12px 0;"></div>
     </div>
 
     <!-- Latest Release -->
@@ -151,276 +98,96 @@
       <h2>Latest Release</h2>
       <div id="latest-release"><div class="skeleton" style="height:300px;border-radius:10px;"></div></div>
     </section>
-
-    <section class="intro-section">
-      <div class="spotify-embed">
-        <iframe
-          title="Oysterdale Records – Spotify-playliste"
-          style="border-radius:12px"
-          src="https://open.spotify.com/embed/playlist/1euFegx110KGHeMkYOam6e"
-          width="100%"
-          height="352"
-          frameborder="0"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy">
-        </iframe>
-      </div>
-    </section>
   </main>
 
-  <!-- Hidden pearl -->
-  <section style="text-align:center;padding:2rem 0;">
-    <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs" target="_blank" rel="noopener noreferrer"
-       aria-label="Hidden pearl – åpner SoundCloud" title="Hidden pearl – SoundCloud">
-      <img
-        src="/.netlify/images?url=/images/pearl.png&w=100&h=100&fit=cover&fm=webp&q=74"
-        alt="An image of a pearl"
-        class="footer-pearl"
-        width="100" height="100"
-        decoding="async"
-      />
-      <span class="sr-only">Hidden pearl – SoundCloud</span>
-    </a>
-    <p><b><em>YOU FOUND A HIDDEN PEARL</em></b></p>
-  </section>
-
-  <!-- FOOTER lastes etter idle/load -->
-  <script>
-  (function(){
-    function loadFooter(){
-      fetch('/content/settings/footer.json', {cache:'no-store'})
-        .then(r => r.json())
-        .then(cfg => {
-          const w = Number(cfg.width) || 260;
-          const logoSrc = cfg.logo
-            ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
-            : '/uploads/OysterdaleRecords_white_logo_260.webp';
-          const linksHtml = (cfg.links && cfg.links.length)
-            ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
-            : "";
-          const html = `
-            <footer>
-              <div class="footer-logo">
-                <img
-                  src="${logoSrc}"
-                  alt="Oysterdale Records Logo"
-                  class="footer-logo-img"
-                  width="${w}" height="${w}"
-                  loading="lazy" decoding="async"
-                >
-              </div>
-              <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
-              ${linksHtml}
-            </footer>`;
-          document.body.insertAdjacentHTML('beforeend', html);
-        })
-        .catch(e => console.error('Footer load failed', e));
-    }
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(loadFooter, { timeout: 3000 });
-    } else {
-      window.addEventListener('load', loadFooter);
-    }
-  })();
-  </script>
-
-  <!-- Meny -->
+  <!-- FOOTER loader -->
   <script>
     (function(){
-      const toggleButton=document.getElementById('menu-toggle');
-      const nav=document.querySelector('.main-nav');
-      const navLinks=document.querySelectorAll('.main-nav a');
-      if(toggleButton&&nav){
-        toggleButton.addEventListener('click', ()=>{
-          nav.classList.toggle('open');
-          toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
-        });
-        navLinks.forEach(link=>{
-          link.addEventListener('click', ()=>{
-            if(nav.classList.contains('open')){
-              nav.classList.remove('open'); toggleButton.textContent='☰';
-            }
-          });
-        });
+      function loadFooter(){
+        document.body.insertAdjacentHTML('beforeend',
+          `<footer><p>© 2025 Oysterdale Records. All rights reserved.</p></footer>`);
       }
+      window.addEventListener('load', loadFooter);
     })();
   </script>
 
-  <!-- Markdown (intro-tekst) -->
-  <script>
-    function stripFrontmatter(text){
-      const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
-      return text.replace(fm,'');
-    }
-    document.addEventListener('DOMContentLoaded', () => {
-      const target = document.querySelector('#home-content');
-      if (!target) return;
-      fetch('/content/index.md', { cache: 'force-cache' })
-        .then(res=>res.ok ? res.text() : '')
-        .then(md=>{ if(md) target.innerHTML = marked.parse(stripFrontmatter(md)); })
-        .catch(()=>{});
-    });
-  </script>
-
-  <!-- Latest Release loader (oppdatert for links.*_url + klikkbart cover til /releases) -->
+  <!-- Latest Release loader -->
   <script>
     (function(){
       const OWNER="Oysterdale", REPO="oysterdale-site", DIR="releases";
 
-      function clean(v){
-        return (v ?? "").toString().trim()
-          .replace(/^"(.*)"$/,'$1')
-          .replace(/^'(.*)'$/,'$1');
-      }
+      function clean(v){return (v??"").toString().trim();}
       function niceDate(iso){
         if(!iso) return "";
         const d=new Date(iso);
         return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
       }
 
-      // Parser som håndterer nested 'links:'-objekt
       function parseFrontmatter(md){
-        const parts = md.split('---');
-        if (parts.length < 3) return { data:{}, body: md };
-        const yaml = parts[1], body = parts.slice(2).join('---').trim();
-        const data = {};
-        const lines = yaml.split(/\r?\n/);
-
-        let inLinks = false;
-
-        for (let i=0;i<lines.length;i++){
-          const line = lines[i];
-          if (!line.trim() || line.trim().startsWith('#')) continue;
-
-          if (/^links\s*:\s*$/.test(line.trim())) { inLinks = true; data.links = {}; continue; }
-          if (inLinks){
-            // ute av blokka?
-            if (!/^\s+/.test(line)) { inLinks = false; /* fallthrough */ }
-            else {
-              const m = line.trim().match(/^([^:]+):\s*(.*)$/);
-              if (m) {
-                const k = m[1].trim();
-                let v = m[2].trim().replace(/^"(.*)"$/,'$1').replace(/^'(.*)'$/,'$1');
-                data.links[k] = v;
-              }
-              continue;
-            }
+        const parts=md.split('---'); if(parts.length<3) return{data:{},body:md};
+        const yaml=parts[1], body=parts.slice(2).join('---').trim(), data={};
+        const lines=yaml.split(/\r?\n/); let currentList=null;
+        for(const line of lines){
+          if(!line.trim()) continue;
+          const listStart=line.match(/^([A-Za-z0-9_]+):\s*$/);
+          if(listStart){currentList=listStart[1]; data[currentList]=[]; continue;}
+          if(currentList && /^\s*-\s+/.test(line)){
+            data[currentList].push(line.replace(/^\s*-\s+/,'').trim()); continue;
           }
-
-          const m = line.match(/^([^:]+):\s*(.*)$/);
-          if (m) {
-            const key = m[1].trim();
-            let val = m[2].trim().replace(/^"(.*)"$/,'$1').replace(/^'(.*)'$/,'$1');
-            data[key] = val;
-          }
+          const m=line.match(/^([^:]+):\s*(.*)$/);
+          if(m){data[m[1].trim()]=m[2].trim();}
         }
-        return { data, body };
-      }
-
-      // Ikonoppsett som matcher config.yml (9 felter)
-      const PLATFORM_DEF = [
-        { key:"spotify_url",      label:"Spotify",      icon:"fa-brands fa-spotify",      type:"icon" },
-        { key:"apple_music_url",  label:"Apple Music",  icon:"fa-brands fa-apple",        type:"icon" },
-        { key:"itunes_url",       label:"iTunes",       img:"images/platforms/itunes.svg",      type:"img" },
-        { key:"tidal_url",        label:"Tidal",        img:"images/platforms/tidal.svg",       type:"img" },
-        { key:"amazon_music_url", label:"Amazon Music", icon:"fa-brands fa-amazon",       type:"icon" },
-        { key:"youtube_url",      label:"YouTube",      icon:"fa-brands fa-youtube",      type:"icon" },
-        { key:"traxsource_url",   label:"Traxsource",   img:"images/platforms/traxsource.svg",   type:"img" },
-        { key:"beatport_url",     label:"Beatport",     img:"images/platforms/beatport.svg",     type:"img" },
-        { key:"deezer_url",       label:"Deezer",       img:"images/platforms/deezer.svg",       type:"img" },
-      ];
-
-      function platformButton(def,url){
-        const u = clean(url);
-        if(!u) return "";
-        if (def.type === "img" && def.img){
-          return `<a class="platform-btn" href="${u}" target="_blank" rel="noopener" aria-label="${def.label}">
-                    <img src="${def.img}" alt="${def.label}">
-                  </a>`;
-        }
-        if (def.type === "icon" && def.icon){
-          return `<a class="platform-btn" href="${u}" target="_blank" rel="noopener" aria-label="${def.label}">
-                    <i class="${def.icon}"></i>
-                  </a>`;
-        }
-        return "";
+        return{data,body};
       }
 
       async function fetchLatest(){
-        try{
-          const listRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
-          if(!listRes.ok) throw new Error("GitHub list failed");
-          const files = (await listRes.json()).filter(f => f.type==="file" && f.name.endsWith(".md"));
-
-          const entries = await Promise.all(files.map(async f=>{
-            const md = await fetch(f.download_url).then(r=>r.text());
-            const {data} = parseFrontmatter(md);
-            const date = data.date ? new Date(clean(data.date)) : new Date(0);
-            return { data, date };
-          }));
-
-          if(!entries.length) return null;
-          entries.sort((a,b)=>b.date - a.date);
-          return entries[0].data;
-        }catch(e){
-          console.error(e);
-          return null;
-        }
+        const list=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`).then(r=>r.json());
+        const files=list.filter(f=>f.name.endsWith(".md"));
+        const entries=await Promise.all(files.map(async f=>{
+          const md=await fetch(f.download_url).then(r=>r.text());
+          const {data}=parseFrontmatter(md);
+          return{data,date:new Date(data.date||0)};
+        }));
+        entries.sort((a,b)=>b.date-a.date);
+        return entries[0]?.data;
       }
 
       function renderLatest(data){
-        const wrap = document.getElementById('latest-release');
-        if(!wrap) return;
-
-        if(!data){ wrap.innerHTML = "<p>Could not load latest release.</p>"; return; }
-
-        const title   = clean(data.title);
-        const artists = clean(data.artists || data.artist);
-        const cover   = clean(data.cover || data.image);
-        const dateStr = clean(data.date);
-        const links   = data.links || {};
-
-        const buttons = PLATFORM_DEF
-          .map(def => platformButton(def, links[def.key]))
-          .filter(Boolean)
-          .join("");
-
-        // Alltid lenk coveret til releases-siden
-        const releasesUrl = "https://oysterdalerecords.com/releases";
-
-        wrap.innerHTML = `
+        const wrap=document.getElementById('latest-release'); if(!wrap) return;
+        let artists="";
+        if(Array.isArray(data.artists)) artists=data.artists.join(" | ");
+        else artists=clean(data.artists||data.artist);
+        wrap.innerHTML=`
           <div class="release latest">
-            <div class="release-content">
-              <div class="release-header">
-                ${artists ? `<h2 class="release-artist">${artists}</h2>` : ""}
-                ${title   ? `<h3 class="release-title">${title}</h3>` : ""}
-              </div>
-              ${cover ? `
-                <a href="${releasesUrl}" aria-label="Go to Releases">
-                  <img src="${cover}" alt="${title}" class="release-cover">
-                </a>
-              ` : ""}
-              ${buttons ? `<div class="platform-icons platforms">${buttons}</div>` : ""}
-              ${dateStr ? `<p class="release-date">Release date: ${niceDate(dateStr)}</p>` : ""}
+            <div class="release-header">
+              ${artists?`<h2 class="release-artist">${artists}</h2>`:""}
+              ${data.title?`<h3 class="release-title">${data.title}</h3>`:""}
             </div>
-          </div>
-        `;
+            ${data.cover?`<a href="/releases"><img src="${data.cover}" class="release-cover"></a>`:""}
+            ${data.date?`<p class="release-date">Release date: ${niceDate(data.date)}</p>`:""}
+          </div>`;
       }
 
-      document.addEventListener('DOMContentLoaded', async ()=>{
-        const latest = await fetchLatest();
-        renderLatest(latest);
+      document.addEventListener('DOMContentLoaded',async()=>{
+        const latest=await fetchLatest(); if(latest) renderLatest(latest);
       });
     })();
   </script>
 
-  <script src="js/hero.js" defer></script>
-
-  <!-- Slå av preload-klasse når DOM er klar (viktig for LCP/FCP) -->
+  <!-- Meny -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      document.body.classList.remove('preload');
+    document.addEventListener('DOMContentLoaded',()=>{
+      const btn=document.getElementById('menu-toggle');
+      const nav=document.querySelector('.main-nav');
+      btn.addEventListener('click',()=>{
+        nav.classList.toggle('open');
+        btn.textContent=nav.classList.contains('open')?'✖':'☰';
+      });
     });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded',()=>{document.body.classList.remove('preload');});
   </script>
 </body>
 </html>
