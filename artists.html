@@ -122,17 +122,16 @@
       return {data, body};
     }
 
-    function imgTag(src, alt){
+    function imgTag(src, alt, link){
       if(!src) return "";
       const w200 = ni(src,200), w320 = ni(src,320), w400 = ni(src,400), w600 = ni(src,600);
-      return `
-        <div class="thumb">
-          <img src="${w400}"
-               srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
-               sizes="(max-width: 768px) 90vw, 400px"
-               alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
-               loading="lazy" decoding="async">
-        </div>`;
+      const imgHtml = `
+        <img src="${w400}"
+             srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
+             sizes="(max-width: 768px) 90vw, 400px"
+             alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
+             loading="lazy" decoding="async">`;
+      return `<div class="thumb">${link ? `<a href="${link}" target="_blank" rel="noopener">${imgHtml}</a>` : imgHtml}</div>`;
     }
 
     function card(a){
@@ -145,9 +144,8 @@
 
       return `
         <div class="artist">
-          ${imgTag(img, name)}
+          ${imgTag(img, name, link)}
           <h3>${name}</h3>
-          ${link ? `<p style="margin-top:8px;"><a class="btn" href="${link}" target="_blank" rel="noopener">More</a></p>` : ""}
         </div>`;
     }
 
