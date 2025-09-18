@@ -102,6 +102,7 @@
   })();
   </script>
 
+  <!-- RELEASES-LOGIKK -->
   <script>
     const OWNER="Oysterdale", REPO="oysterdale-site", DIR="releases";
 
@@ -111,18 +112,70 @@
       return (await r.json()).filter(f=>f.type==="file" && f.name.endsWith(".md"));
     }
 
+    /**
+     * Enkel front matter-parser som håndterer:
+     * - flat "key: value"
+     * - nested "links:" etterfulgt av indenterte "key: value"
+     * (Dette dekker vår bruk her uten full YAML-parser.)
+     */
     function parseFrontmatter(md){
       const parts = md.split('---');
       if (parts.length < 3) return { data:{}, body: md };
       const yaml = parts[1], body = parts.slice(2).join('---').trim();
+
       const data = {};
-      yaml.split(/\r?\n/).forEach(line=>{
-        const m=line.match(/^([^:]+):\s*(.*)$/);
-        if(m){
-          let v = m[2].trim().replace(/^"(.*)"$/,'$1');
-          data[m[1].trim()] = v;
+      const lines = yaml.split(/\r?\n/);
+
+      let inLinks = false;
+      let baseIndent = null;
+
+      for (let i=0;i<lines.length;i++){
+        const line = lines[i];
+
+        // Tom/kommentar
+        if (!line.trim() || line.trim().startsWith('#')) continue;
+
+        // Toppnivå "links:" starter nested parsing
+        if (/^links\s*:\s*$/.test(line.trim())) {
+          inLinks = true;
+          // finn innrykk for nested felt (neste ikke-tomme linje)
+          for (let j=i+1;j<lines.length;j++){
+            const nl = lines[j];
+            if (!nl.trim()) continue;
+            const m = nl.match(/^(\s+)/);
+            baseIndent = m ? m[1].length : 2; // antatt minst 2 spaces
+            break;
+          }
+          data.links = {};
+          continue;
         }
-      });
+
+        if (inLinks) {
+          //  Stopp hvis vi er ute av blokka (ingen/for lite innrykk)
+          const indentMatch = line.match(/^(\s+)/);
+          const indent = indentMatch ? indentMatch[1].length : 0;
+          if (indent === 0) { inLinks = false; /* fallthrough: prøv som toppnivå */ }
+          else {
+            const m = line.trim().match(/^([^:]+):\s*(.*)$/);
+            if (m) {
+              const k = m[1].trim();
+              let v = m[2].trim();
+              v = v.replace(/^"(.*)"$/,'$1').replace(/^'(.*)'$/,'$1');
+              data.links[k] = v;
+            }
+            continue;
+          }
+        }
+
+        // Vanlig toppnivå key: value
+        const m = line.match(/^([^:]+):\s*(.*)$/);
+        if (m) {
+          const key = m[1].trim();
+          let val = m[2].trim();
+          val = val.replace(/^"(.*)"$/,'$1').replace(/^'(.*)'$/,'$1');
+          data[key] = val;
+        }
+      }
       return { data, body };
     }
 
@@ -141,49 +194,62 @@
       return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
     }
 
-    /* ---------- IKONER ---------- */
-    const IMG_PLATFORMS = new Set(["deezer","tidal","beatport","traxsource","itunes"]);
-    const ICONS = {
-      spotify:"fa-brands fa-spotify",
-      apple:"fa-brands fa-apple",
-      youtube:"fa-brands fa-youtube",
-      ytmusic:"fa-brands fa-youtube",
-      amazon:"fa-brands fa-amazon",
-      bandcamp:"fa-brands fa-bandcamp",
-      soundcloud:"fa-brands fa-soundcloud",
-      itunes:"", deezer:"", tidal:"", beatport:"", traxsource:""
-    };
+    /* ---------- IKONER (kun 9 whitelistede) ---------- */
+    // Plattformnøkler akkurat som i config.yml (links.*_url)
+    const PLATFORM_DEF = [
+      { key:"spotify_url",      label:"Spotify",      icon:"fa-brands fa-spotify",      type:"icon" },
+      { key:"apple_music_url",  label:"Apple Music",  icon:"fa-brands fa-apple",        type:"icon" },
+      { key:"itunes_url",       label:"iTunes",       img:"images/platforms/itunes.svg",      type:"img" },
+      { key:"tidal_url",        label:"Tidal",        img:"images/platforms/tidal.svg",       type:"img" },
+      { key:"amazon_music_url", label:"Amazon Music", icon:"fa-brands fa-amazon",       type:"icon" },
+      { key:"youtube_url",      label:"YouTube",      icon:"fa-brands fa-youtube",      type:"icon" },
+      { key:"traxsource_url",   label:"Traxsource",   img:"images/platforms/traxsource.svg",   type:"img" },
+      { key:"beatport_url",     label:"Beatport",     img:"images/platforms/beatport.svg",     type:"img" },
+      { key:"deezer_url",       label:"Deezer",       img:"images/platforms/deezer.svg",       type:"img" },
+    ];
 
-    function platformButton(key,url){
+    function platformButton(def,url){
       const u = clean(url);
       if(!u) return "";
-      if(IMG_PLATFORMS.has(key)){
-        const file = key === "itunes" ? "itunes" : key;
-        return `<a href="${u}" target="_blank" rel="noopener"><img src="images/platforms/${file}.svg" alt="${key}"></a>`;
+      if (def.type === "img" && def.img){
+        return `<a class="platform-btn" href="${u}" target="_blank" rel="noopener" aria-label="${def.label}">
+                  <img src="${def.img}" alt="${def.label}">
+                </a>`;
       }
-      const cls = ICONS[key];
-      return cls ? `<a href="${u}" target="_blank" rel="noopener" aria-label="${key}"><i class="${cls}"></i></a>` : "";
+      if (def.type === "icon" && def.icon){
+        return `<a class="platform-btn" href="${u}" target="_blank" rel="noopener" aria-label="${def.label}">
+                  <i class="${def.icon}"></i>
+                </a>`;
+      }
+      return "";
+    }
+
+    function firstAvailableLink(links){
+      if(!links) return "";
+      for (const def of PLATFORM_DEF){
+        const v = clean(links[def.key]);
+        if (v) return v;
+      }
+      return "";
     }
 
     async function loadCard(file){
-      const md = await fetch(file.download_url).then(r=>r.text());
+      const md = await fetch(file.download_url, {cache:'no-store'}).then(r=>r.text());
       const {data} = parseFrontmatter(md);
 
       const title   = clean(data.title);
       const artists = clean(data.artists || data.artist);
-      const featRaw = clean(data.featured || data.feat);
-      const featured = hasValue(featRaw) ? featRaw : "";
-
       const cover   = clean(data.cover || data.image);
       const dateStr = clean(data.date);
+      const links   = data.links || {};
 
-      const PLATFORMS = ["spotify","apple","itunes","deezer","amazon","youtube","ytmusic","tidal","beatport","traxsource","bandcamp","soundcloud"];
-      const links = PLATFORMS
-        .map(k => platformButton(k, data[k]))
+      // Lag knapper KUN for felter som er fylt ut
+      const buttons = PLATFORM_DEF
+        .map(def => platformButton(def, links[def.key]))
         .filter(Boolean)
         .join("");
 
-      const coverHref = PLATFORMS.map(k => clean(data[k])).find(Boolean) || "";
+      const coverHref = firstAvailableLink(links);
 
       return {
         date: dateStr ? new Date(dateStr) : new Date(0),
@@ -193,7 +259,6 @@
               <div class="release-header">
                 ${artists ? `<h2 class="release-artist">${artists}</h2>` : ""}
                 ${title   ? `<h3 class="release-title">${title}</h3>` : ""}
-                ${featured? `<p class="release-featured">feat. ${featured}</p>` : ""}
               </div>
 
               ${cover ? `
@@ -202,7 +267,8 @@
                 ${coverHref ? `</a>` : ``}
               ` : ""}
 
-              <div class="platform-icons">${links}</div>
+              ${buttons ? `<div class="platform-icons platforms">${buttons}</div>` : ""}
+
               ${dateStr ? `<p class="release-date">Release date: ${niceDate(dateStr)}</p>` : ""}
             </div>
           </div>
