@@ -26,7 +26,7 @@
     imagesizes="100vw"
   />
 
-  <!-- Preconnect til eksterne CDN-er -->
+  <!-- Preconnect -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
@@ -35,11 +35,11 @@
   <link rel="preconnect" href="https://o22381.ingest.us.sentry.io" crossorigin>
   <link rel="preconnect" href="https://japresolve.spotify.com" crossorigin>
 
-  <!-- Hoved-CSS: PRELOAD + ikke-blokkerende -->
+  <!-- CSS -->
   <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="styles.css"></noscript>
 
-  <!-- Font Awesome: non-blocking -->
+  <!-- Font Awesome -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin
         onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
@@ -48,21 +48,24 @@
 
   <link rel="icon" href="images/favicon.png" type="image/png" />
 
-  <!-- Marked – defer -->
+  <!-- Marked -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 
   <!-- SEO runtime -->
   <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
-  <!-- Skeletons kun for initial paint -->
+  <!-- Skeleton for første paint -->
   <style>
     .skeleton{background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:8px}
     @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+    .spotify-grid{margin:2rem auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;max-width:1000px;padding:0 1rem}
+    .spotify-grid iframe{width:100%;min-height:500px;border-radius:12px;border:none}
+    @media(max-width:768px){.spotify-grid iframe{min-height:400px}}
   </style>
 </head>
 <body>
 
-  <!-- INLINE HEADER (som i din opplastede fil) -->
+  <!-- HEADER -->
   <header class="site-header">
     <div class="logo-title">
       <a href="index.html">
@@ -124,32 +127,25 @@
   </div>
 
   <main class="page-content">
-    <!-- Fallback-innhold (overskrives av markdown når den er lastet) -->
+    <!-- Tekst (fra index.md) -->
     <div id="home-content">
       <div class="skeleton" style="height:14px;width:55%;margin:12px 0;"></div>
-      <div class="skeleton" style="height:14px;width:72%;margin:12px 0;"></div>
-      <div class="skeleton" style="height:14px;width:64%;margin:12px 0;"></div>
     </div>
 
-    <!-- Spotify (fra admin/frontmatter) -->
-    <section id="spotify-section" style="display:none;">
-      <h2 style="text-align:center; margin-bottom:1rem;">Playlists</h2>
-      <div class="spotify-grid" id="spotify-grid"></div>
+    <!-- Latest Release (nå OVER Playlists) -->
+    <section class="latest-wrap">
+      <h2>LATEST RELEASE</h2>
+      <div id="latest-release"><div class="skeleton" style="height:300px;border-radius:10px;"></div></div>
     </section>
 
-    <!-- Latest Release (autofunn) -->
-    <section class="latest-wrap">
-      <h2>Latest Release</h2>
-      <div id="latest-release"><div class="skeleton" style="height:300px;border-radius:10px;"></div></div>
+    <!-- Playlists (fra admin/frontmatter) -->
+    <section id="spotify-section" style="display:none;">
+      <h2 style="text-align:center; margin-bottom:1rem;">PLAYLISTS</h2>
+      <div class="spotify-grid" id="spotify-grid"></div>
     </section>
   </main>
 
   <footer>
-    <br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br>
     <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs">
       <img
         src="/.netlify/images?url=/images/pearl.png&w=100&h=100&fit=cover&fm=webp&q=74"
@@ -193,82 +189,86 @@
     })();
   </script>
 
-  <!-- Markdown + Frontmatter (hent tekst + spotify-lister) -->
+  <!-- Markdown + Spotify fra frontmatter -->
   <script>
     function stripFrontmatterBlock(text){
       const m = text.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*[\r\n]+/);
       return m ? text.slice(m[0].length) : text;
     }
 
-    // Minimal YAML-parser for akkurat det vi trenger (nøkler + lister + liste-objekter)
+    // Liten YAML-parser for frontmatter vi trenger
     function parseFrontmatter(text){
       const m = text.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*[\r\n]+/);
       if(!m) return {};
-      const yaml = m[1];
+      const yaml = m[1].replace(/\t/g,'  ');
       const lines = yaml.split(/\r?\n/);
 
       const root = {};
       let currentKey = null;
-      let listMode = false;
       let currentItem = null;
 
-      // very basic indentation-aware parse
       lines.forEach(raw=>{
-        const line = raw.replace(/\t/g,'  ');
+        const line = raw;
         if(!line.trim()) return;
 
-        // toppnivå "key:"
-        let mKey = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
-        if(mKey && !line.startsWith('  ')){ // root-level key
-          const key = mKey[1].trim();
-          const val = mKey[2].trim();
-          if(val === '' ){ // kan være liste eller tom nøkkel
-            root[key] = root[key] || null;
-            currentKey = key;
-            listMode = false;
-            currentItem = null;
-          } else {
-            // enkel verdi
-            root[key] = val.replace(/^"(.*)"$/,'$1');
-            currentKey = key;
-            listMode = false;
-            currentItem = null;
-          }
+        // rot-nøkkel
+        const top = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
+        if(top && !line.startsWith('  ')){
+          currentKey = top[1];
+          const val = top[2].trim();
+          if(val===''){ root[currentKey] = root[currentKey] ?? null; currentItem=null; }
+          else { root[currentKey] = val.replace(/^"(.*)"$/,'$1'); currentItem=null; }
           return;
         }
 
-        // element i liste: "  - ..." under gjeldende nøkkel
-        let mList = line.match(/^\s{2}-\s*(.*)$/);
-        if(mList && currentKey){
+        // listepunkt under aktiv nøkkel
+        const li = currentKey && line.match(/^\s{2}-\s*(.*)$/);
+        if(li){
           if(!Array.isArray(root[currentKey])) root[currentKey] = [];
-          const rest = mList[1];
+          const rest = li[1];
 
-          // "  - key: value" (starter objekt)
+          // kan være "key: value"
           const kv = rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
           if(kv){
             currentItem = {};
             currentItem[kv[1]] = kv[2].replace(/^"(.*)"$/,'$1');
             root[currentKey].push(currentItem);
-            listMode = true;
-            return;
+          } else {
+            root[currentKey].push(rest.replace(/^"(.*)"$/,'$1'));
+            currentItem = null;
           }
-
-          // "  - bare en streng"
-          root[currentKey].push(rest.replace(/^"(.*)"$/,'$1'));
-          listMode = true;
-          currentItem = null;
           return;
         }
 
-        // egenskap på forrige liste-objekt: "    key: value"
-        let mChild = line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
-        if(mChild && listMode && currentItem){
-          currentItem[mChild[1]] = mChild[2].replace(/^"(.*)"$/,'$1');
-          return;
-        }
+        // child-felt på forrige liste-objekt
+        const child = currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
+        if(child){ currentItem[child[1]] = child[2].replace(/^"(.*)"$/,'$1'); }
       });
 
       return root;
+    }
+
+    // Godta både iframe HTML, embed-URL eller vanlig Spotify-URL
+    function normalizeSpotifyEmbed(input){
+      if(!input) return "";
+      const s = String(input).trim();
+
+      // 1) hvis full iframe, trekk ut src
+      if(/<\s*iframe/i.test(s)){
+        const m = s.match(/src\s*=\s*"(.*?)"/i) || s.match(/src\s*=\s*'(.*?)'/i);
+        if(m && m[1]) return m[1];
+      }
+
+      // 2) hvis vanlig open.spotify.com URL -> gjør om til embed
+      //    støtter playlist/album/track/show/episode
+      const re = /^https?:\/\/open\.spotify\.com\/(playlist|album|track|show|episode)\/([A-Za-z0-9]+)(\?.*)?$/;
+      const mm = s.match(re);
+      if(mm){
+        return `https://open.spotify.com/embed/${mm[1]}/${mm[2]}?utm_source=generator`;
+      }
+
+      // 3) allerede embed-URL eller noe annet – returner som er
+      return s;
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -280,11 +280,11 @@
           .then(md => {
             if(!md) return;
 
-            // Render body-tekst
+            // Render body
             const body = stripFrontmatterBlock(md);
             if(target) target.innerHTML = marked.parse(body);
 
-            // Parse frontmatter for spotify_playlists
+            // Playlists fra frontmatter
             const fm = parseFrontmatter(md);
             const playlists = Array.isArray(fm.spotify_playlists) ? fm.spotify_playlists : [];
 
@@ -293,7 +293,8 @@
               const section = document.getElementById('spotify-section');
               grid.innerHTML = playlists.map(p => {
                 const title = (p && (p.title || p['Title'])) || '';
-                const embed = (p && (p.embed || p['Embed URL'] || p['embed_url'])) || '';
+                const raw = (p && (p.embed || p['Embed URL'] || p['embed_url'])) || '';
+                const embed = normalizeSpotifyEmbed(raw);
                 return `
                   <div class="spotify-card">
                     ${title ? `<h3 style="text-align:center;margin-bottom:.5rem;">${title}</h3>` : ""}
@@ -307,7 +308,7 @@
           .catch(()=>{});
       };
 
-      // Bruk IntersectionObserver som i din fil (lazyer litt)
+      // Lazy load som før
       if (!('IntersectionObserver' in window) || !target) {
         (window.requestIdleCallback || function(cb){setTimeout(cb,1200)})(loadIt);
       } else {
@@ -393,7 +394,6 @@
 
       function artistsToString(artists){
         if(Array.isArray(artists)){
-          // enten ["A","B"] eller [{artist:"A"},{artist:"B"}]
           const names = artists.map(a => {
             if(typeof a === 'string') return a;
             if(a && typeof a === 'object') return a.artist || a.name || '';
@@ -410,10 +410,7 @@
         const entries = await Promise.all(files.map(async f=>{
           const md = await fetch(f.download_url).then(r=>r.text());
           const fm = parseFM(md);
-          return {
-            data: fm,
-            date: new Date(fm.date || 0)
-          };
+          return { data: fm, date: new Date(fm.date || 0) };
         }));
         entries.sort((a,b)=>b.date-a.date);
         return entries[0]?.data;
