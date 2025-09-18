@@ -172,8 +172,9 @@ collections:
             name: "spotify_playlists"
             widget: "list"
             summary: "{{fields.embed}}"
-            field:
-              { label: "Embed URL", name: "embed", widget: "string", hint: "Lim inn Spotify embed URL" }
+            fields:
+              - { label: "Title", name: "title", widget: "string", required: false }
+              - { label: "Embed URL", name: "embed", widget: "string", hint: "Lim inn Spotify embed URL" }
 
       - file: "content/about.md"
         label: "About Content"
