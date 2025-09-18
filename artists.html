@@ -47,7 +47,7 @@
   </script>
 
   <main class="page-content">
-    <h1>Artists</h1>
+    <h1>ARTISTS</h1>
 
     <section style="margin:30px 0 10px;">
       <h2>PRODUCERS</h2>
@@ -127,15 +127,14 @@
              sizes="(max-width: 768px) 90vw, 400px"
              alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
              loading="lazy" decoding="async">`;
-      // Bare pakk i <a> hvis det faktisk finnes en link
       return `<div class="thumb">${link ? `<a href="${link}" target="_blank" rel="noopener">${imgHtml}</a>` : imgHtml}</div>`;
     }
 
     function card(a){
       const name=a.name||a.title||"";
       const img=a.image||a.photo||"";
-      // Kun ekstern link hvis den finnes
-      const link=a.website||a.spotify||a.instagram||"";
+      // Kun eksterne linker fra admin – ingen fallback
+      const link=(a.website||a.spotify||a.instagram||"").trim();
 
       return `
         <div class="artist">
