@@ -100,19 +100,23 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35; }
 .release-featured{font-size:1rem;font-style:italic;color:#ccc;text-align:center}
 .release-body{margin-top:1rem;color:#ccc}
 
-/* Platform icons — MAX 5 per rad (grid, midtstilt) */
+/* Platform icons — MAX 5 per rad, midtstilte rader */
 .platform-icons{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(44px, 1fr));
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
   gap:14px;
-  justify-content:center;    /* midtstill gridet */
-  justify-items:center;      /* midtstill ikonene i hver celle */
   margin-top:.2rem;margin-bottom:.8rem;
   max-width:calc(5*44px + 4*14px); /* maks 5 ikoner pr rad */
   margin-left:auto;margin-right:auto;
   min-height:102px;
 }
-/* Delte regler for lenkeknapper (både .platform-icons a og .platform-btn) */
+.platform-icons > *{
+  flex:0 0 44px;   /* fast bredde for jevne kolonner */
+  height:44px;
+}
+
+/* Delte regler for lenkeknapper */
 .platform-icons a, .platform-btn{
   display:inline-flex;align-items:center;justify-content:center;
   width:44px;height:44px;border-radius:999px;
@@ -126,7 +130,6 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35; }
 }
 .platform-icons img, .platform-btn img{display:block;height:24px;width:auto}
 .platform-icons i, .platform-btn i{display:block;font-size:24px;line-height:1}
-/* inverter hvite/monokrome logoer der det trengs */
 .platform-icons img[src$="deezer.svg"],
 .platform-icons img[src$="traxsource.svg"],
 .platform-btn img[src$="deezer.svg"],
@@ -185,17 +188,14 @@ footer nav.footer-nav a:hover{color:#bbb}
 
 /* === Latest Release – kompakt ramme rundt cover === */
 .release.latest{
-  /* Stram ramme */
-  max-width: 340px;          /* ca. cover + padding */
+  max-width: 340px;
   margin: 1.25rem auto;
   padding: .75rem .9rem;
   background:#111;
   border-radius:12px;
   box-shadow:0 0 12px rgba(255,255,255,.06);
   text-align:center;
-
-  /* VIKTIG: fjern høy tvungen høyde fra .release */
-  min-height: 0;             /* overstyrer base min-height */
+  min-height: 0;
 }
 
 .release.latest .release-header{gap:2px;margin-bottom:.5rem}
@@ -203,7 +203,7 @@ footer nav.footer-nav a:hover{color:#bbb}
 .release.latest .release-title {font-size:.9rem;color:#ddd}
 
 .release.latest .release-cover{
-  width: 300px; height: 300px;   /* fast kvadrat */
+  width: 300px; height: 300px;
   max-width: 100%;
   object-fit: cover;
   border-radius:10px;
@@ -219,7 +219,7 @@ footer nav.footer-nav a:hover{color:#bbb}
 }
 
 .release.latest .release-date{
-  margin-top:.3rem;            /* liten luft under */
+  margin-top:.3rem;
 }
 
 @media (max-width: 768px){
