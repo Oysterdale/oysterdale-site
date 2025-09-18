@@ -377,4 +377,4 @@ collections:
             collapsed: true
             fields:
               - { label: "Label", name: "label", widget: "string" }
-              - { label: "URL", name: "href", widget: "string
+              - { label: "URL", name: "href", widget: "string" }
