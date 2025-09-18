@@ -103,10 +103,6 @@
       return (await r.json()).filter(f=>f.name.endsWith(".md"));
     }
 
-    function slugify(str){
-      return str.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-    }
-
     function parseFrontmatter(md){
       const parts=md.split('---');
       if(parts.length<3) return {data:{}, body:md};
@@ -137,10 +133,8 @@
     function card(a){
       const name=a.name||a.title||"";
       const img=a.image||a.photo||"";
-      const slug=slugify(name);
-      const localLink=`/artists/${slug}.html`; // fremtidig individuell side
-      const external=a.website||a.spotify||a.instagram||"";
-      const link=external || localLink;
+      // ekstern link (kun hvis lagt inn i admin)
+      const link=a.website||a.spotify||a.instagram||"";
 
       return `
         <div class="artist">
