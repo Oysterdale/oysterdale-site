@@ -8,9 +8,10 @@
   <!-- Anti-FOUC -->
   <style>body{opacity:0; transition:opacity .18s ease}</style>
 
+  <!-- Viktig: blokkende CSS -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- SEO runtime -->
+  <!-- SEO runtime (fallback) -->
   <script src="js/seo.js" defer data-seo="/content/seo/artists.json"></script>
 
   <!-- Font Awesome -->
@@ -26,12 +27,13 @@
 
   <link rel="icon" href="images/favicon.png" type="image/png" />
 
+  <!-- Fade inn når alt er lastet -->
   <script>
     window.addEventListener('load', () => { document.body.style.opacity = 1; });
   </script>
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header (felles) -->
   <script>
     fetch('header.html').then(r=>r.text()).then(html=>{
       document.body.insertAdjacentHTML('afterbegin', html);
@@ -62,7 +64,7 @@
     <div class="releases-grid" id="vocalists"></div>
   </main>
 
-  <!-- Footer -->
+  <!-- Dynamisk FOOTER -->
   <script>
   (async function loadFooter(){
     try{
@@ -71,35 +73,42 @@
 
       const w = Number(cfg.width) || 260;
       const logoSrc = cfg.logo
-        ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
+        ? /.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80
         : '/uploads/OysterdaleRecords_white_logo_260.webp';
 
       const linksHtml = (cfg.links && cfg.links.length)
-        ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
+        ? <nav class="footer-nav">${cfg.links.map(l => <a href="${l.href}">${l.label}</a>).join(" | ")}</nav>
         : "";
 
-      const html = `
+      const html = 
         <footer>
           <div class="footer-logo">
-            <img src="${logoSrc}" alt="Oysterdale Records Logo"
-                 class="footer-logo-img" width="${w}" height="${w}"
-                 loading="lazy" decoding="async">
+            <img
+              src="${logoSrc}"
+              alt="Oysterdale Records Logo"
+              class="footer-logo-img"
+              width="${w}" height="${w}"
+              loading="lazy" decoding="async"
+            >
           </div>
           <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
           ${linksHtml}
-        </footer>`;
+        </footer>
+      ;
       document.body.insertAdjacentHTML('beforeend', html);
-    }catch(e){ console.error('Footer load failed', e); }
+    }catch(e){
+      console.error('Footer load failed', e);
+    }
   })();
   </script>
 
   <!-- Artists script -->
   <script>
     const OWNER="Oysterdale", REPO="oysterdale-site", DIR="artists";
-    function ni(url, w){ return `/.netlify/images?url=${encodeURIComponent(url)}&w=${w}&fm=webp&q=74`; }
+    function ni(url, w){ return /.netlify/images?url=${encodeURIComponent(url)}&w=${w}&fm=webp&q=74; }
 
     async function listFiles(){
-      const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
+      const r=await fetch(https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR});
       if(!r.ok) throw new Error("GitHub list failed");
       return (await r.json()).filter(f=>f.name.endsWith(".md"));
     }
@@ -108,52 +117,41 @@
       const parts=md.split('---');
       if(parts.length<3) return {data:{}, body:md};
       const yaml=parts[1], body=parts.slice(2).join('---').trim();
-      const data={}; const lines=yaml.split(/\r?\n/);
-      let currentList=null;
-      for(const line of lines){
-        if(!line.trim()) continue;
-        const listStart=line.match(/^([A-Za-z0-9_]+):\s*$/);
-        if(listStart){ currentList=listStart[1]; data[currentList]=[]; continue; }
-        if(currentList && /^\s*-\s+/.test(line)){
-          data[currentList].push(line.replace(/^\s*-\s+/,'').trim()); continue;
-        }
+      const data={};
+      yaml.split(/\r?\n/).forEach(line=>{
         const m=line.match(/^([^:]+):\s*(.*)$/);
-        if(m){ data[m[1].trim()]=m[2].replace(/^["']|["']$/g,''); }
-      }
+        if(m){
+          let v=m[2].trim().replace(/^"(.*)"$/,'$1');
+          data[m[1].trim()]=v;
+        }
+      });
       return {data, body};
     }
 
     function imgTag(src, alt){
       if(!src) return "";
       const w200 = ni(src,200), w320 = ni(src,320), w400 = ni(src,400), w600 = ni(src,600);
-      return `
+      return 
         <div class="thumb">
-          <img src="${w400}"
-               srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
-               sizes="(max-width: 768px) 90vw, 400px"
-               alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
-               loading="lazy" decoding="async">
-        </div>`;
+          <img
+            src="${w400}"
+            srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
+            sizes="(max-width: 768px) 90vw, 400px"
+            alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
+            loading="lazy" decoding="async">
+        </div>;
     }
 
     function card(a){
       const name=a.name||a.title||"";
       const img=a.image||a.photo||"";
-      const links=[];
-      if(a.spotify) links.push(`<a href="${a.spotify}" target="_blank"><i class="fa-brands fa-spotify"></i></a>`);
-      if(a.soundcloud) links.push(`<a href="${a.soundcloud}" target="_blank"><i class="fa-brands fa-soundcloud"></i></a>`);
-      if(a.instagram) links.push(`<a href="${a.instagram}" target="_blank"><i class="fa-brands fa-instagram"></i></a>`);
-      if(a.website) links.push(`<a href="${a.website}" target="_blank"><i class="fa-solid fa-link"></i></a>`);
-      if(a.mixcloud) links.push(`<a href="${a.mixcloud}" target="_blank"><i class="fa-brands fa-mixcloud"></i></a>`);
-      if(a.bandcamp) links.push(`<a href="${a.bandcamp}" target="_blank"><i class="fa-brands fa-bandcamp"></i></a>`);
-
-      return `
+      const link=a.url||a.link||"";
+      return 
         <div class="artist">
           ${imgTag(img, name)}
           <h3>${name}</h3>
-          ${a.bio ? `<p>${a.bio}</p>` : ""}
-          <div class="platform-icons">${links.join("")}</div>
-        </div>`;
+          ${link ? <p style="margin-top:8px;"><a class="btn" href="${link}" target="_blank" rel="noopener noreferrer">More</a></p> : ""}
+        </div>;
     }
 
     (async ()=>{
@@ -164,8 +162,8 @@
           const {data}=parseFrontmatter(md);
           return data;
         }));
-        const producers = items.filter(a => Array.isArray(a.role) ? a.role.includes("producer") : /producer/i.test(a.role||""));
-        const vocalists = items.filter(a => Array.isArray(a.role) ? a.role.includes("vocalist") : /vocal/i.test(a.role||""));
+        const producers = items.filter(a => /producer/i.test(a.role||""));
+        const vocalists = items.filter(a => /vocal/i.test(a.role||""));
         document.getElementById('producers').innerHTML = producers.map(card).join('');
         document.getElementById('vocalists').innerHTML = vocalists.map(card).join('');
       }catch(e){ console.error(e); }
