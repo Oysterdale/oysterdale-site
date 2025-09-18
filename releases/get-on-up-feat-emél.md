@@ -3,6 +3,7 @@ title: Get On Up
 artists:
   - OKPLUS
   - Emél
+  - MINIJACK
 date: 2025-06-27
 catalog: ''
 cover: /uploads/GetOnUp_OKPLUS_COVERART_V2.webp
@@ -17,3 +18,4 @@ links:
   beatport_url: https://www.beatport.com/release/get-on-up/5109036
   deezer_url: https://link.deezer.com/s/30RsZKxTAnrjKdnMgkiU8
 ---
+
