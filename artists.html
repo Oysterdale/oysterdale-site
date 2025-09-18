@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,7 +53,16 @@
 
   <main class="page-content">
     <h1>Artists</h1>
-    <div class="releases-grid" id="artists-content"></div>
+
+    <section style="margin:30px 0 10px;">
+      <h2>PRODUCERS</h2>
+    </section>
+    <div class="releases-grid" id="producers"></div>
+
+    <section style="margin:40px 0 10px;">
+      <h2>VOCALISTS</h2>
+    </section>
+    <div class="releases-grid" id="vocalists"></div>
   </main>
 
   <!-- Dynamisk FOOTER -->
@@ -119,15 +129,29 @@
       return {data, body};
     }
 
+    function imgTag(src, alt){
+      if(!src) return "";
+      const w200 = ni(src,200), w320 = ni(src,320), w400 = ni(src,400), w600 = ni(src,600);
+      return `
+        <div class="thumb">
+          <img
+            src="${w400}"
+            srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
+            sizes="(max-width: 768px) 90vw, 400px"
+            alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
+            loading="lazy" decoding="async">
+        </div>`;
+    }
+
     function card(a){
       const name=a.name||a.title||"";
-      const img=a.image||"";
-      const bio=a.bio||"";
+      const img=a.image||a.photo||"";
+      const link=a.url||a.link||"";
       return `
         <div class="artist">
-          ${img ? `<img class="artist-photo" src="${img}" alt="${name}">` : ""}
+          ${imgTag(img, name)}
           <h3>${name}</h3>
-          ${bio ? `<p>${bio}</p>` : ""}
+          ${link ? `<p style="margin-top:8px;"><a class="btn" href="${link}" target="_blank" rel="noopener noreferrer">More</a></p>` : ""}
         </div>`;
     }
 
@@ -139,7 +163,10 @@
           const {data}=parseFrontmatter(md);
           return data;
         }));
-        document.getElementById('artists-content').innerHTML = items.map(card).join('');
+        const producers = items.filter(a => /producer/i.test(a.role||""));
+        const vocalists = items.filter(a => /vocal/i.test(a.role||""));
+        document.getElementById('producers').innerHTML = producers.map(card).join('');
+        document.getElementById('vocalists').innerHTML = vocalists.map(card).join('');
       }catch(e){ console.error(e); }
     })();
   </script>
