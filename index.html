@@ -5,18 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records</title>
 
-  <!-- Vi bruker vanlige bildeadresser (ingen /.netlify/images for å unngå 404) -->
-  <link rel="preload" as="image" href="/images/forsidebilde.png" />
-
-  <!-- Preconnects (lettvekt) -->
+  <!-- Preconnects -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
 
-  <!-- CSS (vanlig link for å unngå FOUC) -->
+  <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Font Awesome (preload + fallback) -->
+  <!-- Font Awesome -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin
         onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
@@ -59,7 +56,7 @@
     <div class="logo-title">
       <a href="index.html">
         <img
-          src="/images/oysterdale-logo.png"
+          src="images/oysterdale-logo.png"
           alt="Oysterdale Records Logo"
           class="logo-img"
           width="220" height="60"
@@ -89,18 +86,8 @@
     </nav>
   </header>
 
-  <!-- HERO -->
-  <div class="home-hero">
-    <img
-      id="home-hero"
-      class="hero-image"
-      src="/images/forsidebilde.png"
-      srcset="/images/forsidebilde.png 1200w"
-      sizes="100vw"
-      alt="Oysterdale Records hero image"
-      fetchpriority="high"
-    />
-  </div>
+  <!-- HERO – bruker kun CSS-bakgrunn fra styles.css (ingen <img>) -->
+  <div class="home-hero"></div>
 
   <main class="page-content">
     <!-- Tekst (fra index.md) -->
@@ -124,7 +111,7 @@
   <footer>
     <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs">
       <img
-        src="/images/pearl.png"
+        src="images/pearl.png"
         alt="An image of a pearl"
         class="footer-pearl"
         width="100" height="100"
@@ -350,13 +337,14 @@
         return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
       }
 
-      // Enkel frontmatter-parser for releases
+      // enkel frontmatter-parser for releases
       function parseFM(md){
         const m = md.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*/);
         const data = {};
         if(!m) return data;
         const yaml = m[1].replace(/\t/g,'  ');
-        const lines = yaml.split(/\r?\n/);
+        const lines = yaml.split(/\r?\n/); /* <- FIX: .split */
+
         let key=null, currentItem=null;
 
         lines.forEach(line=>{
@@ -404,7 +392,6 @@
 
       function renderLatest(data){
         const wrap = document.getElementById('latest-release'); if(!wrap) return;
-        if(!data){ wrap.innerHTML=''; return; }
         const artistStr = artistsToString(data.artists || data.artist);
         wrap.innerHTML = `
           <div class="release latest">
@@ -421,15 +408,10 @@
       document.addEventListener('DOMContentLoaded', async ()=>{
         try{
           const latest = await fetchLatest();
-          renderLatest(latest);
-        }catch(e){
-          const wrap=document.getElementById('latest-release');
-          if(wrap) wrap.innerHTML='';
-        }
+          if(latest) renderLatest(latest);
+        }catch(e){}
       });
     })();
   </script>
-
-  <script src="js/hero.js" defer></script>
 </body>
 </html>
