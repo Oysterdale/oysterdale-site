@@ -5,38 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oysterdale Records</title>
 
-  <!-- Preload LCP hero image -->
-  <link
-    rel="preload"
-    as="image"
-    href="/.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover"
-    imagesrcset="
-      /.netlify/images?url=/images/forsidebilde.png&w=360&fm=webp&q=55&fit=cover 360w,
-      /.netlify/images?url=/images/forsidebilde.png&w=414&fm=webp&q=55&fit=cover 414w,
-      /.netlify/images?url=/images/forsidebilde.png&w=428&fm=webp&q=55&fit=cover 428w,
-      /.netlify/images?url=/images/forsidebilde.png&w=480&fm=webp&q=55&fit=cover 480w,
-      /.netlify/images?url=/images/forsidebilde.png&w=640&fm=webp&q=55&fit=cover 640w,
-      /.netlify/images?url=/images/forsidebilde.png&w=750&fm=webp&q=55&fit=cover 750w,
-      /.netlify/images?url=/images/forsidebilde.png&w=828&fm=webp&q=55&fit=cover 828w,
-      /.netlify/images?url=/images/forsidebilde.png&w=1024&fm=webp&q=55&fit=cover 1024w,
-      /.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover 1200w,
-      /.netlify/images?url=/images/forsidebilde.png&w=1280&fm=webp&q=55&fit=cover 1280w,
-      /.netlify/images?url=/images/forsidebilde.png&w=1366&fm=webp&q=55&fit=cover 1366w
-    "
-    imagesizes="100vw"
-  />
+  <!-- Vi bruker vanlige bildeadresser (ingen /.netlify/images for å unngå 404) -->
+  <link rel="preload" as="image" href="/images/forsidebilde.png" />
 
-  <!-- Preconnects -->
+  <!-- Preconnects (lettvekt) -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
-  <link rel="preconnect" href="https://image-cdn-ak.spotifycdn.com" crossorigin>
-  <link rel="preconnect" href="https://encore.scdn.co" crossorigin>
 
   <!-- CSS (vanlig link for å unngå FOUC) -->
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Font Awesome -->
+  <!-- Font Awesome (preload + fallback) -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin
         onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
@@ -51,15 +31,15 @@
   <!-- SEO runtime -->
   <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
-  <!-- Skeleton + Spotify kort-stiler -->
+  <!-- Små helper-stiler -->
   <style>
-    .skeleton{background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:8px}
+    .skeleton{background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:12px}
     @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
-    /* venstrejusterte seksjonsoverskrifter */
+    /* Venstrejusterte seksjonsoverskrifter */
     .latest-wrap h2, #spotify-section h2 { text-align:left; }
 
-    /* hint til browser om at disse kan utsettes (bedre first paint) */
+    /* Hint til browser om at disse kan utsettes (bedre first paint) */
     .latest-wrap, #spotify-section { content-visibility:auto; contain-intrinsic-size:600px 800px; }
 
     .spotify-grid{
@@ -79,7 +59,7 @@
     <div class="logo-title">
       <a href="index.html">
         <img
-          src="/.netlify/images?url=/images/oysterdale-logo.png&w=220&h=60&fit=contain&fm=webp&q=74"
+          src="/images/oysterdale-logo.png"
           alt="Oysterdale Records Logo"
           class="logo-img"
           width="220" height="60"
@@ -114,20 +94,8 @@
     <img
       id="home-hero"
       class="hero-image"
-      src="/.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover"
-      srcset="
-        /.netlify/images?url=/images/forsidebilde.png&w=360&fm=webp&q=55&fit=cover 360w,
-        /.netlify/images?url=/images/forsidebilde.png&w=414&fm=webp&q=55&fit=cover 414w,
-        /.netlify/images?url=/images/forsidebilde.png&w=428&fm=webp&q=55&fit=cover 428w,
-        /.netlify/images?url=/images/forsidebilde.png&w=480&fm=webp&q=55&fit=cover 480w,
-        /.netlify/images?url=/images/forsidebilde.png&w=640&fm=webp&q=55&fit=cover 640w,
-        /.netlify/images?url=/images/forsidebilde.png&w=750&fm=webp&q=55&fit=cover 750w,
-        /.netlify/images?url=/images/forsidebilde.png&w=828&fm=webp&q=55&fit=cover 828w,
-        /.netlify/images?url=/images/forsidebilde.png&w=1024&fm=webp&q=55&fit=cover 1024w,
-        /.netlify/images?url=/images/forsidebilde.png&w=1200&fm=webp&q=55&fit=cover 1200w,
-        /.netlify/images?url=/images/forsidebilde.png&w=1280&fm=webp&q=55&fit=cover 1280w,
-        /.netlify/images?url=/images/forsidebilde.png&w=1366&fm=webp&q=55&fit=cover 1366w
-      "
+      src="/images/forsidebilde.png"
+      srcset="/images/forsidebilde.png 1200w"
       sizes="100vw"
       alt="Oysterdale Records hero image"
       fetchpriority="high"
@@ -143,7 +111,7 @@
     <!-- Latest Release (OVER Playlists) -->
     <section class="latest-wrap">
       <h2>LATEST RELEASE</h2>
-      <div id="latest-release"><div class="skeleton" style="height:300px;border-radius:10px;"></div></div>
+      <div id="latest-release"><div class="skeleton" style="height:300px;border-radius:12px;"></div></div>
     </section>
 
     <!-- Playlists (fra admin/frontmatter) -->
@@ -156,7 +124,7 @@
   <footer>
     <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs">
       <img
-        src="/.netlify/images?url=/images/pearl.png&w=100&h=100&fit=cover&fm=webp&q=74"
+        src="/images/pearl.png"
         alt="An image of a pearl"
         class="footer-pearl"
         width="100" height="100"
@@ -166,7 +134,7 @@
 
     <div class="footer-logo">
       <img
-        src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74"
+        src="/uploads/OysterdaleRecords_white_logo.png"
         alt="Oysterdale Records Logo"
         class="footer-logo-img"
         width="260" height="260"
@@ -382,13 +350,13 @@
         return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
       }
 
-      // enkel frontmatter-parser for releases
+      // Enkel frontmatter-parser for releases
       function parseFM(md){
         const m = md.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*/);
         const data = {};
         if(!m) return data;
         const yaml = m[1].replace(/\t/g,'  ');
-        const lines = yaml split(/\r?\n/);
+        const lines = yaml.split(/\r?\n/);
         let key=null, currentItem=null;
 
         lines.forEach(line=>{
@@ -436,6 +404,7 @@
 
       function renderLatest(data){
         const wrap = document.getElementById('latest-release'); if(!wrap) return;
+        if(!data){ wrap.innerHTML=''; return; }
         const artistStr = artistsToString(data.artists || data.artist);
         wrap.innerHTML = `
           <div class="release latest">
@@ -452,8 +421,11 @@
       document.addEventListener('DOMContentLoaded', async ()=>{
         try{
           const latest = await fetchLatest();
-          if(latest) renderLatest(latest);
-        }catch(e){}
+          renderLatest(latest);
+        }catch(e){
+          const wrap=document.getElementById('latest-release');
+          if(wrap) wrap.innerHTML='';
+        }
       });
     })();
   </script>
