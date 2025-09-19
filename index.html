@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://embed-cdn.spotifycdn.com" crossorigin>
+  <link rel="preconnect" href="https://image-cdn-ak.spotifycdn.com" crossorigin>
+  <link rel="preconnect" href="https://encore.scdn.co" crossorigin>
 
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
@@ -28,24 +30,14 @@
   <!-- SEO runtime -->
   <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
-  <!-- Inline helpers -->
+  <!-- Liten skeleton + heading-justering -->
   <style>
-    /* HERO: gi høyde slik at bakgrunnen din i styles.css vises uten <img> */
-    .home-hero{
-      /* hvis styles.css allerede setter bakgrunn, lar vi det være i fred.
-         Vi gir bare størrelse her, responsivt. */
-      min-height: 220px;
-    }
-    @media (min-width: 640px){ .home-hero{ min-height: 280px; } }
-    @media (min-width: 1024px){ .home-hero{ min-height: 340px; } }
-
-    .skeleton{background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:12px}
+    .skeleton{background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:8px}
     @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
-    /* Venstrejusterte seksjonsoverskrifter */
     .latest-wrap h2, #spotify-section h2 { text-align:left; }
 
-    /* Hint til browser om at disse kan utsettes (bedre first paint) */
+    /* Hint til browser: kan utsettes (bedre first paint) */
     .latest-wrap, #spotify-section { content-visibility:auto; contain-intrinsic-size:600px 800px; }
 
     .spotify-grid{
@@ -56,6 +48,11 @@
     .spotify-card iframe{width:100%;min-height:500px;border-radius:12px;border:none}
     .spotify-card.compact iframe{height:152px;min-height:152px}
     @media(max-width:768px){.spotify-card iframe{min-height:400px}}
+
+    /* Hero skeletongradient til bildet er lastet */
+    .home-hero{position:relative;overflow:hidden}
+    .hero-placeholder{height:38vw;max-height:420px;min-height:220px;background:linear-gradient(180deg,#1b1b1b, #0d0d0d);border-bottom:1px solid #222}
+    .hero-image{display:block;width:100%;height:auto}
   </style>
 </head>
 <body>
@@ -65,7 +62,7 @@
     <div class="logo-title">
       <a href="index.html">
         <img
-          src="images/oysterdale-logo.png"
+          src="/.netlify/images?url=/images/oysterdale-logo.png&w=220&h=60&fit=contain&fm=webp&q=74"
           alt="Oysterdale Records Logo"
           class="logo-img"
           width="220" height="60"
@@ -95,8 +92,11 @@
     </nav>
   </header>
 
-  <!-- HERO – bruker KUN CSS-bakgrunn fra styles.css, men har nå høyde -->
-  <div class="home-hero" role="img" aria-label="Oysterdale Records hero"></div>
+  <!-- HERO (bildet settes via JS fra /data/home.json) -->
+  <div class="home-hero">
+    <div class="hero-placeholder" id="hero-ph"></div>
+    <img id="home-hero" class="hero-image" alt="Oysterdale Records hero image" loading="eager" decoding="async" />
+  </div>
 
   <main class="page-content">
     <!-- Tekst (fra index.md) -->
@@ -107,7 +107,7 @@
     <!-- Latest Release (OVER Playlists) -->
     <section class="latest-wrap">
       <h2>LATEST RELEASE</h2>
-      <div id="latest-release"><div class="skeleton" style="height:300px;border-radius:12px;"></div></div>
+      <div id="latest-release"><div class="skeleton" style="height:300px;border-radius:10px;"></div></div>
     </section>
 
     <!-- Playlists (fra admin/frontmatter) -->
@@ -120,7 +120,7 @@
   <footer>
     <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs">
       <img
-        src="images/pearl.png"
+        src="/.netlify/images?url=/images/pearl.png&w=100&h=100&fit=cover&fm=webp&q=74"
         alt="An image of a pearl"
         class="footer-pearl"
         width="100" height="100"
@@ -130,7 +130,7 @@
 
     <div class="footer-logo">
       <img
-        src="/uploads/OysterdaleRecords_white_logo.png"
+        src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74"
         alt="Oysterdale Records Logo"
         class="footer-logo-img"
         width="260" height="260"
@@ -158,6 +158,34 @@
           });
         });
       }
+    })();
+  </script>
+
+  <!-- Hero-bilde fra /data/home.json -->
+  <script>
+    (function(){
+      const heroImg = document.getElementById('home-hero');
+      const heroPh  = document.getElementById('hero-ph');
+
+      function netlifySrc(url, w){
+        return `/.netlify/images?url=${encodeURIComponent(url)}&w=${w}&fm=webp&q=70&fit=cover`;
+      }
+      function netlifySrcSet(url){
+        const widths=[360,480,640,750,828,1024,1200,1280,1366,1600];
+        return widths.map(w=>`${netlifySrc(url,w)} ${w}w`).join(', ');
+      }
+
+      fetch('/data/home.json', { cache:'no-store' })
+        .then(r => r.ok ? r.json() : {})
+        .then(data => {
+          const chosen = (data && data.hero_image) ? String(data.hero_image) : '';
+          if(!chosen){ return; } // ingen valgt i admin → behold placeholder
+          heroImg.src = netlifySrc(chosen, 1600);
+          heroImg.srcset = netlifySrcSet(chosen);
+          heroImg.sizes = '100vw';
+          heroImg.addEventListener('load', ()=>{ if(heroPh) heroPh.style.display='none'; }, { once:true });
+        })
+        .catch(()=>{ /* stille fallback */ });
     })();
   </script>
 
@@ -352,8 +380,7 @@
         const data = {};
         if(!m) return data;
         const yaml = m[1].replace(/\t/g,'  ');
-        const lines = yaml.split(/\r?\n/); /* korrekt .split */
-
+        const lines = yaml.split(/\r?\n/);
         let key=null, currentItem=null;
 
         lines.forEach(line=>{
@@ -422,5 +449,7 @@
       });
     })();
   </script>
+
+  <script src="js/hero.js" defer></script>
 </body>
 </html>
