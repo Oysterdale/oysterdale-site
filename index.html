@@ -137,7 +137,7 @@
 
     <!-- Playlists (fra admin/frontmatter) -->
     <section id="spotify-section" style="display:none;">
-      <h2 style="text-align:center; margin-bottom:1rem;">PLAYLISTS</h2>
+      <h2>PLAYLISTS</h2>
       <div class="spotify-grid" id="spotify-grid"></div>
     </section>
   </main>
@@ -320,10 +320,10 @@
                 const raw   = isString ? p : (p.embed || p['Embed URL'] || p['embed_url'] || '');
                 const embed = normalizeSpotifyEmbed(raw);
 
+                // Skjul tittelen visuelt – bruk bare title-attributt
                 return `
                   <div class="spotify-card">
-                    ${title ? `<h3 style="text-align:center;margin-bottom:.5rem;">${title}</h3>` : ""}
-                    ${embed ? `<iframe src="${embed}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>` : ""}
+                    ${embed ? `<iframe src="${embed}" title="${title ? `Spotify – ${title}` : 'Spotify playlist'}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>` : ""}
                   </div>
                 `;
               }).join('');
@@ -372,7 +372,7 @@
         lines.forEach(line=>{
           if(!line.trim()) return;
           const top = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
-          if(top && !line.startsWith('  ')){
+        if(top && !line.startsWith('  ')){
             key = top[1]; const val = top[2].trim();
             if(val===''){ data[key]=data[key]??null; currentItem=null; }
             else { data[key]=val.replace(/^"(.*)"$/,'$1'); currentItem=null; }
