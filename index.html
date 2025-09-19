@@ -186,17 +186,14 @@
     })();
   </script>
 
-  <!-- Markdown + Spotify fra frontmatter (med støtte for YAML block scalars) -->
+  <!-- Markdown + Spotify (robust parser og støtte for URL-strenger ELLER {title, embed}) -->
   <script>
     function stripFrontmatterBlock(text){
       const m = text.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*[\r\n]+/);
       return m ? text.slice(m[0].length) : text;
     }
 
-    // Parser med støtte for:
-    // - lister av objekter
-    // - child keys (4 spaces)
-    // - block scalars: "|" (behold linjer) og ">" (fold linjer)
+    // Frontmatter-parser (lister, child keys og block scalars '|' / '>')
     function parseFrontmatter(text){
       const m = text.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*[\r\n]+/);
       if(!m) return {};
@@ -206,7 +203,7 @@
       const root = {};
       let currentKey = null;
       let currentItem = null;
-      let capture = null; // { obj, key, type:'|'|'>', indent, buf:[] }
+      let capture = null; // { obj, key, type, indent, buf:[] }
 
       function flush(){
         if(!capture) return;
@@ -221,12 +218,8 @@
         const indent = (line.match(/^\s*/)||[''])[0].length;
 
         if(capture){
-          if(indent > capture.indent){
-            capture.buf.push(line.slice(capture.indent+1));
-            continue;
-          } else {
-            flush();
-          }
+          if(indent > capture.indent){ capture.buf.push(line.slice(capture.indent+1)); continue; }
+          else { flush(); }
         }
 
         if(!line.trim()) continue;
@@ -248,6 +241,7 @@
             if(!Array.isArray(root[currentKey])) root[currentKey] = [];
             const rest = li[1];
 
+            // objekt-start "key: value"
             const kv = rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
             if(kv){
               currentItem = {};
@@ -256,6 +250,7 @@
               if(v==='|'||v==='>'){ capture={obj:currentItem,key:k,type:v,indent:2,buf:[]}; }
               else { currentItem[k] = v.replace(/^"(.*)"$/,'$1'); }
             } else {
+              // ren streng (f.eks. Spotify-URL)
               root[currentKey].push(rest.replace(/^"(.*)"$/,'$1'));
               currentItem = null;
             }
@@ -263,7 +258,7 @@
           }
         }
 
-        // child of list object
+        // child keys (forrige liste-objekt)
         if(currentItem){
           const child = line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
           if(child){
@@ -278,7 +273,7 @@
       return root;
     }
 
-    // Godta iframe-HTML, embed-URL eller vanlig Spotify-URL
+    // Godta <iframe>, vanlig open.spotify.com eller allerede embed-URL
     function normalizeSpotifyEmbed(input){
       if(!input) return "";
       const s = String(input).trim();
@@ -310,17 +305,21 @@
             const body = stripFrontmatterBlock(md);
             if(target) target.innerHTML = marked.parse(body);
 
-            // Hent playlists fra frontmatter (inkl. block scalars)
+            // Hent playlists fra frontmatter
             const fm = parseFrontmatter(md);
             const playlists = Array.isArray(fm.spotify_playlists) ? fm.spotify_playlists : [];
 
             if(playlists.length){
               const grid = document.getElementById('spotify-grid');
               const section = document.getElementById('spotify-section');
+
               grid.innerHTML = playlists.map(p => {
-                const title = (p && (p.title || p['Title'])) || '';
-                const raw = (p && (p.embed || p['Embed URL'] || p['embed_url'])) || '';
+                // Støtt både string og object
+                const isString = (typeof p === 'string');
+                const title = !isString ? (p.title || p['Title'] || '') : '';
+                const raw   = isString ? p : (p.embed || p['Embed URL'] || p['embed_url'] || '');
                 const embed = normalizeSpotifyEmbed(raw);
+
                 return `
                   <div class="spotify-card">
                     ${title ? `<h3 style="text-align:center;margin-bottom:.5rem;">${title}</h3>` : ""}
@@ -328,6 +327,7 @@
                   </div>
                 `;
               }).join('');
+
               section.style.display = 'block';
             }
           })
