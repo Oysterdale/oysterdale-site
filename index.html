@@ -28,8 +28,17 @@
   <!-- SEO runtime -->
   <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
-  <!-- Små helper-stiler -->
+  <!-- Inline helpers -->
   <style>
+    /* HERO: gi høyde slik at bakgrunnen din i styles.css vises uten <img> */
+    .home-hero{
+      /* hvis styles.css allerede setter bakgrunn, lar vi det være i fred.
+         Vi gir bare størrelse her, responsivt. */
+      min-height: 220px;
+    }
+    @media (min-width: 640px){ .home-hero{ min-height: 280px; } }
+    @media (min-width: 1024px){ .home-hero{ min-height: 340px; } }
+
     .skeleton{background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:12px}
     @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
@@ -86,8 +95,8 @@
     </nav>
   </header>
 
-  <!-- HERO – bruker kun CSS-bakgrunn fra styles.css (ingen <img>) -->
-  <div class="home-hero"></div>
+  <!-- HERO – bruker KUN CSS-bakgrunn fra styles.css, men har nå høyde -->
+  <div class="home-hero" role="img" aria-label="Oysterdale Records hero"></div>
 
   <main class="page-content">
     <!-- Tekst (fra index.md) -->
@@ -343,7 +352,7 @@
         const data = {};
         if(!m) return data;
         const yaml = m[1].replace(/\t/g,'  ');
-        const lines = yaml.split(/\r?\n/); /* <- FIX: .split */
+        const lines = yaml.split(/\r?\n/); /* korrekt .split */
 
         let key=null, currentItem=null;
 
