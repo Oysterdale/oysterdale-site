@@ -3,6 +3,12 @@ title: Welcome to Oysterdale Records
 spotify_playlists:
   - title: Oysterdale Records & friends
     embed: https://open.spotify.com/playlist/1euFegx110KGHeMkYOam6e?si=c3fa7b54b5934380
+  - title: Disco House - Pearls Of The Floor
+    embed: <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0U9sDmIRLa2XPcFNCO092M?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  - title: Deep House - Late Night Rooftop
+    embed: <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2E8EJEJK1v3fyyUx3KodlF?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  - title: Garage - Best Bouncing Beats
+    embed: <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4v46eGrQub0lBlDSHlMabu?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 ---
 # Welcome to Oysterdale Records
 
