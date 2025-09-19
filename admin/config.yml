@@ -170,14 +170,16 @@ collections:
         format: "frontmatter"
         fields:
           - { label: "Title", name: "title", widget: "string", required: false }
-          - { label: "Body", name: "body", widget: "markdown" }
+          - { label: "Body", name: "body", widget: "markdown", required: false }
           - label: "Spotify Playlists"
             name: "spotify_playlists"
             widget: "list"
+            required: false
+            collapsed: false
             summary: "{{fields.title}}"
             fields:
-              - { label: "Title", name: "title", widget: "string", required: false }
-              - { label: "Embed (iframe eller URL)", name: "embed", widget: "text", required: true }
+              - { label: "Title", name: "title", widget: "string", required: false, default: "" }
+              - { label: "Embed (iframe eller URL)", name: "embed", widget: "text", required: false, default: "" }
 
       - file: "content/about.md"
         label: "About Content"
