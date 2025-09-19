@@ -56,6 +56,12 @@
     .skeleton{background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:8px}
     @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
+    /* venstrejusterte seksjonsoverskrifter */
+    .latest-wrap h2, #spotify-section h2 { text-align:left; }
+
+    /* hint til browser om at disse kan utsettes (bedre first paint) */
+    .latest-wrap, #spotify-section { content-visibility:auto; contain-intrinsic-size:600px 800px; }
+
     .spotify-grid{
       margin:2rem auto;display:grid;
       grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
@@ -350,7 +356,7 @@
           .catch(()=>{});
       };
 
-      // Lazy load
+      // Lazy load av tekst/spotify til seksjonen er i viewport
       if (!('IntersectionObserver' in window) || !target) {
         (window.requestIdleCallback || function(cb){setTimeout(cb,1200)})(loadIt);
       } else {
@@ -382,7 +388,7 @@
         const data = {};
         if(!m) return data;
         const yaml = m[1].replace(/\t/g,'  ');
-        const lines = yaml.split(/\r?\n/);
+        const lines = yaml split(/\r?\n/);
         let key=null, currentItem=null;
 
         lines.forEach(line=>{
