@@ -54,7 +54,35 @@
     .hero-placeholder{height:38vw;max-height:420px;min-height:220px;background:linear-gradient(180deg,#1b1b1b, #0d0d0d);border-bottom:1px solid #222}
     .hero-image{display:block;width:100%;height:auto}
 
-    /* Flicker fix */
+    /* ---- FLICKER FIXES ---- */
+
+    /* Footer link style (for at Privacy blir grå på hover som resten) */
+    footer a { color:#fff; text-decoration:none; }
+    footer a:hover { color:#bbb; }
+
+    /* Stabiliser Latest Release på mobil */
+    #latest-release{
+      min-height:320px;                 /* holder layouten stabil mens innholdet lastes */
+      will-change:transform,opacity;
+      backface-visibility:hidden;
+      transform:translateZ(0);
+      contain: content;                 /* isoler layout/paint for færre reflows */
+    }
+    #latest-release .release{
+      opacity:0;
+      transition:opacity .3s ease;
+    }
+    #latest-release .release.loaded{
+      opacity:1;
+    }
+    #latest-release img.release-cover{
+      display:block;width:100%;height:auto;
+      backface-visibility:hidden;
+      transform:translateZ(0);
+      will-change:transform,opacity;
+    }
+
+    /* Spotify iframes – liten GPU-hint (dette hadde du fra før) */
     .spotify-card iframe,
     #latest-release img {
       transform: translateZ(0);
@@ -187,13 +215,13 @@
         .then(r => r.ok ? r.json() : {})
         .then(data => {
           const chosen = (data && data.hero_image) ? String(data.hero_image) : '';
-          if(!chosen){ return; }
+          if(!chosen){ return; } // ingen valgt i admin → behold placeholder
           heroImg.src = netlifySrc(chosen, 1600);
           heroImg.srcset = netlifySrcSet(chosen);
           heroImg.sizes = '100vw';
           heroImg.addEventListener('load', ()=>{ if(heroPh) heroPh.style.display='none'; }, { once:true });
         })
-        .catch(()=>{});
+        .catch(()=>{ /* stille fallback */ });
     })();
   </script>
 
@@ -203,15 +231,19 @@
       const m = text.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*[\r\n]+/);
       return m ? text.slice(m[0].length) : text;
     }
+
+    // Frontmatter-parser (listeobjekter + block scalars)
     function parseFrontmatter(text){
       const m = text.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*[\r\n]+/);
       if(!m) return {};
       const yaml = m[1].replace(/\t/g,'  ');
       const lines = yaml.split(/\r?\n/);
+
       const root = {};
       let currentKey = null;
       let currentItem = null;
-      let capture = null;
+      let capture = null; // { obj, key, type, indent, buf:[] }
+
       function flush(){
         if(!capture) return;
         const { obj, key, type, buf } = capture;
@@ -219,14 +251,19 @@
         obj[key] = (type === '>') ? raw.replace(/\n+/g,' ').trim() : raw;
         capture = null;
       }
+
       for(let i=0;i<lines.length;i++){
         const line = lines[i];
         const indent = (line.match(/^\s*/)||[''])[0].length;
+
         if(capture){
           if(indent > capture.indent){ capture.buf.push(line.slice(capture.indent+1)); continue; }
           else { flush(); }
         }
+
         if(!line.trim()) continue;
+
+        // rot-key
         const top = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
         if(top && indent===0){
           currentKey = top[1];
@@ -235,11 +272,14 @@
           else { root[currentKey] = val.replace(/^"(.*)"$/,'$1'); currentItem=null; }
           continue;
         }
+
+        // listepunkt
         if(currentKey){
           const li = line.match(/^\s{2}-\s*(.*)$/);
           if(li){
             if(!Array.isArray(root[currentKey])) root[currentKey] = [];
             const rest = li[1];
+
             const kv = rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
             if(kv){
               currentItem = {};
@@ -254,11 +294,13 @@
             continue;
           }
         }
+
+        // child keys
         if(currentItem){
           const child = line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
           if(child){
             const ck = child[1], cv = child[2];
-            if(cv==='|'||cv==='>'){ capture={obj:currentItem,key:ck,type:cv,indent:4,buf:[]}; }
+            if(cv==='|'||v==='>'){ capture={obj:currentItem,key:ck,type:cv,indent:4,buf:[]}; }
             else { currentItem[ck] = cv.replace(/^"(.*)"$/,'$1'); }
             continue;
           }
@@ -267,45 +309,63 @@
       flush();
       return root;
     }
+
+    // Parse Spotify-input -> {src, height}
     function parseSpotifyInput(input){
       if(!input) return {src:"", height:null};
       const s = String(input).trim();
+
+      // <iframe ...>
       if(/<\s*iframe/i.test(s)){
         const src = (s.match(/src\s*=\s*"(.*?)"/i) || s.match(/src\s*=\s*'(.*?)'/i))?.[1] || "";
         const h   = (s.match(/height\s*=\s*"(.*?)"/i) || s.match(/height\s*=\s*'(.*?)'/i))?.[1];
         const height = h ? parseInt(h,10) : null;
         return {src, height};
       }
+
+      // open.spotify.com → embed
       const re = /^https?:\/\/open\.spotify\.com\/(playlist|album|track|show|episode)\/([A-Za-z0-9]+)(\?.*)?$/;
       const mm = s.match(re);
       if(mm){
         return {src:`https://open.spotify.com/embed/${mm[1]}/${mm[2]}?utm_source=generator`, height:null};
       }
+
+      // allerede embed-URL eller noe annet
       return {src:s, height:null};
     }
+
     window.addEventListener('DOMContentLoaded', () => {
       const target = document.querySelector('#home-content');
+
       const loadIt = () => {
         fetch('/content/index.md', { cache: 'no-store' })
           .then(res => res.ok ? res.text() : '')
           .then(md => {
             if(!md) return;
+
+            // Body (markdown)
             const body = stripFrontmatterBlock(md);
             if(target) target.innerHTML = marked.parse(body);
+
+            // Playlister
             const fm = parseFrontmatter(md);
             const playlists = Array.isArray(fm.spotify_playlists) ? fm.spotify_playlists : [];
+
             if(playlists.length){
               const grid = document.getElementById('spotify-grid');
               const section = document.getElementById('spotify-section');
+
               grid.innerHTML = playlists.map(p => {
                 const isString = (typeof p === 'string');
                 const title  = !isString ? (p.title || p['Title'] || '') : '';
                 const raw    = isString ? p : (p.embed || p['Embed URL'] || p['embed_url'] || '');
                 const size   = !isString ? ((p.size || '').toString().toLowerCase()) : '';
                 const hProp  = !isString && p.height ? parseInt(p.height,10) : null;
+
                 const {src, height: hFromIframe} = parseSpotifyInput(raw);
                 const height = hProp || hFromIframe || null;
                 const compact = (height && height <= 180) || size === 'small' || size === 'compact';
+
                 return `
                   <div class="spotify-card${compact ? ' compact' : ''}">
                     <iframe
@@ -317,11 +377,14 @@
                   </div>
                 `;
               }).join('');
+
               section.style.display = 'block';
             }
           })
           .catch(()=>{});
       };
+
+      // Lazy load av tekst/spotify til seksjonen er i viewport
       if (!('IntersectionObserver' in window) || !target) {
         (window.requestIdleCallback || function(cb){setTimeout(cb,1200)})(loadIt);
       } else {
@@ -339,19 +402,23 @@
   <script>
     (function(){
       const OWNER="Oysterdale", REPO="oysterdale-site", DIR="releases";
+
       function clean(v){ return (v??"").toString().trim(); }
       function niceDate(iso){
         if(!iso) return "";
         const d=new Date(iso);
         return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
       }
+
+      // enkel frontmatter-parser for releases
       function parseFM(md){
         const m = md.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*/);
         const data = {};
         if(!m) return data;
         const yaml = m[1].replace(/\t/g,'  ');
-        const lines = yaml.split(/\r?\n/);
+        const lines = yaml split(/\r?\n/);
         let key=null, currentItem=null;
+
         lines.forEach(line=>{
           if(!line.trim()) return;
           const top = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
@@ -374,6 +441,7 @@
         });
         return data;
       }
+
       function artistsToString(artists){
         if(Array.isArray(artists)){
           const names = artists.map(a => typeof a==='string' ? a : (a && (a.artist||a.name)) || '').filter(Boolean);
@@ -381,6 +449,7 @@
         }
         return clean(artists);
       }
+
       async function fetchLatest(){
         const list = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`).then(r=>r.json());
         const files = Array.isArray(list) ? list.filter(f=>f.name.endsWith('.md')) : [];
@@ -392,6 +461,7 @@
         entries.sort((a,b)=>b.date-a.date);
         return entries[0]?.data;
       }
+
       function renderLatest(data){
         const wrap = document.getElementById('latest-release'); if(!wrap) return;
         const artistStr = artistsToString(data.artists || data.artist);
@@ -401,11 +471,15 @@
               ${artistStr ? `<h2 class="release-artist">${artistStr}</h2>` : ``}
               ${data.title ? `<h3 class="release-title">${data.title}</h3>` : ``}
             </div>
-            ${data.cover ? `<a href="/releases"><img src="${data.cover}" class="release-cover" alt="${(data.title||'Release')} cover"></a>` : ``}
+            ${data.cover ? `<a href="/releases"><img src="${data.cover}" class="release-cover" alt="${(data.title||'Release')} cover" decoding="async"></a>` : ``}
             ${data.date ? `<p class="release-date">Release date: ${niceDate(data.date)}</p>` : ``}
           </div>
         `;
+        /* Fade inn for å unngå blink */
+        const release = wrap.querySelector('.release');
+        if(release){ requestAnimationFrame(()=> release.classList.add('loaded')); }
       }
+
       document.addEventListener('DOMContentLoaded', async ()=>{
         try{
           const latest = await fetchLatest();
