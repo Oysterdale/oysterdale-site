@@ -63,14 +63,19 @@
   <!-- Footer -->
   <script>
   (async function loadFooter(){
+    // --- HELPER (robust URL) ---
+    function normalizeSrc(src){
+      if(!src) return "";
+      if(/^https?:\/\//.test(src)) return src;
+      return src.startsWith("/") ? src : "/" + src;
+    }
     try{
       const r = await fetch('/content/settings/footer.json', {cache:'no-store'});
       const cfg = await r.json();
 
       const w = Number(cfg.width) || 260;
-      const logoSrc = cfg.logo
-        ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
-        : '/uploads/OysterdaleRecords_white_logo_260.webp';
+      const logoPath = cfg.logo ? normalizeSrc(cfg.logo) : '/uploads/OysterdaleRecords_white_logo_260.webp';
+      const logoSrc = `/.netlify/images?url=${encodeURIComponent(logoPath)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`;
 
       const linksHtml = (cfg.links && cfg.links.length)
         ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
@@ -95,7 +100,19 @@
   <!-- Artists script -->
   <script>
     const OWNER="Oysterdale", REPO="oysterdale-site", DIR="artists";
-    function ni(url, w){ return `/.netlify/images?url=${encodeURIComponent(url)}&w=${w}&fm=webp&q=74`; }
+
+    // --- HELPER: sørg for at relative stier får ledende "/" ---
+    function normalizeSrc(src){
+      if(!src) return "";
+      if(/^https?:\/\//.test(src)) return src;
+      return src.startsWith("/") ? src : "/" + src;
+    }
+
+    function ni(url, w){
+      // bruk normalize for Netlify Image proxy
+      const u = normalizeSrc(url);
+      return `/.netlify/images?url=${encodeURIComponent(u)}&w=${w}&fm=webp&q=74`;
+    }
 
     async function listFiles(){
       const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
@@ -120,7 +137,8 @@
 
     function imgTag(src, alt, link){
       if(!src) return "";
-      const w200 = ni(src,200), w320 = ni(src,320), w400 = ni(src,400), w600 = ni(src,600);
+      const u = normalizeSrc(src);
+      const w200 = ni(u,200), w320 = ni(u,320), w400 = ni(u,400), w600 = ni(u,600);
       const imgHtml = `
         <img src="${w400}"
              srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
