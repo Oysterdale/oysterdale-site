@@ -252,15 +252,15 @@ collections:
         collapsed: true
         required: false
         fields:
-          - { label: "Spotify",        name: "spotify_url",      widget: "string", required: false }
-          - { label: "Apple Music",    name: "apple_music_url",  widget: "string", required: false }
-          - { label: "iTunes",         name: "itunes_url",       widget: "string", required: false }
-          - { label: "Tidal",          name: "tidal_url",        widget: "string", required: false }
-          - { label: "Amazon Music",   name: "amazon_music_url", widget: "string", required: false }
-          - { label: "YouTube",        name: "youtube_url",      widget: "string", required: false }
-          - { label: "Traxsource",     name: "traxsource_url",   widget: "string", required: false }
-          - { label: "Beatport",       name: "beatport_url",     widget: "string", required: false }
-          - { label: "Deezer",         name: "deezer_url",       widget: "string", required: false }
+          - { label: "Spotify", name: "spotify_url", widget: "string", required: false }
+          - { label: "Apple Music", name: "apple_music_url", widget: "string", required: false }
+          - { label: "iTunes", name: "itunes_url", widget: "string", required: false }
+          - { label: "Tidal", name: "tidal_url", widget: "string", required: false }
+          - { label: "Amazon Music", name: "amazon_music_url", widget: "string", required: false }
+          - { label: "YouTube", name: "youtube_url", widget: "string", required: false }
+          - { label: "Traxsource", name: "traxsource_url", widget: "string", required: false }
+          - { label: "Beatport", name: "beatport_url", widget: "string", required: false }
+          - { label: "Deezer", name: "deezer_url", widget: "string", required: false }
 
       - { label: "Description", name: "body", widget: "markdown", required: false }
       - label: "SEO"
@@ -292,6 +292,8 @@ collections:
     identifier_field: "name"
     extension: "md"
     format: "frontmatter"
+    media_folder: "uploads/artists"
+    public_folder: "/uploads/artists"
     fields:
       - { label: "Name", name: "name", widget: "string" }
       - label: "Role"
@@ -300,7 +302,17 @@ collections:
         options:
           - { label: "Producer / Main Artist", value: "producer" }
           - { label: "Vocalist", value: "vocalist" }
-      - { label: "Profile Image", name: "image", widget: "image", allow_multiple: false, required: false }
+      - label: "Profile Image"
+        name: "image"
+        widget: "image"
+        choose_url: false
+        allow_multiple: false
+        required: false
+        media_folder: "uploads/artists"
+        public_folder: "/uploads/artists"
+        pattern:
+          - "^[^\\s]+\\.(png|jpe?g|webp)$"
+          - "Filnavn kan ikke ha mellomrom. Bruk bindestrek."
       - { label: "Bio", name: "bio", widget: "text", required: false }
       - { label: "Spotify", name: "spotify", widget: "string", required: false }
       - { label: "SoundCloud", name: "soundcloud", widget: "string", required: false }
