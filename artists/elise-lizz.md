@@ -1,7 +1,7 @@
 ---
 name: Elise Lizz
 role: vocalist
-image: uploads/artists/Elise_Lizz-1.webp
+image: Elise_Lizz.webp
 bio: ''
 spotify: ''
 soundcloud: ''
