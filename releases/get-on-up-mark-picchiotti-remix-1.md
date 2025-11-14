@@ -1,7 +1,9 @@
 ---
 title: Get On Up (Mark Picchiotti Remix)
 artists:
-  - OKPLUS, Emél, Mark Picchiotti
+  - OKPLUS
+  - Emél
+  - Mark Picchiotti
 date: 2025-11-28
 catalog: OYSTR25009
 cover: /uploads/Get On Up Mark Picchiotti Cover.PNG
