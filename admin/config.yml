@@ -249,7 +249,7 @@ collections:
       - label: "Links"
         name: "links"
         widget: "object"
-        collapsed: true
+        collapsed: false   # ←←← FIXED HERE
         required: false
         fields:
           - { label: "Spotify", name: "spotify_url", widget: "string", required: false }
