@@ -33,7 +33,7 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35; }
 /* HEADER – FIXED */
 .site-header{
   position:fixed; top:0; left:0; right:0; width:100%;
-  z-zindex:1000; background:#000;
+  z-index:1000; background:#000;
   display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
   padding:20px 5%; height:100px; border-bottom:1px solid #111;
 }
@@ -88,8 +88,7 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35; }
 
 .release-content{display:flex;flex-direction:column}
 
-/* === FIX HER === */
-/* Artist + tittel skal alltid være én linje og krympe hvis for langt */
+/* Artist + tittel: én linje, krymper / kuttes hvis for langt */
 .release-header{
   display:flex;
   flex-direction:column;
@@ -228,9 +227,22 @@ footer nav.footer-nav a:hover{color:#bbb}
   text-align:center;
   min-height:0;
 }
-.release.latest .release-header{ gap:2px; margin:0 0 var(--head-gap); }
-.release.latest .release-artist{ font-size:clamp(0.85rem, 2.05vw, 1.35rem); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.release.latest .release-title{ font-size:clamp(0.75rem, 1.85vw, 1.15rem); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.release.latest .release-header{
+  gap:2px;
+  margin:0 0 var(--head-gap);
+}
+.release.latest .release-artist{
+  font-size:clamp(0.85rem, 2.05vw, 1.35rem);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.release.latest .release-title{
+  font-size:clamp(0.75rem, 1.85vw, 1.15rem);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 .release.latest .release-cover{
   width:300px; height:300px;
   max-width:100%;
