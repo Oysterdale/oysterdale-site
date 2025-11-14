@@ -5,7 +5,7 @@ artists:
   - Emél
 date: 2025-06-27
 catalog: ''
-cover: /uploads/GetOnUp_OKPLUS_COVERART_V2.webp
+cover: /uploads/Get On Up Cover.PNG
 links:
   spotify_url: https://open.spotify.com/track/27886NlVukyDisXVz8MLPe?si=893d61e2ed6b481e
   apple_music_url: https://music.apple.com/no/album/get-on-up-feat-em%C3%A9l-single/1817452862?l=nb
