@@ -39,7 +39,7 @@ collections:
                 name: "og_image"
                 widget: "image"
                 required: false
-                allow_multiple: false
+                multiple: false
                 media_folder: "uploads/og"
                 public_folder: "/uploads/og"
 
@@ -62,7 +62,7 @@ collections:
                 name: "og_image"
                 widget: "image"
                 required: false
-                allow_multiple: false
+                multiple: false
                 media_folder: "uploads/og"
                 public_folder: "/uploads/og"
 
@@ -85,7 +85,7 @@ collections:
                 name: "og_image"
                 widget: "image"
                 required: false
-                allow_multiple: false
+                multiple: false
                 media_folder: "uploads/og"
                 public_folder: "/uploads/og"
 
@@ -108,7 +108,7 @@ collections:
                 name: "og_image"
                 widget: "image"
                 required: false
-                allow_multiple: false
+                multiple: false
                 media_folder: "uploads/og"
                 public_folder: "/uploads/og"
 
@@ -131,7 +131,7 @@ collections:
                 name: "og_image"
                 widget: "image"
                 required: false
-                allow_multiple: false
+                multiple: false
                 media_folder: "uploads/og"
                 public_folder: "/uploads/og"
 
@@ -154,7 +154,7 @@ collections:
                 name: "og_image"
                 widget: "image"
                 required: false
-                allow_multiple: false
+                multiple: false
                 media_folder: "uploads/og"
                 public_folder: "/uploads/og"
 
@@ -243,7 +243,7 @@ collections:
           { label: "Artist", name: "artist", widget: "string", hint: "Skriv inn navn fritt, eller bruk samme navn som i Artists-samlingen" }
       - { label: "Release Date", name: "date", widget: "datetime", time_format: false, required: false }
       - { label: "Catalog Number", name: "catalog", widget: "string", required: false }
-      - { label: "Cover", name: "cover", widget: "image", required: false, allow_multiple: false }
+      - { label: "Cover", name: "cover", widget: "image", required: false, multiple: false }
 
       # Links
       - label: "Links"
@@ -277,7 +277,7 @@ collections:
             name: "og_image"
             widget: "image"
             required: false
-            allow_multiple: false
+            multiple: false
             media_folder: "uploads/og"
             public_folder: "/uploads/og"
 
@@ -306,7 +306,7 @@ collections:
         name: "image"
         widget: "image"
         choose_url: false
-        allow_multiple: false
+        multiple: false
         required: false
         media_folder: "uploads/artists"
         public_folder: "/uploads/artists"
@@ -334,7 +334,7 @@ collections:
             name: "og_image"
             widget: "image"
             required: false
-            allow_multiple: false
+            multiple: false
             media_folder: "uploads/og"
             public_folder: "/uploads/og"
 
@@ -360,7 +360,7 @@ collections:
         name: "og_image"
         widget: "image"
         required: false
-        allow_multiple: false
+        multiple: false
         media_folder: "uploads/og"
         public_folder: "/uploads/og"
 
@@ -379,7 +379,7 @@ collections:
             name: "hero_image"
             widget: "image"
             choose_url: true
-            allow_multiple: false
+            multiple: false
             required: false
             hint: "Velg/last opp forsidebildet. Hvis tomt brukes standardbildet i index.html."
 
