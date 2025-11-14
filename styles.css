@@ -88,14 +88,17 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35; }
 
 .release-content{display:flex;flex-direction:column}
 
-/* Artist + tittel: én linje, krymper / kuttes hvis for langt */
+/* === VIKTIG FIX === */
+/* HEADEREN LÅSES TIL FAST HØYDE SÅ COVERNE ALLTID ALIGNER */
 .release-header{
   display:flex;
   flex-direction:column;
-  gap:2px;
-  margin: 0 0 var(--head-gap);
-  max-width:100%;
+  justify-content:center;
+  align-items:center;
+
+  height:82px;    /* ← FIX SOM LØSER HELE ISSUE'N */
   overflow:hidden;
+  width:100%;
 }
 
 .release-artist{
@@ -230,6 +233,7 @@ footer nav.footer-nav a:hover{color:#bbb}
 .release.latest .release-header{
   gap:2px;
   margin:0 0 var(--head-gap);
+  height:82px; /* samme fix brukes her også */
 }
 .release.latest .release-artist{
   font-size:clamp(0.85rem, 2.05vw, 1.35rem);
