@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- SEO -->
   <title>Oysterdale Records – About</title>
+  <link rel="canonical" href="https://oysterdalerecords.com/about.html"/>
 
-  <!-- Anti-FOUC: skjul siden til alt er klart -->
-  <style>body{opacity:0; transition:opacity .18s ease}</style>
+  <meta name="description" content="Oysterdale Records is a modern disco and soulful house label focused on live instrumentation, quality releases and strong artist collaborations."/>
+  <meta name="robots" content="index, follow"/>
 
-  <!-- Viktig: blokkende CSS -->
-  <link rel="stylesheet" href="styles.css" />
+  <!-- OpenGraph -->
+  <meta property="og:title" content="Oysterdale Records – About"/>
+  <meta property="og:description" content="Modern disco & soulful house label with a focus on quality and musicianship."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://oysterdalerecords.com/about.html"/>
+  <meta property="og:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
 
-  <!-- SEO runtime (fallback) -->
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Oysterdale Records – About"/>
+  <meta name="twitter:description" content="Modern disco & soulful house label with a focus on high-quality production and live musicians."/>
+  <meta name="twitter:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
+
+  <meta name="theme-color" content="#000000"/>
+
+  <!-- Anti-FOUC -->
+  <style>body{opacity:0;transition:opacity .18s ease}</style>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css"/>
+
+  <!-- SEO injector runtime -->
   <script src="js/seo.js" defer data-seo="/content/seo/about.json"></script>
 
-  <link rel="icon" href="images/favicon.png" type="image/png" />
-
-  <!-- Font Awesome (non-blocking med preload + noscript fallback) -->
+  <!-- Icons -->
+  <link rel="icon" href="images/favicon.png" type="image/png"/>
   <link rel="preload"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         as="style" crossorigin
@@ -24,100 +45,114 @@
   <noscript>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          crossorigin>
+          crossorigin/>
   </noscript>
 
-  <!-- Marked til markdown-render (defer så den ikke blokkerer) -->
+  <!-- Markdown parser -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 
-  <!-- Fade inn når alt er lastet -->
+  <!-- Fade-in -->
   <script>
-    window.addEventListener('load', () => { document.body.style.opacity = 1; });
+    window.addEventListener("load",()=>{document.body.style.opacity=1;});
   </script>
+
 </head>
 <body>
 
-  <!-- Header (insert og meny) -->
+  <!-- HEADER -->
   <script>
-    fetch('header.html').then(r=>r.text()).then(html=>{
-      document.body.insertAdjacentHTML('afterbegin', html);
-      const btn=document.getElementById('menu-toggle'), nav=document.querySelector('.main-nav');
-      if(btn&&nav){
-        const t=()=>{const o=nav.classList.toggle('open'); btn.textContent=o?'✖':'☰';};
-        btn.addEventListener('click',t);
-        document.addEventListener('click',e=>{
-          if(e.target.closest('.nav-links a')){
-            nav.classList.remove('open'); btn.textContent='☰';
+    fetch("header.html").then(r=>r.text()).then(html=>{
+      document.body.insertAdjacentHTML("afterbegin",html);
+      const btn=document.getElementById("menu-toggle");
+      const nav=document.querySelector(".main-nav");
+      if(btn && nav){
+        btn.addEventListener("click",()=>{
+          const open = nav.classList.toggle("open");
+          btn.textContent = open ? "✖" : "☰";
+        });
+        document.addEventListener("click",e=>{
+          if(e.target.closest(".nav-links a")){
+            nav.classList.remove("open");
+            btn.textContent="☰";
           }
         });
       }
     });
   </script>
 
-  <!-- Hero-bilde (som før – ingen tekst oppå) -->
+  <!-- HERO -->
   <div class="page-hero">
-    <img class="hero-image" src="uploads/okplus_bjorvika.jpg" alt="Image of OkPlus in front of a city landscape">
+    <img class="hero-image"
+         src="uploads/okplus_bjorvika.jpg"
+         alt="Photo of OKPLUS in Bjørvika, Oslo"
+         loading="eager"
+         decoding="async">
   </div>
 
-  <!-- Innhold -->
+  <!-- CONTENT -->
   <main class="page-content">
     <h1>About</h1>
-    <div id="about-content">Loading content...</div>
+    <div id="about-content">Loading...</div>
   </main>
 
-  <!-- Markdown loader -->
+  <!-- MARKDOWN LOADER -->
   <script>
     function stripFrontmatter(text){
       const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
-      return text.replace(fm,'');
+      return text.replace(fm,"");
     }
-    (async () => {
+
+    (async()=>{
       try{
-        const res = await fetch('content/about.md', { cache: 'force-cache' });
-        const md = await res.text();
-        document.getElementById('about-content').innerHTML = marked.parse(stripFrontmatter(md));
+        const res = await fetch("content/about.md",{cache:"force-cache"});
+        const raw = await res.text();
+        const clean = stripFrontmatter(raw);
+        document.getElementById("about-content").innerHTML = marked.parse(clean);
       }catch(err){
-        console.error('About markdown load error:', err);
+        console.error("About.md load error:",err);
       }
     })();
   </script>
 
-  <!-- Dynamisk FOOTER (med linker som på index) -->
+  <!-- FOOTER -->
   <script>
-  (async function loadFooter(){
-    try{
-      const r = await fetch('/content/settings/footer.json', {cache:'no-store'});
-      const cfg = await r.json();
+    (async function loadFooter(){
+      function normalize(path){
+        if(!path) return "";
+        if(/^https?:\/\//.test(path)) return path;
+        return path.startsWith("/") ? path : "/" + path;
+      }
+      try{
+        const r = await fetch("/content/settings/footer.json",{cache:"no-store"});
+        const cfg = await r.json();
 
-      const w = Number(cfg.width) || 260;
-      const logoSrc = cfg.logo
-        ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
-        : '/uploads/OysterdaleRecords_white_logo_260.webp';
+        const w = Number(cfg.width) || 260;
+        const logoPath = normalize(cfg.logo || "/uploads/OysterdaleRecords_white_logo_260.webp");
+        const logo = `/.netlify/images?url=${encodeURIComponent(logoPath)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`;
 
-      const linksHtml = (cfg.links && cfg.links.length)
-        ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
-        : "";
+        const linksHtml = (cfg.links && cfg.links.length)
+          ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
+          : "";
 
-      const html = `
-        <footer>
-          <div class="footer-logo">
-            <img
-              src="${logoSrc}"
-              alt="Oysterdale Records Logo"
-              class="footer-logo-img"
-              width="${w}" height="${w}"
-              loading="lazy" decoding="async"
-            >
-          </div>
-          <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
-          ${linksHtml}
-        </footer>
-      `;
-      document.body.insertAdjacentHTML('beforeend', html);
-    }catch(e){
-      console.error('Footer load failed', e);
-    }
-  })();
+        const footerHtml = `
+          <footer>
+            <div class="footer-logo">
+              <img src="${logo}"
+                   alt="Oysterdale Records Logo"
+                   class="footer-logo-img"
+                   width="${w}" height="${w}"
+                   loading="lazy" decoding="async">
+            </div>
+            <p>${cfg.text || "© 2025 Oysterdale Records. All rights reserved."}</p>
+            ${linksHtml}
+          </footer>`;
+
+        document.body.insertAdjacentHTML("beforeend",footerHtml);
+      }catch(e){
+        console.error("Footer load failed",e);
+      }
+    })();
   </script>
+
 </body>
 </html>
