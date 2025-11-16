@@ -1,129 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <title>Oysterdale Records – Contact</title>
+  <link rel="canonical" href="https://oysterdalerecords.com/contact.html"/>
+
+  <!-- SEO -->
+  <meta name="description" content="Get in touch with Oysterdale Records for demos, collaborations, licensing, press and booking inquiries."/>
+  <meta name="robots" content="index, follow"/>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Oysterdale Records – Contact"/>
+  <meta property="og:description" content="Get in touch with Oysterdale Records for music releases, collaborations, bookings and press."/>
+  <meta property="og:url" content="https://oysterdalerecords.com/contact.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Oysterdale Records – Contact"/>
+  <meta name="twitter:description" content="For demos, collaborations and booking inquiries."/>
+  <meta name="twitter:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
+
+  <meta name="theme-color" content="#000"/>
 
   <!-- Anti-FOUC -->
-  <style>body{opacity:0; transition:opacity .18s ease}</style>
+  <style>body{opacity:0;transition:opacity .18s ease}</style>
 
-  <!-- Viktig: blokkende CSS -->
-  <link rel="stylesheet" href="styles.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css"/>
 
-  <!-- (Valgfritt) Runtime-SEO fallback -->
+  <!-- SEO runtime (fallback) -->
   <script src="js/seo.js" defer data-seo="/content/seo/contact.json"></script>
 
-  <link rel="icon" href="images/favicon.png" type="image/png" />
-
-  <!-- Font Awesome (non-blocking med preload + noscript fallback) -->
+  <!-- Icons -->
+  <link rel="icon" href="images/favicon.png" type="image/png"/>
   <link rel="preload"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        as="style" crossorigin
+        as="style"
+        crossorigin
         onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          crossorigin>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin>
   </noscript>
 
-  <!-- Marked (defer) -->
+  <!-- Markdown parser -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 
-  <!-- Fade inn når alt er lastet -->
+  <!-- Fade-in -->
   <script>
-    window.addEventListener('load', () => { document.body.style.opacity = 1; });
+    window.addEventListener("load",()=>{document.body.style.opacity=1;});
   </script>
+
 </head>
 <body>
+
+  <!-- HEADER -->
+  <script>
+    fetch("header.html").then(r=>r.text()).then(html=>{
+      document.body.insertAdjacentHTML("afterbegin",html);
+
+      const btn=document.getElementById("menu-toggle");
+      const nav=document.querySelector(".main-nav");
+
+      if(btn && nav){
+        btn.addEventListener("click",()=>{
+          const open = nav.classList.toggle("open");
+          btn.textContent = open ? "✖" : "☰";
+        });
+
+        document.addEventListener("click",e=>{
+          if(e.target.closest(".nav-links a")){
+            nav.classList.remove("open");
+            btn.textContent="☰";
+          }
+        });
+      }
+    });
+  </script>
+
+  <!-- CONTENT -->
   <main class="page-content fade-in">
-    <h1 class="page-heading">CONTACT</h1>
+    <h1>Contact</h1>
     <div id="contact-content">Loading content...</div>
   </main>
 
-  <!-- Header & mobilmeny -->
+  <!-- MARKDOWN LOADER -->
   <script>
-    fetch('header.html')
-      .then(res => res.text())
-      .then(html => {
-        document.body.insertAdjacentHTML('afterbegin', html);
-
-        const toggleButton = document.getElementById('menu-toggle');
-        const nav = document.querySelector('.main-nav');
-        const navLinks = document.querySelectorAll('.main-nav a');
-
-        if (toggleButton && nav) {
-          toggleButton.addEventListener('click', () => {
-            nav.classList.toggle('open');
-            toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
-          });
-
-          navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-              if (nav.classList.contains('open')) {
-                nav.classList.remove('open');
-                toggleButton.textContent = '☰';
-              }
-            });
-          });
-        }
-      });
-  </script>
-
-  <!-- Stripp frontmatter og render markdown -->
-  <script>
-    function stripFrontmatter(text) {
-      const fm = /^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
-      return text.replace(fm, '');
+    function stripFrontmatter(text){
+      const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
+      return text.replace(fm,"");
     }
 
-    (async () => {
+    (async()=>{
       try{
-        const res = await fetch('content/contact.md', { cache: 'force-cache' });
+        const res = await fetch("content/contact.md",{cache:"force-cache"});
         const md = await res.text();
-        document.getElementById('contact-content').innerHTML = marked.parse(stripFrontmatter(md));
+        const html = marked.parse(stripFrontmatter(md));
+        document.getElementById("contact-content").innerHTML = html;
       }catch(err){
-        console.error('Contact markdown load error:', err);
+        console.error("Contact markdown load error:",err);
       }
     })();
   </script>
 
-  <!-- Dynamisk FOOTER (med linker som på index) -->
+  <!-- FOOTER -->
   <script>
-  (async function loadFooter(){
-    try{
-      const r = await fetch('/content/settings/footer.json', {cache:'no-store'});
-      const cfg = await r.json();
+    (async function loadFooter(){
 
-      const w = Number(cfg.width) || 260;
-      const logoSrc = cfg.logo
-        ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
-        : '/uploads/OysterdaleRecords_white_logo_260.webp';
+      function normalize(src){
+        if(!src) return "";
+        if(/^https?:\/\//.test(src)) return src;
+        return src.startsWith("/") ? src : "/" + src;
+      }
 
-      const linksHtml = (cfg.links && cfg.links.length)
-        ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
-        : "";
+      try{
+        const r = await fetch("/content/settings/footer.json",{cache:"no-store"});
+        const cfg = await r.json();
 
-      const html = `
-        <footer>
-          <div class="footer-logo">
-            <img
-              src="${logoSrc}"
-              alt="Oysterdale Records Logo"
-              class="footer-logo-img"
-              width="${w}" height="${w}"
-              loading="lazy" decoding="async"
-            >
-          </div>
-          <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
-          ${linksHtml}
-        </footer>
-      `;
-      document.body.insertAdjacentHTML('beforeend', html);
-    }catch(e){
-      console.error('Footer load failed', e);
-    }
-  })();
+        const w = Number(cfg.width) || 260;
+
+        const logoPath = normalize(cfg.logo || "/uploads/OysterdaleRecords_white_logo_260.webp");
+        const logo = `/.netlify/images?url=${encodeURIComponent(logoPath)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`;
+
+        const linksHTML = (cfg.links && cfg.links.length)
+          ? `<nav class="footer-nav">${cfg.links.map(l=>`<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
+          : "";
+
+        const footerHTML = `
+          <footer>
+            <div class="footer-logo">
+              <img src="${logo}"
+                   alt="Oysterdale Records Logo"
+                   class="footer-logo-img"
+                   width="${w}" height="${w}"
+                   loading="lazy" decoding="async">
+            </div>
+            <p>${cfg.text || "© 2025 Oysterdale Records. All rights reserved."}</p>
+            ${linksHTML}
+          </footer>
+        `;
+
+        document.body.insertAdjacentHTML("beforeend",footerHTML);
+
+      }catch(err){
+        console.error("Footer load failed:",err);
+      }
+    })();
   </script>
+
 </body>
 </html>
