@@ -1,17 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- SEO -->
   <title>Oysterdale Records – Artists</title>
+  <link rel="canonical" href="https://oysterdalerecords.com/artists.html"/>
+  <meta name="description" content="Explore the artists of Oysterdale Records – producers, vocalists, musicians and collaborators."/>
+  <meta name="robots" content="index, follow"/>
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="Oysterdale Records – Artists"/>
+  <meta property="og:description" content="Meet the producers and vocalists behind Oysterdale Records."/>
+  <meta property="og:url" content="https://oysterdalerecords.com/artists.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Oysterdale Records – Artists"/>
+  <meta name="twitter:description" content="Meet the artists behind modern disco and house releases."/>
+  <meta name="twitter:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
+
+  <meta name="theme-color" content="#000000"/>
 
   <!-- Anti-FOUC -->
-  <style>body{opacity:0; transition:opacity .18s ease}</style>
+  <style>body{opacity:0;transition:opacity .18s ease}</style>
 
-  <link rel="stylesheet" href="styles.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css"/>
+
+  <!-- SEO injector -->
   <script src="js/seo.js" defer data-seo="/content/seo/artists.json"></script>
 
-  <!-- Font Awesome -->
+  <!-- Icons -->
+  <link rel="icon" href="images/favicon.png" type="image/png"/>
   <link rel="preload"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         as="style" crossorigin
@@ -19,98 +44,104 @@
   <noscript>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          crossorigin>
+          crossorigin/>
   </noscript>
 
-  <link rel="icon" href="images/favicon.png" type="image/png" />
-
   <script>
-    window.addEventListener('load', () => { document.body.style.opacity = 1; });
+    window.addEventListener("load",()=>{document.body.style.opacity=1;});
   </script>
+
 </head>
 <body>
-  <!-- Header -->
+
+  <!-- HEADER -->
   <script>
-    fetch('header.html').then(r=>r.text()).then(html=>{
-      document.body.insertAdjacentHTML('afterbegin', html);
-      const btn=document.getElementById('menu-toggle'), nav=document.querySelector('.main-nav');
-      if(btn&&nav){
-        const t=()=>{const o=nav.classList.toggle('open'); btn.textContent=o?'✖':'☰';};
-        btn.addEventListener('click',t);
-        document.addEventListener('click',e=>{
-          if(e.target.closest('.nav-links a')){
-            nav.classList.remove('open'); btn.textContent='☰';
-          }
-        });
-      }
-    });
+    fetch("header.html")
+      .then(r=>r.text())
+      .then(html=>{
+        document.body.insertAdjacentHTML("afterbegin",html);
+        const btn=document.getElementById("menu-toggle");
+        const nav=document.querySelector(".main-nav");
+        if(btn && nav){
+          btn.addEventListener("click",()=>{
+            const o=nav.classList.toggle("open");
+            btn.textContent=o?"✖":"☰";
+          });
+          document.addEventListener("click",e=>{
+            if(e.target.closest(".nav-links a")){
+              nav.classList.remove("open");
+              btn.textContent="☰";
+            }
+          });
+        }
+      });
   </script>
 
+
   <main class="page-content">
+
     <h1>Artists</h1>
 
     <section style="margin:30px 0 10px;">
-      <h2>PRODUCERS</h2>
+      <h2>Producers</h2>
     </section>
     <div class="releases-grid" id="producers"></div>
 
     <section style="margin:40px 0 10px;">
-      <h2>VOCALISTS</h2>
+      <h2>Vocalists</h2>
     </section>
     <div class="releases-grid" id="vocalists"></div>
+
   </main>
 
-  <!-- Footer -->
+
+  <!-- FOOTER -->
   <script>
-  (async function loadFooter(){
-    // --- HELPER (robust URL) ---
-    function normalizeSrc(src){
-      if(!src) return "";
-      if(/^https?:\/\//.test(src)) return src;
-      return src.startsWith("/") ? src : "/" + src;
-    }
-    try{
-      const r = await fetch('/content/settings/footer.json', {cache:'no-store'});
-      const cfg = await r.json();
+    (async function loadFooter(){
+      function normalize(src){
+        if(!src) return "";
+        if(/^https?:\/\//.test(src)) return src;
+        return src.startsWith("/") ? src : "/" + src;
+      }
+      try{
+        const res = await fetch("/content/settings/footer.json",{cache:"no-store"});
+        const cfg = await res.json();
+        const w = Number(cfg.width) || 260;
+        const logoPath = normalize(cfg.logo || "/uploads/OysterdaleRecords_white_logo_260.webp");
+        const logo = `/.netlify/images?url=${encodeURIComponent(logoPath)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`;
 
-      const w = Number(cfg.width) || 260;
-      const logoPath = cfg.logo ? normalizeSrc(cfg.logo) : '/uploads/OysterdaleRecords_white_logo_260.webp';
-      const logoSrc = `/.netlify/images?url=${encodeURIComponent(logoPath)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`;
+        const linksHtml = (cfg.links && cfg.links.length)
+          ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
+          : "";
 
-      const linksHtml = (cfg.links && cfg.links.length)
-        ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
-        : "";
-
-      const html = `
-        <footer>
-          <div class="footer-logo">
-            <img src="${logoSrc}" alt="Oysterdale Records Logo"
-                 class="footer-logo-img"
-                 width="${w}" height="${w}"
-                 loading="lazy" decoding="async">
-          </div>
-          <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
-          ${linksHtml}
-        </footer>`;
-      document.body.insertAdjacentHTML('beforeend', html);
-    }catch(e){ console.error('Footer load failed', e); }
-  })();
+        const html = `
+          <footer>
+            <div class="footer-logo">
+              <img src="${logo}" width="${w}" height="${w}" alt="Oysterdale Records Logo"
+                   class="footer-logo-img" loading="lazy" decoding="async">
+            </div>
+            <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
+            ${linksHtml}
+          </footer>`;
+        document.body.insertAdjacentHTML("beforeend",html);
+      }catch(e){console.error(e);}
+    })();
   </script>
 
-  <!-- Artists script -->
+
+  <!-- ARTISTS SCRIPT -->
   <script>
     const OWNER="Oysterdale", REPO="oysterdale-site", DIR="artists";
 
-    // --- HELPER: sørg for at relative stier får ledende "/" ---
-    function normalizeSrc(src){
+    function normalize(src){
       if(!src) return "";
       if(/^https?:\/\//.test(src)) return src;
       return src.startsWith("/") ? src : "/" + src;
     }
 
-    function ni(url, w){
-      // bruk normalize for Netlify Image proxy
-      const u = normalizeSrc(url);
+    // Netlify Image CDN wrapper
+    function ni(url,w){
+      const u = normalize(url);
       return `/.netlify/images?url=${encodeURIComponent(u)}&w=${w}&fm=webp&q=74`;
     }
 
@@ -122,69 +153,83 @@
 
     function parseFrontmatter(md){
       const parts=md.split('---');
-      if(parts.length<3) return {data:{}, body:md};
-      const yaml=parts[1], body=parts.slice(2).join('---').trim();
+      if(parts.length<3) return {data:{}};
+      const yaml=parts[1];
       const data={};
       yaml.split(/\r?\n/).forEach(line=>{
         const m=line.match(/^([^:]+):\s*(.*)$/);
         if(m){
-          let v=m[2].trim().replace(/^"(.*)"$/,'$1');
-          data[m[1].trim()]=v;
+          data[m[1].trim()] = m[2].trim().replace(/^"(.*)"$/,"$1");
         }
       });
-      return {data, body};
+      return {data};
     }
 
     function imgTag(src, alt, link){
       if(!src) return "";
-      const u = normalizeSrc(src);
-      const w200 = ni(u,200), w320 = ni(u,320), w400 = ni(u,400), w600 = ni(u,600);
-      const imgHtml = `
+      const u = normalize(src);
+
+      const w200 = ni(u,200);
+      const w320 = ni(u,320);
+      const w400 = ni(u,400);
+      const w600 = ni(u,600);
+
+      const img = `
         <img src="${w400}"
              srcset="${w200} 200w, ${w320} 320w, ${w400} 400w, ${w600} 600w"
-             sizes="(max-width: 768px) 90vw, 400px"
-             alt="${alt ? alt.replace(/"/g,'&quot;') : ''}"
-             loading="lazy" decoding="async">`;
+             sizes="(max-width:700px) 90vw, 400px"
+             alt="${alt ? alt.replace(/"/g,"&quot;") : ""}"
+             loading="lazy" decoding="async">
+      `;
 
-      // Bare klikkbar hvis vi har en gyldig URL
-      return `<div class="thumb">${
-        link && /^https?:\/\//.test(link) 
-          ? `<a href="${link}" target="_blank" rel="noopener">${imgHtml}</a>` 
-          : imgHtml
-      }</div>`;
+      return `
+        <div class="thumb">
+          ${
+            link && /^https?:\/\//.test(link)
+              ? `<a href="${link}" target="_blank" rel="noopener">${img}</a>`
+              : img
+          }
+        </div>
+      `;
     }
 
     function card(a){
-      const name=a.name||a.title||"";
-      const img=a.image||a.photo||"";
+      const name = a.name || a.title || "";
+      const img  = a.image || a.photo || "";
 
-      // Finn første gyldige lenke
       let link = null;
-      if (a.website && /^https?:\/\//.test(a.website.trim())) link = a.website.trim();
-      else if (a.spotify && /^https?:\/\//.test(a.spotify.trim())) link = a.spotify.trim();
-      else if (a.instagram && /^https?:\/\//.test(a.instagram.trim())) link = a.instagram.trim();
+      if(a.website && /^https?:\/\//.test(a.website.trim())) link = a.website.trim();
+      else if(a.spotify && /^https?:\/\//.test(a.spotify.trim())) link = a.spotify.trim();
+      else if(a.instagram && /^https?:\/\//.test(a.instagram.trim())) link = a.instagram.trim();
 
       return `
         <div class="artist">
           ${imgTag(img, name, link)}
           <h3>${name}</h3>
-        </div>`;
+        </div>
+      `;
     }
 
-    (async ()=>{
+    (async()=>{
       try{
-        const files=await listFiles();
-        const items=await Promise.all(files.map(async f=>{
-          const md=await fetch(f.download_url).then(r=>r.text());
-          const {data}=parseFrontmatter(md);
-          return data;
+        const files = await listFiles();
+        const items = await Promise.all(files.map(async f=>{
+          const md = await fetch(f.download_url).then(r=>r.text());
+          return parseFrontmatter(md).data;
         }));
-        const producers = items.filter(a => /producer/i.test(a.role||""));
-        const vocalists = items.filter(a => /vocal/i.test(a.role||""));
-        document.getElementById('producers').innerHTML = producers.map(card).join('');
-        document.getElementById('vocalists').innerHTML = vocalists.map(card).join('');
-      }catch(e){ console.error(e); }
+
+        const producers = items.filter(a => /producer/i.test(a.role || ""));
+        const vocalists = items.filter(a => /vocal/i.test(a.role || ""));
+
+        document.getElementById("producers").innerHTML =
+          producers.map(card).join("");
+
+        document.getElementById("vocalists").innerHTML =
+          vocalists.map(card).join("");
+
+      }catch(e){console.error(e);}
     })();
   </script>
+
 </body>
 </html>
