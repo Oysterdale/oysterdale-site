@@ -1,51 +1,81 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- SEO -->
   <title>Oysterdale Records – Releases</title>
+  <link rel="canonical" href="https://oysterdalerecords.com/releases.html"/>
+  <meta name="description" content="Explore every release from Oysterdale Records — modern disco and house with live instrumentation."/>
+  <meta name="robots" content="index, follow"/>
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="Oysterdale Records – Releases"/>
+  <meta property="og:description" content="Stream or download every release from Oysterdale Records."/>
+  <meta property="og:url" content="https://oysterdalerecords.com/releases.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Oysterdale Records – Releases"/>
+  <meta name="twitter:description" content="Stream or download every Oysterdale release."/>
+  <meta name="twitter:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
+
+  <meta name="theme-color" content="#000000"/>
 
   <!-- Anti-FOUC -->
-  <style>body{opacity:0; transition:opacity .18s ease}</style>
+  <style>body{opacity:0;transition:opacity .18s ease}</style>
 
-  <link rel="stylesheet" href="styles.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css"/>
+
+  <!-- SEO runtime -->
   <script src="js/seo.js" defer data-seo="/content/seo/releases.json"></script>
-  <link rel="icon" href="images/favicon.png" type="image/png" />
 
-  <!-- Font Awesome -->
+  <!-- Icons -->
+  <link rel="icon" href="images/favicon.png" type="image/png"/>
   <link rel="preload"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        as="style" crossorigin
-        onload="this.onload=null;this.rel='stylesheet'">
+        as="style" crossorigin onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          crossorigin>
+          crossorigin/>
   </noscript>
 
+  <!-- Markdown parser -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 
   <script>
-    window.addEventListener('load', () => { document.body.style.opacity = 1; });
+    window.addEventListener("load", () => { document.body.style.opacity = 1; });
   </script>
 </head>
+
 <body>
-  <!-- Header -->
+
+  <!-- HEADER -->
   <script>
-    fetch("header.html").then(r=>r.text()).then(html=>{
-      document.body.insertAdjacentHTML("afterbegin", html);
-      const btn=document.getElementById("menu-toggle"), nav=document.querySelector(".main-nav");
-      if(btn&&nav){
-        const t=()=>{const o=nav.classList.toggle("open");btn.textContent=o?"✖":"☰";};
-        btn.addEventListener("click",t);
-        document.addEventListener("click",e=>{
-          if(e.target.closest(".nav-links a")){
-            nav.classList.remove("open"); btn.textContent="☰";
-          }
-        });
-      }
-    });
+    fetch("header.html")
+      .then(r => r.text())
+      .then(html => {
+        document.body.insertAdjacentHTML("afterbegin", html);
+        const btn = document.getElementById("menu-toggle");
+        const nav = document.querySelector(".main-nav");
+        if(btn && nav){
+          btn.addEventListener("click", () => {
+            const open = nav.classList.toggle("open");
+            btn.textContent = open ? "✖" : "☰";
+          });
+          document.addEventListener("click", e => {
+            if(e.target.closest(".nav-links a")){
+              nav.classList.remove("open");
+              btn.textContent = "☰";
+            }
+          });
+        }
+      });
   </script>
 
   <main>
@@ -54,152 +84,217 @@
         <h1>RELEASES</h1>
         <p>Stream or buy from your preferred platform.</p>
       </section>
+
       <div id="releases-content" class="releases-grid">Loading releases...</div>
     </div>
   </main>
 
   <!-- FOOTER -->
   <script>
-  (async function loadFooter(){
-    try{
-      const r = await fetch('/content/settings/footer.json', {cache:'no-store'});
-      const cfg = await r.json();
-      const w = Number(cfg.width) || 260;
-      const logoSrc = cfg.logo
-        ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
-        : '/uploads/OysterdaleRecords_white_logo_260.webp';
-      const linksHtml = (cfg.links && cfg.links.length)
-        ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
-        : "";
-      const html = `
-        <footer>
-          <div class="footer-logo">
-            <img src="${logoSrc}" alt="Oysterdale Records Logo"
-                 class="footer-logo-img" width="${w}" height="${w}" loading="lazy" decoding="async">
-          </div>
-          <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
-          ${linksHtml}
-        </footer>`;
-      document.body.insertAdjacentHTML('beforeend', html);
-    }catch(e){ console.error('Footer load failed', e); }
-  })();
+    (async function loadFooter(){
+      try{
+        const res = await fetch('/content/settings/footer.json', {cache:'no-store'});
+        const cfg = await res.json();
+        const w = Number(cfg.width) || 260;
+
+        const logoSrc = cfg.logo
+          ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
+          : '/uploads/OysterdaleRecords_white_logo_260.webp';
+
+        const linksHtml = (cfg.links && cfg.links.length)
+          ? `<nav class="footer-nav">${cfg.links.map(l =>
+              `<a href="${l.href}">${l.label}</a>`
+            ).join(" | ")}</nav>`
+          : "";
+
+        const html = `
+          <footer>
+            <div class="footer-logo">
+              <img src="${logoSrc}" alt="Oysterdale Records Logo"
+                   class="footer-logo-img"
+                   width="${w}" height="${w}"
+                   loading="lazy" decoding="async">
+            </div>
+            <p>${cfg.text || '© 2025 Oysterdale Records. All rights reserved.'}</p>
+            ${linksHtml}
+          </footer>
+        `;
+
+        document.body.insertAdjacentHTML("beforeend", html);
+
+      }catch(e){ console.error('Footer load failed', e); }
+    })();
   </script>
 
-  <!-- RELEASES-LOGIKK -->
+  <!-- RELEASE LOGIC -->
   <script>
     const OWNER="Oysterdale", REPO="oysterdale-site", DIR="releases";
 
     async function listFiles(){
       const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
-      if(!r.ok) throw new Error("GitHub list failed");
-      return (await r.json()).filter(f=>f.type==="file" && f.name.endsWith(".md"));
+      return (await r.json()).filter(f => f.type === "file" && f.name.endsWith(".md"));
     }
 
     function parseFrontmatter(md){
-      const parts=md.split('---');
-      if(parts.length<3) return {data:{},body:md};
-      const yaml=parts[1], body=parts.slice(2).join('---').trim();
-      const data={}; const lines=yaml.split(/\r?\n/);
-      let inLinks=false; let currentList=null;
-      for(const line of lines){
-        if(!line.trim()||line.trim().startsWith('#')) continue;
+      const parts = md.split('---');
+      if(parts.length < 3) return {data:{}};
 
-        if(/^links\s*:\s*$/.test(line.trim())){inLinks=true;data.links={};continue;}
+      const yaml = parts[1];
+      const data = {};
+      const lines = yaml.split(/\r?\n/);
+
+      let listKey = null;
+      let inLinks = false;
+
+      for(const line of lines){
+        if(!line.trim()) continue;
+
+        if(/^links\s*:\s*$/.test(line.trim())){
+          inLinks = true;
+          data.links = {};
+          continue;
+        }
+
         if(inLinks){
-          if(!/^\s+/.test(line)){inLinks=false;}
-          else{const m=line.trim().match(/^([^:]+):\s*(.*)$/);
-            if(m){data.links[m[1].trim()]=m[2].replace(/^["']|["']$/g,'');}
+          if(!line.startsWith(" ")){
+            inLinks = false;
+          } else {
+            const m = line.trim().match(/^([^:]+):\s*(.*)$/);
+            if(m) data.links[m[1].trim()] = m[2].replace(/^["']|["']$/g,"");
             continue;
           }
         }
 
-        const listStart=line.match(/^([A-Za-z0-9_]+):\s*$/);
-        if(listStart){currentList=listStart[1];data[currentList]=[];continue;}
-        if(currentList && /^\s*-\s+/.test(line)){
-          data[currentList].push(line.replace(/^\s*-\s+/,'').trim());
+        const listStart = line.match(/^([A-Za-z0-9_]+):\s*$/);
+        if(listStart){
+          listKey = listStart[1];
+          data[listKey] = [];
           continue;
         }
 
-        const m=line.match(/^([^:]+):\s*(.*)$/);
-        if(m){data[m[1].trim()]=m[2].replace(/^["']|["']$/g,'');}
+        if(listKey && line.trim().startsWith("-")){
+          data[listKey].push(line.replace(/^\s*-\s*/,"").trim());
+          continue;
+        }
+
+        const field = line.match(/^([^:]+):\s*(.*)$/);
+        if(field){
+          data[field[1].trim()] = field[2].replace(/^["']|["']$/g,"");
+        }
       }
 
-      // Normaliser artists
-      if (data.artists) {
-        // Hvis artists er en liste av objekter {existing: "..."} eller {custom: "..."}
-        if (Array.isArray(data.artists) && typeof data.artists[0] === "object") {
-          data.artists = data.artists.map(a => a.existing || a.custom || "").filter(Boolean);
-        }
-        // Hvis artists er string eller liste med strings
-        else if (typeof data.artists === "string") {
-          data.artists = data.artists.split(",").map(a => a.trim());
-        } else if (!Array.isArray(data.artists)) {
+      if(data.artists){
+        if(Array.isArray(data.artists)){
+          data.artists = data.artists.map(a =>
+            typeof a === "string" ? a : (a.existing || a.custom || "")
+          ).filter(Boolean);
+        } else {
           data.artists = [String(data.artists).trim()];
         }
       }
 
-      return{data,body};
+      return {data};
     }
 
-    function clean(v){return (v??"").toString().trim();}
-    function niceDate(iso){if(!iso)return"";const d=new Date(iso);return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});}
+    function clean(v){ return (v??"").toString().trim(); }
 
-    const PLATFORM_DEF=[
-      {key:"spotify_url",label:"Spotify",icon:"fa-brands fa-spotify",type:"icon"},
-      {key:"apple_music_url",label:"Apple Music",icon:"fa-brands fa-apple",type:"icon"},
-      {key:"itunes_url",label:"iTunes",img:"images/platforms/itunes.svg",type:"img"},
-      {key:"tidal_url",label:"Tidal",img:"images/platforms/tidal.svg",type:"img"},
-      {key:"amazon_music_url",label:"Amazon Music",icon:"fa-brands fa-amazon",type:"icon"},
-      {key:"youtube_url",label:"YouTube",icon:"fa-brands fa-youtube",type:"icon"},
-      {key:"traxsource_url",label:"Traxsource",img:"images/platforms/traxsource.svg",type:"img"},
-      {key:"beatport_url",label:"Beatport",img:"images/platforms/beatport.svg",type:"img"},
-      {key:"deezer_url",label:"Deezer",img:"images/platforms/deezer.svg",type:"img"},
+    function niceDate(iso){
+      if(!iso) return "";
+      const d = new Date(iso);
+      return isNaN(d) ? iso :
+        d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+    }
+
+    const PLATFORM_DEF = [
+      {key:"spotify_url", label:"Spotify", icon:"fa-brands fa-spotify", type:"icon"},
+      {key:"apple_music_url", label:"Apple Music", icon:"fa-brands fa-apple", type:"icon"},
+      {key:"itunes_url", label:"iTunes", img:"images/platforms/itunes.svg", type:"img"},
+      {key:"tidal_url", label:"Tidal", img:"images/platforms/tidal.svg", type:"img"},
+      {key:"amazon_music_url", label:"Amazon Music", icon:"fa-brands fa-amazon", type:"icon"},
+      {key:"youtube_url", label:"YouTube", icon:"fa-brands fa-youtube", type:"icon"},
+      {key:"traxsource_url", label:"Traxsource", img:"images/platforms/traxsource.svg", type:"img"},
+      {key:"beatport_url", label:"Beatport", img:"images/platforms/beatport.svg", type:"img"},
+      {key:"deezer_url", label:"Deezer", img:"images/platforms/deezer.svg", type:"img"}
     ];
 
-    function platformButton(def,url){
-      const u=clean(url); if(!u) return "";
-      if(def.type==="img"&&def.img){return `<a class="platform-btn" href="${u}" target="_blank" rel="noopener"><img src="${def.img}" alt="${def.label}"></a>`;}
-      if(def.type==="icon"&&def.icon){return `<a class="platform-btn" href="${u}" target="_blank" rel="noopener"><i class="${def.icon}"></i></a>`;}
-      return "";
+    function platformButton(def, url){
+      const u = clean(url);
+      if(!u) return "";
+
+      if(def.type === "img"){
+        return `
+          <a class="platform-btn" href="${u}" target="_blank" rel="noopener">
+            <img src="${def.img}" alt="${def.label}" loading="lazy">
+          </a>`;
+      }
+
+      return `
+        <a class="platform-btn" href="${u}" target="_blank" rel="noopener">
+          <i class="${def.icon}"></i>
+        </a>`;
     }
 
     async function loadCard(file){
-      const md=await fetch(file.download_url).then(r=>r.text());
-      const {data}=parseFrontmatter(md);
+      const md = await fetch(file.download_url).then(r => r.text());
+      const {data} = parseFrontmatter(md);
 
-      const title=clean(data.title);
-      const artists=(data.artists||[]).join(" | ");
+      const title = clean(data.title);
+      const artists = (data.artists || []).join(" | ");
+      const cover = clean(data.cover || data.image);
+      const dateStr = clean(data.date);
+      const links = data.links || {};
 
-      const cover=clean(data.cover||data.image);
-      const dateStr=clean(data.date);
-      const links=data.links||{};
-      const buttons=PLATFORM_DEF.map(def=>platformButton(def,links[def.key])).filter(Boolean).join("");
+      const buttons = PLATFORM_DEF
+        .map(def => platformButton(def, links[def.key]))
+        .filter(Boolean)
+        .join("");
 
       return {
-        date: dateStr?new Date(dateStr):new Date(0),
-        html:`
+        date: dateStr ? new Date(dateStr) : new Date(0),
+        html: `
           <div class="release">
             <div class="release-content">
               <div class="release-header">
-                ${artists?`<h2 class="release-artist">${artists}</h2>`:""}
-                ${title?`<h3 class="release-title">${title}</h3>`:""}
+                ${artists ? `<h2 class="release-artist">${artists}</h2>` : ""}
+                ${title ? `<h3 class="release-title">${title}</h3>` : ""}
               </div>
-              ${cover?`<img src="${cover}" alt="${title}" class="release-cover">`:""}
-              ${buttons?`<div class="platform-icons platforms">${buttons}</div>`:""}
-              ${dateStr?`<p class="release-date">Release date: ${niceDate(dateStr)}</p>`:""}
+
+              ${cover ? `
+                <img src="${cover}"
+                     alt="${title}"
+                     class="release-cover"
+                     loading="lazy"
+                     decoding="async">` : ""}
+
+              ${buttons ? `<div class="platform-icons platforms">${buttons}</div>` : ""}
+
+              ${dateStr ? `<p class="release-date">
+                  Release date: ${niceDate(dateStr)}
+                </p>` : ""}
             </div>
-          </div>`};
+          </div>
+        `
+      };
     }
 
     (async()=>{
-      const container=document.getElementById("releases-content");
+      const container = document.getElementById("releases-content");
+
       try{
-        const files=await listFiles();
-        const cards=await Promise.all(files.map(loadCard));
-        cards.sort((a,b)=>b.date-a.date);
-        container.innerHTML=cards.map(c=>c.html).join("");
-      }catch(e){console.error(e);container.innerHTML="<p>Could not load releases.</p>";}
+        const files = await listFiles();
+        const cards = await Promise.all(files.map(loadCard));
+
+        cards.sort((a,b)=>b.date - a.date);
+
+        container.innerHTML = cards.map(c => c.html).join("");
+
+      }catch(e){
+        console.error(e);
+        container.innerHTML = "<p>Could not load releases.</p>";
+      }
     })();
+
   </script>
+
 </body>
 </html>
