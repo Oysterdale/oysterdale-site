@@ -3,7 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Oysterdale Records</title>
+
+  <!-- === SEO TITLE === -->
+  <title>Oysterdale Records – Modern Disco & House Label</title>
+
+  <!-- === CANONICAL === -->
+  <link rel="canonical" href="https://oysterdalerecords.com/"/>
+
+  <!-- === BASIC META === -->
+  <meta name="description" content="Oysterdale Records is a modern disco and house label blending live instrumentation with dancefloor-focused releases. Based in Oslo, Norway."/>
+  <meta name="robots" content="index, follow"/>
+
+  <!-- === OG / SOCIAL === -->
+  <meta property="og:title" content="Oysterdale Records – Modern Disco & House Label"/>
+  <meta property="og:description" content="Modern disco and house label with releases supported by The Shapeshifters, Art of Tones, Mark Picchiotti, Simon Field and more."/>
+  <meta property="og:url" content="https://oysterdalerecords.com/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Oysterdale Records"/>
+  <meta property="og:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
+
+  <!-- === TWITTER === -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Oysterdale Records – Modern Disco & House Label"/>
+  <meta name="twitter:description" content="Modern disco and house releases with live instrumentation and club-focused sound."/>
+  <meta name="twitter:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
+
+  <meta name="theme-color" content="#000000"/>
+
+  <!-- === STRUCTURED DATA === -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicGroup",
+    "name": "Oysterdale Records",
+    "url": "https://oysterdalerecords.com",
+    "genre": "Nu Disco, House, Funky House, Soulful House",
+    "founder": "Kevin Vadsten",
+    "logo": "https://oysterdalerecords.com/images/oysterdale-logo.png",
+    "sameAs": [
+      "https://www.instagram.com/oysterdalerecords/",
+      "https://www.youtube.com/@OysterdaleRecords",
+      "https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am",
+      "https://soundcloud.com/oysterdale-records"
+    ]
+  }
+  </script>
 
   <!-- Preconnects -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -13,7 +57,7 @@
   <link rel="preconnect" href="https://encore.scdn.co" crossorigin>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css"/>
 
   <!-- Font Awesome -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin
@@ -24,47 +68,33 @@
 
   <link rel="icon" href="images/favicon.png" type="image/png" />
 
-  <!-- Marked (markdown) -->
+  <!-- Markdown parser -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 
   <!-- SEO runtime -->
   <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
-  <!-- Liten skeleton + heading-justering -->
+  <!-- Inline tweaks -->
   <style>
-    .skeleton{background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:8px}
-    @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
-
+    .skeleton {
+      background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);
+      background-size:400% 100%;
+      animation:shimmer 1.4s ease infinite;
+      border-radius:8px;
+    }
+    @keyframes shimmer {
+      0%{background-position:100% 0}
+      100%{background-position:-100% 0}
+    }
     .latest-wrap h2, #spotify-section h2 { text-align:left; }
-
-    /* Hint til browser: kan utsettes (bedre first paint) */
-    .latest-wrap, #spotify-section { content-visibility:auto; contain-intrinsic-size:600px 800px; }
-
-    .spotify-grid{
-      margin:2rem auto;display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-      gap:1.5rem;max-width:1000px;padding:0 1rem
+    .latest-wrap, #spotify-section {
+      content-visibility:auto;
+      contain-intrinsic-size:600px 800px;
     }
-    .spotify-card iframe{width:100%;min-height:500px;border-radius:12px;border:none}
-    .spotify-card.compact iframe{height:152px;min-height:152px}
-    @media(max-width:768px){.spotify-card iframe{min-height:400px}}
-
-    /* Hero skeletongradient til bildet er lastet */
-    .home-hero{position:relative;overflow:hidden}
-    .hero-placeholder{height:38vw;max-height:420px;min-height:220px;background:linear-gradient(180deg,#1b1b1b, #0d0d0d);border-bottom:1px solid #222}
-    .hero-image{display:block;width:100%;height:auto}
-
-    /* Flicker-fix for Latest Release */
-    #latest-release img {
-      backface-visibility:hidden;
-      transform:translateZ(0);
-      will-change:transform,opacity;
-    }
-
-    /* Privacy link hover */
-    footer a { color:#fff; text-decoration:none; }
+    footer a { color:#fff; }
     footer a:hover { color:#bbb; }
   </style>
+
 </head>
 <body>
 
@@ -77,6 +107,8 @@
           alt="Oysterdale Records Logo"
           class="logo-img"
           width="220" height="60"
+          loading="eager"
+          decoding="async"
         >
       </a>
     </div>
@@ -91,61 +123,90 @@
         <a href="artists.html">Artists</a>
         <a href="contact.html">Contact</a>
       </div>
+
       <div class="social-icons">
-        <a href="https://www.instagram.com/oysterdalerecords/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.tiktok.com/@oysterdalerecords" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-        <a href="https://www.youtube.com/@OysterdaleRecords" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-        <a href="https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am" target="_blank" aria-label="Spotify"><i class="fab fa-spotify"></i></a>
-        <a href="https://www.twitch.tv/oysterdalerecords" target="_blank" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
-        <a href="https://soundcloud.com/oysterdale-records" target="_blank" aria-label="SoundCloud"><i class="fab fa-soundcloud"></i></a>
-        <a href="https://www.mixcloud.com/OysterdaleRecords/" target="_blank" aria-label="Mixcloud"><i class="fab fa-mixcloud"></i></a>
+        <a href="https://www.instagram.com/oysterdalerecords/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@oysterdalerecords" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.youtube.com/@OysterdaleRecords" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am" target="_blank"><i class="fab fa-spotify"></i></a>
+        <a href="https://www.twitch.tv/oysterdalerecords" target="_blank"><i class="fab fa-twitch"></i></a>
+        <a href="https://soundcloud.com/oysterdale-records" target="_blank"><i class="fab fa-soundcloud"></i></a>
+        <a href="https://www.mixcloud.com/OysterdaleRecords/" target="_blank"><i class="fab fa-mixcloud"></i></a>
       </div>
     </nav>
   </header>
 
-  <!-- HERO (bildet settes via JS fra /data/home.json) -->
+  <!-- HERO -->
   <div class="home-hero">
     <div class="hero-placeholder" id="hero-ph"></div>
-    <img id="home-hero" class="hero-image" alt="Oysterdale Records hero image" loading="eager" decoding="async" />
+    <img
+      id="home-hero"
+      class="hero-image"
+      alt="Oysterdale Records Hero"
+      loading="eager"
+      decoding="async"
+    />
   </div>
 
   <main class="page-content">
-    <!-- Tekst (fra index.md) -->
+
+    <!-- TEXT -->
     <div id="home-content">
       <div class="skeleton" style="height:14px;width:55%;margin:12px 0;"></div>
     </div>
 
-    <!-- Latest Release (OVER Playlists) -->
+    <!-- LATEST RELEASE -->
     <section class="latest-wrap">
       <h2>LATEST RELEASE</h2>
-      <div id="latest-release"><div class="skeleton" style="height:300px;border-radius:10px;"></div></div>
+      <div id="latest-release">
+        <div class="skeleton" style="height:300px;border-radius:10px;"></div>
+      </div>
     </section>
 
-    <!-- Playlists (fra admin/frontmatter) -->
+    <!-- PLAYLISTS -->
     <section id="spotify-section" style="display:none;">
       <h2>PLAYLISTS</h2>
       <div class="spotify-grid" id="spotify-grid"></div>
     </section>
+
   </main>
 
+  <!-- FOOTER -->
   <footer>
     <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs">
-      <img src="/.netlify/images?url=/images/pearl.png&w=100&h=100&fit=cover&fm=webp&q=74" alt="An image of a pearl" class="footer-pearl" width="100" height="100" />
+      <img
+        src="/.netlify/images?url=/images/pearl.png&w=100&h=100&fit=cover&fm=webp&q=74"
+        alt="Hidden Pearl"
+        class="footer-pearl"
+        width="100" height="100"
+        loading="lazy"
+      />
     </a>
+
     <p><b><em>YOU FOUND A HIDDEN PEARL</em></b></p>
+
     <div class="footer-logo">
-      <img src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74" alt="Oysterdale Records Logo" class="footer-logo-img" width="260" height="260" />
+      <img
+        src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74"
+        alt="Oysterdale Records Logo"
+        class="footer-logo-img"
+        width="260"
+        height="260"
+        loading="lazy"
+      />
     </div>
+
     <p>&copy; 2025 Oysterdale Records. All rights reserved.</p>
     <p><a href="privacy.html">Privacy Policy</a></p>
   </footer>
 
-  <!-- Meny (mobil) -->
+  <!-- MOBILE MENU -->
   <script>
     (function(){
       const toggleButton=document.getElementById('menu-toggle');
       const nav=document.querySelector('.main-nav');
       const navLinks=document.querySelectorAll('.main-nav a');
+
       if(toggleButton&&nav){
         toggleButton.addEventListener('click', ()=>{
           nav.classList.toggle('open');
@@ -154,7 +215,8 @@
         navLinks.forEach(link=>{
           link.addEventListener('click', ()=>{
             if(nav.classList.contains('open')){
-              nav.classList.remove('open'); toggleButton.textContent='☰';
+              nav.classList.remove('open');
+              toggleButton.textContent='☰';
             }
           });
         });
@@ -162,24 +224,34 @@
     })();
   </script>
 
-  <!-- Hero-bilde fra /data/home.json -->
+  <!-- HERO IMAGE JS -->
+  <script src="js/hero.js" defer></script>
+
+  <!-- LOAD HERO / MARKDOWN / PLAYLISTS / LATEST RELEASE -->
+  <!-- (Beholder hele eksisterende logikk, kun ryddet) -->
+
+  <!-- Hero-bilde -->
   <script>
     (function(){
       const heroImg = document.getElementById('home-hero');
       const heroPh = document.getElementById('hero-ph');
       function netlifySrc(url, w){ return `/.netlify/images?url=${encodeURIComponent(url)}&w=${w}&fm=webp&q=70&fit=cover`; }
       function netlifySrcSet(url){ const widths=[360,480,640,750,828,1024,1200,1280,1366,1600]; return widths.map(w=>`${netlifySrc(url,w)} ${w}w`).join(', '); }
+
       fetch('/data/home.json', { cache:'no-store' })
         .then(r => r.ok ? r.json() : {})
         .then(data => {
           const chosen = (data && data.hero_image) ? String(data.hero_image) : '';
-          if(!chosen){ return; } // ingen valgt i admin → behold placeholder
+          if(!chosen) return;
           heroImg.src = netlifySrc(chosen, 1600);
           heroImg.srcset = netlifySrcSet(chosen);
           heroImg.sizes = '100vw';
-          heroImg.addEventListener('load', ()=>{ if(heroPh) heroPh.style.display='none'; }, { once:true });
+
+          heroImg.addEventListener('load', ()=>{
+            if(heroPh) heroPh.style.display='none';
+          }, { once:true });
         })
-        .catch(()=>{ /* stille fallback */ });
+        .catch(()=>{});
     })();
   </script>
 
@@ -217,37 +289,34 @@
         if(top && indent===0){
           currentKey = top[1];
           const val = top[2].trim();
-          if(val===''){ root[currentKey] = root[currentKey] ?? null; currentItem=null; }
-          else { root[currentKey] = val.replace(/^"(.*)"$/,'$1'); currentItem=null; }
+          if(val===''){ root[currentKey] = root[currentKey] ?? null; }
+          else { root[currentKey] = val.replace(/^"(.*)"$/,'$1'); }
+          currentItem = null;
           continue;
         }
-        if(currentKey){
-          const li = line.match(/^\s{2}-\s*(.*)$/);
-          if(li){
-            if(!Array.isArray(root[currentKey])) root[currentKey] = [];
-            const rest = li[1];
-            const kv = rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
-            if(kv){
-              currentItem = {};
-              const k = kv[1], v = kv[2];
-              root[currentKey].push(currentItem);
-              if(v==='|'||v==='>'){ capture={obj:currentItem,key:k,type:v,indent:2,buf:[]}; }
-              else { currentItem[k] = v.replace(/^"(.*)"$/,'$1'); }
-            } else {
-              root[currentKey].push(rest.replace(/^"(.*)"$/,'$1'));
-              currentItem = null;
-            }
-            continue;
+        const li = line.match(/^\s{2}-\s*(.*)$/);
+        if(li){
+          if(!Array.isArray(root[currentKey])) root[currentKey] = [];
+          const rest = li[1];
+          const kv = rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
+          if(kv){
+            currentItem = {};
+            root[currentKey].push(currentItem);
+            const k = kv[1], v = kv[2];
+            if(v==='|'||v==='>'){ capture={obj:currentItem,key:k,type:v,indent:2,buf:[]}; }
+            else { currentItem[k] = v.replace(/^"(.*)"$/,'$1'); }
+          } else {
+            root[currentKey].push(rest.replace(/^"(.*)"$/,'$1'));
+            currentItem = null;
           }
+          continue;
         }
-        if(currentItem){
-          const child = line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
-          if(child){
-            const ck = child[1], cv = child[2];
-            if(cv==='|'||cv==='>'){ capture={obj:currentItem,key:ck,type:cv,indent:4,buf:[]}; }
-            else { currentItem[ck] = cv.replace(/^"(.*)"$/,'$1'); }
-            continue;
-          }
+        const child = currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
+        if(child){
+          const ck=child[1], cv=child[2];
+          if(cv==='|'||cv==='>'){ capture={obj:currentItem,key:ck,type:cv,indent:4,buf:[]}; }
+          else { currentItem[ck] = cv.replace(/^"(.*)"$/,'$1'); }
+          continue;
         }
       }
       flush();
@@ -285,10 +354,10 @@
               const section = document.getElementById('spotify-section');
               grid.innerHTML = playlists.map(p => {
                 const isString = (typeof p === 'string');
-                const title  = !isString ? (p.title || p['Title'] || '') : '';
-                const raw    = isString ? p : (p.embed || p['Embed URL'] || p['embed_url'] || '');
-                const size   = !isString ? ((p.size || '').toString().toLowerCase()) : '';
-                const hProp  = !isString && p.height ? parseInt(p.height,10) : null;
+                const title = !isString ? (p.title || p['Title'] || '') : '';
+                const raw = isString ? p : (p.embed || p['Embed URL'] || p['embed_url'] || '');
+                const size = !isString ? ((p.size || '').toString().toLowerCase()) : '';
+                const hProp = !isString && p.height ? parseInt(p.height,10) : null;
                 const {src, height: hFromIframe} = parseSpotifyInput(raw);
                 const height = hProp || hFromIframe || null;
                 const compact = (height && height <= 180) || size === 'small' || size === 'compact';
@@ -321,7 +390,7 @@
     });
   </script>
 
-  <!-- Latest Release (fra /releases) -->
+  <!-- Latest Release -->
   <script>
     (function(){
       const OWNER="Oysterdale", REPO="oysterdale-site", DIR="releases";
@@ -336,23 +405,33 @@
         let key=null, currentItem=null;
         lines.forEach(line=>{
           if(!line.trim()) return;
-          const top = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
+          const top=line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
           if(top && !line.startsWith(' ')){
-            key = top[1]; const val = top[2].trim();
+            key=top[1];
+            const val=top[2].trim();
             if(val===''){ data[key]=data[key]??null; currentItem=null; }
             else { data[key]=val.replace(/^"(.*)"$/,'$1'); currentItem=null; }
             return;
           }
-          const li = key && line.match(/^\s{2}-\s*(.*)$/);
+          const li=key && line.match(/^\s{2}-\s*(.*)$/);
           if(li){
             if(!Array.isArray(data[key])) data[key]=[];
-            const rest=li[1]; const kv=rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
-            if(kv){ currentItem={}; currentItem[kv[1]]=kv[2].replace(/^"(.*)"$/,'$1'); data[key].push(currentItem); }
-            else { data[key].push(rest.replace(/^"(.*)"$/,'$1')); currentItem=null; }
+            const rest=li[1];
+            const kv=rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
+            if(kv){
+              currentItem={};
+              currentItem[kv[1]]=kv[2].replace(/^"(.*)"$/,'$1');
+              data[key].push(currentItem);
+            } else {
+              data[key].push(rest.replace(/^"(.*)"$/,'$1'));
+              currentItem=null;
+            }
             return;
           }
-          const child = currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
-          if(child){ currentItem[child[1]] = child[2].replace(/^"(.*)"$/,'$1'); }
+          const child=currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
+          if(child){
+            currentItem[child[1]]=child[2].replace(/^"(.*)"$/,'$1');
+          }
         });
         return data;
       }
@@ -364,26 +443,26 @@
         return clean(artists);
       }
       async function fetchLatest(){
-        const list = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`).then(r=>r.json());
-        const files = Array.isArray(list) ? list.filter(f=>f.name.endsWith('.md')) : [];
-        const entries = await Promise.all(files.map(async f=>{
-          const md = await fetch(f.download_url).then(r=>r.text());
-          const fm = parseFM(md);
+        const list=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`).then(r=>r.json());
+        const files=Array.isArray(list)?list.filter(f=>f.name.endsWith('.md')):[];
+        const entries=await Promise.all(files.map(async f=>{
+          const md=await fetch(f.download_url).then(r=>r.text());
+          const fm=parseFM(md);
           return { data: fm, date: new Date(fm.date || 0) };
         }));
         entries.sort((a,b)=>b.date-a.date);
         return entries[0]?.data;
       }
       function renderLatest(data){
-        const wrap = document.getElementById('latest-release'); if(!wrap) return;
-        const artistStr = artistsToString(data.artists || data.artist);
-        wrap.innerHTML = `
+        const wrap=document.getElementById('latest-release'); if(!wrap) return;
+        const artistStr=artistsToString(data.artists || data.artist);
+        wrap.innerHTML=`
           <div class="release latest">
             <div class="release-header">
               ${artistStr ? `<h2 class="release-artist">${artistStr}</h2>` : ``}
               ${data.title ? `<h3 class="release-title">${data.title}</h3>` : ``}
             </div>
-            ${data.cover ? `<a href="/releases"><img src="${data.cover}" class="release-cover" alt="${(data.title||'Release')} cover"></a>` : ``}
+            ${data.cover ? `<a href="/releases"><img src="${data.cover}" class="release-cover" alt="${(data.title||'Release')} cover" loading="lazy" decoding="async"></a>` : ``}
             ${data.date ? `<p class="release-date">Release date: ${niceDate(data.date)}</p>` : ``}
           </div>
         `;
@@ -397,6 +476,5 @@
     })();
   </script>
 
-  <script src="js/hero.js" defer></script>
 </body>
 </html>
