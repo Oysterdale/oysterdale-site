@@ -6,7 +6,16 @@ artists:
 date: 2025-11-21
 catalog: OYSTR25007
 cover: /uploads/flashing_lights_400.webp
-links: null
+links:
+  spotify_url: https://open.spotify.com/track/3JPVxqSlnYWtQl2nPT1iar?si=303012cd1b494bdd
+  apple_music_url: https://music.apple.com/no/album/flashing-lights/1850758948?i=1850758952&l=nb
+  itunes_url: https://music.apple.com/no/album/flashing-lights-single/1850758948?l=nb
+  tidal_url: ''
+  amazon_music_url: ''
+  youtube_url: https://www.youtube.com/watch?v=d3GgCMuMJPA&list=RDd3GgCMuMJPA&start_radio=1
+  traxsource_url: ''
+  beatport_url: ''
+  deezer_url: ''
 seo:
   meta_title: ''
   meta_description: ''
