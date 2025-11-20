@@ -4,7 +4,7 @@ artists:
   - OKPLUS
   - Emél
   - Mark Picchiotti
-date: 2025-11-28
+date: 2025-11-14
 catalog: OYSTR25009
 cover: /uploads/get_on_up_mark_picchiotti_400.webp
 links:
