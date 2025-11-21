@@ -13,9 +13,9 @@ links:
   tidal_url: ''
   amazon_music_url: ''
   youtube_url: https://www.youtube.com/watch?v=d3GgCMuMJPA&list=RDd3GgCMuMJPA&start_radio=1
-  traxsource_url: ''
-  beatport_url: ''
-  deezer_url: ''
+  traxsource_url: https://www.traxsource.com/track/14091140/flashing-lights
+  beatport_url: https://www.beatport.com/release/flashing-lights/5557790
+  deezer_url: https://link.deezer.com/s/31Fk2Xk1Sx4PaUXXRAVL5
 seo:
   meta_title: ''
   meta_description: ''
