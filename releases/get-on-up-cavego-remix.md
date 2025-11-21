@@ -14,8 +14,8 @@ links:
   tidal_url: https://tidal.com/track/472190204/u
   amazon_music_url: ''
   youtube_url: https://www.youtube.com/watch?v=V_8fECAmovE&list=RDV_8fECAmovE&start_radio=1
-  traxsource_url: ''
-  beatport_url: ''
+  traxsource_url: https://www.traxsource.com/track/14099850/get-on-up-cavego-extended-remix
+  beatport_url: https://www.beatport.com/release/flashing-lights/5557790
   deezer_url: https://link.deezer.com/s/31F4Ct1NOrSFHzImw1udA
 seo:
   meta_title: ''
