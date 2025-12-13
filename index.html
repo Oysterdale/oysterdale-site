@@ -74,6 +74,9 @@
   <!-- SEO runtime -->
   <script src="js/seo.js" defer data-seo="/content/seo/index.json"></script>
 
+  <!-- HERO slideshow -->
+  <script src="js/hero.js" defer></script>
+
   <!-- Inline tweaks -->
   <style>
     .skeleton {
@@ -136,16 +139,13 @@
     </nav>
   </header>
 
-  <!-- HERO -->
-  <div class="home-hero">
+  <!-- HERO (slideshow) -->
+  <div class="home-hero" id="home-hero-wrap">
     <div class="hero-placeholder" id="hero-ph"></div>
-    <img
-      id="home-hero"
-      class="hero-image"
-      alt="Oysterdale Records Hero"
-      loading="eager"
-      decoding="async"
-    />
+
+    <!-- To lag for crossfade -->
+    <img id="home-hero-a" class="hero-image hero-slide is-active" alt="Oysterdale Records Hero" loading="eager" decoding="async"/>
+    <img id="home-hero-b" class="hero-image hero-slide" alt="" loading="eager" decoding="async"/>
   </div>
 
   <main class="page-content">
@@ -221,37 +221,6 @@
           });
         });
       }
-    })();
-  </script>
-
-  <!-- HERO IMAGE JS -->
-  <script src="js/hero.js" defer></script>
-
-  <!-- LOAD HERO / MARKDOWN / PLAYLISTS / LATEST RELEASE -->
-  <!-- (Beholder hele eksisterende logikk, kun ryddet) -->
-
-  <!-- Hero-bilde -->
-  <script>
-    (function(){
-      const heroImg = document.getElementById('home-hero');
-      const heroPh = document.getElementById('hero-ph');
-      function netlifySrc(url, w){ return `/.netlify/images?url=${encodeURIComponent(url)}&w=${w}&fm=webp&q=70&fit=cover`; }
-      function netlifySrcSet(url){ const widths=[360,480,640,750,828,1024,1200,1280,1366,1600]; return widths.map(w=>`${netlifySrc(url,w)} ${w}w`).join(', '); }
-
-      fetch('/data/home.json', { cache:'no-store' })
-        .then(r => r.ok ? r.json() : {})
-        .then(data => {
-          const chosen = (data && data.hero_image) ? String(data.hero_image) : '';
-          if(!chosen) return;
-          heroImg.src = netlifySrc(chosen, 1600);
-          heroImg.srcset = netlifySrcSet(chosen);
-          heroImg.sizes = '100vw';
-
-          heroImg.addEventListener('load', ()=>{
-            if(heroPh) heroPh.style.display='none';
-          }, { once:true });
-        })
-        .catch(()=>{});
     })();
   </script>
 
