@@ -245,11 +245,10 @@ collections:
       - { label: "Catalog Number", name: "catalog", widget: "string", required: false }
       - { label: "Cover", name: "cover", widget: "image", required: false, multiple: false }
 
-      # Links
       - label: "Links"
         name: "links"
         widget: "object"
-        collapsed: false   # ←←← FIXED HERE
+        collapsed: false
         required: false
         fields:
           - { label: "Spotify", name: "spotify_url", widget: "string", required: false }
@@ -375,13 +374,38 @@ collections:
         name: "home_settings"
         format: "json"
         fields:
-          - label: "Forsidebilde (Home)"
-            name: "hero_image"
-            widget: "image"
-            choose_url: true
-            multiple: false
+          - label: "Forsidebilder (Home)"
+            name: "hero_images"
+            widget: "list"
             required: false
-            hint: "Velg/last opp forsidebildet. Hvis tomt brukes standardbildet i index.html."
+            hint: "Legg til flere bilder. Første bildet brukes først. Du kan endre rekkefølge."
+            summary: "{{fields.image}}"
+            fields:
+              - label: "Bilde"
+                name: "image"
+                widget: "image"
+                choose_url: true
+                required: true
+
+          - label: "Bytte hvert (sekunder)"
+            name: "hero_interval_seconds"
+            widget: "number"
+            value_type: "int"
+            min: 2
+            max: 30
+            default: 7
+            required: false
+            hint: "Hvor ofte forsidebildet bytter automatisk."
+
+          - label: "Fade-varighet (ms)"
+            name: "hero_fade_ms"
+            widget: "number"
+            value_type: "int"
+            min: 100
+            max: 3000
+            default: 800
+            required: false
+            hint: "Hvor myk overgangen er mellom bildene."
 
       - file: "content/settings/footer.json"
         label: "Footer"
