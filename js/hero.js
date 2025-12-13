@@ -2,63 +2,11 @@
   const a = document.getElementById("home-hero-a");
   const b = document.getElementById("home-hero-b");
   const ph = document.getElementById("hero-ph");
-
-  // Hvis du fortsatt har gammel HTML (id="home-hero"), gjør ingenting
-  // (men hos deg skal index ha home-hero-a + home-hero-b).
   if (!a || !b) return;
 
   function toInt(v, fallback) {
     const n = parseInt(v, 10);
     return Number.isFinite(n) ? n : fallback;
-  }
-
-  function buildCdnUrl(path, w) {
-    const fm = "webp";
-    const q = "55";
-    const fit = "cover";
-
-    if (!path) return "";
-
-    // already a CDN URL? refresh params safely
-    if (String(path).startsWith("/.netlify/images")) {
-      const u = new URL(path, window.location.origin);
-      u.searchParams.set("w", String(w));
-      u.searchParams.set("fm", fm);
-      u.searchParams.set("q", q);
-      u.searchParams.set("fit", fit);
-      return u.pathname + "?" + u.searchParams.toString();
-    }
-
-    return `/.netlify/images?url=${encodeURIComponent(path)}&w=${w}&fm=${fm}&q=${q}&fit=${fit}`;
-  }
-
-  function makeSrcSet(path) {
-    const widths = [360, 414, 428, 480, 640, 750, 828, 1024, 1200, 1280, 1366, 1600];
-    return widths.map(w => `${buildCdnUrl(path, w)} ${w}w`).join(", ");
-  }
-
-  function setResponsiveImage(imgEl, path, fallbackOriginal) {
-    const p = String(path || "").trim();
-    const original = p.startsWith("/.netlify/images") ? (fallbackOriginal || p) : (fallbackOriginal || p);
-
-    // If empty -> just use fallback
-    const finalPath = p || (fallbackOriginal || "");
-    if (!finalPath) return;
-
-    // CDN src/srcset
-    imgEl.src = buildCdnUrl(finalPath, 1600);
-    imgEl.srcset = makeSrcSet(finalPath);
-    imgEl.sizes = "100vw";
-    imgEl.setAttribute("fetchpriority", "high");
-    imgEl.removeAttribute("loading");
-
-    // HARD FALLBACK: if CDN transient fails, drop to original
-    imgEl.onerror = function onCdnError() {
-      imgEl.onerror = null;
-      imgEl.srcset = "";
-      imgEl.sizes = "";
-      imgEl.src = original || finalPath;
-    };
   }
 
   function hidePlaceholder() {
@@ -71,8 +19,63 @@
     b.style.transitionDuration = `${dur}ms`;
   }
 
+  // Netlify image CDN (trygt): IKKE encode hele pathen (Netlify liker ofte raw /uploads/..)
+  function cdn(path, w) {
+    if (!path) return "";
+    const fm = "webp";
+    const q = "70";
+    const fit = "cover";
+
+    // Ikke encode hele path - send den raw
+    return `/.netlify/images?url=${path}&w=${w}&fm=${fm}&q=${q}&fit=${fit}`;
+  }
+
+  function srcset(path) {
+    const widths = [360, 480, 640, 750, 828, 1024, 1200, 1366, 1600];
+    return widths.map(w => `${cdn(path, w)} ${w}w`).join(", ");
+  }
+
+  // Setter bildet så robust som mulig:
+  // 1) Sett direkte /uploads/... (garantert hvis filen finnes)
+  // 2) Når direkte er “ok”, bytt over til cdn for optimalisering (valgfritt)
+  function setImageRobust(imgEl, path) {
+    const p = String(path || "").trim();
+    if (!p) return;
+
+    // Start med direkte fil (minst sjanse for feil)
+    imgEl.src = p;
+    imgEl.srcset = "";
+    imgEl.sizes = "";
+    imgEl.setAttribute("fetchpriority", "high");
+    imgEl.removeAttribute("loading");
+
+    // Når direkte er lastet: sett cdn src/srcset (kun om du vil)
+    imgEl.addEventListener("load", () => {
+      // Hvis direkte src allerede er en cdn, gjør ingenting
+      if (imgEl.src.includes("/.netlify/images")) return;
+
+      // Switch til CDN
+      imgEl.src = cdn(p, 1600);
+      imgEl.srcset = srcset(p);
+      imgEl.sizes = "100vw";
+
+      // Hvis CDN feiler: gå tilbake til direkte fil
+      imgEl.onerror = () => {
+        imgEl.onerror = null;
+        imgEl.srcset = "";
+        imgEl.sizes = "";
+        imgEl.src = p;
+      };
+    }, { once: true });
+
+    // Hvis direkte fil feiler: ingen poeng å prøve CDN – da finnes ikke filen
+    imgEl.onerror = () => {
+      imgEl.onerror = null;
+      // blir stående med broken image -> da er filen ikke publisert på /uploads/...
+    };
+  }
+
   function normalizeImages(cfg) {
-    // Ny: hero_images: [{ image: "/uploads/..." }, ...]
     if (Array.isArray(cfg?.hero_images) && cfg.hero_images.length) {
       return cfg.hero_images
         .map(x => (x && typeof x === "object" ? x.image : x))
@@ -80,7 +83,6 @@
         .map(x => String(x).trim())
         .filter(Boolean);
     }
-    // Gammel fallback (hvis du fortsatt har hero_image)
     if (cfg?.hero_image) return [String(cfg.hero_image).trim()].filter(Boolean);
     return [];
   }
@@ -90,26 +92,48 @@
     active.classList.add("is-active");
   }
 
-  // Load config
   fetch("/data/home.json", { cache: "no-store" })
     .then(r => (r.ok ? r.json() : {}))
     .then(cfg => {
       const images = normalizeImages(cfg);
-
-      // Hvis admin ikke har lagt inn bilder enda -> ikke gjør noe
       if (!images.length) return;
 
       const intervalSeconds = Math.max(2, toInt(cfg?.hero_interval_seconds, 7));
       const fadeMs = toInt(cfg?.hero_fade_ms, 800);
       setFadeDuration(fadeMs);
 
-      // Sett første bilde på A og vis det
-      setResponsiveImage(a, images[0], images[0]);
+      // Første bilde
+      setImageRobust(a, images[0]);
       a.addEventListener("load", hidePlaceholder, { once: true });
       markActive(a, b);
 
-      // Hvis bare 1 bilde -> ferdig
       if (images.length === 1) return;
 
+      let index = 0;
+      let showingA = true;
+
       // Preload neste på B
-      let index
+      setImageRobust(b, images[1]);
+
+      setInterval(() => {
+        const next = (index + 1) % images.length;
+        const nextUrl = images[next];
+
+        const active = showingA ? a : b;
+        const inactive = showingA ? b : a;
+
+        setImageRobust(inactive, nextUrl);
+
+        const doSwap = () => {
+          markActive(inactive, active);
+          showingA = !showingA;
+          index = next;
+        };
+
+        inactive.addEventListener("load", doSwap, { once: true });
+        if (inactive.complete) Promise.resolve().then(doSwap);
+
+      }, intervalSeconds * 1000);
+    })
+    .catch(() => {});
+})();
