@@ -1,5 +1,5 @@
 /* ===================================================== */
-/* RESET & BASE STYLES */
+/* RESET & BASE */
 /* ===================================================== */
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{width:100%;overflow-x:hidden}
@@ -23,7 +23,7 @@ a:hover{color:#bbb;text-decoration:none}
 
 h1,h2,h3{text-transform:uppercase;animation:fadeIn 1.2s ease-in-out}
 
-/* Heading fix */
+/* Heading sizes */
 :root{
   --fs-h1: clamp(32px, 3.2vw, 42px);
   --fs-h2: clamp(24px, 2.4vw, 30px);
@@ -38,6 +38,18 @@ h4{ font-size: clamp(16px,1.5vw,20px); line-height:1.25;}
 h5{ font-size: clamp(15px,1.3vw,18px); line-height:1.3;}
 h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
 
+/* Skeleton (brukes på index inline også, men ok å ha her) */
+.skeleton{
+  background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);
+  background-size:400% 100%;
+  animation:shimmer 1.4s ease infinite;
+  border-radius:8px;
+}
+@keyframes shimmer{
+  0%{background-position:100% 0}
+  100%{background-position:-100% 0}
+}
+
 /* ===================================================== */
 /* HEADER */
 /* ===================================================== */
@@ -45,14 +57,19 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
   position:fixed; top:0; left:0; right:0; width:100%;
   z-index:1000; background:#000;
   display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
-  padding:20px 5%; height:100px; border-bottom:1px solid #111;
+  padding:20px 5%; height:100px;
+  border-bottom:1px solid #111;
 }
+
 .logo-img{max-height:60px;width:auto;height:auto;object-fit:contain;}
+
 .main-nav{display:flex;align-items:center;gap:30px;transition:.3s}
 .nav-links a{font-weight:700;text-transform:uppercase;font-size:.95rem;margin:0 12px}
 .nav-links a:hover,.nav-links a.active{border-bottom:2px solid #fff}
+
 .social-icons a{font-size:1.2rem;margin-left:15px}
 .social-icons a:hover{color:#bbb}
+
 .menu-toggle{display:none;font-size:1.5rem;color:#fff;border:0;background:none;cursor:pointer}
 
 /* ===================================================== */
@@ -65,32 +82,6 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
   animation:fadeIn 1.3s ease-in-out;
 }
 .page-content p{padding-bottom:1rem}
-
-/* ===================================================== */
-/* HOME INTRO VISIBILITY LOGIC */
-/* Desktop: intro ligger i hero overlay -> skjul #home-content */
-/* Mobil: hero tekst skjules -> vis #home-content under hero */
-/* ===================================================== */
-#home-content{margin-top:1.6rem;}
-@media (min-width: 601px){
-  #home-content{display:none;}
-}
-@media (max-width: 600px){
-  #home-content{display:block;}
-}
-
-/* Litt mer “landing page”-følelse på mobil intro */
-@media (max-width: 600px){
-  #home-content h1, #home-content h2, #home-content h3{
-    text-transform:uppercase;
-    margin-top:0;
-  }
-  #home-content p{
-    color:rgba(255,255,255,.92);
-    font-size:16px;
-    line-height:1.6;
-  }
-}
 
 /* ===================================================== */
 /* HERO */
@@ -134,14 +125,13 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
   animation:heroShimmer 1.35s ease infinite;
   z-index:0;
 }
-
 @keyframes heroShimmer{
   0%{background-position:100% 0}
   100%{background-position:-100% 0}
 }
 
 /* ===================================================== */
-/* HERO OVERLAY (LOGO + TEXT OVER IMAGE) */
+/* HERO OVERLAY (logo + tekst) */
 /* ===================================================== */
 .hero-overlay{
   position:absolute;
@@ -167,7 +157,6 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
   );
   z-index:0;
 }
-
 .hero-overlay > *{position:relative; z-index:1;}
 
 .hero-inner{
@@ -175,7 +164,6 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
   width:100%;
 }
 
-/* hero logo */
 .hero-overlay-logo{
   width:min(520px,70vw);
   height:auto;
@@ -198,7 +186,7 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
   text-shadow:0 10px 18px rgba(0,0,0,.6);
 }
 
-/* tablet */
+/* Tablet */
 @media(max-width:768px){
   .home-hero{height:clamp(340px,75vw,75vh);}
   .home-hero .hero-image,
@@ -207,10 +195,8 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
   .hero-overlay-logo{width:min(420px,78vw);}
 }
 
-/* ===================================================== */
-/* MOBILE HERO BEHAVIOR: LOGO ONLY I HERO */
-/* ===================================================== */
-@media (max-width: 600px){
+/* Mobil hero: logo-only, midtstilt */
+@media (max-width:600px){
   .home-hero{height:clamp(320px,78vw,62vh);}
 
   .hero-overlay{
@@ -233,12 +219,23 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
     width:min(220px,70vw);
     margin:0;
   }
-
-  .hero-copy{display:none;}
 }
 
 /* ===================================================== */
-/* ========== RELEASE CARDS (standard) ========== */
+/* HOME INTRO (#home-content) */
+/* ===================================================== */
+#home-content{margin-top:1.6rem;}
+@media (max-width:600px){
+  #home-content h1,#home-content h2,#home-content h3{margin-top:0;}
+  #home-content p{
+    color:rgba(255,255,255,.92);
+    font-size:16px;
+    line-height:1.6;
+  }
+}
+
+/* ===================================================== */
+/* RELEASE CARDS */
 /* ===================================================== */
 .release{
   --head-gap:1rem;
@@ -277,7 +274,8 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
   display:flex;flex-wrap:wrap;justify-content:center;
   gap:14px;margin-top:.2rem;margin-bottom:.8rem;
   max-width:calc(5*44px + 4*14px);
-  margin-left:auto;margin-right:auto;min-height:102px;
+  margin-left:auto;margin-right:auto;
+  min-height:102px;
 }
 .platform-icons > *{flex:0 0 44px;height:44px;}
 .platform-icons a{
@@ -293,7 +291,7 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
 
 .release-date{margin-top:auto;font-size:.9rem;color:#ccc;text-align:center}
 
-/* GRID */
+/* GRID (releases page) */
 .releases-grid{
   display:grid;grid-template-columns:repeat(2,1fr);
   gap:2rem;margin-top:2rem;
@@ -305,7 +303,7 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
 }
 
 /* ===================================================== */
-/* ========== ARTIST CARDS ========== */
+/* ARTIST CARDS */
 /* ===================================================== */
 .artist{
   background:#111;border-radius:10px;padding:1.4rem;
@@ -320,7 +318,7 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
 }
 
 /* ===================================================== */
-/* ========== FOOTER ========== */
+/* FOOTER */
 /* ===================================================== */
 footer{
   text-align:center;padding:2rem;font-size:.95rem;
@@ -337,13 +335,14 @@ footer nav.footer-nav a{margin:0 .5rem;color:#fff}
 footer nav.footer-nav a:hover{color:#bbb}
 
 /* ===================================================== */
-/* ========== MOBILE NAV ========== */
+/* MOBILE NAV */
 /* ===================================================== */
 @media(max-width:1150px){
   .menu-toggle{display:block;position:absolute;top:20px;right:20px;z-index:1001}
   .main-nav{
     display:none;flex-direction:column;background:#000;
     width:100%;text-align:center;position:absolute;top:100px;left:0;padding:20px 0;
+    z-index:1000;
   }
   .main-nav.open{display:flex}
   .nav-links{display:flex;flex-direction:column;gap:20px;margin-bottom:20px}
@@ -352,7 +351,7 @@ footer nav.footer-nav a:hover{color:#bbb}
 }
 
 /* ===================================================== */
-/* ========== LATEST RELEASE (index) ========== */
+/* LATEST RELEASE (index) */
 /* ===================================================== */
 .release.latest{
   --head-gap:1rem;
@@ -364,42 +363,32 @@ footer nav.footer-nav a:hover{color:#bbb}
   text-align:center;min-height:0;
   display:flex;flex-direction:column;align-items:center;
 }
-
-.release.latest .release-header{
-  gap:2px;margin:0 0 var(--head-gap);text-align:center;
-}
-.release.latest .release-artist{
-  font-size:clamp(1rem,2.05vw,1.35rem);text-align:center;
-}
-.release.latest .release-title{
-  font-size:clamp(.9rem,1.85vw,1.15rem);color:#ddd;text-align:center;
-}
+.release.latest .release-header{gap:2px;margin:0 0 var(--head-gap);text-align:center;}
+.release.latest .release-artist{font-size:clamp(1rem,2.05vw,1.35rem);text-align:center;}
+.release.latest .release-title{font-size:clamp(.9rem,1.85vw,1.15rem);color:#ddd;text-align:center;}
 .release.latest .release-cover{
   width:300px;height:300px;
   max-width:100%;object-fit:cover;border-radius:10px;
   margin:0 auto .7rem;
 }
-.release.latest .platform-icons{
-  min-height:0;gap:10px;margin-top:.35rem;margin-bottom:.4rem;
-}
+.release.latest .platform-icons{min-height:0;gap:10px;margin-top:.35rem;margin-bottom:.4rem;}
 .release.latest .release-date{margin-top:.3rem}
-
 @media(max-width:768px){
   .release.latest{max-width:92%;padding:.7rem .8rem;}
   .release.latest .release-cover{width:260px;height:260px;}
 }
 
 /* ===================================================== */
-/* ========== SPOTIFY PLAYLIST GRID (FIX) ========== */
+/* SPOTIFY PLAYLIST GRID (FIX) */
 /* ===================================================== */
 .spotify-grid{
   margin:2rem auto;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); /* <-- viktig: 260, ikke 320 */
   gap:1.6rem;
   max-width:1000px;
   width:100%;
-  padding:0 1rem;
+  padding:0; /* unngår dobbel padding + overflow */
   justify-items:center;
 }
 
@@ -424,5 +413,28 @@ footer nav.footer-nav a:hover{color:#bbb}
 .spotify-card.compact iframe{height:152px;}
 
 @media(max-width:600px){
+  .spotify-grid{margin:1.4rem auto;}
   .spotify-card iframe{height:180px;}
+}
+
+/* ===================================================== */
+/* FINAL OVERRIDES (MÅ STÅ HELT NEDERST) */
+/* Desktop: tekst i hero, ikke under */
+/* Mobil: logo-only i hero, tekst under */
+/* ===================================================== */
+
+/* Default: vis begge (failsafe) */
+#home-content{display:block !important;}
+.hero-copy{display:block !important;}
+
+/* Desktop / Mac */
+@media (min-width: 601px){
+  #home-content{display:none !important;}
+  .hero-copy{display:block !important;}
+}
+
+/* Mobil */
+@media (max-width: 600px){
+  .hero-copy{display:none !important;}
+  #home-content{display:block !important;}
 }
