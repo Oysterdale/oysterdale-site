@@ -139,21 +139,33 @@
     </nav>
   </header>
 
-  <!-- HERO (slideshow) -->
+  <!-- HERO (slideshow + overlay text/logo) -->
   <div class="home-hero" id="home-hero-wrap">
     <div class="hero-placeholder" id="hero-ph"></div>
 
-    <!-- To lag for crossfade -->
+    <!-- Two layers for crossfade -->
     <img id="home-hero-a" class="hero-image hero-slide is-active" alt="Oysterdale Records Hero" loading="eager" decoding="async"/>
     <img id="home-hero-b" class="hero-image hero-slide" alt="" loading="eager" decoding="async"/>
+
+    <!-- OVERLAY (logo + editable text from /content/index.md) -->
+    <div class="hero-overlay" aria-label="Hero intro">
+      <img
+        id="hero-overlay-logo"
+        class="hero-overlay-logo"
+        alt="Oysterdale Records"
+        loading="eager"
+        decoding="async"
+      />
+
+      <div id="home-content" class="hero-copy">
+        <div class="skeleton" style="height:18px;width:55%;margin:10px 0;"></div>
+        <div class="skeleton" style="height:12px;width:40%;margin:8px 0;"></div>
+        <div class="skeleton" style="height:12px;width:70%;margin:8px 0;"></div>
+      </div>
+    </div>
   </div>
 
   <main class="page-content">
-
-    <!-- TEXT -->
-    <div id="home-content">
-      <div class="skeleton" style="height:14px;width:55%;margin:12px 0;"></div>
-    </div>
 
     <!-- LATEST RELEASE -->
     <section class="latest-wrap">
@@ -221,6 +233,33 @@
           });
         });
       }
+    })();
+  </script>
+
+  <!-- HERO overlay logo source (admin via /data/home.json) -->
+  <script>
+    (function(){
+      const logoEl = document.getElementById('hero-overlay-logo');
+      if(!logoEl) return;
+
+      const fallback = "/uploads/OysterdaleRecords_white_logo.png";
+
+      // optional: use Netlify image CDN for the logo
+      function cdn(url, w){
+        if(!url) return "";
+        return `/.netlify/images?url=${url}&w=${w}&fm=webp&q=80&fit=contain`;
+      }
+
+      fetch("/data/home.json", { cache: "no-store" })
+        .then(r => r.ok ? r.json() : {})
+        .then(cfg => {
+          const raw = (cfg && cfg.hero_logo) ? String(cfg.hero_logo).trim() : "";
+          const src = raw || fallback;
+          logoEl.src = cdn(src, 520);
+        })
+        .catch(() => {
+          logoEl.src = cdn(fallback, 520);
+        });
     })();
   </script>
 
@@ -316,6 +355,7 @@
             if(!md) return;
             const body = stripFrontmatterBlock(md);
             if(target) target.innerHTML = marked.parse(body);
+
             const fm = parseFrontmatter(md);
             const playlists = Array.isArray(fm.spotify_playlists) ? fm.spotify_playlists : [];
             if(playlists.length){
@@ -346,16 +386,9 @@
           })
           .catch(()=>{});
       };
-      if (!('IntersectionObserver' in window) || !target) {
-        (window.requestIdleCallback || function(cb){setTimeout(cb,1200)})(loadIt);
-      } else {
-        const io = new IntersectionObserver(entries=>{
-          entries.forEach(entry=>{
-            if(entry.isIntersecting){ loadIt(); io.disconnect(); }
-          });
-        }, { rootMargin: '200px' });
-        io.observe(target);
-      }
+
+      // OBS: siden #home-content nå er i hero, kan vi bare laste med en gang
+      loadIt();
     });
   </script>
 
