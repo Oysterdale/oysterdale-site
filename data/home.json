@@ -1,3 +1,7 @@
 {
-  "hero_image": "/uploads/Oysterdale_forsidebilde_nettside_optimized.webp"
+  "hero_images": [
+    { "image": "/uploads/Oysterdale_forsidebilde_nettside_optimized.webp" }
+  ],
+  "hero_interval_seconds": 7,
+  "hero_fade_ms": 800
 }
