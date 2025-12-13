@@ -128,18 +128,18 @@
       </div>
 
       <div class="social-icons">
-        <a href="https://www.instagram.com/oysterdalerecords/" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.tiktok.com/@oysterdalerecords" target="_blank"><i class="fab fa-tiktok"></i></a>
-        <a href="https://www.youtube.com/@OysterdaleRecords" target="_blank"><i class="fab fa-youtube"></i></a>
-        <a href="https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am" target="_blank"><i class="fab fa-spotify"></i></a>
-        <a href="https://www.twitch.tv/oysterdalerecords" target="_blank"><i class="fab fa-twitch"></i></a>
-        <a href="https://soundcloud.com/oysterdale-records" target="_blank"><i class="fab fa-soundcloud"></i></a>
-        <a href="https://www.mixcloud.com/OysterdaleRecords/" target="_blank"><i class="fab fa-mixcloud"></i></a>
+        <a href="https://www.instagram.com/oysterdalerecords/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@oysterdalerecords" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.youtube.com/@OysterdaleRecords" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+        <a href="https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am" target="_blank" rel="noopener"><i class="fab fa-spotify"></i></a>
+        <a href="https://www.twitch.tv/oysterdalerecords" target="_blank" rel="noopener"><i class="fab fa-twitch"></i></a>
+        <a href="https://soundcloud.com/oysterdale-records" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
+        <a href="https://www.mixcloud.com/OysterdaleRecords/" target="_blank" rel="noopener"><i class="fab fa-mixcloud"></i></a>
       </div>
     </nav>
   </header>
 
-  <!-- HERO (slideshow + overlay text/logo) -->
+  <!-- HERO -->
   <div class="home-hero" id="home-hero-wrap">
     <div class="hero-placeholder" id="hero-ph"></div>
 
@@ -147,7 +147,7 @@
     <img id="home-hero-a" class="hero-image hero-slide is-active" alt="Oysterdale Records Hero" loading="eager" decoding="async"/>
     <img id="home-hero-b" class="hero-image hero-slide" alt="" loading="eager" decoding="async"/>
 
-    <!-- OVERLAY (logo + editable text from /content/index.md) -->
+    <!-- OVERLAY (logo + DESKTOP text) -->
     <div class="hero-overlay" aria-label="Hero intro">
       <img
         id="hero-overlay-logo"
@@ -157,7 +157,8 @@
         decoding="async"
       />
 
-      <div id="home-content" class="hero-copy">
+      <!-- Desktop-only content (CSS toggler dette) -->
+      <div id="hero-content" class="hero-copy">
         <div class="skeleton" style="height:18px;width:55%;margin:10px 0;"></div>
         <div class="skeleton" style="height:12px;width:40%;margin:8px 0;"></div>
         <div class="skeleton" style="height:12px;width:70%;margin:8px 0;"></div>
@@ -166,6 +167,13 @@
   </div>
 
   <main class="page-content">
+
+    <!-- MOBILE intro under hero (CSS toggler dette) -->
+    <section id="home-content" class="home-intro" aria-label="Intro">
+      <div class="skeleton" style="height:18px;width:55%;margin:10px 0;"></div>
+      <div class="skeleton" style="height:12px;width:40%;margin:8px 0;"></div>
+      <div class="skeleton" style="height:12px;width:70%;margin:8px 0;"></div>
+    </section>
 
     <!-- LATEST RELEASE -->
     <section class="latest-wrap">
@@ -185,7 +193,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs">
+    <a href="https://on.soundcloud.com/rVdOdUhqw6MG3IcPRs" target="_blank" rel="noopener">
       <img
         src="/.netlify/images?url=/images/pearl.png&w=100&h=100&fit=cover&fm=webp&q=74"
         alt="Hidden Pearl"
@@ -244,7 +252,6 @@
 
       const fallback = "/uploads/OysterdaleRecords_white_logo.png";
 
-      // optional: use Netlify image CDN for the logo
       function cdn(url, w){
         if(!url) return "";
         return `/.netlify/images?url=${url}&w=${w}&fm=webp&q=80&fit=contain`;
@@ -269,6 +276,7 @@
       const m = text.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*[\r\n]+/);
       return m ? text.slice(m[0].length) : text;
     }
+
     function parseFrontmatter(text){
       const m = text.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*[\r\n]+/);
       if(!m) return {};
@@ -278,6 +286,7 @@
       let currentKey = null;
       let currentItem = null;
       let capture = null;
+
       function flush(){
         if(!capture) return;
         const { obj, key, type, buf } = capture;
@@ -285,23 +294,26 @@
         obj[key] = (type === '>') ? raw.replace(/\n+/g,' ').trim() : raw;
         capture = null;
       }
+
       for(let i=0;i<lines.length;i++){
         const line = lines[i];
         const indent = (line.match(/^\s*/)||[''])[0].length;
+
         if(capture){
           if(indent > capture.indent){ capture.buf.push(line.slice(capture.indent+1)); continue; }
           else { flush(); }
         }
         if(!line.trim()) continue;
+
         const top = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
         if(top && indent===0){
           currentKey = top[1];
           const val = top[2].trim();
-          if(val===''){ root[currentKey] = root[currentKey] ?? null; }
-          else { root[currentKey] = val.replace(/^"(.*)"$/,'$1'); }
+          root[currentKey] = val === '' ? (root[currentKey] ?? null) : val.replace(/^"(.*)"$/,'$1');
           currentItem = null;
           continue;
         }
+
         const li = line.match(/^\s{2}-\s*(.*)$/);
         if(li){
           if(!Array.isArray(root[currentKey])) root[currentKey] = [];
@@ -319,6 +331,7 @@
           }
           continue;
         }
+
         const child = currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
         if(child){
           const ck=child[1], cv=child[2];
@@ -327,68 +340,80 @@
           continue;
         }
       }
+
       flush();
       return root;
     }
+
     function parseSpotifyInput(input){
       if(!input) return {src:"", height:null};
       const s = String(input).trim();
+
       if(/<\s*iframe/i.test(s)){
         const src = (s.match(/src\s*=\s*"(.*?)"/i) || s.match(/src\s*=\s*'(.*?)'/i))?.[1] || "";
         const h = (s.match(/height\s*=\s*"(.*?)"/i) || s.match(/height\s*=\s*'(.*?)'/i))?.[1];
         const height = h ? parseInt(h,10) : null;
         return {src, height};
       }
+
       const re = /^https?:\/\/open\.spotify\.com\/(playlist|album|track|show|episode)\/([A-Za-z0-9]+)(\?.*)?$/;
       const mm = s.match(re);
       if(mm){
         return {src:`https://open.spotify.com/embed/${mm[1]}/${mm[2]}?utm_source=generator`, height:null};
       }
+
       return {src:s, height:null};
     }
+
     window.addEventListener('DOMContentLoaded', () => {
-      const target = document.querySelector('#home-content');
-      const loadIt = () => {
-        fetch('/content/index.md', { cache: 'no-store' })
-          .then(res => res.ok ? res.text() : '')
-          .then(md => {
-            if(!md) return;
-            const body = stripFrontmatterBlock(md);
-            if(target) target.innerHTML = marked.parse(body);
+      const heroTarget   = document.querySelector('#hero-content');
+      const mobileTarget = document.querySelector('#home-content');
 
-            const fm = parseFrontmatter(md);
-            const playlists = Array.isArray(fm.spotify_playlists) ? fm.spotify_playlists : [];
-            if(playlists.length){
-              const grid = document.getElementById('spotify-grid');
-              const section = document.getElementById('spotify-section');
-              grid.innerHTML = playlists.map(p => {
-                const isString = (typeof p === 'string');
-                const title = !isString ? (p.title || p['Title'] || '') : '';
-                const raw = isString ? p : (p.embed || p['Embed URL'] || p['embed_url'] || '');
-                const size = !isString ? ((p.size || '').toString().toLowerCase()) : '';
-                const hProp = !isString && p.height ? parseInt(p.height,10) : null;
-                const {src, height: hFromIframe} = parseSpotifyInput(raw);
-                const height = hProp || hFromIframe || null;
-                const compact = (height && height <= 180) || size === 'small' || size === 'compact';
-                return `
-                  <div class="spotify-card${compact ? ' compact' : ''}">
-                    <iframe
-                      src="${src}"
-                      title="${title ? `Spotify – ${title}` : 'Spotify'}"
-                      ${height ? `height="${height}"` : ''}
-                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                      loading="lazy"></iframe>
-                  </div>
-                `;
-              }).join('');
-              section.style.display = 'block';
-            }
-          })
-          .catch(()=>{});
-      };
+      fetch('/content/index.md', { cache: 'no-store' })
+        .then(res => res.ok ? res.text() : '')
+        .then(md => {
+          if(!md) return;
 
-      // OBS: siden #home-content nå er i hero, kan vi bare laste med en gang
-      loadIt();
+          const body = stripFrontmatterBlock(md);
+          const html = marked.parse(body);
+
+          if(heroTarget) heroTarget.innerHTML = html;
+          if(mobileTarget) mobileTarget.innerHTML = html;
+
+          const fm = parseFrontmatter(md);
+          const playlists = Array.isArray(fm.spotify_playlists) ? fm.spotify_playlists : [];
+
+          if(playlists.length){
+            const grid = document.getElementById('spotify-grid');
+            const section = document.getElementById('spotify-section');
+
+            grid.innerHTML = playlists.map(p => {
+              const isString = (typeof p === 'string');
+              const title = !isString ? (p.title || p['Title'] || '') : '';
+              const raw = isString ? p : (p.embed || p['Embed URL'] || p['embed_url'] || '');
+              const size = !isString ? ((p.size || '').toString().toLowerCase()) : '';
+              const hProp = !isString && p.height ? parseInt(p.height,10) : null;
+
+              const {src, height: hFromIframe} = parseSpotifyInput(raw);
+              const height = hProp || hFromIframe || null;
+              const compact = (height && height <= 180) || size === 'small' || size === 'compact';
+
+              return `
+                <div class="spotify-card${compact ? ' compact' : ''}">
+                  <iframe
+                    src="${src}"
+                    title="${title ? `Spotify – ${title}` : 'Spotify'}"
+                    ${height ? `height="${height}"` : ''}
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"></iframe>
+                </div>
+              `;
+            }).join('');
+
+            section.style.display = 'block';
+          }
+        })
+        .catch(()=>{});
     });
   </script>
 
@@ -396,25 +421,36 @@
   <script>
     (function(){
       const OWNER="Oysterdale", REPO="oysterdale-site", DIR="releases";
+
       function clean(v){ return (v??"").toString().trim(); }
-      function niceDate(iso){ if(!iso) return ""; const d=new Date(iso); return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}); }
+
+      function niceDate(iso){
+        if(!iso) return "";
+        const d=new Date(iso);
+        return isNaN(d) ? iso : d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+      }
+
       function parseFM(md){
         const m = md.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*/);
         const data = {};
         if(!m) return data;
+
         const yaml = m[1].replace(/\t/g,' ');
         const lines = yaml.split(/\r?\n/);
         let key=null, currentItem=null;
+
         lines.forEach(line=>{
           if(!line.trim()) return;
+
           const top=line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
           if(top && !line.startsWith(' ')){
             key=top[1];
             const val=top[2].trim();
-            if(val===''){ data[key]=data[key]??null; currentItem=null; }
-            else { data[key]=val.replace(/^"(.*)"$/,'$1'); currentItem=null; }
+            data[key]= val==='' ? (data[key]??null) : val.replace(/^"(.*)"$/,'$1');
+            currentItem=null;
             return;
           }
+
           const li=key && line.match(/^\s{2}-\s*(.*)$/);
           if(li){
             if(!Array.isArray(data[key])) data[key]=[];
@@ -430,13 +466,16 @@
             }
             return;
           }
+
           const child=currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
           if(child){
             currentItem[child[1]]=child[2].replace(/^"(.*)"$/,'$1');
           }
         });
+
         return data;
       }
+
       function artistsToString(artists){
         if(Array.isArray(artists)){
           const names = artists.map(a => typeof a==='string' ? a : (a && (a.artist||a.name)) || '').filter(Boolean);
@@ -444,6 +483,7 @@
         }
         return clean(artists);
       }
+
       async function fetchLatest(){
         const list=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`).then(r=>r.json());
         const files=Array.isArray(list)?list.filter(f=>f.name.endsWith('.md')):[];
@@ -455,9 +495,11 @@
         entries.sort((a,b)=>b.date-a.date);
         return entries[0]?.data;
       }
+
       function renderLatest(data){
         const wrap=document.getElementById('latest-release'); if(!wrap) return;
         const artistStr=artistsToString(data.artists || data.artist);
+
         wrap.innerHTML=`
           <div class="release latest">
             <div class="release-header">
@@ -469,6 +511,7 @@
           </div>
         `;
       }
+
       document.addEventListener('DOMContentLoaded', async ()=>{
         try{
           const latest = await fetchLatest();
