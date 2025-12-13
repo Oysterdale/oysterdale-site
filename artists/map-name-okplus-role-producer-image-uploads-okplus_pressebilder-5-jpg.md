@@ -1,7 +1,7 @@
 ---
 name: OKPLUS
 role: producer
-image: /uploads/OKPLUS_600x600.webp
+image: /uploads/OKPLUS_600x600RIKTIG.webp
 bio: ''
 spotify: ''
 soundcloud: ''
