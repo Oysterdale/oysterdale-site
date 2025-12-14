@@ -10,7 +10,7 @@ spotify_playlists:
   - title: Garage - Best Bouncing Beats
     embed: <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4v46eGrQub0lBlDSHlMabu?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 ---
-### _Every record is a pearl_
+## _Every record is a pearl_
 
 We’re an independent label releasing Soulful House, Disco, and Electronic music — carefully crafted and digitally distributed to the world from Oslo, Norway.
 
