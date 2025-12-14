@@ -407,6 +407,26 @@ collections:
             required: false
             hint: "Hvor myk overgangen er mellom bildene."
 
+          # -------------------------
+          # NEW: Heading marquee settings
+          # -------------------------
+          - label: "Overskrifter: scroll-animasjon"
+            name: "heading_marquee_enabled"
+            widget: "boolean"
+            required: false
+            default: true
+            hint: "Skru av/på animasjon for overskrifter (marquee)."
+
+          - label: "Overskrifter: hastighet (sekunder per loop)"
+            name: "heading_marquee_speed"
+            widget: "number"
+            value_type: "int"
+            min: 6
+            max: 40
+            default: 14
+            required: false
+            hint: "Lavere tall = raskere. Høyere tall = tregere."
+
       - file: "content/settings/footer.json"
         label: "Footer"
         name: "footer"
