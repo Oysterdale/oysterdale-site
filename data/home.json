@@ -9,6 +9,20 @@
   ],
   "hero_interval_seconds": 8,
   "hero_fade_ms": 1000,
+
   "heading_marquee_enabled": true,
-  "heading_marquee_speed": 22
+  "heading_marquee_speed": 22,
+
+  "heading_marquees": [
+    {
+      "id": "heading-latest-release",
+      "enabled": true,
+      "speed": 22
+    },
+    {
+      "id": "heading-playlists",
+      "enabled": true,
+      "speed": 22
+    }
+  ]
 }
