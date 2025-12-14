@@ -100,14 +100,26 @@
 
     /* ===================================================== */
     /* MARQUEE / SCROLLING HEADINGS (apply via .scroll-title) */
-    /* Admin (home.json):
-       - heading_marquee_enabled: true/false
-       - heading_marquee_speed: number (seconds per loop)
+    /*
+      Per-heading config (in /data/home.json):
+
+      {
+        "heading_marquees": [
+          { "id": "heading-latest-release", "enabled": true,  "speed": 12 },
+          { "id": "heading-playlists",      "enabled": false, "speed": 14 }
+        ],
+
+        // Optional defaults (used if a heading isn't listed):
+        "heading_marquee_enabled": true,
+        "heading_marquee_speed": 14
+      }
+
+      In HTML: add class="scroll-title" + an id (recommended).
+      Example:
+        <h2 id="heading-latest-release" class="scroll-title">LATEST RELEASE</h2>
     */
     /* ===================================================== */
     :root{
-      --heading-marquee-enabled: 1;      /* 1 = on, 0 = off */
-      --heading-marquee-duration: 14s;   /* lower = faster */
       --heading-marquee-gap: 3.5rem;     /* space between repeats */
     }
 
@@ -138,6 +150,9 @@
       transform:translate3d(0,0,0);
     }
 
+    /* default duration if JS hasn't set per-heading var yet */
+    .scroll-title{ --heading-marquee-duration: 14s; }
+
     .scroll-title.is-marquee-on .marquee-track{
       animation: marqueeMove var(--heading-marquee-duration) linear infinite;
     }
@@ -147,7 +162,6 @@
       100% { transform:translate3d(-50%,0,0); }
     }
 
-    /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce){
       .scroll-title.is-marquee-on .marquee-track{ animation:none; }
     }
@@ -232,8 +246,7 @@
 
     <!-- LATEST RELEASE -->
     <section class="latest-wrap">
-      <!-- Add .scroll-title to make it scroll -->
-      <h2 class="scroll-title" data-marquee="auto">LATEST RELEASE</h2>
+      <h2 id="heading-latest-release" class="scroll-title">LATEST RELEASE</h2>
       <div id="latest-release">
         <div class="skeleton" style="height:300px;border-radius:10px;"></div>
       </div>
@@ -241,7 +254,7 @@
 
     <!-- PLAYLISTS -->
     <section id="spotify-section" style="display:none;">
-      <h2 class="scroll-title" data-marquee="auto">PLAYLISTS</h2>
+      <h2 id="heading-playlists" class="scroll-title">PLAYLISTS</h2>
       <div class="spotify-grid" id="spotify-grid"></div>
     </section>
 
@@ -326,46 +339,74 @@
     })();
   </script>
 
-  <!-- Heading marquee: reads /data/home.json + transforms any .scroll-title -->
+  <!-- Heading marquee: per-heading settings from /data/home.json -->
   <script>
     (function(){
       function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
 
-      function applyVarsFromHomeJson(cfg){
-        // Defaults
-        let enabled = true;
-        let speed = 14; // seconds per loop
-
-        if(cfg && typeof cfg.heading_marquee_enabled === 'boolean') enabled = cfg.heading_marquee_enabled;
-        if(cfg && (typeof cfg.heading_marquee_speed === 'number' || typeof cfg.heading_marquee_speed === 'string')){
-          const v = parseFloat(cfg.heading_marquee_speed);
-          if(!Number.isNaN(v)) speed = v;
-        }
-
-        // sane limits
-        speed = clamp(speed, 6, 40);
-
-        document.documentElement.style.setProperty('--heading-marquee-enabled', enabled ? '1' : '0');
-        document.documentElement.style.setProperty('--heading-marquee-duration', `${speed}s`);
+      function normalizeId(v){
+        return String(v || "").trim();
       }
 
-      function initMarqueeHeadings(){
-        const globalEnabled = getComputedStyle(document.documentElement)
-          .getPropertyValue('--heading-marquee-enabled')
-          .trim() !== '0';
+      function buildConfigMap(cfg){
+        const map = new Map();
+
+        // New structure (recommended)
+        const items = Array.isArray(cfg?.heading_marquees) ? cfg.heading_marquees : [];
+        items.forEach(it => {
+          const id = normalizeId(it?.id);
+          if(!id) return;
+          map.set(id, {
+            enabled: (typeof it.enabled === 'boolean') ? it.enabled : true,
+            speed: (it.speed != null && it.speed !== '') ? Number(it.speed) : null
+          });
+        });
+
+        // Legacy defaults (fallback)
+        const legacyEnabled = (typeof cfg?.heading_marquee_enabled === 'boolean') ? cfg.heading_marquee_enabled : true;
+        const legacySpeedRaw = (cfg?.heading_marquee_speed != null) ? Number(cfg.heading_marquee_speed) : 14;
+        const legacySpeed = Number.isFinite(legacySpeedRaw) ? clamp(legacySpeedRaw, 6, 40) : 14;
+
+        return { map, legacyEnabled, legacySpeed };
+      }
+
+      function measureNeedsMarquee(el){
+        const clip = el.querySelector('.marquee-clip');
+        const track = el.querySelector('.marquee-track');
+        if(!clip || !track) return false;
+        // if track isn't wider than clip => no need to animate
+        return track.scrollWidth > (clip.clientWidth * 1.05);
+      }
+
+      function initMarqueeHeadings(cfg){
+        const { map, legacyEnabled, legacySpeed } = buildConfigMap(cfg || {});
 
         document.querySelectorAll('.scroll-title').forEach(el => {
-          const mode = (el.getAttribute('data-marquee') || 'auto').toLowerCase();
-          if(mode === 'off') return;
+          // Allow manual HTML override:
+          // data-marquee="off" => never animate
+          const manual = (el.getAttribute('data-marquee') || '').toLowerCase();
+          if(manual === 'off') return;
 
+          const key = normalizeId(el.getAttribute('data-heading-id') || el.id);
           const text = (el.textContent || '').trim();
           if(!text) return;
 
-          // If global off, leave as normal text
-          if(!globalEnabled){
+          // Resolve config for this heading
+          const entry = key ? map.get(key) : null;
+
+          const enabled = entry
+            ? !!entry.enabled
+            : legacyEnabled; // default if not configured
+
+          // If disabled, leave as normal heading
+          if(!enabled){
             el.setAttribute('data-marquee', 'off');
             return;
           }
+
+          const speedRaw = entry && Number.isFinite(entry.speed) ? entry.speed : legacySpeed;
+          const speed = clamp(speedRaw || legacySpeed, 6, 40);
+          el.style.setProperty('--heading-marquee-duration', `${speed}s`);
 
           // Avoid double-init
           if(el.dataset.marqueeInit === '1') return;
@@ -374,8 +415,8 @@
           // Accessibility: keep label, hide moving text from screen readers
           el.setAttribute('aria-label', text);
 
-          // Build repeating track (duplicate enough so -50% loop works)
-          const repeat = 6; // visually safe for most widths
+          // Build repeating track
+          const repeat = 6;
           const chunks = [];
           for(let i=0;i<repeat;i++){
             chunks.push(`<span class="marquee-item">${text}</span>`);
@@ -390,23 +431,22 @@
             </span>
           `;
 
-          el.classList.add('is-marquee-on');
+          // Only animate if it's actually needed
+          if(measureNeedsMarquee(el)){
+            el.classList.add('is-marquee-on');
+          } else {
+            el.setAttribute('data-marquee', 'off');
+            // Restore plain text look if not needed
+            el.textContent = text;
+          }
         });
       }
 
       document.addEventListener('DOMContentLoaded', () => {
-        // 1) Try to read admin config
         fetch('/data/home.json', { cache: 'no-store' })
-          .then(r => r.ok ? r.json() : null)
-          .then(cfg => {
-            applyVarsFromHomeJson(cfg || {});
-            initMarqueeHeadings();
-          })
-          .catch(() => {
-            // 2) Fallback: defaults
-            applyVarsFromHomeJson({});
-            initMarqueeHeadings();
-          });
+          .then(r => r.ok ? r.json() : {})
+          .then(cfg => initMarqueeHeadings(cfg))
+          .catch(() => initMarqueeHeadings({}));
       });
     })();
   </script>
