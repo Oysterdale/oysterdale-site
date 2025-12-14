@@ -77,7 +77,7 @@
   <!-- HERO slideshow -->
   <script src="js/hero.js" defer></script>
 
-  <!-- Inline tweaks -->
+  <!-- Inline tweaks + marquee headings -->
   <style>
     .skeleton {
       background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);
@@ -89,6 +89,7 @@
       0%{background-position:100% 0}
       100%{background-position:-100% 0}
     }
+
     .latest-wrap h2, #spotify-section h2 { text-align:left; }
     .latest-wrap, #spotify-section {
       content-visibility:auto;
@@ -96,6 +97,60 @@
     }
     footer a { color:#fff; }
     footer a:hover { color:#bbb; }
+
+    /* ===================================================== */
+    /* MARQUEE / SCROLLING HEADINGS (apply via .scroll-title) */
+    /* Admin (home.json):
+       - heading_marquee_enabled: true/false
+       - heading_marquee_speed: number (seconds per loop)
+    */
+    /* ===================================================== */
+    :root{
+      --heading-marquee-enabled: 1;      /* 1 = on, 0 = off */
+      --heading-marquee-duration: 14s;   /* lower = faster */
+      --heading-marquee-gap: 3.5rem;     /* space between repeats */
+    }
+
+    .scroll-title{
+      position:relative;
+      overflow:hidden;
+      white-space:nowrap;
+      letter-spacing:.02em;
+    }
+
+    .scroll-title[data-marquee="off"]{
+      overflow:visible;
+      white-space:normal;
+    }
+
+    .scroll-title .marquee-clip{
+      display:block;
+      overflow:hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+              mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+    }
+
+    .scroll-title .marquee-track{
+      display:inline-flex;
+      align-items:baseline;
+      gap:var(--heading-marquee-gap);
+      will-change:transform;
+      transform:translate3d(0,0,0);
+    }
+
+    .scroll-title.is-marquee-on .marquee-track{
+      animation: marqueeMove var(--heading-marquee-duration) linear infinite;
+    }
+
+    @keyframes marqueeMove{
+      0%   { transform:translate3d(0,0,0); }
+      100% { transform:translate3d(-50%,0,0); }
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .scroll-title.is-marquee-on .marquee-track{ animation:none; }
+    }
   </style>
 
 </head>
@@ -177,7 +232,8 @@
 
     <!-- LATEST RELEASE -->
     <section class="latest-wrap">
-      <h2>LATEST RELEASE</h2>
+      <!-- Add .scroll-title to make it scroll -->
+      <h2 class="scroll-title" data-marquee="auto">LATEST RELEASE</h2>
       <div id="latest-release">
         <div class="skeleton" style="height:300px;border-radius:10px;"></div>
       </div>
@@ -185,7 +241,7 @@
 
     <!-- PLAYLISTS -->
     <section id="spotify-section" style="display:none;">
-      <h2>PLAYLISTS</h2>
+      <h2 class="scroll-title" data-marquee="auto">PLAYLISTS</h2>
       <div class="spotify-grid" id="spotify-grid"></div>
     </section>
 
@@ -267,6 +323,91 @@
         .catch(() => {
           logoEl.src = cdn(fallback, 520);
         });
+    })();
+  </script>
+
+  <!-- Heading marquee: reads /data/home.json + transforms any .scroll-title -->
+  <script>
+    (function(){
+      function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
+
+      function applyVarsFromHomeJson(cfg){
+        // Defaults
+        let enabled = true;
+        let speed = 14; // seconds per loop
+
+        if(cfg && typeof cfg.heading_marquee_enabled === 'boolean') enabled = cfg.heading_marquee_enabled;
+        if(cfg && (typeof cfg.heading_marquee_speed === 'number' || typeof cfg.heading_marquee_speed === 'string')){
+          const v = parseFloat(cfg.heading_marquee_speed);
+          if(!Number.isNaN(v)) speed = v;
+        }
+
+        // sane limits
+        speed = clamp(speed, 6, 40);
+
+        document.documentElement.style.setProperty('--heading-marquee-enabled', enabled ? '1' : '0');
+        document.documentElement.style.setProperty('--heading-marquee-duration', `${speed}s`);
+      }
+
+      function initMarqueeHeadings(){
+        const globalEnabled = getComputedStyle(document.documentElement)
+          .getPropertyValue('--heading-marquee-enabled')
+          .trim() !== '0';
+
+        document.querySelectorAll('.scroll-title').forEach(el => {
+          const mode = (el.getAttribute('data-marquee') || 'auto').toLowerCase();
+          if(mode === 'off') return;
+
+          const text = (el.textContent || '').trim();
+          if(!text) return;
+
+          // If global off, leave as normal text
+          if(!globalEnabled){
+            el.setAttribute('data-marquee', 'off');
+            return;
+          }
+
+          // Avoid double-init
+          if(el.dataset.marqueeInit === '1') return;
+          el.dataset.marqueeInit = '1';
+
+          // Accessibility: keep label, hide moving text from screen readers
+          el.setAttribute('aria-label', text);
+
+          // Build repeating track (duplicate enough so -50% loop works)
+          const repeat = 6; // visually safe for most widths
+          const chunks = [];
+          for(let i=0;i<repeat;i++){
+            chunks.push(`<span class="marquee-item">${text}</span>`);
+          }
+
+          el.innerHTML = `
+            <span class="marquee-clip" aria-hidden="true">
+              <span class="marquee-track">
+                ${chunks.join(`<span class="marquee-sep" aria-hidden="true"></span>`)}
+                ${chunks.join(`<span class="marquee-sep" aria-hidden="true"></span>`)}
+              </span>
+            </span>
+          `;
+
+          el.classList.add('is-marquee-on');
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        // 1) Try to read admin config
+        fetch('/data/home.json', { cache: 'no-store' })
+          .then(r => r.ok ? r.json() : null)
+          .then(cfg => {
+            applyVarsFromHomeJson(cfg || {});
+            initMarqueeHeadings();
+          })
+          .catch(() => {
+            // 2) Fallback: defaults
+            applyVarsFromHomeJson({});
+            initMarqueeHeadings();
+          });
+      });
     })();
   </script>
 
