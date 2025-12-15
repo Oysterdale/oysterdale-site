@@ -77,10 +77,10 @@
   <!-- HERO slideshow -->
   <script src="js/hero.js" defer></script>
 
-  <!-- NEW: headings (admin-controlled) -->
+  <!-- headings (admin-controlled) -->
   <script src="/js/headings.js" defer></script>
 
-  <!-- Inline tweaks + NEW headings styling -->
+  <!-- Inline tweaks + heading marquee + extras -->
   <style>
     .skeleton {
       background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);
@@ -102,107 +102,91 @@
     footer a:hover { color:#bbb; }
 
     /* ===================================================== */
-    /* NEW: HOME HEADINGS (admin-controlled)                 */
-    /* Render target: [data-home-headings]                   */
+    /* SCROLLING HEADINGS (optional per heading via admin)    */
+    /* Apply to: h2.scroll-title (with id)                    */
+    /* Extras under heading: [data-heading-extra="..."]       */
     /* ===================================================== */
 
-    .home-headings { margin: 18px 0 10px; }
-
-    .home-headings-outer{
-      position: relative;
-      overflow: hidden;
-      border-radius: 12px;
+    :root{
+      --heading-marquee-gap: 3.5rem;
     }
 
-    /* speed variable set by JS: --marquee-seconds */
-    .home-headings-outer{ --marquee-seconds: 14s; }
-
-    .home-headings-inner{
-      display: flex;
-      width: max-content;
-      will-change: transform;
-      transform: translate3d(0,0,0);
+    .scroll-title{
+      position:relative;
+      overflow:hidden;
+      white-space:nowrap;
+      letter-spacing:.02em;
     }
 
-    .home-headings-content{
-      display: inline-flex;
-      gap: 18px;
-      padding: 10px 0;
-      align-items: center;
+    .scroll-title[data-marquee="off"]{
+      overflow:visible;
+      white-space:normal;
     }
 
-    .home-heading-row{
-      display: inline-flex;
-      gap: 12px;
-      align-items: center;
-      white-space: nowrap;
-      padding-right: 26px;
-      border-right: 1px solid rgba(255,255,255,.12);
+    .scroll-title .marquee-clip{
+      display:block;
+      overflow:hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+              mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
     }
 
-    .home-heading-row:last-child{
-      border-right: none;
-      padding-right: 0;
+    .scroll-title .marquee-track{
+      display:inline-flex;
+      align-items:baseline;
+      gap:var(--heading-marquee-gap);
+      will-change:transform;
+      transform:translate3d(0,0,0);
     }
 
-    .home-heading-text{
-      font-weight: 800;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      font-size: 18px;
-      line-height: 1.1;
+    .scroll-title{ --heading-marquee-duration: 14s; }
+
+    .scroll-title.is-marquee-on .marquee-track{
+      animation: marqueeMove var(--heading-marquee-duration) linear infinite;
     }
 
-    .home-heading-btn{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+    @keyframes marqueeMove{
+      0%   { transform:translate3d(0,0,0); }
+      100% { transform:translate3d(-50%,0,0); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .scroll-title.is-marquee-on .marquee-track{ animation:none; }
+    }
+
+    /* Extras under each heading (button + image) */
+    .heading-extra{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin: 10px 0 16px;
+      flex-wrap: wrap;
+    }
+
+    .heading-extra-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       padding: 9px 14px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.22);
-      text-decoration: none;
-      color: #fff;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: .02em;
+      text-decoration:none;
+      color:#fff;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:.02em;
       transition: transform .12s ease, border-color .12s ease;
     }
-    .home-heading-btn:hover{
+    .heading-extra-btn:hover{
       transform: translateY(-1px);
       border-color: rgba(255,255,255,.5);
     }
 
-    /* marquee animation */
-    .home-headings-outer.is-marquee .home-headings-inner{
-      animation: homeHeadingsMarquee var(--marquee-seconds) linear infinite;
-    }
-
-    @keyframes homeHeadingsMarquee{
-      0%   { transform: translate3d(0,0,0); }
-      100% { transform: translate3d(-50%,0,0); }
-    }
-
-    /* static mode */
-    .home-headings-outer.is-static{
-      overflow: visible;
-    }
-    .home-headings-outer.is-static .home-headings-inner{
-      width: 100%;
-      flex-wrap: wrap;
-    }
-    .home-headings-outer.is-static .home-headings-content{
-      flex-wrap: wrap;
-      white-space: normal;
-      row-gap: 10px;
-    }
-    .home-headings-outer.is-static .home-heading-row{
-      white-space: normal;
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      .home-headings-outer.is-marquee .home-headings-inner{
-        animation: none;
-      }
+    .heading-extra-img{
+      height: 38px;
+      width: auto;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
     }
   </style>
 
@@ -276,11 +260,6 @@
 
   <main class="page-content">
 
-    <!-- NEW: Admin-controlled headings row -->
-    <section class="home-headings" aria-label="Highlights">
-      <div data-home-headings></div>
-    </section>
-
     <!-- MOBILE intro under hero (CSS toggler dette) -->
     <section id="home-content" class="home-intro" aria-label="Intro">
       <div class="skeleton" style="height:18px;width:55%;margin:10px 0;"></div>
@@ -290,7 +269,9 @@
 
     <!-- LATEST RELEASE -->
     <section class="latest-wrap">
-      <h2>LATEST RELEASE</h2>
+      <h2 id="heading-latest-release" class="scroll-title">LATEST RELEASE</h2>
+      <div class="heading-extra" data-heading-extra="heading-latest-release"></div>
+
       <div id="latest-release">
         <div class="skeleton" style="height:300px;border-radius:10px;"></div>
       </div>
@@ -298,7 +279,9 @@
 
     <!-- PLAYLISTS -->
     <section id="spotify-section" style="display:none;">
-      <h2>PLAYLISTS</h2>
+      <h2 id="heading-playlists" class="scroll-title">PLAYLISTS</h2>
+      <div class="heading-extra" data-heading-extra="heading-playlists"></div>
+
       <div class="spotify-grid" id="spotify-grid"></div>
     </section>
 
