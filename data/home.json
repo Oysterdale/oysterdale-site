@@ -9,18 +9,24 @@
   ],
   "hero_interval_seconds": 8,
   "hero_fade_ms": 1000,
+
   "heading_marquee_enabled": true,
   "heading_marquee_speed": 40,
-  "heading_marquees": [
+
+  "heading_items": [
     {
-      "id": "heading-latest-release",
-      "enabled": true,
-      "speed": 22
+      "text": "Latest Release",
+      "button_enabled": true,
+      "button_label": "Listen",
+      "button_href": "/releases.html",
+      "button_new_tab": false
     },
     {
-      "id": "heading-playlists",
-      "enabled": true,
-      "speed": 22
+      "text": "Spotify Playlists",
+      "button_enabled": true,
+      "button_label": "Open",
+      "button_href": "/",
+      "button_new_tab": false
     }
   ]
 }
