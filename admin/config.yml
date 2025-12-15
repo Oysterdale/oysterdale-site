@@ -374,6 +374,9 @@ collections:
         name: "home_settings"
         format: "json"
         fields:
+          # -------------------------
+          # Hero images
+          # -------------------------
           - label: "Forsidebilder (Home)"
             name: "hero_images"
             widget: "list"
@@ -408,7 +411,27 @@ collections:
             hint: "Hvor myk overgangen er mellom bildene."
 
           # -------------------------
-          # NEW: Heading marquee settings
+          # Overskrifter + knapper (EDITERBART I ADMIN)
+          # -------------------------
+          - label: "Overskrifter (legg til flere)"
+            name: "heading_items"
+            widget: "list"
+            required: false
+            collapsed: false
+            summary: "{{fields.text}}"
+            fields:
+              - { label: "Tekst", name: "text", widget: "string", required: true }
+              - { label: "Vis knapp?", name: "button_enabled", widget: "boolean", required: false, default: false }
+              - { label: "Knappetekst", name: "button_label", widget: "string", required: false, default: "" }
+              - { label: "Knappelenke (URL)", name: "button_href", widget: "string", required: false, default: "" }
+              - label: "Knapp åpnes i ny fane?"
+                name: "button_new_tab"
+                widget: "boolean"
+                required: false
+                default: false
+
+          # -------------------------
+          # Heading marquee settings
           # -------------------------
           - label: "Overskrifter: scroll-animasjon"
             name: "heading_marquee_enabled"
@@ -422,7 +445,7 @@ collections:
             widget: "number"
             value_type: "int"
             min: 6
-            max: 40
+            max: 60
             default: 14
             required: false
             hint: "Lavere tall = raskere. Høyere tall = tregere."
