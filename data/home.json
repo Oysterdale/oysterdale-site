@@ -1,26 +1,25 @@
 {
   "hero_images": [
-    { "image": "/uploads/Skjermbilde 2025-12-13 kl. 17.48.04.png" },
-    { "image": "/uploads/Roverstaden.Nov.14.jpg" }
+    {
+      "image": "/uploads/Skjermbilde 2025-12-13 kl. 17.48.04.png"
+    },
+    {
+      "image": "/uploads/Roverstaden.Nov.14.jpg"
+    }
   ],
   "hero_interval_seconds": 8,
   "hero_fade_ms": 1000,
-
-  "heading_marquee_enabled": true,
-  "heading_marquee_speed": 40,
-
   "headings": [
     {
       "id": "heading-latest-release",
       "text": "Latest Release",
+      "button": null,
       "marquee_enabled": false,
       "marquee_speed": 22,
-
       "button_enabled": true,
       "button_label": "Listen",
       "button_href": "/releases.html",
       "button_new_tab": false,
-
       "image_enabled": false,
       "image_src": "",
       "image_alt": "",
@@ -32,17 +31,17 @@
       "text": "Spotify Playlists",
       "marquee_enabled": false,
       "marquee_speed": 22,
-
       "button_enabled": true,
       "button_label": "Open",
       "button_href": "https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am",
       "button_new_tab": true,
-
       "image_enabled": false,
       "image_src": "",
       "image_alt": "",
       "image_href": "",
       "image_new_tab": false
     }
-  ]
+  ],
+  "heading_marquee_enabled": true,
+  "heading_marquee_speed": 40
 }
