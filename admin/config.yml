@@ -411,44 +411,69 @@ collections:
             hint: "Hvor myk overgangen er mellom bildene."
 
           # -------------------------
-          # Overskrifter + knapper (EDITERBART I ADMIN)
+          # Headings (per plassering på siden)
           # -------------------------
-          - label: "Overskrifter (legg til flere)"
-            name: "heading_items"
+          - label: "Headings (per plassering på siden)"
+            name: "headings"
             widget: "list"
             required: false
             collapsed: false
-            summary: "{{fields.text}}"
+            summary: "{{fields.id}} — {{fields.text}}"
+            hint: "ID må matche overskriften sin id i HTML (f.eks. heading-latest-release)."
             fields:
+              - label: "Heading ID (må matche HTML)"
+                name: "id"
+                widget: "select"
+                required: true
+                options:
+                  - { label: "Latest Release", value: "heading-latest-release" }
+                  - { label: "Playlists", value: "heading-playlists" }
+
               - { label: "Tekst", name: "text", widget: "string", required: true }
-              - { label: "Vis knapp?", name: "button_enabled", widget: "boolean", required: false, default: false }
-              - { label: "Knappetekst", name: "button_label", widget: "string", required: false, default: "" }
-              - { label: "Knappelenke (URL)", name: "button_href", widget: "string", required: false, default: "" }
-              - label: "Knapp åpnes i ny fane?"
-                name: "button_new_tab"
-                widget: "boolean"
+
+              - label: "Marquee / scrolling"
+                name: "marquee"
+                widget: "object"
+                collapsed: false
                 required: false
-                default: false
+                fields:
+                  - { label: "Enable marquee?", name: "enabled", widget: "boolean", required: false, default: false }
+                  - label: "Speed (seconds per loop)"
+                    name: "speed"
+                    widget: "number"
+                    value_type: "int"
+                    min: 6
+                    max: 60
+                    default: 22
+                    required: false
+                    hint: "Lavere tall = raskere."
 
-          # -------------------------
-          # Heading marquee settings
-          # -------------------------
-          - label: "Overskrifter: scroll-animasjon"
-            name: "heading_marquee_enabled"
-            widget: "boolean"
-            required: false
-            default: true
-            hint: "Skru av/på animasjon for overskrifter (marquee)."
+              - label: "Button under heading"
+                name: "button"
+                widget: "object"
+                collapsed: true
+                required: false
+                fields:
+                  - { label: "Show button?", name: "enabled", widget: "boolean", required: false, default: false }
+                  - { label: "Label", name: "label", widget: "string", required: false, default: "" }
+                  - { label: "Href", name: "href", widget: "string", required: false, default: "" }
+                  - { label: "Open in new tab?", name: "new_tab", widget: "boolean", required: false, default: false }
 
-          - label: "Overskrifter: hastighet (sekunder per loop)"
-            name: "heading_marquee_speed"
-            widget: "number"
-            value_type: "int"
-            min: 6
-            max: 60
-            default: 14
-            required: false
-            hint: "Lavere tall = raskere. Høyere tall = tregere."
+              - label: "Image under heading"
+                name: "image"
+                widget: "object"
+                collapsed: true
+                required: false
+                fields:
+                  - { label: "Show image?", name: "enabled", widget: "boolean", required: false, default: false }
+                  - label: "Image file"
+                    name: "src"
+                    widget: "image"
+                    required: false
+                    choose_url: true
+                  - { label: "Alt text", name: "alt", widget: "string", required: false, default: "" }
+                  - { label: "Link image to (optional)", name: "href", widget: "string", required: false, default: "" }
+                  - { label: "Open link in new tab?", name: "new_tab", widget: "boolean", required: false, default: false }
 
       - file: "content/settings/footer.json"
         label: "Footer"
