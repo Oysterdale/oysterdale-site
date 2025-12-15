@@ -77,7 +77,10 @@
   <!-- HERO slideshow -->
   <script src="js/hero.js" defer></script>
 
-  <!-- Inline tweaks + marquee headings -->
+  <!-- NEW: headings (admin-controlled) -->
+  <script src="/headings.js" defer></script>
+
+  <!-- Inline tweaks + NEW headings styling -->
   <style>
     .skeleton {
       background:linear-gradient(90deg,#111 25%,#1a1a1a 37%,#111 63%);
@@ -99,71 +102,107 @@
     footer a:hover { color:#bbb; }
 
     /* ===================================================== */
-    /* MARQUEE / SCROLLING HEADINGS (apply via .scroll-title) */
-    /*
-      Per-heading config (in /data/home.json):
-
-      {
-        "heading_marquees": [
-          { "id": "heading-latest-release", "enabled": true,  "speed": 12 },
-          { "id": "heading-playlists",      "enabled": false, "speed": 14 }
-        ],
-
-        // Optional defaults (used if a heading isn't listed):
-        "heading_marquee_enabled": true,
-        "heading_marquee_speed": 14
-      }
-
-      In HTML: add class="scroll-title" + an id (recommended).
-      Example:
-        <h2 id="heading-latest-release" class="scroll-title">LATEST RELEASE</h2>
-    */
+    /* NEW: HOME HEADINGS (admin-controlled)                 */
+    /* Render target: [data-home-headings]                   */
     /* ===================================================== */
-    :root{
-      --heading-marquee-gap: 3.5rem;     /* space between repeats */
+
+    .home-headings { margin: 18px 0 10px; }
+
+    .home-headings-outer{
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
     }
 
-    .scroll-title{
-      position:relative;
-      overflow:hidden;
-      white-space:nowrap;
-      letter-spacing:.02em;
+    /* speed variable set by JS: --marquee-seconds */
+    .home-headings-outer{ --marquee-seconds: 14s; }
+
+    .home-headings-inner{
+      display: flex;
+      width: max-content;
+      will-change: transform;
+      transform: translate3d(0,0,0);
     }
 
-    .scroll-title[data-marquee="off"]{
-      overflow:visible;
-      white-space:normal;
+    .home-headings-content{
+      display: inline-flex;
+      gap: 18px;
+      padding: 10px 0;
+      align-items: center;
     }
 
-    .scroll-title .marquee-clip{
-      display:block;
-      overflow:hidden;
-      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
-              mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+    .home-heading-row{
+      display: inline-flex;
+      gap: 12px;
+      align-items: center;
+      white-space: nowrap;
+      padding-right: 26px;
+      border-right: 1px solid rgba(255,255,255,.12);
     }
 
-    .scroll-title .marquee-track{
-      display:inline-flex;
-      align-items:baseline;
-      gap:var(--heading-marquee-gap);
-      will-change:transform;
-      transform:translate3d(0,0,0);
+    .home-heading-row:last-child{
+      border-right: none;
+      padding-right: 0;
     }
 
-    /* default duration if JS hasn't set per-heading var yet */
-    .scroll-title{ --heading-marquee-duration: 14s; }
-
-    .scroll-title.is-marquee-on .marquee-track{
-      animation: marqueeMove var(--heading-marquee-duration) linear infinite;
+    .home-heading-text{
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      font-size: 18px;
+      line-height: 1.1;
     }
 
-    @keyframes marqueeMove{
-      0%   { transform:translate3d(0,0,0); }
-      100% { transform:translate3d(-50%,0,0); }
+    .home-heading-btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.22);
+      text-decoration: none;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      transition: transform .12s ease, border-color .12s ease;
+    }
+    .home-heading-btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.5);
+    }
+
+    /* marquee animation */
+    .home-headings-outer.is-marquee .home-headings-inner{
+      animation: homeHeadingsMarquee var(--marquee-seconds) linear infinite;
+    }
+
+    @keyframes homeHeadingsMarquee{
+      0%   { transform: translate3d(0,0,0); }
+      100% { transform: translate3d(-50%,0,0); }
+    }
+
+    /* static mode */
+    .home-headings-outer.is-static{
+      overflow: visible;
+    }
+    .home-headings-outer.is-static .home-headings-inner{
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    .home-headings-outer.is-static .home-headings-content{
+      flex-wrap: wrap;
+      white-space: normal;
+      row-gap: 10px;
+    }
+    .home-headings-outer.is-static .home-heading-row{
+      white-space: normal;
     }
 
     @media (prefers-reduced-motion: reduce){
-      .scroll-title.is-marquee-on .marquee-track{ animation:none; }
+      .home-headings-outer.is-marquee .home-headings-inner{
+        animation: none;
+      }
     }
   </style>
 
@@ -237,6 +276,11 @@
 
   <main class="page-content">
 
+    <!-- NEW: Admin-controlled headings row -->
+    <section class="home-headings" aria-label="Highlights">
+      <div data-home-headings></div>
+    </section>
+
     <!-- MOBILE intro under hero (CSS toggler dette) -->
     <section id="home-content" class="home-intro" aria-label="Intro">
       <div class="skeleton" style="height:18px;width:55%;margin:10px 0;"></div>
@@ -246,7 +290,7 @@
 
     <!-- LATEST RELEASE -->
     <section class="latest-wrap">
-      <h2 id="heading-latest-release" class="scroll-title">LATEST RELEASE</h2>
+      <h2>LATEST RELEASE</h2>
       <div id="latest-release">
         <div class="skeleton" style="height:300px;border-radius:10px;"></div>
       </div>
@@ -254,7 +298,7 @@
 
     <!-- PLAYLISTS -->
     <section id="spotify-section" style="display:none;">
-      <h2 id="heading-playlists" class="scroll-title">PLAYLISTS</h2>
+      <h2>PLAYLISTS</h2>
       <div class="spotify-grid" id="spotify-grid"></div>
     </section>
 
@@ -336,118 +380,6 @@
         .catch(() => {
           logoEl.src = cdn(fallback, 520);
         });
-    })();
-  </script>
-
-  <!-- Heading marquee: per-heading settings from /data/home.json -->
-  <script>
-    (function(){
-      function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
-
-      function normalizeId(v){
-        return String(v || "").trim();
-      }
-
-      function buildConfigMap(cfg){
-        const map = new Map();
-
-        // New structure (recommended)
-        const items = Array.isArray(cfg?.heading_marquees) ? cfg.heading_marquees : [];
-        items.forEach(it => {
-          const id = normalizeId(it?.id);
-          if(!id) return;
-          map.set(id, {
-            enabled: (typeof it.enabled === 'boolean') ? it.enabled : true,
-            speed: (it.speed != null && it.speed !== '') ? Number(it.speed) : null
-          });
-        });
-
-        // Legacy defaults (fallback)
-        const legacyEnabled = (typeof cfg?.heading_marquee_enabled === 'boolean') ? cfg.heading_marquee_enabled : true;
-        const legacySpeedRaw = (cfg?.heading_marquee_speed != null) ? Number(cfg.heading_marquee_speed) : 14;
-        const legacySpeed = Number.isFinite(legacySpeedRaw) ? clamp(legacySpeedRaw, 6, 40) : 14;
-
-        return { map, legacyEnabled, legacySpeed };
-      }
-
-      function measureNeedsMarquee(el){
-        const clip = el.querySelector('.marquee-clip');
-        const track = el.querySelector('.marquee-track');
-        if(!clip || !track) return false;
-        // if track isn't wider than clip => no need to animate
-        return track.scrollWidth > (clip.clientWidth * 1.05);
-      }
-
-      function initMarqueeHeadings(cfg){
-        const { map, legacyEnabled, legacySpeed } = buildConfigMap(cfg || {});
-
-        document.querySelectorAll('.scroll-title').forEach(el => {
-          // Allow manual HTML override:
-          // data-marquee="off" => never animate
-          const manual = (el.getAttribute('data-marquee') || '').toLowerCase();
-          if(manual === 'off') return;
-
-          const key = normalizeId(el.getAttribute('data-heading-id') || el.id);
-          const text = (el.textContent || '').trim();
-          if(!text) return;
-
-          // Resolve config for this heading
-          const entry = key ? map.get(key) : null;
-
-          const enabled = entry
-            ? !!entry.enabled
-            : legacyEnabled; // default if not configured
-
-          // If disabled, leave as normal heading
-          if(!enabled){
-            el.setAttribute('data-marquee', 'off');
-            return;
-          }
-
-          const speedRaw = entry && Number.isFinite(entry.speed) ? entry.speed : legacySpeed;
-          const speed = clamp(speedRaw || legacySpeed, 6, 40);
-          el.style.setProperty('--heading-marquee-duration', `${speed}s`);
-
-          // Avoid double-init
-          if(el.dataset.marqueeInit === '1') return;
-          el.dataset.marqueeInit = '1';
-
-          // Accessibility: keep label, hide moving text from screen readers
-          el.setAttribute('aria-label', text);
-
-          // Build repeating track
-          const repeat = 6;
-          const chunks = [];
-          for(let i=0;i<repeat;i++){
-            chunks.push(`<span class="marquee-item">${text}</span>`);
-          }
-
-          el.innerHTML = `
-            <span class="marquee-clip" aria-hidden="true">
-              <span class="marquee-track">
-                ${chunks.join(`<span class="marquee-sep" aria-hidden="true"></span>`)}
-                ${chunks.join(`<span class="marquee-sep" aria-hidden="true"></span>`)}
-              </span>
-            </span>
-          `;
-
-          // Only animate if it's actually needed
-          if(measureNeedsMarquee(el)){
-            el.classList.add('is-marquee-on');
-          } else {
-            el.setAttribute('data-marquee', 'off');
-            // Restore plain text look if not needed
-            el.textContent = text;
-          }
-        });
-      }
-
-      document.addEventListener('DOMContentLoaded', () => {
-        fetch('/data/home.json', { cache: 'no-store' })
-          .then(r => r.ok ? r.json() : {})
-          .then(cfg => initMarqueeHeadings(cfg))
-          .catch(() => initMarqueeHeadings({}));
-      });
     })();
   </script>
 
