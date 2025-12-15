@@ -1,109 +1,168 @@
 (function () {
-  // Finn alle seksjoner som kan få “home headings”
-  // Du kan bruke én eller flere på samme side.
-  // 1) Legg inn <div class="home-headings" data-home-headings></div> der du vil ha dem
-  // 2) Hvis du vil styre per-seksjon: data-heading-id="latest-release" osv (valgfritt)
-
+  function clamp(n, min, max) {
+    return Math.max(min, Math.min(max, n));
+  }
   function toInt(v, fallback) {
     const n = parseInt(v, 10);
     return Number.isFinite(n) ? n : fallback;
   }
-
-  function safeStr(v) {
+  function str(v) {
     return String(v ?? "").trim();
   }
 
-  function setMarqueeSpeedSeconds(container, secondsPerLoop) {
-    const s = Math.max(6, toInt(secondsPerLoop, 14));
-    container.style.setProperty("--marquee-seconds", `${s}s`);
+  // Bygger marquee inni en <h2 class="scroll-title">
+  function applyMarquee(el, text, enabled, speedSeconds) {
+    // Hvis disabled: plain tekst
+    if (!enabled) {
+      el.classList.remove("is-marquee-on");
+      el.setAttribute("data-marquee", "off");
+      el.textContent = text;
+      return;
+    }
+
+    const speed = clamp(toInt(speedSeconds, 14), 6, 60);
+    el.style.setProperty("--heading-marquee-duration", `${speed}s`);
+
+    // Ikke init 2 ganger
+    if (el.dataset.marqueeInit === "1" && el.dataset.marqueeText === text) {
+      // Oppdater bare speed
+      el.classList.add("is-marquee-on");
+      el.removeAttribute("data-marquee");
+      return;
+    }
+
+    el.dataset.marqueeInit = "1";
+    el.dataset.marqueeText = text;
+
+    // Accessibility
+    el.setAttribute("aria-label", text);
+
+    // Bygg track
+    const repeat = 10;
+    const items = Array.from({ length: repeat }, () => `<span class="marquee-item">${text}</span>`).join(
+      `<span class="marquee-sep" aria-hidden="true"></span>`
+    );
+
+    el.innerHTML = `
+      <span class="marquee-clip" aria-hidden="true">
+        <span class="marquee-track">
+          ${items}
+          ${items}
+        </span>
+      </span>
+    `;
+
+    // Animate
+    el.classList.add("is-marquee-on");
+    el.removeAttribute("data-marquee");
   }
 
-  function buildItem(item) {
-    const text = safeStr(item?.text);
-    if (!text) return null;
+  // Renderer ekstra innhold under heading (knapp + bilde)
+  function renderExtras(id, cfg) {
+    const target = document.querySelector(`[data-heading-extra="${id}"]`);
+    if (!target) return;
 
-    const row = document.createElement("div");
-    row.className = "home-heading-row";
+    target.innerHTML = "";
 
-    const h = document.createElement("div");
-    h.className = "home-heading-text";
-    h.textContent = text;
+    const buttonEnabled = !!cfg?.button_enabled;
+    const buttonLabel = str(cfg?.button_label);
+    const buttonHref = str(cfg?.button_href);
+    const buttonNewTab = !!cfg?.button_new_tab;
 
-    row.appendChild(h);
+    const imageSrc = str(cfg?.image_src);
+    const imageAlt = str(cfg?.image_alt) || "";
+    const imageHref = str(cfg?.image_href);
 
-    const btnEnabled = !!item?.button_enabled;
-    const btnLabel = safeStr(item?.button_label);
-    const btnHref = safeStr(item?.button_href);
-
-    if (btnEnabled && btnLabel && btnHref) {
+    // Knapp
+    if (buttonEnabled && buttonLabel && buttonHref) {
       const a = document.createElement("a");
-      a.className = "home-heading-btn";
-      a.textContent = btnLabel;
-      a.href = btnHref;
-
-      const newTab = !!item?.button_new_tab;
-      if (newTab) {
+      a.className = "heading-extra-btn";
+      a.textContent = buttonLabel;
+      a.href = buttonHref;
+      if (buttonNewTab) {
         a.target = "_blank";
         a.rel = "noopener noreferrer";
       }
-
-      row.appendChild(a);
+      target.appendChild(a);
     }
 
-    return row;
+    // Bilde (valgfritt)
+    if (imageSrc) {
+      const img = document.createElement("img");
+      img.className = "heading-extra-img";
+      img.src = imageSrc;
+      img.alt = imageAlt;
+      img.loading = "lazy";
+      img.decoding = "async";
+
+      if (imageHref) {
+        const link = document.createElement("a");
+        link.href = imageHref;
+        link.appendChild(img);
+        target.appendChild(link);
+      } else {
+        target.appendChild(img);
+      }
+    }
+
+    // Hvis ingenting ble rendret, la container være tom
   }
 
-  function renderInto(container, cfg) {
-    const items = Array.isArray(cfg?.heading_items) ? cfg.heading_items : [];
-    container.innerHTML = "";
+  function getHeadingConfigMap(homeCfg) {
+    const map = new Map();
 
-    // ingenting å vise
-    if (!items.length) return;
-
-    // wrapper: brukes til marquee (scroll)
-    const outer = document.createElement("div");
-    outer.className = "home-headings-outer";
-
-    const inner = document.createElement("div");
-    inner.className = "home-headings-inner";
-
-    // Lag “content”-blokk
-    const content = document.createElement("div");
-    content.className = "home-headings-content";
-
-    items.forEach((it) => {
-      const row = buildItem(it);
-      if (row) content.appendChild(row);
+    // NY struktur: homeCfg.headings[]
+    const headings = Array.isArray(homeCfg?.headings) ? homeCfg.headings : [];
+    headings.forEach((h) => {
+      const id = str(h?.id);
+      if (!id) return;
+      map.set(id, h);
     });
 
-    inner.appendChild(content);
+    // Defaults
+    const defaultEnabled =
+      typeof homeCfg?.heading_marquee_enabled === "boolean" ? homeCfg.heading_marquee_enabled : true;
 
-    const enabled = cfg?.heading_marquee_enabled !== false;
+    const defaultSpeed = clamp(toInt(homeCfg?.heading_marquee_speed, 14), 6, 60);
 
-    if (enabled) {
-      // Dupliser content for sømløs loop
-      const clone = content.cloneNode(true);
-      clone.setAttribute("aria-hidden", "true");
-      inner.appendChild(clone);
+    return { map, defaultEnabled, defaultSpeed };
+  }
 
-      outer.classList.add("is-marquee");
-      setMarqueeSpeedSeconds(outer, cfg?.heading_marquee_speed);
-    } else {
-      outer.classList.add("is-static");
-    }
+  function init(homeCfg) {
+    const { map, defaultEnabled, defaultSpeed } = getHeadingConfigMap(homeCfg || {});
 
-    outer.appendChild(inner);
-    container.appendChild(outer);
+    // Finn alle headings i DOM
+    const headings = document.querySelectorAll(".scroll-title");
+    if (!headings.length) return;
+
+    headings.forEach((el) => {
+      // ID bestemmes av id-attributt på h2
+      const id = str(el.id);
+      if (!id) return;
+
+      const cfg = map.get(id) || {};
+      const text = str(cfg?.text) || str(el.textContent) || "";
+
+      // Per-heading overrides
+      const enabled =
+        typeof cfg?.marquee_enabled === "boolean" ? cfg.marquee_enabled : defaultEnabled;
+
+      const speed =
+        cfg?.marquee_speed != null && cfg?.marquee_speed !== ""
+          ? cfg.marquee_speed
+          : defaultSpeed;
+
+      // Oppdater tekst + marquee
+      applyMarquee(el, text, enabled, speed);
+
+      // Extras under heading
+      renderExtras(id, cfg);
+    });
   }
 
   // Kjør
-  const targets = document.querySelectorAll("[data-home-headings]");
-  if (!targets.length) return;
-
   fetch("/data/home.json", { cache: "no-store" })
     .then((r) => (r.ok ? r.json() : {}))
-    .then((cfg) => {
-      targets.forEach((t) => renderInto(t, cfg));
-    })
-    .catch(() => {});
+    .then((cfg) => init(cfg))
+    .catch(() => init({}));
 })();
