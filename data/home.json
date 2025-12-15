@@ -13,6 +13,10 @@
     {
       "id": "heading-latest-release",
       "text": "Latest Release",
+      "marquee": {
+        "enabled": true,
+        "speed": 22
+      },
       "button": null,
       "marquee_enabled": false,
       "marquee_speed": 22,
