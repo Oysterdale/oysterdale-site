@@ -18,8 +18,8 @@
         "speed": 50
       },
       "button": {
-        "enabled": false,
-        "label": "",
+        "enabled": true,
+        "label": "test",
         "href": "",
         "new_tab": false
       },
