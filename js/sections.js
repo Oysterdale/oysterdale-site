@@ -1,42 +1,24 @@
 (function () {
   const HOME_JSON = "/data/home.json";
 
-  // GitHub releases-folder (for "Latest release")
-  const OWNER = "Oysterdale";
-  const REPO = "oysterdale-site";
-  const DIR = "releases";
-
   function clean(v) {
     return String(v ?? "").trim();
   }
 
   function escapeHtml(s) {
     return clean(s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
-
-  function cdn(url, w) {
-    const u = clean(url);
-    if (!u) return "";
-    return `/.netlify/images?url=${encodeURIComponent(u)}&w=${w}&fm=webp&q=80&fit=cover`;
-  }
-
-  function niceDate(iso) {
-    if (!iso) return "";
-    const d = new Date(iso);
-    return isNaN(d)
-      ? iso
-      : d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
   }
 
   function parseSpotifyInput(input) {
     if (!input) return { src: "", height: null };
     const s = String(input).trim();
 
+    // Accept full iframe code pasted in admin
     if (/<\s*iframe/i.test(s)) {
       const src =
         (s.match(/src\s*=\s*"(.*?)"/i) || s.match(/src\s*=\s*'(.*?)'/i))?.[1] || "";
@@ -46,7 +28,10 @@
       return { src, height };
     }
 
-    const re = /^https?:\/\/open\.spotify\.com\/(playlist|album|track|show|episode)\/([A-Za-z0-9]+)(\?.*)?$/;
+    // Convert common Spotify links to embed links
+    // playlist/album/track/show/episode supported
+    const re =
+      /^https?:\/\/open\.spotify\.com\/(playlist|album|track|show|episode)\/([A-Za-z0-9]+)(\?.*)?$/;
     const mm = s.match(re);
     if (mm) {
       return {
@@ -55,274 +40,213 @@
       };
     }
 
+    // Sometimes people paste "spotify:playlist:ID" (URI)
+    const uri = /^spotify:(playlist|album|track|show|episode):([A-Za-z0-9]+)$/i;
+    const um = s.match(uri);
+    if (um) {
+      return {
+        src: `https://open.spotify.com/embed/${um[1].toLowerCase()}/${um[2]}?utm_source=generator`,
+        height: null,
+      };
+    }
+
+    // If it's already an embed URL, keep it
+    if (/^https?:\/\/open\.spotify\.com\/embed\//i.test(s)) {
+      return { src: s, height: null };
+    }
+
+    // Unknown format -> treat as raw (may still work, but likely not)
     return { src: s, height: null };
   }
 
-  function parseFM(md) {
-    const m = md.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*/);
-    const data = {};
-    if (!m) return data;
-
-    const yaml = m[1].replace(/\t/g, " ");
-    const lines = yaml.split(/\r?\n/);
-    let key = null,
-      currentItem = null;
-
-    lines.forEach((line) => {
-      if (!line.trim()) return;
-
-      const top = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
-      if (top && !line.startsWith(" ")) {
-        key = top[1];
-        const val = top[2].trim();
-        data[key] = val === "" ? data[key] ?? null : val.replace(/^"(.*)"$/, "$1");
-        currentItem = null;
-        return;
-      }
-
-      const li = key && line.match(/^\s{2}-\s*(.*)$/);
-      if (li) {
-        if (!Array.isArray(data[key])) data[key] = [];
-        const rest = li[1];
-        const kv = rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
-        if (kv) {
-          currentItem = {};
-          currentItem[kv[1]] = kv[2].replace(/^"(.*)"$/, "$1");
-          data[key].push(currentItem);
-        } else {
-          data[key].push(rest.replace(/^"(.*)"$/, "$1"));
-          currentItem = null;
-        }
-        return;
-      }
-
-      const child = currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
-      if (child) {
-        currentItem[child[1]] = child[2].replace(/^"(.*)"$/, "$1");
-      }
-    });
-
-    return data;
-  }
-
-  function artistsToString(artists) {
-    if (Array.isArray(artists)) {
-      const names = artists
-        .map((a) => (typeof a === "string" ? a : (a && (a.artist || a.name)) || ""))
-        .filter(Boolean);
-      return names.join(" | ");
-    }
-    return clean(artists);
-  }
-
-  async function fetchLatestRelease() {
-    const list = await fetch(
-      `https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`,
-      { cache: "no-store" }
-    ).then((r) => r.json());
-
-    const files = Array.isArray(list) ? list.filter((f) => f.name.endsWith(".md")) : [];
-    const entries = await Promise.all(
-      files.map(async (f) => {
-        const md = await fetch(f.download_url, { cache: "no-store" }).then((r) => r.text());
-        const fm = parseFM(md);
-        return { data: fm, date: new Date(fm.date || 0) };
-      })
-    );
-
-    entries.sort((a, b) => b.date - a.date);
-    return entries[0]?.data || null;
-  }
-
-  function renderHeadingBlock(headingId, fallbackText) {
+  function findHeadingTextById(cfg, headingId) {
     const id = clean(headingId);
-    const text = clean(fallbackText);
+    const list = Array.isArray(cfg?.headings) ? cfg.headings : [];
+    const found = list.find((h) => clean(h?.id) === id);
+    return clean(found?.text);
+  }
 
-    // headings.js vil senere bytte tekst + marquee + button/image basert på home.json.headings
-    // derfor må vi bare sørge for at elementene finnes med riktig id + .scroll-title
-    if (!id && !text) return "";
-
-    const safeId = id || "";
-    const safeText = escapeHtml(text || "SECTION");
-
+  function renderHeadingWithExtras(headingId) {
+    // We already have headings.js handling the actual <h2> elements on the page,
+    // including extras in [data-heading-extra="..."] slots.
+    // In sections-mode we just output the h2 + an extra slot with the right id.
+    const id = clean(headingId);
+    if (!id) return "";
     return `
-      <h2 ${safeId ? `id="${escapeHtml(safeId)}"` : ""} class="scroll-title">${safeText}</h2>
-      ${safeId ? `<div class="heading-extra" data-heading-extra="${escapeHtml(safeId)}"></div>` : ``}
+      <h2 id="${escapeHtml(id)}" class="scroll-title">${escapeHtml(id)}</h2>
+      <div class="heading-extra" data-heading-extra="${escapeHtml(id)}"></div>
     `;
   }
 
-  function renderSectionText(md) {
-    const raw = clean(md);
-    if (!raw) return "";
-    if (window.marked && typeof window.marked.parse === "function") {
-      return window.marked.parse(raw);
-    }
-    // fallback: basic
-    return `<p>${escapeHtml(raw)}</p>`;
-  }
-
-  async function renderLatestInto(slotEl) {
-    if (!slotEl) return;
-    slotEl.innerHTML = `<div class="skeleton" style="height:300px;border-radius:10px;"></div>`;
-
-    try {
-      const data = await fetchLatestRelease();
-      if (!data) return;
-
-      const artistStr = artistsToString(data.artists || data.artist);
-      const title = clean(data.title);
-      const cover = clean(data.cover);
-      const date = clean(data.date);
-
-      slotEl.innerHTML = `
-        <div class="release latest">
-          <div class="release-header">
-            ${artistStr ? `<h2 class="release-artist">${escapeHtml(artistStr)}</h2>` : ``}
-            ${title ? `<h3 class="release-title">${escapeHtml(title)}</h3>` : ``}
-          </div>
-          ${
-            cover
-              ? `<a href="/releases.html"><img src="${escapeHtml(cover)}" class="release-cover" alt="${escapeHtml(title || "Release")} cover" loading="lazy" decoding="async"></a>`
-              : ``
-          }
-          ${date ? `<p class="release-date">Release date: ${escapeHtml(niceDate(date))}</p>` : ``}
-        </div>
+  function renderSpotifySection(cfg, sec) {
+    const playlists = Array.isArray(sec?.spotify_playlists) ? sec.spotify_playlists : [];
+    if (!playlists.length) {
+      return `
+        <section class="spotify-wrap">
+          ${sec?.heading_id ? renderHeadingWithExtras(sec.heading_id) : ""}
+          <p style="opacity:.75;margin:0;">No playlists added yet.</p>
+        </section>
       `;
-    } catch (e) {
-      // silent
     }
-  }
-
-  function renderSpotifyGrid(items) {
-    const playlists = Array.isArray(items) ? items : [];
-    if (!playlists.length) return "";
 
     const cards = playlists
       .map((p) => {
-        const isString = typeof p === "string";
-        const title = !isString ? clean(p.title) : "";
-        const raw = isString ? p : clean(p.embed);
-        const hProp = !isString && p.height ? parseInt(p.height, 10) : null;
+        const title = clean(p?.title);
+        const raw = clean(p?.embed);
+        const { src, height } = parseSpotifyInput(raw);
 
-        const { src, height: hFromIframe } = parseSpotifyInput(raw);
-        const height = hProp || hFromIframe || null;
-
-        if (!src) return "";
+        if (!src) {
+          return `
+            <div class="spotify-card">
+              <div style="padding:14px;border:1px solid rgba(255,255,255,.12);border-radius:12px;">
+                <strong>${escapeHtml(title || "Spotify")}</strong>
+                <div style="opacity:.75;margin-top:6px;">
+                  Missing/invalid embed URL.
+                </div>
+              </div>
+            </div>
+          `;
+        }
 
         return `
           <div class="spotify-card">
             <iframe
               src="${escapeHtml(src)}"
               title="${escapeHtml(title ? `Spotify – ${title}` : "Spotify")}"
-              ${height ? `height="${height}"` : ``}
+              ${height ? `height="${height}"` : ""}
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"></iframe>
+              loading="lazy">
+            </iframe>
           </div>
         `;
       })
       .join("");
 
-    return `<div class="spotify-grid">${cards}</div>`;
+    return `
+      <section class="spotify-wrap">
+        ${sec?.heading_id ? renderHeadingWithExtras(sec.heading_id) : ""}
+        <div class="spotify-grid">${cards}</div>
+      </section>
+    `;
   }
 
-  function buildSectionHTML(section) {
-    const type = clean(section?.type);
-
-    // Wrapper
-    let html = `<section class="home-section home-section-${escapeHtml(type || "unknown")}">`;
-
-    if (type === "latest_release") {
-      const headingId = clean(section?.heading_id) || "heading-latest-release";
-      html += renderHeadingBlock(headingId, "LATEST RELEASE");
-      html += `<div class="latest-wrap"><div class="latest-release-slot" data-latest-release-slot="1"></div></div>`;
-      html += `</section>`;
-      return html;
-    }
-
-    if (type === "spotify") {
-      const headingId = clean(section?.heading_id) || "heading-playlists";
-      html += renderHeadingBlock(headingId, "PLAYLISTS");
-      html += renderSpotifyGrid(section?.spotify_playlists);
-      html += `</section>`;
-      return html;
-    }
-
-    if (type === "heading") {
-      const h = clean(section?.heading);
-      if (h) html += `<h2 class="scroll-title" data-marquee="off">${escapeHtml(h)}</h2>`;
-      html += `</section>`;
-      return html;
-    }
-
-    if (type === "text") {
-      const h = clean(section?.heading);
-      if (h) html += `<h2 class="scroll-title" data-marquee="off">${escapeHtml(h)}</h2>`;
-      html += `<div class="home-section-body">${renderSectionText(section?.body)}</div>`;
-      html += `</section>`;
-      return html;
-    }
-
-    if (type === "links") {
-      const h = clean(section?.heading);
-      if (h) html += `<h2 class="scroll-title" data-marquee="off">${escapeHtml(h)}</h2>`;
-
-      const links = Array.isArray(section?.links) ? section.links : [];
-      const buttons = links
-        .map((l) => {
-          const label = clean(l?.label);
-          const href = clean(l?.href);
-          const newTab = !!l?.new_tab;
-          if (!label || !href) return "";
-          return `
-            <a class="heading-extra-btn"
-               href="${escapeHtml(href)}"
-               ${newTab ? `target="_blank" rel="noopener"` : ``}>
-              ${escapeHtml(label)}
-            </a>
-          `;
-        })
-        .join("");
-
-      html += `<div class="heading-extra">${buttons}</div>`;
-      html += `</section>`;
-      return html;
-    }
-
-    if (type === "html") {
-      const h = clean(section?.heading);
-      if (h) html += `<h2 class="scroll-title" data-marquee="off">${escapeHtml(h)}</h2>`;
-      html += `<div class="home-section-html">${section?.html || ""}</div>`;
-      html += `</section>`;
-      return html;
-    }
-
-    // fallback
-    html += `</section>`;
-    return html;
+  function renderLatestReleaseSection(sec) {
+    // We reuse the existing "Latest Release" renderer that already updates #latest-release.
+    // Here we only output the same markup as in index.html so the existing script works.
+    const headingId = clean(sec?.heading_id) || "heading-latest-release";
+    return `
+      <section class="latest-wrap">
+        <h2 id="${escapeHtml(headingId)}" class="scroll-title">LATEST RELEASE</h2>
+        <div class="heading-extra" data-heading-extra="${escapeHtml(headingId)}"></div>
+        <div id="latest-release">
+          <div class="skeleton" style="height:300px;border-radius:10px;"></div>
+        </div>
+      </section>
+    `;
   }
 
-  function init(cfg) {
-    const wrap = document.getElementById("home-sections");
-    if (!wrap) return;
+  function renderTextSection(sec) {
+    const heading = clean(sec?.heading);
+    const body = clean(sec?.body);
+
+    return `
+      <section class="home-text">
+        ${heading ? `<h2 class="scroll-title" data-marquee="off">${escapeHtml(heading)}</h2>` : ""}
+        ${body ? `<div class="home-text-body">${window.marked ? window.marked.parse(body) : `<p>${escapeHtml(body)}</p>`}</div>` : ""}
+      </section>
+    `;
+  }
+
+  function renderLinksSection(sec) {
+    const heading = clean(sec?.heading);
+    const links = Array.isArray(sec?.links) ? sec.links : [];
+
+    const items = links
+      .map((l) => {
+        const label = clean(l?.label);
+        const href = clean(l?.href);
+        const newTab = !!l?.new_tab;
+        if (!label || !href) return "";
+        return `
+          <a class="heading-extra-btn"
+             href="${escapeHtml(href)}"
+             ${newTab ? `target="_blank" rel="noopener"` : ""}>
+            ${escapeHtml(label)}
+          </a>
+        `;
+      })
+      .filter(Boolean)
+      .join("");
+
+    return `
+      <section class="home-links">
+        ${heading ? `<h2 class="scroll-title" data-marquee="off">${escapeHtml(heading)}</h2>` : ""}
+        <div class="heading-extra">${items || ""}</div>
+      </section>
+    `;
+  }
+
+  function renderHtmlSection(sec) {
+    const heading = clean(sec?.heading);
+    const html = clean(sec?.html);
+    return `
+      <section class="home-html">
+        ${heading ? `<h2 class="scroll-title" data-marquee="off">${escapeHtml(heading)}</h2>` : ""}
+        ${html}
+      </section>
+    `;
+  }
+
+  function renderSections(cfg) {
+    const container = document.getElementById("home-sections");
+    if (!container) return;
 
     const sections = Array.isArray(cfg?.sections) ? cfg.sections : [];
-    if (!sections.length) {
-      wrap.innerHTML = "";
-      return;
-    }
+    if (!sections.length) return;
 
-    wrap.innerHTML = sections.map(buildSectionHTML).join("");
+    // Hide the old hardcoded sections (to avoid duplicates)
+    const oldLatest = document.querySelector("main .latest-wrap");
+    const oldSpotify = document.getElementById("spotify-section");
+    if (oldLatest) oldLatest.style.display = "none";
+    if (oldSpotify) oldSpotify.style.display = "none";
 
-    // Fill latest release slot(s)
-    wrap.querySelectorAll("[data-latest-release-slot='1']").forEach((slot) => {
-      renderLatestInto(slot);
-    });
+    const html = sections
+      .map((sec) => {
+        const type = clean(sec?.type);
+
+        if (type === "spotify") return renderSpotifySection(cfg, sec);
+        if (type === "latest_release") return renderLatestReleaseSection(sec);
+        if (type === "text") return renderTextSection(sec);
+        if (type === "links") return renderLinksSection(sec);
+        if (type === "html") return renderHtmlSection(sec);
+
+        // "heading" type optional (just a heading + extras)
+        if (type === "heading") {
+          const heading = clean(sec?.heading);
+          return `
+            <section class="home-heading">
+              ${heading ? `<h2 class="scroll-title" data-marquee="off">${escapeHtml(heading)}</h2>` : ""}
+            </section>
+          `;
+        }
+
+        return "";
+      })
+      .filter(Boolean)
+      .join("");
+
+    container.innerHTML = html;
+
+    // After we inject new headings/extras slots, headings.js will run on DOMContentLoaded.
+    // But sections.js is also defer, so order matters. If headings already ran, we retrigger it by
+    // dispatching a custom event it can listen to (optional) — BUT easiest is just to call
+    // headings init by reloading the page once after deploy.
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     fetch(HOME_JSON, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : {}))
-      .then((cfg) => init(cfg))
-      .catch(() => init({}));
+      .then((cfg) => renderSections(cfg))
+      .catch(() => {});
   });
 })();
