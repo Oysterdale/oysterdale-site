@@ -80,7 +80,7 @@
   <!-- headings (admin-controlled) -->
   <script src="/js/headings.js" defer></script>
 
-  <!-- NEW: section-based home builder (admin-controlled) -->
+  <!-- section-based home builder (admin-controlled) -->
   <script src="/js/sections.js" defer></script>
 
   <!-- Inline tweaks + heading marquee + extras -->
@@ -96,11 +96,6 @@
       100%{background-position:-100% 0}
     }
 
-    .latest-wrap h2 { text-align:left; }
-    .latest-wrap {
-      content-visibility:auto;
-      contain-intrinsic-size:600px 800px;
-    }
     footer a { color:#fff; }
     footer a:hover { color:#bbb; }
 
@@ -186,9 +181,10 @@
       background: rgba(255,255,255,.04);
     }
 
-    /* Optional spacing for section blocks */
-    .home-section { margin: 1.4rem 0 2rem; }
-    .home-section-body p { margin: 0 0 1rem; }
+    /* Sections spacing */
+    #home-sections { margin-top: 16px; }
+    .home-section { margin: 26px 0; }
+    .home-section .spotify-grid { margin-top: 14px; }
   </style>
 
 </head>
@@ -249,8 +245,6 @@
         loading="eager"
         decoding="async"
       />
-
-      <!-- Desktop-only content (CSS toggler dette) -->
       <div id="hero-content" class="hero-copy">
         <div class="skeleton" style="height:18px;width:55%;margin:10px 0;"></div>
         <div class="skeleton" style="height:12px;width:40%;margin:8px 0;"></div>
@@ -260,27 +254,14 @@
   </div>
 
   <main class="page-content">
-
-    <!-- MOBILE intro under hero (CSS toggler dette) -->
     <section id="home-content" class="home-intro" aria-label="Intro">
       <div class="skeleton" style="height:18px;width:55%;margin:10px 0;"></div>
       <div class="skeleton" style="height:12px;width:40%;margin:8px 0;"></div>
       <div class="skeleton" style="height:12px;width:70%;margin:8px 0;"></div>
     </section>
 
-    <!-- LATEST RELEASE -->
-    <section class="latest-wrap">
-      <h2 id="heading-latest-release" class="scroll-title">LATEST RELEASE</h2>
-      <div class="heading-extra" data-heading-extra="heading-latest-release"></div>
-
-      <div id="latest-release">
-        <div class="skeleton" style="height:300px;border-radius:10px;"></div>
-      </div>
-    </section>
-
-    <!-- Section-based content from Settings → Home → "Home Sections (fri struktur)" -->
+    <!-- EVERYTHING below is now reorderable via Settings → Home → Sections -->
     <div id="home-sections" aria-label="Home sections"></div>
-
   </main>
 
   <!-- FOOTER -->
@@ -377,7 +358,6 @@
         .then(res => res.ok ? res.text() : '')
         .then(md => {
           if(!md) return;
-
           const body = stripFrontmatterBlock(md);
           const html = marked.parse(body);
 
@@ -386,110 +366,6 @@
         })
         .catch(()=>{});
     });
-  </script>
-
-  <!-- Latest Release -->
-  <script>
-    (function(){
-      const OWNER="Oysterdale", REPO="oysterdale-site", DIR="releases";
-
-      function clean(v){ return (v??"").toString().trim(); }
-
-      function niceDate(iso){
-        if(!iso) return "";
-        const d=new Date(iso);
-        return isNaN(d) ? iso : d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
-      }
-
-      function parseFM(md){
-        const m = md.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*/);
-        const data = {};
-        if(!m) return data;
-
-        const yaml = m[1].replace(/\t/g,' ');
-        const lines = yaml.split(/\r?\n/);
-        let key=null, currentItem=null;
-
-        lines.forEach(line=>{
-          if(!line.trim()) return;
-
-          const top=line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
-          if(top && !line.startsWith(' ')){
-            key=top[1];
-            const val=top[2].trim();
-            data[key]= val==='' ? (data[key]??null) : val.replace(/^"(.*)"$/,'$1');
-            currentItem=null;
-            return;
-          }
-
-          const li=key && line.match(/^\s{2}-\s*(.*)$/);
-          if(li){
-            if(!Array.isArray(data[key])) data[key]=[];
-            const rest=li[1];
-            const kv=rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
-            if(kv){
-              currentItem={};
-              currentItem[kv[1]]=kv[2].replace(/^"(.*)"$/,'$1');
-              data[key].push(currentItem);
-            } else {
-              data[key].push(rest.replace(/^"(.*)"$/,'$1'));
-              currentItem=null;
-            }
-            return;
-          }
-
-          const child=currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
-          if(child){
-            currentItem[child[1]]=child[2].replace(/^"(.*)"$/,'$1');
-          }
-        });
-
-        return data;
-      }
-
-      function artistsToString(artists){
-        if(Array.isArray(artists)){
-          const names = artists.map(a => typeof a==='string' ? a : (a && (a.artist||a.name)) || '').filter(Boolean);
-          return names.join(' | ');
-        }
-        return clean(artists);
-      }
-
-      async function fetchLatest(){
-        const list=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`).then(r=>r.json());
-        const files=Array.isArray(list)?list.filter(f=>f.name.endsWith('.md')):[];
-        const entries=await Promise.all(files.map(async f=>{
-          const md=await fetch(f.download_url).then(r=>r.text());
-          const fm=parseFM(md);
-          return { data: fm, date: new Date(fm.date || 0) };
-        }));
-        entries.sort((a,b)=>b.date-a.date);
-        return entries[0]?.data;
-      }
-
-      function renderLatest(data){
-        const wrap=document.getElementById('latest-release'); if(!wrap) return;
-        const artistStr=artistsToString(data.artists || data.artist);
-
-        wrap.innerHTML=`
-          <div class="release latest">
-            <div class="release-header">
-              ${artistStr ? `<h2 class="release-artist">${artistStr}</h2>` : ``}
-              ${data.title ? `<h3 class="release-title">${data.title}</h3>` : ``}
-            </div>
-            ${data.cover ? `<a href="/releases"><img src="${data.cover}" class="release-cover" alt="${(data.title||'Release')} cover" loading="lazy" decoding="async"></a>` : ``}
-            ${data.date ? `<p class="release-date">Release date: ${niceDate(data.date)}</p>` : ``}
-          </div>
-        `;
-      }
-
-      document.addEventListener('DOMContentLoaded', async ()=>{
-        try{
-          const latest = await fetchLatest();
-          if(latest) renderLatest(latest);
-        }catch(e){}
-      });
-    })();
   </script>
 
 </body>
