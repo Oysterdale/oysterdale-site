@@ -235,12 +235,15 @@ collections:
     format: "frontmatter"
     fields:
       - { label: "Title", name: "title", widget: "string" }
+
       - label: "Artists"
         name: "artists"
         widget: "list"
+        required: false
         summary: "{{fields.artist}}"
-        field:
-          { label: "Artist", name: "artist", widget: "string", hint: "Skriv inn navn fritt, eller bruk samme navn som i Artists-samlingen" }
+        fields:
+          - { label: "Artist", name: "artist", widget: "string", required: true, hint: "Skriv inn navn fritt, eller bruk samme navn som i Artists-samlingen" }
+
       - { label: "Release Date", name: "date", widget: "datetime", time_format: false, required: false }
       - { label: "Catalog Number", name: "catalog", widget: "string", required: false }
       - { label: "Cover", name: "cover", widget: "image", required: false, multiple: false }
@@ -262,6 +265,7 @@ collections:
           - { label: "Deezer", name: "deezer_url", widget: "string", required: false }
 
       - { label: "Description", name: "body", widget: "markdown", required: false }
+
       - label: "SEO"
         name: "seo"
         widget: "object"
@@ -390,6 +394,13 @@ collections:
                 choose_url: true
                 required: true
 
+          - label: "Hero overlay logo (valgfri)"
+            name: "hero_logo"
+            widget: "image"
+            required: false
+            choose_url: true
+            hint: "Hvis tom, brukes fallback (/uploads/OysterdaleRecords_white_logo.png)."
+
           - label: "Bytte hvert (sekunder)"
             name: "hero_interval_seconds"
             widget: "number"
@@ -423,11 +434,9 @@ collections:
             fields:
               - label: "Heading ID (må matche HTML)"
                 name: "id"
-                widget: "select"
+                widget: "string"
                 required: true
-                options:
-                  - { label: "Latest Release", value: "heading-latest-release" }
-                  - { label: "Playlists", value: "heading-playlists" }
+                hint: "Skriv ID-en selv (f.eks. heading-latest-release)."
 
               - { label: "Tekst", name: "text", widget: "string", required: true }
 
@@ -443,7 +452,7 @@ collections:
                     widget: "number"
                     value_type: "int"
                     min: 6
-                    max: 60
+                    max: 80
                     default: 22
                     required: false
                     hint: "Lavere tall = raskere."
@@ -515,7 +524,7 @@ collections:
                     widget: "number"
                     value_type: "int"
                     min: 6
-                    max: 60
+                    max: 80
                     default: 22
                     required: false
                     hint: "Lavere tall = raskere."
