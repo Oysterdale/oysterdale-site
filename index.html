@@ -80,9 +80,6 @@
   <!-- headings (admin-controlled) -->
   <script src="/js/headings.js" defer></script>
 
-  <!-- section-based home builder (admin-controlled) -->
-  <script src="/js/sections.js" defer></script>
-
   <!-- Inline tweaks + heading marquee + extras -->
   <style>
     .skeleton {
@@ -96,6 +93,11 @@
       100%{background-position:-100% 0}
     }
 
+    .latest-wrap h2, #spotify-section h2 { text-align:left; }
+    .latest-wrap, #spotify-section {
+      content-visibility:auto;
+      contain-intrinsic-size:600px 800px;
+    }
     footer a { color:#fff; }
     footer a:hover { color:#bbb; }
 
@@ -145,7 +147,6 @@
       .scroll-title.is-marquee-on .marquee-track{ animation:none; }
     }
 
-    /* Extras under each heading (button + image) */
     .heading-extra{
       display:flex;
       gap:12px;
@@ -180,11 +181,6 @@
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
     }
-
-    /* Sections spacing */
-    #home-sections { margin-top: 16px; }
-    .home-section { margin: 26px 0; }
-    .home-section .spotify-grid { margin-top: 14px; }
   </style>
 
 </head>
@@ -245,6 +241,8 @@
         loading="eager"
         decoding="async"
       />
+
+      <!-- Desktop-only content -->
       <div id="hero-content" class="hero-copy">
         <div class="skeleton" style="height:18px;width:55%;margin:10px 0;"></div>
         <div class="skeleton" style="height:12px;width:40%;margin:8px 0;"></div>
@@ -254,14 +252,32 @@
   </div>
 
   <main class="page-content">
+
+    <!-- MOBILE intro under hero -->
     <section id="home-content" class="home-intro" aria-label="Intro">
       <div class="skeleton" style="height:18px;width:55%;margin:10px 0;"></div>
       <div class="skeleton" style="height:12px;width:40%;margin:8px 0;"></div>
       <div class="skeleton" style="height:12px;width:70%;margin:8px 0;"></div>
     </section>
 
-    <!-- EVERYTHING below is now reorderable via Settings → Home → Sections -->
-    <div id="home-sections" aria-label="Home sections"></div>
+    <!-- LATEST RELEASE (skal være øverst) -->
+    <section class="latest-wrap">
+      <h2 id="heading-latest-release" class="scroll-title">LATEST RELEASE</h2>
+      <div class="heading-extra" data-heading-extra="heading-latest-release"></div>
+
+      <div id="latest-release">
+        <div class="skeleton" style="height:300px;border-radius:10px;"></div>
+      </div>
+    </section>
+
+    <!-- PLAYLISTS (under latest release) -->
+    <section id="spotify-section" style="display:none;">
+      <h2 id="heading-playlists" class="scroll-title">PLAYLISTS</h2>
+      <div class="heading-extra" data-heading-extra="heading-playlists"></div>
+
+      <div class="spotify-grid" id="spotify-grid"></div>
+    </section>
+
   </main>
 
   <!-- FOOTER -->
@@ -343,11 +359,99 @@
     })();
   </script>
 
-  <!-- Markdown (intro only) -->
+  <!-- Markdown + Spotify (henter playlists fra content/index.md frontmatter) -->
   <script>
     function stripFrontmatterBlock(text){
       const m = text.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*[\r\n]+/);
       return m ? text.slice(m[0].length) : text;
+    }
+
+    function parseFrontmatter(text){
+      const m = text.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*[\r\n]+/);
+      if(!m) return {};
+      const yaml = m[1].replace(/\t/g,' ');
+      const lines = yaml.split(/\r?\n/);
+      const root = {};
+      let currentKey = null;
+      let currentItem = null;
+      let capture = null;
+
+      function flush(){
+        if(!capture) return;
+        const { obj, key, type, buf } = capture;
+        const raw = buf.join('\n');
+        obj[key] = (type === '>') ? raw.replace(/\n+/g,' ').trim() : raw;
+        capture = null;
+      }
+
+      for(let i=0;i<lines.length;i++){
+        const line = lines[i];
+        const indent = (line.match(/^\s*/)||[''])[0].length;
+
+        if(capture){
+          if(indent > capture.indent){ capture.buf.push(line.slice(capture.indent+1)); continue; }
+          else { flush(); }
+        }
+        if(!line.trim()) continue;
+
+        const top = line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
+        if(top && indent===0){
+          currentKey = top[1];
+          const val = top[2].trim();
+          root[currentKey] = val === '' ? (root[currentKey] ?? null) : val.replace(/^"(.*)"$/,'$1');
+          currentItem = null;
+          continue;
+        }
+
+        const li = line.match(/^\s{2}-\s*(.*)$/);
+        if(li){
+          if(!Array.isArray(root[currentKey])) root[currentKey] = [];
+          const rest = li[1];
+          const kv = rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
+          if(kv){
+            currentItem = {};
+            root[currentKey].push(currentItem);
+            const k = kv[1], v = kv[2];
+            if(v==='|'||v==='>'){ capture={obj:currentItem,key:k,type:v,indent:2,buf:[]}; }
+            else { currentItem[k] = v.replace(/^"(.*)"$/,'$1'); }
+          } else {
+            root[currentKey].push(rest.replace(/^"(.*)"$/,'$1'));
+            currentItem = null;
+          }
+          continue;
+        }
+
+        const child = currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
+        if(child){
+          const ck=child[1], cv=child[2];
+          if(cv==='|'||cv==='>'){ capture={obj:currentItem,key:ck,type:cv,indent:4,buf:[]}; }
+          else { currentItem[ck] = cv.replace(/^"(.*)"$/,'$1'); }
+          continue;
+        }
+      }
+
+      flush();
+      return root;
+    }
+
+    function parseSpotifyInput(input){
+      if(!input) return {src:"", height:null};
+      const s = String(input).trim();
+
+      if(/<\s*iframe/i.test(s)){
+        const src = (s.match(/src\s*=\s*"(.*?)"/i) || s.match(/src\s*=\s*'(.*?)'/i))?.[1] || "";
+        const h = (s.match(/height\s*=\s*"(.*?)"/i) || s.match(/height\s*=\s*'(.*?)'/i))?.[1];
+        const height = h ? parseInt(h,10) : null;
+        return {src, height};
+      }
+
+      const re = /^https?:\/\/open\.spotify\.com\/(playlist|album|track|show|episode)\/([A-Za-z0-9]+)(\?.*)?$/;
+      const mm = s.match(re);
+      if(mm){
+        return {src:`https://open.spotify.com/embed/${mm[1]}/${mm[2]}?utm_source=generator`, height:null};
+      }
+
+      return {src:s, height:null};
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -358,14 +462,152 @@
         .then(res => res.ok ? res.text() : '')
         .then(md => {
           if(!md) return;
+
           const body = stripFrontmatterBlock(md);
           const html = marked.parse(body);
 
           if(heroTarget) heroTarget.innerHTML = html;
           if(mobileTarget) mobileTarget.innerHTML = html;
+
+          const fm = parseFrontmatter(md);
+          const playlists = Array.isArray(fm.spotify_playlists) ? fm.spotify_playlists : [];
+
+          if(playlists.length){
+            const grid = document.getElementById('spotify-grid');
+            const section = document.getElementById('spotify-section');
+
+            grid.innerHTML = playlists.map(p => {
+              const isString = (typeof p === 'string');
+              const title = !isString ? (p.title || p['Title'] || '') : '';
+              const raw = isString ? p : (p.embed || p['Embed URL'] || p['embed_url'] || '');
+              const size = !isString ? ((p.size || '').toString().toLowerCase()) : '';
+              const hProp = !isString && p.height ? parseInt(p.height,10) : null;
+
+              const {src, height: hFromIframe} = parseSpotifyInput(raw);
+              const height = hProp || hFromIframe || null;
+              const compact = (height && height <= 180) || size === 'small' || size === 'compact';
+
+              return `
+                <div class="spotify-card${compact ? ' compact' : ''}">
+                  <iframe
+                    src="${src}"
+                    title="${title ? `Spotify – ${title}` : 'Spotify'}"
+                    ${height ? `height="${height}"` : ''}
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"></iframe>
+                </div>
+              `;
+            }).join('');
+
+            section.style.display = 'block';
+          }
         })
         .catch(()=>{});
     });
+  </script>
+
+  <!-- Latest Release -->
+  <script>
+    (function(){
+      const OWNER="Oysterdale", REPO="oysterdale-site", DIR="releases";
+
+      function clean(v){ return (v??"").toString().trim(); }
+
+      function niceDate(iso){
+        if(!iso) return "";
+        const d=new Date(iso);
+        return isNaN(d) ? iso : d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+      }
+
+      function parseFM(md){
+        const m = md.match(/^\s*---\s*[\r\n]+([\s\S]*?)\s*---\s*/);
+        const data = {};
+        if(!m) return data;
+
+        const yaml = m[1].replace(/\t/g,' ');
+        const lines = yaml.split(/\r?\n/);
+        let key=null, currentItem=null;
+
+        lines.forEach(line=>{
+          if(!line.trim()) return;
+
+          const top=line.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
+          if(top && !line.startsWith(' ')){
+            key=top[1];
+            const val=top[2].trim();
+            data[key]= val==='' ? (data[key]??null) : val.replace(/^"(.*)"$/,'$1');
+            currentItem=null;
+            return;
+          }
+
+          const li=key && line.match(/^\s{2}-\s*(.*)$/);
+          if(li){
+            if(!Array.isArray(data[key])) data[key]=[];
+            const rest=li[1];
+            const kv=rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
+            if(kv){
+              currentItem={};
+              currentItem[kv[1]]=kv[2].replace(/^"(.*)"$/,'$1');
+              data[key].push(currentItem);
+            } else {
+              data[key].push(rest.replace(/^"(.*)"$/,'$1'));
+              currentItem=null;
+            }
+            return;
+          }
+
+          const child=currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
+          if(child){
+            currentItem[child[1]]=child[2].replace(/^"(.*)"$/,'$1');
+          }
+        });
+
+        return data;
+      }
+
+      function artistsToString(artists){
+        if(Array.isArray(artists)){
+          const names = artists.map(a => typeof a==='string' ? a : (a && (a.artist||a.name)) || '').filter(Boolean);
+          return names.join(' | ');
+        }
+        return clean(artists);
+      }
+
+      async function fetchLatest(){
+        const list=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`).then(r=>r.json());
+        const files=Array.isArray(list)?list.filter(f=>f.name.endsWith('.md')):[];
+        const entries=await Promise.all(files.map(async f=>{
+          const md=await fetch(f.download_url).then(r=>r.text());
+          const fm=parseFM(md);
+          return { data: fm, date: new Date(fm.date || 0) };
+        }));
+        entries.sort((a,b)=>b.date-a.date);
+        return entries[0]?.data;
+      }
+
+      function renderLatest(data){
+        const wrap=document.getElementById('latest-release'); if(!wrap) return;
+        const artistStr=artistsToString(data.artists || data.artist);
+
+        wrap.innerHTML=`
+          <div class="release latest">
+            <div class="release-header">
+              ${artistStr ? `<h2 class="release-artist">${artistStr}</h2>` : ``}
+              ${data.title ? `<h3 class="release-title">${data.title}</h3>` : ``}
+            </div>
+            ${data.cover ? `<a href="/releases"><img src="${data.cover}" class="release-cover" alt="${(data.title||'Release')} cover" loading="lazy" decoding="async"></a>` : ``}
+            ${data.date ? `<p class="release-date">Release date: ${niceDate(data.date)}</p>` : ``}
+          </div>
+        `;
+      }
+
+      document.addEventListener('DOMContentLoaded', async ()=>{
+        try{
+          const latest = await fetchLatest();
+          if(latest) renderLatest(latest);
+        }catch(e){}
+      });
+    })();
   </script>
 
 </body>
