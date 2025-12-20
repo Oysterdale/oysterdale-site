@@ -17,7 +17,12 @@
         "enabled": true,
         "speed": 50
       },
-      "button": null,
+      "button": {
+        "enabled": false,
+        "label": "",
+        "href": "",
+        "new_tab": false
+      },
       "marquee_enabled": false,
       "marquee_speed": 22,
       "button_enabled": true,
