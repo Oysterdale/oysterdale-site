@@ -33,12 +33,7 @@
         "enabled": false,
         "speed": 22
       },
-      "button": {
-        "enabled": true,
-        "label": "Open",
-        "href": "https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am",
-        "new_tab": true
-      },
+      "button": null,
       "image": {
         "enabled": false,
         "src": "",
