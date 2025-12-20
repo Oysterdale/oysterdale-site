@@ -1,65 +1,103 @@
 {
   "hero_images": [
-    {
-      "image": "/uploads/Skjermbilde 2025-12-13 kl. 17.48.04.png"
-    },
-    {
-      "image": "/uploads/Roverstaden.Nov.14.jpg"
-    }
+    { "image": "/uploads/Skjermbilde 2025-12-13 kl. 17.48.04.png" },
+    { "image": "/uploads/Roverstaden.Nov.14.jpg" }
   ],
   "hero_interval_seconds": 8,
   "hero_fade_ms": 1000,
+
   "headings": [
     {
       "id": "heading-latest-release",
       "text": "Latest Release",
       "marquee": {
         "enabled": true,
-        "speed": 50
+        "speed": 22
       },
-      "button": null,
-      "marquee_enabled": false,
-      "marquee_speed": 22,
-      "button_enabled": true,
-      "button_label": "Listen",
-      "button_href": "/releases.html",
-      "button_new_tab": false,
-      "image_enabled": false,
-      "image_src": "",
-      "image_alt": "",
-      "image_href": "",
-      "image_new_tab": false
+      "button": {
+        "enabled": true,
+        "label": "Listen",
+        "href": "/releases.html",
+        "new_tab": false
+      },
+      "image": {
+        "enabled": false,
+        "src": "",
+        "alt": "",
+        "href": "",
+        "new_tab": false
+      }
     },
     {
       "id": "heading-playlists",
       "text": "Spotify Playlists",
-      "marquee_enabled": false,
-      "marquee_speed": 22,
-      "button_enabled": true,
-      "button_label": "Open",
-      "button_href": "https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am",
-      "button_new_tab": true,
-      "image_enabled": false,
-      "image_src": "",
-      "image_alt": "",
-      "image_href": "",
-      "image_new_tab": false
-    }
-  ],
-  "sections": [
-    {
-      "type": "heading",
-      "heading": "TEST",
       "marquee": {
         "enabled": false,
         "speed": 22
       },
-      "body": "testtesttest",
-      "links": [],
-      "spotify_playlists": [],
-      "html": ""
+      "button": {
+        "enabled": true,
+        "label": "Open",
+        "href": "https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am",
+        "new_tab": true
+      },
+      "image": {
+        "enabled": false,
+        "src": "",
+        "alt": "",
+        "href": "",
+        "new_tab": false
+      }
     }
   ],
-  "heading_marquee_enabled": true,
-  "heading_marquee_speed": 40
+
+  "sections": [
+    {
+      "type": "spotify",
+      "heading_id": "heading-playlists",
+      "spotify_playlists": [
+        {
+          "title": "Oysterdale Records – Picks",
+          "embed": "https://open.spotify.com/playlist/PUT_YOUR_PLAYLIST_ID_HERE"
+        },
+        {
+          "title": "Nu Disco / Modern Disco",
+          "embed": "https://open.spotify.com/playlist/PUT_YOUR_PLAYLIST_ID_HERE"
+        }
+      ]
+    },
+
+    {
+      "type": "latest_release",
+      "heading_id": "heading-latest-release"
+    },
+
+    {
+      "type": "text",
+      "heading": "About Oysterdale",
+      "body": "Oysterdale Records is a modern disco & house label based in Oslo.\n\nWe focus on dancefloor-ready releases with live instrumentation, strong musicianship and timeless groove."
+    },
+
+    {
+      "type": "links",
+      "heading": "Follow / Connect",
+      "links": [
+        {
+          "label": "Instagram",
+          "href": "https://www.instagram.com/oysterdalerecords/",
+          "new_tab": true
+        },
+        {
+          "label": "SoundCloud",
+          "href": "https://soundcloud.com/oysterdale-records",
+          "new_tab": true
+        },
+        {
+          "label": "YouTube",
+          "href": "https://www.youtube.com/@OysterdaleRecords",
+          "new_tab": true
+        }
+      ]
+    }
+  ]
 }
