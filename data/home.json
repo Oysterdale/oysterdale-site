@@ -1,33 +1,15 @@
 {
   "hero_images": [
-    { "image": "/uploads/Skjermbilde 2025-12-13 kl. 17.48.04.png" },
-    { "image": "/uploads/Roverstaden.Nov.14.jpg" }
+    {
+      "image": "/uploads/Skjermbilde 2025-12-13 kl. 17.48.04.png"
+    },
+    {
+      "image": "/uploads/Roverstaden.Nov.14.jpg"
+    }
   ],
   "hero_interval_seconds": 8,
   "hero_fade_ms": 1000,
-
   "headings": [
-    {
-      "id": "heading-latest-release",
-      "text": "Latest Release",
-      "marquee": {
-        "enabled": true,
-        "speed": 22
-      },
-      "button": {
-        "enabled": true,
-        "label": "Listen",
-        "href": "/releases.html",
-        "new_tab": false
-      },
-      "image": {
-        "enabled": false,
-        "src": "",
-        "alt": "",
-        "href": "",
-        "new_tab": false
-      }
-    },
     {
       "id": "heading-playlists",
       "text": "Spotify Playlists",
@@ -48,13 +30,32 @@
         "href": "",
         "new_tab": false
       }
+    },
+    {
+      "id": "heading-latest-release",
+      "text": "Latest Release",
+      "marquee": {
+        "enabled": true,
+        "speed": 22
+      },
+      "button": {
+        "enabled": true,
+        "label": "Listen",
+        "href": "/releases.html",
+        "new_tab": false
+      },
+      "image": {
+        "enabled": false,
+        "src": "",
+        "alt": "",
+        "href": "",
+        "new_tab": false
+      }
     }
   ],
-
   "sections": [
     {
       "type": "spotify",
-      "heading_id": "heading-playlists",
       "spotify_playlists": [
         {
           "title": "Oysterdale Records – Picks",
@@ -64,20 +65,18 @@
           "title": "Nu Disco / Modern Disco",
           "embed": "https://open.spotify.com/playlist/PUT_YOUR_PLAYLIST_ID_HERE"
         }
-      ]
+      ],
+      "heading_id": "heading-playlists"
     },
-
     {
       "type": "latest_release",
       "heading_id": "heading-latest-release"
     },
-
     {
       "type": "text",
       "heading": "About Oysterdale",
       "body": "Oysterdale Records is a modern disco & house label based in Oslo.\n\nWe focus on dancefloor-ready releases with live instrumentation, strong musicianship and timeless groove."
     },
-
     {
       "type": "links",
       "heading": "Follow / Connect",
