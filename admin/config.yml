@@ -15,7 +15,6 @@ slug:
   sanitize_replacement: "-"
 
 collections:
-
   # -------------------------
   # PAGES (HTML-layoutfiler)
   # -------------------------
@@ -161,6 +160,211 @@ collections:
                 public_folder: "/uploads/og"
 
   # -------------------------
+  # PAGE CONTENT (Markdown)
+  # -------------------------
+  - name: "page_content"
+    label: "Page Content"
+    files:
+      - file: "content/index.md"
+        label: "Home Content"
+        name: "index_md"
+        format: "frontmatter"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown", required: false }
+          - label: "Spotify Playlists"
+            name: "spotify_playlists"
+            widget: "list"
+            required: false
+            collapsed: false
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string", required: false, default: "" }
+              - { label: "Embed (iframe eller URL)", name: "embed", widget: "text", required: false, default: "" }
+
+      - file: "content/about.md"
+        label: "About Content"
+        name: "about_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - file: "content/releases.md"
+        label: "Releases Content"
+        name: "releases_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - file: "content/artists.md"
+        label: "Artists Content"
+        name: "artists_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - file: "content/contact.md"
+        label: "Contact Content"
+        name: "contact_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - file: "content/events.md"
+        label: "Events Content"
+        name: "events_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - file: "content/privacy.md"
+        label: "Privacy Policy Content"
+        name: "privacy_md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+  # -------------------------
+  # RELEASES
+  # -------------------------
+  - name: "releases"
+    label: "Releases"
+    folder: "releases"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Artists"
+        name: "artists"
+        widget: "list"
+        summary: "{{fields.artist}}"
+        field:
+          { label: "Artist", name: "artist", widget: "string", hint: "Skriv inn navn fritt, eller bruk samme navn som i Artists-samlingen" }
+      - { label: "Release Date", name: "date", widget: "datetime", time_format: false, required: false }
+      - { label: "Catalog Number", name: "catalog", widget: "string", required: false }
+      - { label: "Cover", name: "cover", widget: "image", required: false, multiple: false }
+
+      - label: "Links"
+        name: "links"
+        widget: "object"
+        collapsed: false
+        required: false
+        fields:
+          - { label: "Spotify", name: "spotify_url", widget: "string", required: false }
+          - { label: "Apple Music", name: "apple_music_url", widget: "string", required: false }
+          - { label: "iTunes", name: "itunes_url", widget: "string", required: false }
+          - { label: "Tidal", name: "tidal_url", widget: "string", required: false }
+          - { label: "Amazon Music", name: "amazon_music_url", widget: "string", required: false }
+          - { label: "YouTube", name: "youtube_url", widget: "string", required: false }
+          - { label: "Traxsource", name: "traxsource_url", widget: "string", required: false }
+          - { label: "Beatport", name: "beatport_url", widget: "string", required: false }
+          - { label: "Deezer", name: "deezer_url", widget: "string", required: false }
+
+      - { label: "Description", name: "body", widget: "markdown", required: false }
+      - label: "SEO"
+        name: "seo"
+        widget: "object"
+        collapsed: true
+        fields:
+          - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
+          - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
+          - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
+          - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
+          - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
+          - label: "Open Graph Image"
+            name: "og_image"
+            widget: "image"
+            required: false
+            multiple: false
+            media_folder: "uploads/og"
+            public_folder: "/uploads/og"
+
+  # -------------------------
+  # ARTISTS
+  # -------------------------
+  - name: "artists"
+    label: "Artists"
+    folder: "artists"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "name"
+    extension: "md"
+    format: "frontmatter"
+    media_folder: "uploads/artists"
+    public_folder: "/uploads/artists"
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - label: "Role"
+        name: "role"
+        widget: "select"
+        options:
+          - { label: "Producer / Main Artist", value: "producer" }
+          - { label: "Vocalist", value: "vocalist" }
+      - label: "Profile Image"
+        name: "image"
+        widget: "image"
+        choose_url: false
+        multiple: false
+        required: false
+        media_folder: "uploads/artists"
+        public_folder: "/uploads/artists"
+        pattern:
+          - "^[^\\s]+\\.(png|jpe?g|webp)$"
+          - "Filnavn kan ikke ha mellomrom. Bruk bindestrek."
+      - { label: "Bio", name: "bio", widget: "text", required: false }
+      - { label: "Spotify", name: "spotify", widget: "string", required: false }
+      - { label: "SoundCloud", name: "soundcloud", widget: "string", required: false }
+      - { label: "Instagram", name: "instagram", widget: "string", required: false }
+      - { label: "Website", name: "website", widget: "string", required: false }
+      - { label: "Mixcloud", name: "mixcloud", widget: "string", required: false }
+      - { label: "Bandcamp", name: "bandcamp", widget: "string", required: false }
+      - label: "SEO"
+        name: "seo"
+        widget: "object"
+        collapsed: true
+        fields:
+          - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
+          - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
+          - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
+          - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
+          - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
+          - label: "Open Graph Image"
+            name: "og_image"
+            widget: "image"
+            required: false
+            multiple: false
+            media_folder: "uploads/og"
+            public_folder: "/uploads/og"
+
+  # -------------------------
+  # SEO JSON (for seo.js)
+  # -------------------------
+  - name: "seo_pages"
+    label: "SEO (Pages JSON)"
+    label_singular: "SEO Page"
+    folder: "content/seo"
+    create: true
+    extension: "json"
+    format: "json"
+    identifier_field: "page"
+    fields:
+      - { label: "Page", name: "page", widget: "string", hint: "f.eks. index, about, releases, artists, contact, privacy", required: true }
+      - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
+      - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
+      - { label: "Keywords", name: "keywords", widget: "list", required: false }
+      - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
+      - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
+      - label: "Open Graph Image"
+        name: "og_image"
+        widget: "image"
+        required: false
+        multiple: false
+        media_folder: "uploads/og"
+        public_folder: "/uploads/og"
+
+  # -------------------------
   # SETTINGS (Home + Footer)
   # -------------------------
   - name: "settings"
@@ -171,7 +375,6 @@ collections:
         name: "home_settings"
         format: "json"
         fields:
-
           # -------------------------
           # Hero images
           # -------------------------
@@ -179,28 +382,99 @@ collections:
             name: "hero_images"
             widget: "list"
             required: false
+            hint: "Legg til flere bilder. Første bildet brukes først. Du kan endre rekkefølge."
             summary: "{{fields.image}}"
             fields:
-              - { label: "Bilde", name: "image", widget: "image", required: true }
+              - label: "Bilde"
+                name: "image"
+                widget: "image"
+                choose_url: true
+                required: true
 
-          - { label: "Bytte hvert (sekunder)", name: "hero_interval_seconds", widget: "number", value_type: "int", min: 2, max: 30, default: 7 }
-          - { label: "Fade-varighet (ms)", name: "hero_fade_ms", widget: "number", value_type: "int", min: 100, max: 3000, default: 800 }
+          - label: "Bytte hvert (sekunder)"
+            name: "hero_interval_seconds"
+            widget: "number"
+            value_type: "int"
+            min: 2
+            max: 30
+            default: 7
+            required: false
+            hint: "Hvor ofte forsidebildet bytter automatisk."
+
+          - label: "Fade-varighet (ms)"
+            name: "hero_fade_ms"
+            widget: "number"
+            value_type: "int"
+            min: 100
+            max: 3000
+            default: 800
+            required: false
+            hint: "Hvor myk overgangen er mellom bildene."
 
           # -------------------------
-          # Headings (legacy / fixed)
+          # Headings (per plassering på siden)
           # -------------------------
           - label: "Headings (per plassering på siden)"
             name: "headings"
             widget: "list"
             required: false
+            collapsed: false
+            summary: "{{fields.id}} — {{fields.text}}"
+            hint: "ID må matche overskriften sin id i HTML (f.eks. heading-latest-release)."
             fields:
               - label: "Heading ID (må matche HTML)"
                 name: "id"
                 widget: "select"
+                required: true
                 options:
                   - { label: "Latest Release", value: "heading-latest-release" }
                   - { label: "Playlists", value: "heading-playlists" }
+
               - { label: "Tekst", name: "text", widget: "string", required: true }
+
+              - label: "Marquee / scrolling"
+                name: "marquee"
+                widget: "object"
+                collapsed: false
+                required: false
+                fields:
+                  - { label: "Enable marquee?", name: "enabled", widget: "boolean", required: false, default: false }
+                  - label: "Speed (seconds per loop)"
+                    name: "speed"
+                    widget: "number"
+                    value_type: "int"
+                    min: 6
+                    max: 60
+                    default: 22
+                    required: false
+                    hint: "Lavere tall = raskere."
+
+              - label: "Button under heading"
+                name: "button"
+                widget: "object"
+                collapsed: true
+                required: false
+                fields:
+                  - { label: "Show button?", name: "enabled", widget: "boolean", required: false, default: false }
+                  - { label: "Label", name: "label", widget: "string", required: false, default: "" }
+                  - { label: "Href", name: "href", widget: "string", required: false, default: "" }
+                  - { label: "Open in new tab?", name: "new_tab", widget: "boolean", required: false, default: false }
+
+              - label: "Image under heading"
+                name: "image"
+                widget: "object"
+                collapsed: true
+                required: false
+                fields:
+                  - { label: "Show image?", name: "enabled", widget: "boolean", required: false, default: false }
+                  - label: "Image file"
+                    name: "src"
+                    widget: "image"
+                    required: false
+                    choose_url: true
+                  - { label: "Alt text", name: "alt", widget: "string", required: false, default: "" }
+                  - { label: "Link image to (optional)", name: "href", widget: "string", required: false, default: "" }
+                  - { label: "Open link in new tab?", name: "new_tab", widget: "boolean", required: false, default: false }
 
           # -------------------------
           # HOME SECTIONS (fri struktur)
@@ -209,48 +483,74 @@ collections:
             name: "sections"
             widget: "list"
             required: false
+            collapsed: false
             summary: "{{fields.type}} — {{fields.heading}}"
+            hint: "Bygg frie seksjoner på forsiden. Rekkefølge styres her."
             fields:
               - label: "Section type"
                 name: "type"
                 widget: "select"
+                required: true
                 options:
                   - { label: "Heading", value: "heading" }
                   - { label: "Text / Rich text", value: "text" }
                   - { label: "Links / Buttons", value: "links" }
                   - { label: "Spotify Playlists", value: "spotify" }
-                  - { label: "Custom HTML", value: "html" }
+                  - { label: "Custom HTML (advanced)", value: "html" }
 
-              - { label: "Heading", name: "heading", widget: "string", required: false }
+              - label: "Heading"
+                name: "heading"
+                widget: "string"
+                required: false
+                hint: "Valgfri overskrift for seksjonen"
 
-              - label: "Marquee"
+              - label: "Marquee / scrolling"
                 name: "marquee"
                 widget: "object"
+                collapsed: true
                 required: false
                 fields:
-                  - { label: "Enable marquee?", name: "enabled", widget: "boolean", default: false }
-                  - { label: "Speed", name: "speed", widget: "number", value_type: "int", min: 6, max: 60, default: 22 }
+                  - { label: "Enable marquee?", name: "enabled", widget: "boolean", required: false, default: false }
+                  - label: "Speed (seconds per loop)"
+                    name: "speed"
+                    widget: "number"
+                    value_type: "int"
+                    min: 6
+                    max: 60
+                    default: 22
+                    required: false
+                    hint: "Lavere tall = raskere."
 
-              - { label: "Text content", name: "body", widget: "markdown", required: false }
+              - label: "Text content"
+                name: "body"
+                widget: "markdown"
+                required: false
+                hint: "Brukes for tekst-seksjoner"
 
-              - label: "Links"
+              - label: "Links / Buttons"
                 name: "links"
                 widget: "list"
                 required: false
+                collapsed: true
                 fields:
-                  - { label: "Label", name: "label", widget: "string" }
-                  - { label: "URL", name: "href", widget: "string" }
-                  - { label: "New tab?", name: "new_tab", widget: "boolean", default: false }
+                  - { label: "Label", name: "label", widget: "string", required: true }
+                  - { label: "URL", name: "href", widget: "string", required: true }
+                  - { label: "Open in new tab?", name: "new_tab", widget: "boolean", required: false, default: false }
 
               - label: "Spotify playlists"
                 name: "spotify_playlists"
                 widget: "list"
                 required: false
+                collapsed: true
                 fields:
-                  - { label: "Title", name: "title", widget: "string", required: false }
-                  - { label: "Embed", name: "embed", widget: "text", required: true }
+                  - { label: "Title", name: "title", widget: "string", required: false, default: "" }
+                  - { label: "Embed (iframe eller URL)", name: "embed", widget: "text", required: true, default: "" }
 
-              - { label: "Custom HTML", name: "html", widget: "text", required: false }
+              - label: "Custom HTML"
+                name: "html"
+                widget: "text"
+                required: false
+                hint: "Avansert: brukes kun hvis du vet hva du gjør"
 
       - file: "content/settings/footer.json"
         label: "Footer"
@@ -258,8 +558,8 @@ collections:
         format: "json"
         fields:
           - { label: "Footer text", name: "text", widget: "string", required: false }
-          - { label: "Logo", name: "logo", widget: "image", required: false }
-          - { label: "Logo width", name: "width", widget: "number", value_type: "int", min: 120, max: 400, default: 260 }
+          - { label: "Logo", name: "logo", widget: "image", required: false, media_folder: "uploads", public_folder: "/uploads" }
+          - { label: "Logo width (px)", name: "width", widget: "number", required: false, value_type: "int", min: 120, max: 400, default: 260 }
           - label: "Links"
             name: "links"
             widget: "list"
