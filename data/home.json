@@ -17,12 +17,7 @@
         "enabled": true,
         "speed": 50
       },
-      "button": {
-        "enabled": true,
-        "label": "test",
-        "href": "https://open.spotify.com/playlist/1euFegx110KGHeMkYOam6e?trackId=4mmtR6sLFoHRux03ap9tsz",
-        "new_tab": true
-      },
+      "button": null,
       "marquee_enabled": false,
       "marquee_speed": 22,
       "button_enabled": true,
