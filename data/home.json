@@ -11,27 +11,6 @@
   "hero_fade_ms": 1000,
   "headings": [
     {
-      "id": "heading-playlists",
-      "text": "Spotify Playlists",
-      "marquee": {
-        "enabled": false,
-        "speed": 22
-      },
-      "button": {
-        "enabled": true,
-        "label": "Open",
-        "href": "https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am",
-        "new_tab": true
-      },
-      "image": {
-        "enabled": false,
-        "src": "",
-        "alt": "",
-        "href": "",
-        "new_tab": false
-      }
-    },
-    {
       "id": "heading-latest-release",
       "text": "Latest Release",
       "marquee": {
@@ -43,6 +22,27 @@
         "label": "Listen",
         "href": "/releases.html",
         "new_tab": false
+      },
+      "image": {
+        "enabled": false,
+        "src": "",
+        "alt": "",
+        "href": "",
+        "new_tab": false
+      }
+    },
+    {
+      "id": "heading-playlists",
+      "text": "Spotify Playlists",
+      "marquee": {
+        "enabled": false,
+        "speed": 22
+      },
+      "button": {
+        "enabled": true,
+        "label": "Open",
+        "href": "https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am",
+        "new_tab": true
       },
       "image": {
         "enabled": false,
