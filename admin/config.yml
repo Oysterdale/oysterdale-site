@@ -180,6 +180,21 @@ collections:
             fields:
               - { label: "Title", name: "title", widget: "string", required: false, default: "" }
               - { label: "Embed (iframe eller URL)", name: "embed", widget: "text", required: false, default: "" }
+              - label: "Size"
+                name: "size"
+                widget: "select"
+                required: false
+                default: "normal"
+                options:
+                  - { label: "Normal", value: "normal" }
+                  - { label: "Compact", value: "compact" }
+              - label: "Height (optional)"
+                name: "height"
+                widget: "number"
+                required: false
+                value_type: "int"
+                min: 80
+                max: 800
 
       - file: "content/about.md"
         label: "About Content"
@@ -235,15 +250,12 @@ collections:
     format: "frontmatter"
     fields:
       - { label: "Title", name: "title", widget: "string" }
-
       - label: "Artists"
         name: "artists"
         widget: "list"
-        required: false
         summary: "{{fields.artist}}"
-        fields:
-          - { label: "Artist", name: "artist", widget: "string", required: true, hint: "Skriv inn navn fritt, eller bruk samme navn som i Artists-samlingen" }
-
+        field:
+          { label: "Artist", name: "artist", widget: "string", hint: "Skriv inn navn fritt, eller bruk samme navn som i Artists-samlingen" }
       - { label: "Release Date", name: "date", widget: "datetime", time_format: false, required: false }
       - { label: "Catalog Number", name: "catalog", widget: "string", required: false }
       - { label: "Cover", name: "cover", widget: "image", required: false, multiple: false }
@@ -265,7 +277,6 @@ collections:
           - { label: "Deezer", name: "deezer_url", widget: "string", required: false }
 
       - { label: "Description", name: "body", widget: "markdown", required: false }
-
       - label: "SEO"
         name: "seo"
         widget: "object"
@@ -394,20 +405,13 @@ collections:
                 choose_url: true
                 required: true
 
-          - label: "Hero overlay logo (valgfri)"
-            name: "hero_logo"
-            widget: "image"
-            required: false
-            choose_url: true
-            hint: "Hvis tom, brukes fallback (/uploads/OysterdaleRecords_white_logo.png)."
-
           - label: "Bytte hvert (sekunder)"
             name: "hero_interval_seconds"
             widget: "number"
             value_type: "int"
             min: 2
             max: 30
-            default: 7
+            default: 8
             required: false
             hint: "Hvor ofte forsidebildet bytter automatisk."
 
@@ -417,7 +421,7 @@ collections:
             value_type: "int"
             min: 100
             max: 3000
-            default: 800
+            default: 1000
             required: false
             hint: "Hvor myk overgangen er mellom bildene."
 
@@ -430,13 +434,13 @@ collections:
             required: false
             collapsed: false
             summary: "{{fields.id}} — {{fields.text}}"
-            hint: "ID må matche overskriften sin id i HTML (f.eks. heading-latest-release)."
+            hint: "ID må matche heading sin id i HTML (f.eks. heading-latest-release)."
             fields:
               - label: "Heading ID (må matche HTML)"
                 name: "id"
                 widget: "string"
                 required: true
-                hint: "Skriv ID-en selv (f.eks. heading-latest-release)."
+                hint: "F.eks: heading-latest-release / heading-playlists"
 
               - { label: "Tekst", name: "text", widget: "string", required: true }
 
@@ -452,7 +456,7 @@ collections:
                     widget: "number"
                     value_type: "int"
                     min: 6
-                    max: 80
+                    max: 60
                     default: 22
                     required: false
                     hint: "Lavere tall = raskere."
@@ -485,32 +489,40 @@ collections:
                   - { label: "Open link in new tab?", name: "new_tab", widget: "boolean", required: false, default: false }
 
           # -------------------------
-          # HOME SECTIONS (fri struktur)
+          # HOME SECTIONS (rekkefølge)
           # -------------------------
-          - label: "Home Sections (fri struktur)"
+          - label: "Home Sections (rekkefølge)"
             name: "sections"
             widget: "list"
             required: false
             collapsed: false
             summary: "{{fields.type}} — {{fields.heading}}"
-            hint: "Bygg frie seksjoner på forsiden. Rekkefølge styres her."
+            hint: "Dette styrer rekkefølgen på forsiden. Dra og slipp."
             fields:
               - label: "Section type"
                 name: "type"
                 widget: "select"
                 required: true
                 options:
+                  - { label: "Latest Release (block)", value: "latest_release" }
+                  - { label: "Playlists (block)", value: "playlists" }
                   - { label: "Heading", value: "heading" }
                   - { label: "Text / Rich text", value: "text" }
                   - { label: "Links / Buttons", value: "links" }
-                  - { label: "Spotify Playlists", value: "spotify" }
+                  - { label: "Spotify (custom embeds)", value: "spotify" }
                   - { label: "Custom HTML (advanced)", value: "html" }
 
               - label: "Heading"
                 name: "heading"
                 widget: "string"
                 required: false
-                hint: "Valgfri overskrift for seksjonen"
+                hint: "Brukes kun for type=Heading"
+
+              - label: "Heading ID (optional)"
+                name: "heading_id"
+                widget: "string"
+                required: false
+                hint: "Hvis du vil at heading.js skal styre denne via home.json->headings, gi den en id."
 
               - label: "Marquee / scrolling"
                 name: "marquee"
@@ -524,7 +536,7 @@ collections:
                     widget: "number"
                     value_type: "int"
                     min: 6
-                    max: 80
+                    max: 60
                     default: 22
                     required: false
                     hint: "Lavere tall = raskere."
@@ -533,7 +545,7 @@ collections:
                 name: "body"
                 widget: "markdown"
                 required: false
-                hint: "Brukes for tekst-seksjoner"
+                hint: "Brukes for type=Text"
 
               - label: "Links / Buttons"
                 name: "links"
@@ -545,7 +557,7 @@ collections:
                   - { label: "URL", name: "href", widget: "string", required: true }
                   - { label: "Open in new tab?", name: "new_tab", widget: "boolean", required: false, default: false }
 
-              - label: "Spotify playlists"
+              - label: "Spotify playlists (custom)"
                 name: "spotify_playlists"
                 widget: "list"
                 required: false
@@ -553,6 +565,21 @@ collections:
                 fields:
                   - { label: "Title", name: "title", widget: "string", required: false, default: "" }
                   - { label: "Embed (iframe eller URL)", name: "embed", widget: "text", required: true, default: "" }
+                  - label: "Size"
+                    name: "size"
+                    widget: "select"
+                    required: false
+                    default: "normal"
+                    options:
+                      - { label: "Normal", value: "normal" }
+                      - { label: "Compact", value: "compact" }
+                  - label: "Height (optional)"
+                    name: "height"
+                    widget: "number"
+                    required: false
+                    value_type: "int"
+                    min: 80
+                    max: 800
 
               - label: "Custom HTML"
                 name: "html"
