@@ -15,7 +15,7 @@
       "text": "Latest Release",
       "marquee": {
         "enabled": true,
-        "speed": 22
+        "speed": 50
       },
       "button": null,
       "marquee_enabled": false,
