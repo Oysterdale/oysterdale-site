@@ -19,8 +19,10 @@
   function renderExtras(target, item) {
     if (!target) return;
 
-    const btnEnabled = !!item.button_enabled && clean(item.button_label) && clean(item.button_href);
-    const imgEnabled = !!item.image_enabled && clean(item.image_src);
+    const btnEnabled =
+      !!item?.button?.enabled && clean(item?.button?.label) && clean(item?.button?.href);
+
+    const imgEnabled = !!item?.image?.enabled && clean(item?.image?.src);
 
     if (!btnEnabled && !imgEnabled) {
       target.innerHTML = "";
@@ -30,9 +32,9 @@
     const parts = [];
 
     if (btnEnabled) {
-      const href = clean(item.button_href);
-      const label = clean(item.button_label);
-      const newTab = !!item.button_new_tab;
+      const href = clean(item.button.href);
+      const label = clean(item.button.label);
+      const newTab = !!item.button.new_tab;
 
       parts.push(`
         <a class="heading-extra-btn"
@@ -44,12 +46,12 @@
     }
 
     if (imgEnabled) {
-      const srcRaw = clean(item.image_src);
-      const alt = clean(item.image_alt) || "Image";
+      const srcRaw = clean(item.image.src);
+      const alt = clean(item.image.alt) || "Image";
       const img = `<img class="heading-extra-img" src="${cdn(srcRaw, 320) || srcRaw}" alt="${alt}" loading="lazy" decoding="async">`;
 
-      const href = clean(item.image_href);
-      const newTab = !!item.image_new_tab;
+      const href = clean(item.image.href);
+      const newTab = !!item.image.new_tab;
 
       if (href) {
         parts.push(`
@@ -75,6 +77,7 @@
       map.set(id, h);
     });
 
+    // Backwards compatible defaults (if you ever used old flat keys)
     const legacyEnabled =
       typeof cfg?.heading_marquee_enabled === "boolean" ? cfg.heading_marquee_enabled : true;
 
@@ -82,13 +85,6 @@
     const legacySpeed = Number.isFinite(legacySpeedRaw) ? clamp(legacySpeedRaw, 6, 60) : 14;
 
     return { map, legacyEnabled, legacySpeed };
-  }
-
-  function measureNeedsMarquee(el) {
-    const clip = el.querySelector(".marquee-clip");
-    const track = el.querySelector(".marquee-track");
-    if (!clip || !track) return false;
-    return track.scrollWidth > clip.clientWidth * 1.05;
   }
 
   function initHeadings(cfg) {
@@ -103,23 +99,31 @@
       if (!text) return;
 
       // extras (button/image under heading)
-      const extraSlot = document.querySelector(`[data-heading-extra="${id}"]`);
-      if (entry && extraSlot) renderExtras(extraSlot, entry);
+      const extraSlot = id ? document.querySelector(`[data-heading-extra="${id}"]`) : null;
+      if (extraSlot) renderExtras(extraSlot, entry || {});
 
-      // manual override via HTML
+      // manual override via HTML attribute
       const manual = clean(el.getAttribute("data-marquee")).toLowerCase();
       if (manual === "off") {
         el.textContent = text;
+        el.classList.remove("is-marquee-on");
         return;
       }
 
+      // NEW nested structure (from config.yml):
+      // entry.marquee.enabled / entry.marquee.speed
+      // (fallback to old flat keys and global legacy defaults)
       const enabled =
-        entry && typeof entry.marquee_enabled === "boolean"
+        typeof entry?.marquee?.enabled === "boolean"
+          ? !!entry.marquee.enabled
+          : typeof entry?.marquee_enabled === "boolean"
           ? !!entry.marquee_enabled
           : legacyEnabled;
 
       const speedRaw =
-        entry && entry.marquee_speed != null && entry.marquee_speed !== ""
+        entry?.marquee?.speed != null && entry.marquee.speed !== ""
+          ? Number(entry.marquee.speed)
+          : entry?.marquee_speed != null && entry.marquee_speed !== ""
           ? Number(entry.marquee_speed)
           : legacySpeed;
 
@@ -129,6 +133,7 @@
       if (!enabled) {
         el.setAttribute("data-marquee", "off");
         el.textContent = text;
+        el.classList.remove("is-marquee-on");
         return;
       }
 
@@ -140,7 +145,8 @@
       el.setAttribute("aria-label", text);
 
       // Build repeating track
-      const repeat = 6;
+      // (We ALWAYS animate when enabled – even for short text – as a visual effect.)
+      const repeat = 10;
       const chunks = [];
       for (let i = 0; i < repeat; i++) chunks.push(`<span class="marquee-item">${text}</span>`);
 
@@ -148,17 +154,12 @@
         <span class="marquee-clip" aria-hidden="true">
           <span class="marquee-track">
             ${chunks.join(`<span class="marquee-sep" aria-hidden="true"></span>`)}
-            ${chunks.join(`<span class="marquee-sep" aria-hidden="true"></span>`)}
           </span>
         </span>
       `;
 
-      if (measureNeedsMarquee(el)) {
-        el.classList.add("is-marquee-on");
-      } else {
-        el.setAttribute("data-marquee", "off");
-        el.textContent = text;
-      }
+      el.classList.add("is-marquee-on");
+      el.setAttribute("data-marquee", "on");
     });
   }
 
