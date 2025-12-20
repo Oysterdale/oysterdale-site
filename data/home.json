@@ -46,6 +46,20 @@
       "image_new_tab": false
     }
   ],
+  "sections": [
+    {
+      "type": "heading",
+      "heading": "TEST",
+      "marquee": {
+        "enabled": false,
+        "speed": 22
+      },
+      "body": "testtesttest",
+      "links": [],
+      "spotify_playlists": [],
+      "html": ""
+    }
+  ],
   "heading_marquee_enabled": true,
   "heading_marquee_speed": 40
 }
