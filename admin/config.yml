@@ -496,6 +496,7 @@ collections:
                   - { label: "Text / Rich text", value: "text" }
                   - { label: "Links / Buttons", value: "links" }
                   - { label: "Spotify Playlists", value: "spotify" }
+                  - { label: "Latest News (auto)", value: "news" }
                   - { label: "Custom HTML (advanced)", value: "html" }
 
               - label: "Heading"
