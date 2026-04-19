@@ -1,0 +1,538 @@
+/* Build script for Oysterdale Records
+ * 1. Generate news pages from markdown
+ * 2. Generate news index page
+ * 3. Generate RSS feed
+ * 4. Inject SEO metadata into all pages
+ */
+
+const fs = require("fs");
+const path = require("path");
+const { JSDOM } = require("jsdom");
+const yaml = require("js-yaml");
+
+const ROOT = process.cwd();
+const cfgPath = path.join(ROOT, "site.config.json");
+const siteCfg = fs.existsSync(cfgPath) ? JSON.parse(fs.readFileSync(cfgPath, "utf8")) : {};
+const siteUrl = (siteCfg.siteUrl || "https://oysterdalerecords.com").replace(/\/$/, "");
+
+// Ensure directories exist
+const NEWS_DIR = path.join(ROOT, "content", "news");
+const NEWS_BUILD_DIR = path.join(ROOT, "news");
+const UPLOADS_DIR = path.join(ROOT, "uploads", "news");
+
+function ensureDir(dir) {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+}
+
+function readJSON(p) {
+  if (!fs.existsSync(p)) return null;
+  try { return JSON.parse(fs.readFileSync(p, "utf8")); }
+  catch (e) { console.error("Invalid JSON:", p, e.message); return null; }
+}
+
+function readMarkdown(filePath) {
+  if (!fs.existsSync(filePath)) return null;
+  const content = fs.readFileSync(filePath, "utf8");
+  
+  // Parse frontmatter
+  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!match) return null;
+  
+  try {
+    const frontmatter = yaml.load(match[1]);
+    const body = match[2].trim();
+    return { frontmatter, body };
+  } catch (e) {
+    console.error("Invalid frontmatter in:", filePath, e.message);
+    return null;
+  }
+}
+
+function toAbsolute(url) {
+  if (!url) return "";
+  if (/^https?:\/\//i.test(url)) return url;
+  if (url.startsWith("/")) return siteUrl + url;
+  return siteUrl + "/" + url;
+}
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+}
+
+function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/[\s_]+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-");
+}
+
+// Simple markdown to HTML converter
+function markdownToHTML(md) {
+  let html = md
+    // Headers
+    .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+    .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+    .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+    // Bold/Italic
+    .replace(/\*\*\*(.*?)\*\*\*/g, "<strong><em>$1</em></strong>")
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.*?)\*/g, "<em>$1</em>")
+    // Links
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+    // Paragraphs
+    .replace(/\n\n/g, "</p><p>")
+    // Line breaks
+    .replace(/\n/g, "<br>");
+  
+  return "<p>" + html + "</p>";
+}
+
+// Get all news posts
+function getNewsPosts() {
+  ensureDir(NEWS_DIR);
+  const files = fs.readdirSync(NEWS_DIR).filter(f => f.endsWith(".md"));
+  
+  const posts = files.map(file => {
+    const filePath = path.join(NEWS_DIR, file);
+    const parsed = readMarkdown(filePath);
+    if (!parsed) return null;
+    
+    const { frontmatter, body } = parsed;
+    const slug = slugify(frontmatter.title || file.replace(".md", ""));
+    const date = frontmatter.date || new Date().toISOString();
+    
+    return {
+      file,
+      slug,
+      date,
+      title: frontmatter.title || "Untitled",
+      author: frontmatter.author || "Oysterdale Records",
+      category: frontmatter.category || "news",
+      tags: frontmatter.tags || [],
+      excerpt: frontmatter.excerpt || body.substring(0, 200) + "...",
+      image: frontmatter.image || "",
+      seo: frontmatter.seo || {},
+      body
+    };
+  }).filter(Boolean);
+  
+  // Sort by date (newest first)
+  return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+}
+
+// Generate individual news post HTML
+function generateNewsPostPage(post) {
+  const pageDir = path.join(NEWS_BUILD_DIR, post.slug);
+  ensureDir(pageDir);
+  
+  const pageUrl = `${siteUrl}/news/${post.slug}/`;
+  const imageUrl = post.image ? toAbsolute(post.image) : "";
+  
+  // Use SEO from frontmatter or defaults
+  const metaTitle = post.seo.meta_title || post.title;
+  const metaDesc = post.seo.meta_description || post.excerpt;
+  const ogTitle = post.seo.og_title || metaTitle;
+  const ogDesc = post.seo.og_description || metaDesc;
+  const ogImage = post.seo.og_image ? toAbsolute(post.seo.og_image) : imageUrl;
+  
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${metaTitle} | Oysterdale Records</title>
+  <meta name="description" content="${metaDesc}">
+  <meta name="keywords" content="${post.tags.join(", ")}">
+  <link rel="canonical" href="${pageUrl}">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="${pageUrl}">
+  <meta property="og:title" content="${ogTitle}">
+  <meta property="og:description" content="${ogDesc}">
+  ${ogImage ? `<meta property="og:image" content="${ogImage}">` : ""}
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="${ogImage ? "summary_large_image" : "summary"}">
+  <meta name="twitter:title" content="${ogTitle}">
+  <meta name="twitter:description" content="${ogDesc}">
+  ${ogImage ? `<meta name="twitter:image" content="${ogImage}">` : ""}
+  
+  <!-- Article metadata -->
+  <meta property="article:published_time" content="${post.date}">
+  <meta property="article:author" content="${post.author}">
+  <meta property="article:section" content="${post.category}">
+  ${post.tags.map(tag => `<meta property="article:tag" content="${tag}">`).join("\n  ")}
+  
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="main-nav">
+      <a href="/" class="logo">Oysterdale Records</a>
+      <ul class="nav-links">
+        <li><a href="/releases.html">Releases</a></li>
+        <li><a href="/artists.html">Artists</a></li>
+        <li><a href="/news/">News</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="news-post">
+    <article>
+      <header class="post-header">
+        <div class="post-meta">
+          <time datetime="${post.date}">${formatDate(post.date)}</time>
+          <span class="category">${post.category}</span>
+        </div>
+        <h1 class="post-title">${post.title}</h1>
+        <p class="post-author">by ${post.author}</p>
+        ${post.tags.length ? `<div class="post-tags">${post.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>` : ""}
+      </header>
+      
+      ${imageUrl ? `<figure class="post-image"><img src="${post.image}" alt="${post.title}"></figure>` : ""}
+      
+      <div class="post-content">
+        ${markdownToHTML(post.body)}
+      </div>
+      
+      <footer class="post-footer">
+        <a href="/news/" class="back-link">← Back to all news</a>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>Every record is a pearl.</p>
+    <p>&copy; ${new Date().getFullYear()} Oysterdale Records</p>
+  </footer>
+</body>
+</html>`;
+
+  fs.writeFileSync(path.join(pageDir, "index.html"), html, "utf8");
+  console.log("Generated news post:", `/news/${post.slug}/`);
+}
+
+// Generate news index page
+function generateNewsIndex(posts) {
+  ensureDir(NEWS_BUILD_DIR);
+  
+  const recentPosts = posts.slice(0, 10); // Show 10 most recent
+  
+  const postsHTML = recentPosts.map(post => {
+    const postUrl = `/news/${post.slug}/`;
+    const imageHTML = post.image ? `<img src="${post.image}" alt="${post.title}" loading="lazy">` : "";
+    
+    return `
+      <article class="news-card">
+        <a href="${postUrl}" class="news-card-link">
+          ${imageHTML ? `<figure class="news-card-image">${imageHTML}</figure>` : ""}
+          <div class="news-card-content">
+            <header>
+              <time datetime="${post.date}">${formatDate(post.date)}</time>
+              <span class="category">${post.category}</span>
+            </header>
+            <h2>${post.title}</h2>
+            <p class="excerpt">${post.excerpt}</p>
+          </div>
+        </a>
+      </article>
+    `;
+  }).join("\n");
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News | Oysterdale Records</title>
+  <meta name="description" content="Latest news, weekly house briefs, and updates from Oysterdale Records – a Norwegian house and disco label.">
+  <link rel="canonical" href="${siteUrl}/news/">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${siteUrl}/news/">
+  <meta property="og:title" content="News | Oysterdale Records">
+  <meta property="og:description" content="Latest news, weekly house briefs, and updates from Oysterdale Records.">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="News | Oysterdale Records">
+  <meta name="twitter:description" content="Latest news, weekly house briefs, and updates from Oysterdale Records.">
+  
+  <link rel="alternate" type="application/rss+xml" title="Oysterdale Records News" href="/news/rss.xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="main-nav">
+      <a href="/" class="logo">Oysterdale Records</a>
+      <ul class="nav-links">
+        <li><a href="/releases.html">Releases</a></li>
+        <li><a href="/artists.html">Artists</a></li>
+        <li><a href="/news/" class="active">News</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="news-index">
+    <header class="page-header">
+      <h1>News</h1>
+      <p class="subtitle">Weekly pearls from the house and disco underground</p>
+    </header>
+    
+    <div class="news-grid">
+      ${postsHTML}
+    </div>
+    
+    ${posts.length > 10 ? `<p class="archive-link"><a href="/news/archive/">View all ${posts.length} posts →</a></p>` : ""}
+  </main>
+
+  <footer class="site-footer">
+    <p>Every record is a pearl.</p>
+    <p>&copy; ${new Date().getFullYear()} Oysterdale Records</p>
+  </footer>
+</body>
+</html>`;
+
+  fs.writeFileSync(path.join(NEWS_BUILD_DIR, "index.html"), html, "utf8");
+  console.log("Generated news index:", "/news/");
+}
+
+// Generate RSS feed
+function generateRSS(posts) {
+  const recentPosts = posts.slice(0, 20); // RSS shows 20 most recent
+  
+  const items = recentPosts.map(post => {
+    const postUrl = `${siteUrl}/news/${post.slug}/`;
+    const date = new Date(post.date).toUTCString();
+    
+    return `
+    <item>
+      <title>${post.title}</title>
+      <link>${postUrl}</link>
+      <guid isPermaLink="true">${postUrl}</guid>
+      <pubDate>${date}</pubDate>
+      <author>${post.author}</author>
+      <category>${post.category}</category>
+      ${post.tags.map(t => `<category>${t}</category>`).join("\n      ")}
+      <description><![CDATA[
+        ${post.excerpt}
+        ${post.image ? `<img src="${toAbsolute(post.image)}" alt="${post.title}">` : ""}
+      ]]></description>
+    </item>`;
+  }).join("\n");
+
+  const rss = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Oysterdale Records News</title>
+    <link>${siteUrl}/news/</link>
+    <description>Weekly pearls from the house and disco underground – news, releases, and updates from Oysterdale Records.</description>
+    <language>en</language>
+    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+    <atom:link href="${siteUrl}/news/rss.xml" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>${siteUrl}/uploads/logo.png</url>
+      <title>Oysterdale Records</title>
+      <link>${siteUrl}</link>
+    </image>
+    ${items}
+  </channel>
+</rss>`;
+
+  fs.writeFileSync(path.join(NEWS_BUILD_DIR, "rss.xml"), rss, "utf8");
+  console.log("Generated RSS feed:", "/news/rss.xml");
+}
+
+// Update header navigation in all HTML files to include News link
+function updateNavigation() {
+  const htmlFiles = [
+    "index.html", "about.html", "releases.html", 
+    "artists.html", "contact.html", "privacy.html"
+  ];
+  
+  htmlFiles.forEach(file => {
+    const filePath = path.join(ROOT, file);
+    if (!fs.existsSync(filePath)) return;
+    
+    let html = fs.readFileSync(filePath, "utf8");
+    
+    // Check if News link already exists
+    if (html.includes('href="/news/"')) {
+      console.log("News link already exists in:", file);
+      return;
+    }
+    
+    // Add News link to navigation (after Artists, before About)
+    html = html.replace(
+      /<li><a href="\/artists.html">Artists<\/a><\/li>/,
+      `<li><a href="/artists.html">Artists</a></li>\n        <li><a href="/news/">News</a></li>`
+    );
+    
+    fs.writeFileSync(filePath, html, "utf8");
+    console.log("Added News link to:", file);
+  });
+}
+
+// Original SEO injection function (preserved)
+function injectSEO() {
+  const PAGES = [
+    { name: "index",   html: "index.html",   seo: "content/seo/index.json",   url: "/" },
+    { name: "about",   html: "about.html",   seo: "content/seo/about.json",   url: "/about.html" },
+    { name: "releases",html: "releases.html",seo: "content/seo/releases.json",url: "/releases.html" },
+    { name: "artists", html: "artists.html", seo: "content/seo/artists.json", url: "/artists.html" },
+    { name: "contact", html: "contact.html", seo: "content/seo/contact.json", url: "/contact.html" }
+  ];
+
+  function removeAll(dom, selector) {
+    dom.window.document.head.querySelectorAll(selector).forEach(n => n.remove());
+  }
+
+  function injectForPage(page) {
+    const htmlPath = path.join(ROOT, page.html);
+    const seoPath  = path.join(ROOT, page.seo);
+
+    if (!fs.existsSync(htmlPath)) {
+      console.warn("Skip (no HTML):", page.html);
+      return;
+    }
+    const seo = readJSON(seoPath);
+    if (!seo) {
+      console.warn("Skip (no SEO JSON):", page.seo);
+      return;
+    }
+
+    const source = fs.readFileSync(htmlPath, "utf8");
+    const dom = new JSDOM(source);
+    const { document } = dom.window;
+
+    const title       = (seo.meta_title || seo.og_title || "Oysterdale Records").toString();
+    const description = (seo.meta_description || seo.og_description || "").toString();
+    const keywordsArr = Array.isArray(seo.keywords) ? seo.keywords : (seo.keywords ? [seo.keywords] : []);
+    const keywords    = keywordsArr.filter(Boolean).join(", ");
+    const ogTitle     = (seo.og_title || title).toString();
+    const ogDesc      = (seo.og_description || description).toString();
+    const ogImage     = toAbsolute(seo.og_image || "");
+    const pageAbsUrl  = siteUrl + (page.url || "/");
+
+    removeAll(dom, 'meta[name="description"], meta[name="keywords"], link[rel="canonical"]');
+    removeAll(dom, 'meta[property^="og:"], meta[name^="twitter:"]');
+
+    if (document.head.querySelector("title")) {
+      document.head.querySelector("title").textContent = title;
+    } else {
+      const t = document.createElement("title");
+      t.textContent = title;
+      document.head.appendChild(t);
+    }
+
+    if (description) {
+      const m = document.createElement("meta");
+      m.setAttribute("name", "description");
+      m.setAttribute("content", description);
+      document.head.appendChild(m);
+    }
+
+    if (keywords) {
+      const m = document.createElement("meta");
+      m.setAttribute("name", "keywords");
+      m.setAttribute("content", keywords);
+      document.head.appendChild(m);
+    }
+
+    const link = document.createElement("link");
+    link.setAttribute("rel", "canonical");
+    link.setAttribute("href", pageAbsUrl);
+    document.head.appendChild(link);
+
+    const ogPairs = [
+      ["og:type", "website"],
+      ["og:url", pageAbsUrl],
+      ["og:title", ogTitle],
+      ["og:description", ogDesc]
+    ];
+    if (ogImage) {
+      ogPairs.push(["og:image", ogImage]);
+      ogPairs.push(["og:image:width", "1200"]);
+      ogPairs.push(["og:image:height", "630"]);
+    }
+    ogPairs.forEach(([prop, val]) => {
+      const m = document.createElement("meta");
+      m.setAttribute("property", prop);
+      m.setAttribute("content", val);
+      document.head.appendChild(m);
+    });
+
+    const twPairs = [
+      ["twitter:card", ogImage ? "summary_large_image" : "summary"],
+      ["twitter:title", ogTitle],
+      ["twitter:description", ogDesc]
+    ];
+    if (ogImage) twPairs.push(["twitter:image", ogImage]);
+    twPairs.forEach(([name, val]) => {
+      const m = document.createElement("meta");
+      m.setAttribute("name", name);
+      m.setAttribute("content", val);
+      document.head.appendChild(m);
+    });
+
+    fs.writeFileSync(htmlPath, dom.serialize(), "utf8");
+    console.log("Injected SEO into:", page.html);
+  }
+
+  PAGES.forEach(injectForPage);
+}
+
+// Main build function
+function build() {
+  console.log("\n=== Oysterdale Records Build ===\n");
+  
+  // Step 1: Generate news pages
+  console.log("Step 1: Generating news pages...");
+  const posts = getNewsPosts();
+  if (posts.length > 0) {
+    posts.forEach(generateNewsPostPage);
+    generateNewsIndex(posts);
+    generateRSS(posts);
+  } else {
+    console.log("No news posts found in content/news/");
+    // Create empty news index
+    generateNewsIndex([]);
+  }
+  
+  // Step 2: Update navigation
+  console.log("\nStep 2: Updating navigation...");
+  updateNavigation();
+  
+  // Step 3: Inject SEO (original functionality)
+  console.log("\nStep 3: Injecting SEO metadata...");
+  injectSEO();
+  
+  console.log("\n=== Build Complete ===");
+  console.log(`Generated ${posts.length} news post(s)`);
+  console.log("News index: /news/");
+  console.log("RSS feed: /news/rss.xml");
+}
+
+build();

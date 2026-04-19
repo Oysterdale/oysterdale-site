@@ -566,3 +566,64 @@ collections:
             fields:
               - { label: "Label", name: "label", widget: "string" }
               - { label: "URL", name: "href", widget: "string" }
+
+  # -------------------------
+  # NEWS / BLOG
+  # -------------------------
+  - name: "news"
+    label: "News"
+    folder: "content/news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    media_folder: "uploads/news"
+    public_folder: "/uploads/news"
+    sortable_fields: ["date", "title"]
+    view_filters:
+      - label: "This Year"
+        field: date
+        pattern: '{{year}}'
+      - label: "Last Year"
+        field: date
+        pattern: '{{year-1}}'
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime", time_format: false, required: true }
+      - { label: "Author", name: "author", widget: "string", default: "Kevin Vadsten", required: false }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        required: false
+        default: "news"
+        options:
+          - { label: "News", value: "news" }
+          - { label: "Weekly Brief", value: "weekly-brief" }
+          - { label: "Release", value: "release" }
+          - { label: "Event", value: "event" }
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        required: false
+        default: ["house", "disco"]
+        field: { label: "Tag", name: "tag", widget: "string" }
+      - { label: "Excerpt / Summary", name: "excerpt", widget: "text", required: false, hint: "Short summary for listings (optional)" }
+      - { label: "Featured Image", name: "image", widget: "image", required: false, multiple: false, media_folder: "uploads/news", public_folder: "/uploads/news" }
+      - { label: "Body", name: "body", widget: "markdown", required: true }
+      - label: "SEO"
+        name: "seo"
+        widget: "object"
+        collapsed: true
+        fields:
+          - { label: "Meta Title", name: "meta_title", widget: "string", required: false }
+          - { label: "Meta Description", name: "meta_description", widget: "text", required: false }
+          - { label: "Keywords", name: "keywords", widget: "list", required: false, default: [] }
+          - { label: "Open Graph Title", name: "og_title", widget: "string", required: false }
+          - { label: "Open Graph Description", name: "og_description", widget: "text", required: false }
+          - label: "Open Graph Image"
+            name: "og_image"
+            widget: "image"
+            required: false
+            multiple: false
+            media_folder: "uploads/og"
+            public_folder: "/uploads/og"

@@ -1,55 +1,62 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <!-- SEO -->
-  <title>Artists – Oysterdale Records</title>
-  
-  
-  <meta name="robots" content="index, follow">
+  <title>Oysterdale Records – Artists</title>
+  <link rel="canonical" href="https://oysterdalerecords.com/artists.html"/>
+  <meta name="description" content="Explore the artists of Oysterdale Records – producers, vocalists, musicians and collaborators."/>
+  <meta name="robots" content="index, follow"/>
 
   <!-- OpenGraph -->
-  
-  
-  
-  
-  
+  <meta property="og:title" content="Oysterdale Records – Artists"/>
+  <meta property="og:description" content="Meet the producers and vocalists behind Oysterdale Records."/>
+  <meta property="og:url" content="https://oysterdalerecords.com/artists.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
 
   <!-- Twitter -->
-  
-  
-  
-  
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Oysterdale Records – Artists"/>
+  <meta name="twitter:description" content="Meet the artists behind modern disco and house releases."/>
+  <meta name="twitter:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
 
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#000000"/>
 
   <!-- Anti-FOUC -->
   <style>body{opacity:0;transition:opacity .18s ease}</style>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css"/>
 
   <!-- SEO injector -->
-  <script src="js/seo.js" defer="" data-seo="/content/seo/artists.json"></script>
+  <script src="js/seo.js" defer data-seo="/content/seo/artists.json"></script>
 
   <!-- Icons -->
-  <link rel="icon" href="images/favicon.png" type="image/png">
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="icon" href="images/favicon.png" type="image/png"/>
+  <link rel="preload"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        as="style" crossorigin
+        onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          crossorigin/>
   </noscript>
 
   <script>
     window.addEventListener("load",()=>{document.body.style.opacity=1;});
   </script>
 
-<meta name="description" content="Meet the artists of Oysterdale Records. Producers, vocalists and collaborators shaping our sound."><meta name="keywords" content="Oysterdale Records, Artists, Producers, Vocalists"><link rel="canonical" href="https://oysterdalerecords.com/artists.html"><meta property="og:type" content="website"><meta property="og:url" content="https://oysterdalerecords.com/artists.html"><meta property="og:title" content="Oysterdale Artists"><meta property="og:description" content="Get to know the Oysterdale family of artists and collaborators."><meta property="og:image" content="https://oysterdalerecords.com/uploads/Oysterdale logo for facebook.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Oysterdale Artists"><meta name="twitter:description" content="Get to know the Oysterdale family of artists and collaborators."><meta name="twitter:image" content="https://oysterdalerecords.com/uploads/Oysterdale logo for facebook.png"></head>
+</head>
 <body>
 
   <!-- HEADER -->
   <script>
-    fetch("header.html")
+    fetch("header-local.html")
       .then(r=>r.text())
       .then(html=>{
         document.body.insertAdjacentHTML("afterbegin",html);
@@ -101,7 +108,7 @@
         const cfg = await res.json();
         const w = Number(cfg.width) || 260;
         const logoPath = normalize(cfg.logo || "/uploads/OysterdaleRecords_white_logo_260.webp");
-        const logo = `/.netlify/images?url=${encodeURIComponent(logoPath)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`;
+        const logo = `/${encodeURIComponent(logoPath)}${w}${w}`;
 
         const linksHtml = (cfg.links && cfg.links.length)
           ? `<nav class="footer-nav">${cfg.links.map(l => `<a href="${l.href}">${l.label}</a>`).join(" | ")}</nav>`
@@ -135,7 +142,7 @@
     // Netlify Image CDN wrapper
     function ni(url,w){
       const u = normalize(url);
-      return `/.netlify/images?url=${encodeURIComponent(u)}&w=${w}&fm=webp&q=74`;
+      return `/${encodeURIComponent(u)}${w}`;
     }
 
     async function listFiles(){
@@ -224,6 +231,5 @@
     })();
   </script>
 
-
-
-</body></html>
+</body>
+</html>

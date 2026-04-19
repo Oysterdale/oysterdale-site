@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Oysterdale Records News</title>
+    <link>https://oysterdalerecords.com/news/</link>
+    <description>Weekly pearls from the house and disco underground – news, releases, and updates from Oysterdale Records.</description>
+    <language>en</language>
+    <lastBuildDate>Sun, 19 Apr 2026 22:40:34 GMT</lastBuildDate>
+    <atom:link href="https://oysterdalerecords.com/news/rss.xml" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>https://oysterdalerecords.com/uploads/logo.png</url>
+      <title>Oysterdale Records</title>
+      <link>https://oysterdalerecords.com</link>
+    </image>
+    
+    <item>
+      <title>This Week's Pearls – April 20, 2025</title>
+      <link>https://oysterdalerecords.com/news/this-weeks-pearls-april-20-2025/</link>
+      <guid isPermaLink="true">https://oysterdalerecords.com/news/this-weeks-pearls-april-20-2025/</guid>
+      <pubDate>Sun, 20 Apr 2025 00:00:00 GMT</pubDate>
+      <author>Oysterdale Records</author>
+      <category>news</category>
+      <category>house</category>
+      <category>disco</category>
+      <category>weekly-brief</category>
+      <category>pearls</category>
+      <category>norwegian-house</category>
+      <description><![CDATA[
+        From our basement to your speakers — this week's crate dig through the house and disco underground. Spring is blooming in Oslo, and so are the releases. Here's what caught our ear while the vinyl was ...
+        
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Weekly House Brief – April 19, 2025</title>
+      <link>https://oysterdalerecords.com/news/weekly-house-brief-april-19-2025/</link>
+      <guid isPermaLink="true">https://oysterdalerecords.com/news/weekly-house-brief-april-19-2025/</guid>
+      <pubDate>Sat, 19 Apr 2025 00:00:00 GMT</pubDate>
+      <author>Oysterdale Records</author>
+      <category>news</category>
+      <category>house</category>
+      <category>disco</category>
+      <category>weekly-brief</category>
+      <category>defected</category>
+      <category>toolroom</category>
+      <description><![CDATA[
+        This week's house music briefing highlights new releases from Defected and Toolroom, rising artists like Rossi. and Two Shell, and the growing fusion of soulful vocals with tech-house production.
+
+## ...
+        
+      ]]></description>
+    </item>
+  </channel>
+</rss>

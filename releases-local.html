@@ -1,57 +1,63 @@
-<!DOCTYPE html><html lang="en"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <!-- SEO -->
-  <title>Releases – Oysterdale Records</title>
-  
-  
-  <meta name="robots" content="index, follow">
+  <title>Oysterdale Records – Releases</title>
+  <link rel="canonical" href="https://oysterdalerecords.com/releases.html"/>
+  <meta name="description" content="Explore every release from Oysterdale Records — modern disco and house with live instrumentation."/>
+  <meta name="robots" content="index, follow"/>
 
   <!-- OpenGraph -->
-  
-  
-  
-  
-  
+  <meta property="og:title" content="Oysterdale Records – Releases"/>
+  <meta property="og:description" content="Stream or download every release from Oysterdale Records."/>
+  <meta property="og:url" content="https://oysterdalerecords.com/releases.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
 
   <!-- Twitter -->
-  
-  
-  
-  
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Oysterdale Records – Releases"/>
+  <meta name="twitter:description" content="Stream or download every Oysterdale release."/>
+  <meta name="twitter:image" content="https://oysterdalerecords.com/images/oysterdale-og.jpg"/>
 
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#000000"/>
 
   <!-- Anti-FOUC -->
   <style>body{opacity:0;transition:opacity .18s ease}</style>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css"/>
 
   <!-- SEO runtime -->
-  <script src="js/seo.js" defer="" data-seo="/content/seo/releases.json"></script>
+  <script src="js/seo.js" defer data-seo="/content/seo/releases.json"></script>
 
   <!-- Icons -->
-  <link rel="icon" href="images/favicon.png" type="image/png">
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="icon" href="images/favicon.png" type="image/png"/>
+  <link rel="preload"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        as="style" crossorigin onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          crossorigin/>
   </noscript>
 
   <!-- Markdown parser -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 
   <script>
     window.addEventListener("load", () => { document.body.style.opacity = 1; });
   </script>
-<meta name="description" content="Explore Oysterdale Records releases across house and disco: stream, buy, and support the artists."><meta name="keywords" content="Oysterdale Records, Releases, House, Disco, Music, Oslo House, Housemusikk, Disco House, Disco House Oslo, House plateselskap"><link rel="canonical" href="https://oysterdalerecords.com/releases.html"><meta property="og:type" content="website"><meta property="og:url" content="https://oysterdalerecords.com/releases.html"><meta property="og:title" content="Oysterdale Releases"><meta property="og:description" content="Discover the latest tracks and catalog from Oysterdale Records."><meta property="og:image" content="https://oysterdalerecords.com/uploads/Oysterdale logo for facebook.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Oysterdale Releases"><meta name="twitter:description" content="Discover the latest tracks and catalog from Oysterdale Records."><meta name="twitter:image" content="https://oysterdalerecords.com/uploads/Oysterdale logo for facebook.png"></head>
+</head>
 
 <body>
 
   <!-- HEADER -->
   <script>
-    fetch("header.html")
+    fetch("header-local.html")
       .then(r => r.text())
       .then(html => {
         document.body.insertAdjacentHTML("afterbegin", html);
@@ -92,7 +98,7 @@
         const w = Number(cfg.width) || 260;
 
         const logoSrc = cfg.logo
-          ? `/.netlify/images?url=${encodeURIComponent(cfg.logo)}&w=${w}&h=${w}&fit=contain&fm=webp&q=80`
+          ? `/${encodeURIComponent(cfg.logo)}${w}${w}`
           : '/uploads/OysterdaleRecords_white_logo_260.webp';
 
         const linksHtml = (cfg.links && cfg.links.length)
@@ -290,6 +296,5 @@
 
   </script>
 
-
-
-</body></html>
+</body>
+</html>
