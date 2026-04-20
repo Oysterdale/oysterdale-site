@@ -126,10 +126,17 @@ function generateTemplate(data) {
       .artist-hero {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+        text-align: center;
       }
       .artist-photo {
         max-width: 280px;
         margin: 0 auto;
+      }
+      .artist-info {
+        text-align: center;
+      }
+      .artist-links {
+        justify-content: center;
       }
     }
   </style>
