@@ -44,7 +44,10 @@ function generateTemplate(data) {
   <style>
     /* Force white text */
     body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%) !important;
+      background-attachment: fixed !important;
       color: #fff !important;
+      min-height: 100vh;
     }
     a {
       color: #fff !important;
@@ -171,7 +174,7 @@ function generateTemplate(data) {
       </div>
       
       <div class="artist-releases">
-        <h2>Releases on Oysterdale</h2>
+        <h2>Oysterdale Releases</h2>
         <div class="releases-grid" id="artist-releases"></div>
       </div>
     </div>
