@@ -3,12 +3,17 @@ name: Elise Lizz
 role: vocalist
 image: /uploads/output.webp
 bio: ''
-spotify: https://open.spotify.com/artist/6CQNhuYALSQcjbLUrdN8Sp?si=tmK-YepmToSHPoJmc18IaQ
+spotify: https://open.spotify.com/artist/6CQNhuYALSQcjbLUrdN8Sp
+apple_music: https://music.apple.com/us/artist/elise-lizz/1717128008
+tidal: ''
 soundcloud: ''
 instagram: ''
 website: ''
 mixcloud: ''
 bandcamp: ''
+traxsource: ''
+beatport: ''
+youtube: ''
 seo:
   meta_title: ''
   meta_description: ''

@@ -3,18 +3,16 @@ name: Cavego
 role: producer
 image: /uploads/Cavego_600x600.webp
 bio: ''
-spotify: https://open.spotify.com/artist/5mF9jb0at58HIWigwZCuQx?si=HgHC9VlERDycdD6DhMIGAw
+spotify: https://open.spotify.com/artist/5mF9jb0at58HIWigwZCuQx
+apple_music: https://music.apple.com/us/artist/cavego/489711579
+tidal: https://tidal.com/browse/artist/7897636
 soundcloud: ''
 instagram: ''
 website: ''
 mixcloud: ''
 bandcamp: ''
-seo:
-  meta_title: ''
-  meta_description: ''
-  keywords: []
-  og_title: ''
-  og_description: ''
-  og_image: ''
+traxsource: https://www.traxsource.com/artist/217181/cavego
+beatport: ''
+youtube: ''
 ---
 
