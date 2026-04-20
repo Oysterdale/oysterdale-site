@@ -11,6 +11,11 @@ instagram: https://instagram.com/bringbacktheminijack
 website: ''
 mixcloud: ''
 bandcamp: ''
+traxsource: https://www.traxsource.com/artist/577378/minijack
+beatport: ''
+apple_music: https://music.apple.com/th/artist/minijack/1837212912
+youtube: ''
+tidal: https://tidal.com/artist/71138309/u
 seo:
   meta_title: ''
   meta_description: ''
