@@ -362,6 +362,17 @@
     }
     
     function renderRelease(data, content, allFiles, currentFile) {
+      const title = data.title || '';
+      
+      // Split title: main part and parenthetical part
+      let titleMain = title;
+      let titleParen = '';
+      const parenMatch = title.match(/^(.+?)\s*(\([^)]+\))\s*$/);
+      if (parenMatch) {
+        titleMain = parenMatch[1].trim();
+        titleParen = parenMatch[2];
+      }
+      
       const artists = (data.artists || []).map(a => {
         const slug = a.toLowerCase().replace(/\s+/g, '-');
         return `<a href="/artists/${slug}/">${a}</a>`;
@@ -406,7 +417,8 @@
           </div>
           <div class="release-right">
             <div class="release-info">
-              <h1>${data.title}</h1>
+              <h1>${titleMain.toUpperCase()}</h1>
+              ${titleParen ? `<div style="font-size: 1.2rem; color: #999; margin-top: 0.25rem;">${titleParen}</div>` : ''}
               <div class="release-artists">${artists}</div>
               ${data.date ? `<div class="release-meta">Released ${new Date(data.date).toLocaleDateString('en-GB', {day: 'numeric', month: 'long', year: 'numeric'})}${data.catalog ? ' · Catalog: ' + data.catalog : ''}</div>` : ''}
               ${description ? `<div class="release-description">${description}</div>` : ''}

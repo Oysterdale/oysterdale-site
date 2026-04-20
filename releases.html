@@ -283,6 +283,16 @@
       const {data} = parseFrontmatter(md);
 
       const title = clean(data.title);
+      
+      // Split title: main part and parenthetical part
+      let titleMain = title;
+      let titleParen = '';
+      const parenMatch = title.match(/^(.+?)\s*(\([^)]+\))\s*$/);
+      if (parenMatch) {
+        titleMain = parenMatch[1].trim();
+        titleParen = parenMatch[2];
+      }
+      
       const artists = (data.artists || []).map(a => {
         const slug = a.toLowerCase().replace(/\s+/g, '-');
         return `<a href="/artists/${slug}/" class="artist-link">${a}</a>`;
@@ -308,8 +318,9 @@
                        decoding="async">` : ""}
                 
                 <div class="release-header" style="margin-top: 1rem;">
-                  ${artists ? `<h2 class="release-artist">${artists}</h2>` : ""}
-                  ${title ? `<h3 class="release-title">${title}</h3>` : ""}
+                  ${titleMain ? `<h2 class="release-title" style="margin:0;">${titleMain.toUpperCase()}</h2>` : ""}
+                  ${titleParen ? `<h3 class="release-subtitle" style="margin:0.25rem 0 0; font-size:0.9rem; color:#999; font-weight:400;">${titleParen}</h3>` : ""}
+                  ${artists ? `<p class="release-artist" style="margin:0.5rem 0 0; font-size:0.95rem; color:#ccc;">${artists}</p>` : ""}
                 </div>
                 
 
