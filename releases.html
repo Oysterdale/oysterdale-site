@@ -34,6 +34,21 @@
       opacity: 0.7;
       text-decoration: underline;
     }
+    .release-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .release-link:hover .read-more {
+      opacity: 1;
+    }
+    .read-more {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
   </style>
 
   <!-- CSS -->
@@ -317,29 +332,35 @@
         .filter(Boolean)
         .join("");
 
+      const releaseSlug = file.name.replace('.md', '').toLowerCase();
+      
       return {
         date: dateStr ? new Date(dateStr) : new Date(0),
         html: `
           <div class="release">
-            <div class="release-content">
-              <div class="release-header">
-                ${artists ? `<h2 class="release-artist">${artists}</h2>` : ""}
-                ${title ? `<h3 class="release-title">${title}</h3>` : ""}
+            <a href="/releases/${releaseSlug}/" class="release-link">
+              <div class="release-content">
+                <div class="release-header">
+                  ${artists ? `<h2 class="release-artist">${artists}</h2>` : ""}
+                  ${title ? `<h3 class="release-title">${title}</h3>` : ""}
+                </div>
+
+                ${cover ? `
+                  <img src="${cover}"
+                       alt="${title}"
+                       class="release-cover"
+                       loading="lazy"
+                       decoding="async">` : ""}
+
+                ${buttons ? `<div class="platform-icons platforms">${buttons}</div>` : ""}
+
+                ${dateStr ? `<p class="release-date">
+                    Release date: ${niceDate(dateStr)}
+                  </p>` : ""}
+                
+                <span class="read-more">Read more →</span>
               </div>
-
-              ${cover ? `
-                <img src="${cover}"
-                     alt="${title}"
-                     class="release-cover"
-                     loading="lazy"
-                     decoding="async">` : ""}
-
-              ${buttons ? `<div class="platform-icons platforms">${buttons}</div>` : ""}
-
-              ${dateStr ? `<p class="release-date">
-                  Release date: ${niceDate(dateStr)}
-                </p>` : ""}
-            </div>
+            </a>
           </div>
         `
       };

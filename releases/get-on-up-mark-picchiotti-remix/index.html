@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}} | Oysterdale Records</title>
+  <meta name="description" content="{{description}}">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles-news.css">
+  <link rel="icon" href="/images/favicon.png" type="image/png">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin=""></noscript>
+  <style>
+    /* Force white text */
+    body {
+      color: #fff !important;
+    }
+    a {
+      color: #fff !important;
+    }
+    /* Offset for fixed header */
+    .page-content {
+      padding-top: 100px;
+    }
+    
+    .release-hero {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 3rem;
+      align-items: start;
+      margin: 2rem 0;
+    }
+    .release-cover-large {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .release-info h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: #fff;
+    }
+    .release-artists {
+      font-size: 1.2rem;
+      color: #ccc;
+      margin-bottom: 1.5rem;
+    }
+    .release-date {
+      font-size: 0.9rem;
+      color: #999;
+      margin-bottom: 2rem;
+    }
+    .release-description {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #ccc;
+      margin-bottom: 2rem;
+    }
+    .platform-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .platform-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .platform-links a:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    .credits {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .credits h3 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+    .credits-list {
+      list-style: none;
+      padding: 0;
+    }
+    .credits-list li {
+      margin-bottom: 0.5rem;
+      color: #ccc;
+    }
+    .related-releases {
+      margin-top: 4rem;
+    }
+    .related-releases h2 {
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      .release-hero {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .release-cover-large {
+        max-width: 300px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    fetch("/header.html")
+      .then(r => r.text())
+      .then(html => {
+        document.body.insertAdjacentHTML("afterbegin", html);
+        const btn = document.getElementById("menu-toggle");
+        const nav = document.querySelector(".main-nav");
+        if(btn && nav){
+          btn.addEventListener("click", () => {
+            const open = nav.classList.toggle("open");
+            btn.textContent = open ? "✖" : "☰";
+          });
+          document.addEventListener("click", e => {
+            if(e.target.closest(".nav-links a")){
+              nav.classList.remove("open");
+              btn.textContent = "☰";
+            }
+          });
+        }
+      });
+  </script>
+
+  <main class="page-content">
+    <div id="release-content">
+      <p>Loading release...</p>
+    </div>
+  </main>
+
+  <script>
+    fetch("/footer.html")
+      .then(r => r.text())
+      .then(html => document.body.insertAdjacentHTML("beforeend", html));
+  </script>
+
+  <script>
+    const OWNER = "Oysterdale";
+    const REPO = "oysterdale-site";
+    
+    // Get release slug from URL
+    const pathParts = window.location.pathname.split('/');
+    const releaseSlug = pathParts[pathParts.length - 2] || pathParts[pathParts.length - 1];
+    
+    async function loadRelease() {
+      try {
+        // Find release file by slug
+        const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/releases`);
+        const files = await r.json();
+        
+        // Find file matching slug
+        const releaseFile = files.find(f => {
+          const name = f.name.replace('.md', '').toLowerCase();
+          return name === releaseSlug || name.includes(releaseSlug);
+        });
+        
+        if (!releaseFile) {
+          document.getElementById('release-content').innerHTML = '<p>Release not found.</p>';
+          return;
+        }
+        
+        const md = await fetch(releaseFile.download_url).then(r => r.text());
+        const { data, content } = parseFrontmatter(md);
+        
+        renderRelease(data, content);
+        
+      } catch(e) {
+        console.error(e);
+        document.getElementById('release-content').innerHTML = '<p>Error loading release.</p>';
+      }
+    }
+    
+    function parseFrontmatter(md) {
+      const parts = md.split('---');
+      if(parts.length < 3) return {data: {}, content: ''};
+      
+      const yaml = parts[1];
+      const content = parts.slice(2).join('---').trim();
+      const data = {};
+      const lines = yaml.split(/\r?\n/);
+      
+      let listKey = null;
+      let inLinks = false;
+      
+      for(const line of lines){
+        if(!line.trim()) continue;
+        
+        if(/^links\s*:\s*$/.test(line.trim())){
+          inLinks = true;
+          data.links = {};
+          continue;
+        }
+        
+        if(inLinks){
+          if(!line.startsWith(" ")){
+            inLinks = false;
+          } else {
+            const m = line.trim().match(/^([^:]+):\s*(.*)$/);
+            if(m) data.links[m[1].trim()] = m[2].replace(/^["']|["']$/g,"");
+            continue;
+          }
+        }
+        
+        const listStart = line.match(/^([A-Za-z0-9_]+):\s*$/);
+        if(listStart){
+          listKey = listStart[1];
+          data[listKey] = [];
+          continue;
+        }
+        
+        if(listKey && line.trim().startsWith("-")){
+          data[listKey].push(line.replace(/^\s*-\s*/,"").trim());
+          continue;
+        }
+        
+        const field = line.match(/^([^:]+):\s*(.*)$/);
+        if(field){
+          data[field[1].trim()] = field[2].replace(/^["']|["']$/g,"");
+        }
+      }
+      
+      if(data.artists){
+        if(Array.isArray(data.artists)){
+          data.artists = data.artists.map(a => 
+            typeof a === "string" ? a : (a.existing || a.custom || "")
+          ).filter(Boolean);
+        } else {
+          data.artists = [String(data.artists).trim()];
+        }
+      }
+      
+      return {data, content};
+    }
+    
+    function renderRelease(data, content) {
+      const artists = (data.artists || []).map(a => {
+        const slug = a.toLowerCase().replace(/\s+/g, '-');
+        return `<a href="/artists/${slug}/">${a}</a>`;
+      }).join(" | ");
+      
+      const links = data.links || {};
+      const platformButtons = [];
+      
+      if(links.spotify_url) platformButtons.push({url: links.spotify_url, icon: 'fa-brands fa-spotify', label: 'Spotify'});
+      if(links.apple_music_url) platformButtons.push({url: links.apple_music_url, icon: 'fa-brands fa-apple', label: 'Apple Music'});
+      if(links.beatport_url) platformButtons.push({url: links.beatport_url, icon: 'fa-solid fa-music', label: 'Beatport'});
+      if(links.traxsource_url) platformButtons.push({url: links.traxsource_url, icon: 'fa-solid fa-record-vinyl', label: 'Traxsource'});
+      if(links.youtube_url) platformButtons.push({url: links.youtube_url, icon: 'fa-brands fa-youtube', label: 'YouTube'});
+      
+      const platformHtml = platformButtons.map(p => `
+        <a href="${p.url}" target="_blank" rel="noopener">
+          <i class="${p.icon}"></i> ${p.label}
+        </a>
+      `).join('');
+      
+      // Parse markdown content for description
+      const description = content 
+        ? content.replace(/\*\*/g, '').replace(/\n/g, '<br>')
+        : '';
+      
+      document.getElementById('release-content').innerHTML = `
+        <div class="release-hero">
+          <img src="${data.cover || data.image}" alt="${data.title}" class="release-cover-large">
+          <div class="release-info">
+            <h1>${data.title}</h1>
+            <div class="release-artists">${artists}</div>
+            ${data.date ? `<div class="release-date">Released: ${new Date(data.date).toLocaleDateString('en-GB', {day: 'numeric', month: 'long', year: 'numeric'})}</div>` : ''}
+            ${description ? `<div class="release-description">${description}</div>` : ''}
+            <div class="platform-links">
+              ${platformHtml}
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Update page title
+      document.title = `${data.title} – Oysterdale Records`;
+    }
+    
+    loadRelease();
+  </script>
+</body>
+</html>
