@@ -4,3 +4,14 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+# Redirect release slugs to release-template.html
+[[redirects]]
+  from = "/releases/*/"
+  to = "/releases/release-template.html"
+  status = 200
+
+[[redirects]]
+  from = "/artists/*/"
+  to = "/artists/artist-template.html"
+  status = 200
