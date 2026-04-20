@@ -230,11 +230,7 @@
 
       return `
         <div class="thumb">
-          ${
-            link && /^https?:\/\//.test(link)
-              ? `<a href="${link}" target="_blank" rel="noopener">${img}</a>`
-              : img
-          }
+          ${img}
         </div>
       `;
     }
@@ -243,16 +239,11 @@
       const name = a.name || a.title || "";
       const img  = a.image || a.photo || "";
 
-      let link = null;
-      if(a.website && /^https?:\/\//.test(a.website.trim())) link = a.website.trim();
-      else if(a.spotify && /^https?:\/\//.test(a.spotify.trim())) link = a.spotify.trim();
-      else if(a.instagram && /^https?:\/\//.test(a.instagram.trim())) link = a.instagram.trim();
-
       const artistSlug = a.name.toLowerCase().replace(/\s+/g, '-');
       return `
         <div class="artist">
           <a href="/artists/${artistSlug}/" class="artist-link">
-            ${imgTag(img, name, link)}
+            ${imgTag(img, name)}
             <h3>${name}</h3>
           </a>
         </div>
