@@ -138,6 +138,16 @@ function generateTemplate(data) {
       .artist-links {
         justify-content: center;
       }
+      .artist-bio-full {
+        text-align: center;
+        margin: 2rem auto;
+      }
+      .artist-releases {
+        text-align: center;
+      }
+      .artist-releases h2 {
+        text-align: center;
+      }
     }
   </style>
 </head>
