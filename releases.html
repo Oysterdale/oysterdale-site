@@ -42,16 +42,6 @@
     .release-link:hover .read-more {
       opacity: 1;
     }
-    .release-teaser {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin: 0.5rem 0;
-      line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
     .read-more {
       display: inline-flex;
       align-items: center;
@@ -243,7 +233,6 @@
 
       let listKey = null;
       let inLinks = false;
-      let inTags = false;
 
       for(const line of lines){
         if(!line.trim()) continue;
@@ -254,27 +243,12 @@
           continue;
         }
 
-        if(/^tags\s*:\s*$/.test(line.trim())){
-          inTags = true;
-          data.tags = [];
-          continue;
-        }
-
         if(inLinks){
           if(!line.startsWith(" ")){
             inLinks = false;
           } else {
             const m = line.trim().match(/^([^:]+):\s*(.*)$/);
             if(m) data.links[m[1].trim()] = m[2].replace(/^["']|["']$/g,"");
-            continue;
-          }
-        }
-
-        if(inTags){
-          if(!line.startsWith(" ")){
-            inTags = false;
-          } else {
-            data.tags.push(line.replace(/^\s*-\s*/,"").trim());
             continue;
           }
         }
@@ -314,42 +288,6 @@
 
     function clean(v){ return (v??"").toString().trim(); }
 
-    function niceDate(iso){
-      if(!iso) return "";
-      const d = new Date(iso);
-      return isNaN(d) ? iso :
-        d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
-    }
-
-    const PLATFORM_DEF = [
-      {key:"spotify_url", label:"Spotify", icon:"fa-brands fa-spotify", type:"icon"},
-      {key:"apple_music_url", label:"Apple Music", icon:"fa-brands fa-apple", type:"icon"},
-      {key:"itunes_url", label:"iTunes", img:"images/platforms/itunes.svg", type:"img"},
-      {key:"tidal_url", label:"Tidal", img:"images/platforms/tidal.svg", type:"img"},
-      {key:"amazon_music_url", label:"Amazon Music", icon:"fa-brands fa-amazon", type:"icon"},
-      {key:"youtube_url", label:"YouTube", icon:"fa-brands fa-youtube", type:"icon"},
-      {key:"traxsource_url", label:"Traxsource", img:"images/platforms/traxsource.svg", type:"img"},
-      {key:"beatport_url", label:"Beatport", img:"images/platforms/beatport.svg", type:"img"},
-      {key:"deezer_url", label:"Deezer", img:"images/platforms/deezer.svg", type:"img"}
-    ];
-
-    function platformButton(def, url){
-      const u = clean(url);
-      if(!u) return "";
-
-      if(def.type === "img"){
-        return `
-          <a class="platform-btn" href="${u}" target="_blank" rel="noopener">
-            <img src="${def.img}" alt="${def.label}" loading="lazy">
-          </a>`;
-      }
-
-      return `
-        <a class="platform-btn" href="${u}" target="_blank" rel="noopener">
-          <i class="${def.icon}"></i>
-        </a>`;
-    }
-
     async function loadCard(file){
       const md = await fetch(file.download_url).then(r => r.text());
       const {data} = parseFrontmatter(md);
@@ -361,27 +299,8 @@
       }).join(" | ");
       const cover = clean(data.cover || data.image);
       const dateStr = clean(data.date);
-      const links = data.links || {};
-      
-      // Get teaser from description (first sentence or first 120 chars)
-      let teaser = '';
-      if (data.description) {
-        const desc = data.description.replace(/\*\*/g, '').replace(/\n/g, ' ');
-        const firstSentence = desc.split(/[.!?]/)[0];
-        teaser = firstSentence.length > 120 ? firstSentence.substring(0, 120) + '...' : firstSentence + '.';
-      }
-
-      const buttons = PLATFORM_DEF
-        .map(def => platformButton(def, links[def.key]))
-        .filter(Boolean)
-        .join("");
 
       const releaseSlug = file.name.replace('.md', '').toLowerCase();
-      
-      // Tags HTML
-      const tagsHtml = tags.slice(0, 3).map(tag => 
-        `<span class="release-tag">${tag}</span>`
-      ).join('');
       
       return {
         date: dateStr ? new Date(dateStr) : new Date(0),
@@ -391,11 +310,6 @@
           <div class="release">
             <a href="/releases/${releaseSlug}/" class="release-link">
               <div class="release-content">
-                <div class="release-header">
-                  ${artists ? `<h2 class="release-artist">${artists}</h2>` : ""}
-                  ${title ? `<h3 class="release-title">${title}</h3>` : ""}
-                </div>
-
                 ${cover ? `
                   <img src="${cover}"
                        alt="${title}"
@@ -403,13 +317,10 @@
                        loading="lazy"
                        decoding="async">` : ""}
                 
-                ${teaser ? `<p class="release-teaser">${teaser}</p>` : ''}
-
-                ${buttons ? `<div class="platform-icons platforms">${buttons}</div>` : ""}
-
-                ${dateStr ? `<p class="release-date">
-                    Release date: ${niceDate(dateStr)}
-                  </p>` : ""}
+                <div class="release-header" style="margin-top: 1rem;">
+                  ${artists ? `<h2 class="release-artist">${artists}</h2>` : ""}
+                  ${title ? `<h3 class="release-title">${title}</h3>` : ""}
+                </div>
                 
                 <span class="read-more">Read more <i class="fa-solid fa-arrow-right"></i></span>
               </div>
