@@ -15,6 +15,11 @@ const TEMPLATE = `<!DOCTYPE html>
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin=""></noscript>
   <style>
+    /* Offset for fixed header */
+    .page-content {
+      padding-top: 100px;
+    }
+    
     .artist-hero {
       display: grid;
       grid-template-columns: 300px 1fr;
@@ -31,6 +36,7 @@ const TEMPLATE = `<!DOCTYPE html>
     .artist-info h1 {
       margin: 0 0 0.5rem;
       font-size: clamp(2rem, 4vw, 3rem);
+      color: #fff;
     }
     .artist-role {
       display: inline-block;
