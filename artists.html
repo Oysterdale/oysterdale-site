@@ -121,27 +121,9 @@
       if(!form) return;
       
       form.addEventListener('submit', function(e){
-        e.preventDefault();
         const btn = form.querySelector('button[type="submit"]');
-        const originalText = btn.textContent;
         btn.textContent = 'Subscribing...';
         btn.disabled = true;
-        
-        const data = new FormData(form);
-        
-        fetch('/', {
-          method: 'POST',
-          body: data
-        })
-        .then(function(){
-          form.style.display = 'none';
-          if(success) success.style.display = 'block';
-        })
-        .catch(function(){
-          btn.textContent = originalText;
-          btn.disabled = false;
-          alert('Something went wrong. Please try again.');
-        });
       });
     })();
     </script>
