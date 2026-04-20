@@ -160,13 +160,25 @@
       white-space: normal;
     }
     
-    /* Center static headings on mobile */
+    /* Center static headings on all screens */
     @media (max-width: 768px) {
       #heading-latest-news.scroll-title,
       #heading-playlists.scroll-title,
       #heading-join-crew.scroll-title {
         text-align: center !important;
       }
+    }
+    
+    /* Desktop: center static headings for consistency */
+    #heading-latest-news.scroll-title,
+    #heading-playlists.scroll-title,
+    #heading-join-crew.scroll-title {
+      text-align: center;
+    }
+    
+    /* Latest Release keeps left alignment for marquee */
+    #heading-latest-release.scroll-title {
+      text-align: left;
     }
     #heading-latest-news.scroll-title .marquee-clip,
     #heading-join-crew.scroll-title .marquee-clip,
