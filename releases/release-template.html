@@ -418,9 +418,9 @@
           <div class="release-right">
             <div class="release-info">
               <h1>${titleMain.toUpperCase()}</h1>
-              ${titleParen ? `<div style="font-size: 1.2rem; color: #999; margin-top: 0.25rem;">${titleParen}</div>` : ''}
+              ${titleParen ? `<div style="font-size: 1.2rem; color: #999; margin-top: 0.25rem; text-align: left;">${titleParen}</div>` : ''}
               <div class="release-artists">${artists}</div>
-              ${data.date ? `<div class="release-meta">Released ${new Date(data.date).toLocaleDateString('en-GB', {day: 'numeric', month: 'long', year: 'numeric'})}${data.catalog ? ' · Catalog: ' + data.catalog : ''}</div>` : ''}
+              ${data.date ? `<div class="release-meta" style="text-align: left;">Released ${new Date(data.date).toLocaleDateString('en-GB', {day: 'numeric', month: 'long', year: 'numeric'})}</div>` : ''}
               ${description ? `<div class="release-description">${description}</div>` : ''}
             </div>
             ${platformHtml ? `
