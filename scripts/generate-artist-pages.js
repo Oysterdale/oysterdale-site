@@ -15,6 +15,13 @@ const TEMPLATE = `<!DOCTYPE html>
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin=""></noscript>
   <style>
+    /* Force white text */
+    body {
+      color: #fff !important;
+    }
+    a {
+      color: #fff !important;
+    }
     /* Offset for fixed header */
     .page-content {
       padding-top: 100px;
