@@ -268,6 +268,19 @@
       <p style="text-align:center;margin-top:1.5rem;"><a href="/news/" class="btn-secondary">View all news →</a></p>
     </section>
 
+    <!-- NEWSLETTER SIGNUP -->
+    <section id="newsletter-section" class="latest-wrap">
+      <h2 class="scroll-title">JOIN THE CREW</h2>
+      <p style="text-align:center;opacity:.7;margin-bottom:1.5rem;">Get weekly pearls delivered to your inbox. No spam, just groove.</p>
+      <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;margin:0 auto;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+        <p style="display:none;">
+          <label>Don't fill this out: <input name="bot-field" /></label>
+        </p>
+        <input type="email" name="email" placeholder="your@email.com" required style="flex:1;min-width:220px;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:#fff;font-size:14px;outline:none;">
+        <button type="submit" style="padding:12px 24px;border-radius:999px;border:none;background:#fff;color:#000;font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s;">Subscribe</button>
+      </form>
+    </section>
+
     <!-- PLAYLISTS (under latest release) -->
     <section id="spotify-section" style="display:none;">
       <h2 id="heading-playlists" class="scroll-title">PLAYLISTS</h2>
