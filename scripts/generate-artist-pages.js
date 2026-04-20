@@ -67,6 +67,7 @@ const TEMPLATE = `<!DOCTYPE html>
       font-size: 0.9rem;
       transition: background 0.2s;
       color: #fff !important;
+      text-decoration: none;
     }
     .artist-links a:hover {
       background: rgba(255,255,255,0.12);
