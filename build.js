@@ -234,9 +234,13 @@ function generateNewsPostPage(post) {
     </article>
   </main>
 
-  <footer class="site-footer">
-    <p>Every record is a pearl.</p>
-    <p>&copy; ${new Date().getFullYear()} Oysterdale Records</p>
+  <footer>
+    <div class="footer-logo">
+      <img src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74" alt="Oysterdale Records Logo" class="footer-logo-img" width="260" height="260" loading="lazy">
+    </div>
+
+    <p>© ${new Date().getFullYear()} Oysterdale Records. All rights reserved.</p>
+    <p><a href="/privacy">Privacy Policy</a></p>
   </footer>
 </body>
 </html>`;
@@ -342,9 +346,13 @@ function generateNewsIndex(posts) {
     ${posts.length > 10 ? `<p class="archive-link"><a href="/news/archive/">View all ${posts.length} posts →</a></p>` : ""}
   </main>
 
-  <footer class="site-footer">
-    <p>Every record is a pearl.</p>
-    <p>&copy; ${new Date().getFullYear()} Oysterdale Records</p>
+  <footer>
+    <div class="footer-logo">
+      <img src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74" alt="Oysterdale Records Logo" class="footer-logo-img" width="260" height="260" loading="lazy">
+    </div>
+
+    <p>© ${new Date().getFullYear()} Oysterdale Records. All rights reserved.</p>
+    <p><a href="/privacy">Privacy Policy</a></p>
   </footer>
 </body>
 </html>`;
