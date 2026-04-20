@@ -38,6 +38,9 @@ const TEMPLATE = `<!DOCTYPE html>
       font-size: clamp(2rem, 4vw, 3rem);
       color: #fff;
     }
+    .artist-info a {
+      color: #fff !important;
+    }
     .artist-role {
       display: inline-block;
       padding: 4px 12px;
@@ -68,6 +71,7 @@ const TEMPLATE = `<!DOCTYPE html>
       border-radius: 999px;
       font-size: 0.9rem;
       transition: background 0.2s;
+      color: #fff !important;
     }
     .artist-links a:hover {
       background: rgba(255,255,255,0.12);
