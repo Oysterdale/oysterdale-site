@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MINIJACK | Oysterdale Records</title>
-  <meta name="description" content="MINIJACK is a Norwegian house music producer known for infectious grooves and disco-infused beats. With releases like "Don't Hold Me Back" and "Flashing Lights", MINIJACK brings energy to every dancefloor. Based in Oslo, MINIJACK has been making waves in the Scandinavian house scene with a unique blend of classic disco samples and modern production techniques. His music has been supported by DJs across Europe and featured on several Spotify editorial playlists. When not in the studio, MINIJACK can be found digging for rare vinyl records and playing sets at underground clubs around Norway.">
-  <link rel="stylesheet" href="/styles.css">
+  <meta name="description" content="MINIJACK is a Norwegian house music producer known for infectious grooves and disco-infused beats. With releases like &quot;Don't Hold Me Back&quot; and &quot;Flashing Lights&quot;">
+  <link rel="stylesheet" href="/styles.css?v=2">
   <link rel="stylesheet" href="/styles-news.css">
   <link rel="icon" href="/images/favicon.png" type="image/png">
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
@@ -67,6 +67,15 @@
     }
     .artist-links a:hover {
       background: rgba(255,255,255,0.12);
+    }
+    .artist-bio-full {
+      margin: 2rem 0;
+      max-width: 800px;
+    }
+    .artist-bio-full p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #ccc;
     }
     .artist-releases {
       margin-top: 4rem;
@@ -146,10 +155,6 @@
       <i class="fa-brands fa-bandcamp"></i> Bandcamp
     </a>
   
-    <a href="mailto:''" target="_blank" rel="noopener">
-      <i class="fa-solid fa-envelope"></i> Contact
-    </a>
-  
           </div>
         </div>
       </div>
@@ -172,16 +177,18 @@
   </script>
 
   <script>
-    // Load releases for this artist
+    const OWNER = "Oysterdale";
+    const REPO = "oysterdale-site";
+    
     async function loadReleases() {
       try {
-        const r = await fetch('https://api.github.com/repos/Oysterdale/oysterdale-site/contents/releases');
+        const r = await fetch('https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/releases');
         const files = await r.json();
         const releases = [];
         
         for(const file of files.filter(f => f.name.endsWith('.md'))) {
           const md = await fetch(file.download_url).then(r => r.text());
-          const { data } = parseFrontmatter(md);
+          const data = parseFrontmatter(md);
           
           if(data.artists && data.artists.some(a => 
             a.toLowerCase().includes('minijack') || 
@@ -197,15 +204,16 @@
           return;
         }
         
-        container.innerHTML = releases.map(r => `
-          <div class="release">
-            <a href="/releases/${r.title.toLowerCase().replace(/\s+/g, '-')}.html">
-              <img src="${r.cover || r.image}" alt="${r.title}" class="release-cover" loading="lazy">
-              <h3>${r.title}</h3>
-              <p>${r.artists.join(' | ')}</p>
-            </a>
-          </div>
-        `).join('');
+        container.innerHTML = releases.map(function(r) {
+          var releaseSlug = r.title.toLowerCase().replace(/\s+/g, '-');
+          return '<div class="release">' +
+            '<a href="/releases/' + releaseSlug + '/">' +
+            '<img src="' + (r.cover || r.image) + '" alt="' + r.title + '" class="release-cover" loading="lazy">' +
+            '<h3>' + r.title + '</h3>' +
+            '<p>' + r.artists.join(' | ') + '</p>' +
+            '</a>' +
+            '</div>';
+        }).join('');
         
       } catch(e) {
         console.error(e);
@@ -213,26 +221,30 @@
     }
     
     function parseFrontmatter(md) {
-      const parts = md.split('---');
+      var parts = md.split('---');
       if(parts.length < 3) return {data: {}};
-      const yaml = parts[1];
-      const data = {};
-      const lines = yaml.split(/\r?\n/);
+      var yaml = parts[1];
+      var data = {};
+      var lines = yaml.split(/\r?\n/);
       
-      let listKey = null;
-      for(const line of lines){
+      var listKey = null;
+      for(var i = 0; i < lines.length; i++){
+        var line = lines[i];
         if(!line.trim()) continue;
-        const listStart = line.match(/^([A-Za-z0-9_]+):\s*$/);
+        
+        var listStart = line.match(/^([A-Za-z0-9_]+):\s*$/);
         if(listStart){
           listKey = listStart[1];
           data[listKey] = [];
           continue;
         }
+        
         if(listKey && line.trim().startsWith("-")){
           data[listKey].push(line.replace(/^\s*-\s*/, "").trim());
           continue;
         }
-        const field = line.match(/^([^:]+):\s*(.*)$/);
+        
+        var field = line.match(/^([^:]+):\s*(.*)$/);
         if(field){
           data[field[1].trim()] = field[2].replace(/^["']|["']$/g, "");
         }
@@ -240,15 +252,15 @@
       
       if(data.artists){
         if(Array.isArray(data.artists)){
-          data.artists = data.artists.map(a => 
-            typeof a === "string" ? a : (a.existing || a.custom || "")
-          ).filter(Boolean);
+          data.artists = data.artists.map(function(a) {
+            return typeof a === "string" ? a : (a.existing || a.custom || "");
+          }).filter(Boolean);
         } else {
           data.artists = [String(data.artists).trim()];
         }
       }
       
-      return {data};
+      return data;
     }
     
     loadReleases();

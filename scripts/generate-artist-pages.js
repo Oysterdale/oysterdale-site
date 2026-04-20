@@ -2,14 +2,36 @@ const fs = require('fs');
 const path = require('path');
 
 const ARTISTS_DIR = path.join(__dirname, '..', 'artists');
-const TEMPLATE = `<!DOCTYPE html>
+
+function generateTemplate(data) {
+  const name = data.name || '';
+  const nameLower = (data.name || '').toLowerCase();
+  const bio = data.bio || '';
+  const photo = data.photo || data.image || '';
+  
+  // Generate links
+  const links = [];
+  if(data.spotify) links.push({url: data.spotify, icon: 'fa-brands fa-spotify', label: 'Spotify'});
+  if(data.soundcloud) links.push({url: data.soundcloud, icon: 'fa-brands fa-soundcloud', label: 'SoundCloud'});
+  if(data.instagram) links.push({url: data.instagram, icon: 'fa-brands fa-instagram', label: 'Instagram'});
+  if(data.website) links.push({url: data.website, icon: 'fa-solid fa-globe', label: 'Website'});
+  if(data.mixcloud) links.push({url: data.mixcloud, icon: 'fa-brands fa-mixcloud', label: 'Mixcloud'});
+  if(data.bandcamp) links.push({url: data.bandcamp, icon: 'fa-brands fa-bandcamp', label: 'Bandcamp'});
+  
+  const linksHtml = links.map(l => `
+    <a href="${l.url}" target="_blank" rel="noopener">
+      <i class="${l.icon}"></i> ${l.label}
+    </a>
+  `).join('');
+  
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{name}} | Oysterdale Records</title>
-  <meta name="description" content="{{bio}}">
-  <link rel="stylesheet" href="/styles.css">
+  <title>${name} | Oysterdale Records</title>
+  <meta name="description" content="${bio.substring(0, 160).replace(/"/g, '&quot;')}">
+  <link rel="stylesheet" href="/styles.css?v=2">
   <link rel="stylesheet" href="/styles-news.css">
   <link rel="icon" href="/images/favicon.png" type="image/png">
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
@@ -72,6 +94,15 @@ const TEMPLATE = `<!DOCTYPE html>
     .artist-links a:hover {
       background: rgba(255,255,255,0.12);
     }
+    .artist-bio-full {
+      margin: 2rem 0;
+      max-width: 800px;
+    }
+    .artist-bio-full p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #ccc;
+    }
     .artist-releases {
       margin-top: 4rem;
     }
@@ -121,17 +152,17 @@ const TEMPLATE = `<!DOCTYPE html>
   <main class="page-content">
     <div id="artist-content">
       <div class="artist-hero">
-        <img src="{{photo}}" alt="{{name}}" class="artist-photo">
+        <img src="${photo}" alt="${name}" class="artist-photo">
         <div class="artist-info">
-          <h1>{{name}}</h1>
+          <h1>${name}</h1>
           <div class="artist-links">
-            {{links}}
+            ${linksHtml}
           </div>
         </div>
       </div>
       
       <div class="artist-bio-full">
-        <p>{{bio}}</p>
+        <p>${bio}</p>
       </div>
       
       <div class="artist-releases">
@@ -148,20 +179,22 @@ const TEMPLATE = `<!DOCTYPE html>
   </script>
 
   <script>
-    // Load releases for this artist
+    const OWNER = "Oysterdale";
+    const REPO = "oysterdale-site";
+    
     async function loadReleases() {
       try {
-        const r = await fetch('https://api.github.com/repos/Oysterdale/oysterdale-site/contents/releases');
+        const r = await fetch('https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/releases');
         const files = await r.json();
         const releases = [];
         
         for(const file of files.filter(f => f.name.endsWith('.md'))) {
           const md = await fetch(file.download_url).then(r => r.text());
-          const { data } = parseFrontmatter(md);
+          const data = parseFrontmatter(md);
           
           if(data.artists && data.artists.some(a => 
-            a.toLowerCase().includes('{{name_lower}}') || 
-            '{{name_lower}}'.includes(a.toLowerCase())
+            a.toLowerCase().includes('${nameLower}') || 
+            '${nameLower}'.includes(a.toLowerCase())
           )) {
             releases.push(data);
           }
@@ -173,15 +206,16 @@ const TEMPLATE = `<!DOCTYPE html>
           return;
         }
         
-        container.innerHTML = releases.map(r => \`
-          <div class="release">
-            <a href="/releases/\${r.title.toLowerCase().replace(/\\s+/g, '-')}.html">
-              <img src="\${r.cover || r.image}" alt="\${r.title}" class="release-cover" loading="lazy">
-              <h3>\${r.title}</h3>
-              <p>\${r.artists.join(' | ')}</p>
-            </a>
-          </div>
-        \`).join('');
+        container.innerHTML = releases.map(function(r) {
+          var releaseSlug = r.title.toLowerCase().replace(/\\s+/g, '-');
+          return '<div class="release">' +
+            '<a href="/releases/' + releaseSlug + '/">' +
+            '<img src="' + (r.cover || r.image) + '" alt="' + r.title + '" class="release-cover" loading="lazy">' +
+            '<h3>' + r.title + '</h3>' +
+            '<p>' + r.artists.join(' | ') + '</p>' +
+            '</a>' +
+            '</div>';
+        }).join('');
         
       } catch(e) {
         console.error(e);
@@ -189,26 +223,30 @@ const TEMPLATE = `<!DOCTYPE html>
     }
     
     function parseFrontmatter(md) {
-      const parts = md.split('---');
+      var parts = md.split('---');
       if(parts.length < 3) return {data: {}};
-      const yaml = parts[1];
-      const data = {};
-      const lines = yaml.split(/\\r?\\n/);
+      var yaml = parts[1];
+      var data = {};
+      var lines = yaml.split(/\\r?\\n/);
       
-      let listKey = null;
-      for(const line of lines){
+      var listKey = null;
+      for(var i = 0; i < lines.length; i++){
+        var line = lines[i];
         if(!line.trim()) continue;
-        const listStart = line.match(/^([A-Za-z0-9_]+):\\s*$/);
+        
+        var listStart = line.match(/^([A-Za-z0-9_]+):\\s*$/);
         if(listStart){
           listKey = listStart[1];
           data[listKey] = [];
           continue;
         }
+        
         if(listKey && line.trim().startsWith("-")){
           data[listKey].push(line.replace(/^\\s*-\\s*/, "").trim());
           continue;
         }
-        const field = line.match(/^([^:]+):\\s*(.*)$/);
+        
+        var field = line.match(/^([^:]+):\\s*(.*)$/);
         if(field){
           data[field[1].trim()] = field[2].replace(/^["']|["']$/g, "");
         }
@@ -216,21 +254,22 @@ const TEMPLATE = `<!DOCTYPE html>
       
       if(data.artists){
         if(Array.isArray(data.artists)){
-          data.artists = data.artists.map(a => 
-            typeof a === "string" ? a : (a.existing || a.custom || "")
-          ).filter(Boolean);
+          data.artists = data.artists.map(function(a) {
+            return typeof a === "string" ? a : (a.existing || a.custom || "");
+          }).filter(Boolean);
         } else {
           data.artists = [String(data.artists).trim()];
         }
       }
       
-      return {data};
+      return data;
     }
     
     loadReleases();
   </script>
 </body>
 </html>`;
+}
 
 function parseFrontmatter(md) {
   const parts = md.split('---');
@@ -246,33 +285,6 @@ function parseFrontmatter(md) {
   return data;
 }
 
-function generateLinks(data) {
-  const links = [];
-  if(data.spotify) links.push({url: data.spotify, icon: 'fa-brands fa-spotify', label: 'Spotify'});
-  if(data.soundcloud) links.push({url: data.soundcloud, icon: 'fa-brands fa-soundcloud', label: 'SoundCloud'});
-  if(data.instagram) links.push({url: data.instagram, icon: 'fa-brands fa-instagram', label: 'Instagram'});
-  if(data.website) links.push({url: data.website, icon: 'fa-solid fa-globe', label: 'Website'});
-  if(data.mixcloud) links.push({url: data.mixcloud, icon: 'fa-brands fa-mixcloud', label: 'Mixcloud'});
-  if(data.bandcamp) links.push({url: data.bandcamp, icon: 'fa-brands fa-bandcamp', label: 'Bandcamp'});
-  if(data.contact_email) links.push({url: `mailto:${data.contact_email}`, icon: 'fa-solid fa-envelope', label: 'Contact'});
-  
-  return links.map(l => `
-    <a href="${l.url}" target="_blank" rel="noopener">
-      <i class="${l.icon}"></i> ${l.label}
-    </a>
-  `).join('');
-}
-
-function generateArtistPage(data, slug) {
-  return TEMPLATE
-    .replace(/\{\{name\}\}/g, data.name || '')
-    .replace(/\{\{name_lower\}\}/g, (data.name || '').toLowerCase())
-    .replace(/\{\{role\}\}/g, data.role || '')
-    .replace(/\{\{bio\}\}/g, data.bio || '')
-    .replace(/\{\{photo\}\}/g, data.photo || data.image || '')
-    .replace(/\{\{links\}\}/g, generateLinks(data));
-}
-
 // Main
 const files = fs.readdirSync(ARTISTS_DIR).filter(f => f.endsWith('.md'));
 
@@ -286,9 +298,9 @@ files.forEach(file => {
     fs.mkdirSync(dir, {recursive: true});
   }
   
-  const html = generateArtistPage(data, slug);
+  const html = generateTemplate(data);
   fs.writeFileSync(path.join(dir, 'index.html'), html);
-  console.log(`Generated: ${dir}/index.html`);
+  console.log('Generated: ' + dir + '/index.html');
 });
 
 console.log('Done!');
