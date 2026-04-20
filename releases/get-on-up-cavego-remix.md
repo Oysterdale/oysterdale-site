@@ -7,6 +7,18 @@ artists:
 date: 2025-11-21
 catalog: OYSTR25008
 cover: /uploads/get_on_up_cavego_400.webp
+genre: Nu Disco
+tags:
+  - nu disco
+  - remix
+  - cavego
+  - norwegian
+  - groovy
+credits:
+  original_producer: OKPLUS
+  remixer: Cavego
+  vocals: Emél
+  mastering: Sam Wills at Wired Masters
 links:
   spotify_url: https://open.spotify.com/track/15P4j2ILdRuGlLAAwBz1xO?si=defad931e40a4e02
   apple_music_url: https://music.apple.com/no/album/get-on-up-cavego-remix/1851278378?i=1851278379&l=nb
@@ -25,4 +37,10 @@ seo:
   og_description: ''
   og_image: ''
 ---
+
+**Cavego** puts his Norwegian nu-disco magic on "Get On Up," delivering a remix that's all about the groove.
+
+Hailing from Norway's vibrant electronic scene, Cavego brings a playful energy to the track. His remix adds shimmering synths, a bouncier bassline, and an overall sunny disposition that makes this version perfect for daytime festivals and rooftop parties.
+
+Emél's vocals glide over the top, and the whole thing just makes you smile. It's a testament to what happens when Scandinavian sensibility meets disco house.
 

@@ -42,12 +42,38 @@
     .release-link:hover .read-more {
       opacity: 1;
     }
+    .release-teaser {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin: 0.5rem 0;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .release-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 0.5rem 0;
+    }
+    .release-tag {
+      padding: 3px 10px;
+      background: rgba(107, 76, 122, 0.3);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      color: #bbb;
+    }
     .read-more {
-      display: inline-block;
-      margin-top: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 0.75rem;
       font-size: 0.9rem;
       opacity: 0.7;
       transition: opacity 0.2s;
+      font-weight: 600;
     }
   </style>
 
@@ -103,6 +129,16 @@
         <h1>RELEASES</h1>
         <p>Stream or buy from your preferred platform.</p>
       </section>
+
+      <div id="genre-filter" style="margin: 2rem 0; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+        <span style="font-size: 0.9rem; color: #999;">Filter by genre:</span>
+        <button class="genre-btn active" data-genre="all" style="padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">All</button>
+        <button class="genre-btn" data-genre="deep house" style="padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #aaa; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">Deep House</button>
+        <button class="genre-btn" data-genre="disco house" style="padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #aaa; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">Disco House</button>
+        <button class="genre-btn" data-genre="nu disco" style="padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #aaa; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">Nu Disco</button>
+        <button class="genre-btn" data-genre="vocal house" style="padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #aaa; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">Vocal House</button>
+        <button class="genre-btn" data-genre="house" style="padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #aaa; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">House</button>
+      </div>
 
       <div id="releases-content" class="releases-grid">Loading releases...</div>
 
@@ -220,11 +256,13 @@
       if(parts.length < 3) return {data:{}};
 
       const yaml = parts[1];
+      const content = parts.slice(2).join('---').trim();
       const data = {};
       const lines = yaml.split(/\r?\n/);
 
       let listKey = null;
       let inLinks = false;
+      let inTags = false;
 
       for(const line of lines){
         if(!line.trim()) continue;
@@ -235,12 +273,27 @@
           continue;
         }
 
+        if(/^tags\s*:\s*$/.test(line.trim())){
+          inTags = true;
+          data.tags = [];
+          continue;
+        }
+
         if(inLinks){
           if(!line.startsWith(" ")){
             inLinks = false;
           } else {
             const m = line.trim().match(/^([^:]+):\s*(.*)$/);
             if(m) data.links[m[1].trim()] = m[2].replace(/^["']|["']$/g,"");
+            continue;
+          }
+        }
+
+        if(inTags){
+          if(!line.startsWith(" ")){
+            inTags = false;
+          } else {
+            data.tags.push(line.replace(/^\s*-\s*/,"").trim());
             continue;
           }
         }
@@ -272,6 +325,8 @@
           data.artists = [String(data.artists).trim()];
         }
       }
+
+      data.description = content;
 
       return {data};
     }
@@ -326,6 +381,16 @@
       const cover = clean(data.cover || data.image);
       const dateStr = clean(data.date);
       const links = data.links || {};
+      const tags = data.tags || [];
+      const genre = clean(data.genre || (tags[0] ? tags[0] : ''));
+      
+      // Get teaser from description (first sentence or first 120 chars)
+      let teaser = '';
+      if (data.description) {
+        const desc = data.description.replace(/\*\*/g, '').replace(/\n/g, ' ');
+        const firstSentence = desc.split(/[.!?]/)[0];
+        teaser = firstSentence.length > 120 ? firstSentence.substring(0, 120) + '...' : firstSentence + '.';
+      }
 
       const buttons = PLATFORM_DEF
         .map(def => platformButton(def, links[def.key]))
@@ -334,8 +399,15 @@
 
       const releaseSlug = file.name.replace('.md', '').toLowerCase();
       
+      // Tags HTML
+      const tagsHtml = tags.slice(0, 3).map(tag => 
+        `<span class="release-tag">${tag}</span>`
+      ).join('');
+      
       return {
         date: dateStr ? new Date(dateStr) : new Date(0),
+        genre: genre,
+        tags: tags,
         html: `
           <div class="release">
             <a href="/releases/${releaseSlug}/" class="release-link">
@@ -352,13 +424,18 @@
                        loading="lazy"
                        decoding="async">` : ""}
 
+                ${genre ? `<div style="margin-top:0.5rem;"><span class="release-tag" style="background:rgba(107,76,122,0.5);">${genre}</span></div>` : ''}
+                ${tagsHtml ? `<div class="release-tags">${tagsHtml}</div>` : ''}
+                
+                ${teaser ? `<p class="release-teaser">${teaser}</p>` : ''}
+
                 ${buttons ? `<div class="platform-icons platforms">${buttons}</div>` : ""}
 
                 ${dateStr ? `<p class="release-date">
                     Release date: ${niceDate(dateStr)}
                   </p>` : ""}
                 
-                <span class="read-more">Read more →</span>
+                <span class="read-more">Read more <i class="fa-solid fa-arrow-right"></i></span>
               </div>
             </a>
           </div>
@@ -368,20 +445,61 @@
 
     (async()=>{
       const container = document.getElementById("releases-content");
+      let allCards = [];
 
       try{
         const files = await listFiles();
         const cards = await Promise.all(files.map(loadCard));
 
         cards.sort((a,b)=>b.date - a.date);
+        allCards = cards;
 
-        container.innerHTML = cards.map(c => c.html).join("");
+        renderCards(cards);
+        
+        // Setup genre filter
+        setupGenreFilter(allCards);
 
       }catch(e){
         console.error(e);
         container.innerHTML = "<p>Could not load releases.</p>";
       }
     })();
+    
+    function renderCards(cards) {
+      const container = document.getElementById("releases-content");
+      container.innerHTML = cards.map(c => c.html).join("");
+    }
+    
+    function setupGenreFilter(allCards) {
+      const filterButtons = document.querySelectorAll('.genre-btn');
+      
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active state
+          filterButtons.forEach(b => {
+            b.classList.remove('active');
+            b.style.background = 'transparent';
+            b.style.color = '#aaa';
+          });
+          btn.classList.add('active');
+          btn.style.background = 'rgba(255,255,255,0.1)';
+          btn.style.color = '#fff';
+          
+          const genre = btn.dataset.genre;
+          
+          if (genre === 'all') {
+            renderCards(allCards);
+          } else {
+            const filtered = allCards.filter(card => {
+              const cardGenre = (card.genre || '').toLowerCase();
+              const cardTags = (card.tags || []).map(t => t.toLowerCase());
+              return cardGenre === genre || cardTags.includes(genre);
+            });
+            renderCards(filtered);
+          }
+        });
+      });
+    }
 
   </script>
 

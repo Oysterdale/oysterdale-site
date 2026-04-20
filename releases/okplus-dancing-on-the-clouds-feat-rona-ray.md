@@ -4,8 +4,20 @@ artists:
   - OKPLUS
   - Rona Ray
 date: 2025-08-01
-catalog: ''
+catalog: OYSTR25003
 cover: /uploads/DancingOnTheClouds400x400.webp
+genre: Deep House
+tags:
+  - deep house
+  - vocal house
+  - rona ray
+  - emotional
+  - summer
+credits:
+  producer: OKPLUS
+  vocals: Rona Ray
+  mixing: Kevin Vadsten
+  mastering: Sam Wills at Wired Masters
 links:
   spotify_url: https://open.spotify.com/track/6bWcWjQ571RfzvOfiFlZG1?si=6617b203961a4d83
   apple_music_url: https://music.apple.com/no/album/dancing-on-the-clouds-radio-edit/1823123654?i=1823123655&l=nb
@@ -17,3 +29,11 @@ links:
   beatport_url: https://www.beatport.com/track/dancing-on-the-clouds/20696011
   deezer_url: https://www.deezer.com/en/album/778993921
 ---
+
+**Dancing On The Clouds** is a collaboration between OKPLUS and the incredible Rona Ray — and it's as ethereal as the title suggests.
+
+Rona's voice has this quality that floats, that defies gravity. When Kevin heard her demo, he knew immediately that this needed to be a track about transcendence, about losing yourself in the moment.
+
+The production wraps around her vocals like a warm blanket of sound — layers of pads, a gentle but insistent groove, and moments of pure release. It's deep house that aims for the heart as much as the feet.
+
+A summer anthem that feels like the best night of your life.

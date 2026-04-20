@@ -7,6 +7,18 @@ artists:
 date: 2025-11-14
 catalog: OYSTR25009
 cover: /uploads/get_on_up_mark_picchiotti_400.webp
+genre: House
+tags:
+  - house
+  - remix
+  - mark picchiotti
+  - chicago
+  - classic
+credits:
+  original_producer: OKPLUS
+  remixer: Mark Picchiotti
+  vocals: Emél
+  mastering: Sam Wills at Wired Masters
 links:
   spotify_url: https://open.spotify.com/album/4n1cYATidm1ZVbdKa19zyh?si=1ObInNjsSNq-WofGATlNGQ
   apple_music_url: https://music.apple.com/no/album/get-on-up-mark-picchiotti-remix-single/1851276491?l=nb
@@ -25,4 +37,10 @@ seo:
   og_description: ''
   og_image: ''
 ---
+
+**Mark Picchiotti** — a true legend with roots in Chicago's house music history — brings his decades of experience to "Get On Up."
+
+This remix is a masterclass in classic house production. Picchiotti knows exactly where to place every element, creating a track that's both timeless and contemporary. The energy builds naturally, the drops hit just right, and the groove never lets up.
+
+Emél's vocals get the treatment they deserve, sitting perfectly in the mix while the production drives forward with purpose. When a legend like Picchiotti touches your track, you know it's going to be special.
 
