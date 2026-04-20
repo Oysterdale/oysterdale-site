@@ -266,9 +266,15 @@
     
     async function loadRelease() {
       try {
+        console.log('Loading release for slug:', releaseSlug);
+        
         // Find release file by slug
         const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/releases`);
+        if (!r.ok) {
+          throw new Error(`GitHub API error: ${r.status} ${r.statusText}`);
+        }
         const files = await r.json();
+        console.log('Found files:', files.length);
         
         // Find file matching slug
         const releaseFile = files.find(f => {
@@ -277,9 +283,13 @@
         });
         
         if (!releaseFile) {
+          console.error('No matching file found for slug:', releaseSlug);
+          console.log('Available files:', files.map(f => f.name));
           document.getElementById('release-content').innerHTML = '<p>Release not found.</p>';
           return;
         }
+        
+        console.log('Found release file:', releaseFile.name);
         
         const md = await fetch(releaseFile.download_url).then(r => r.text());
         const { data, content } = parseFrontmatter(md);
@@ -486,7 +496,12 @@
       }).join('');
     }
     
-    loadRelease();
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadRelease);
+    } else {
+      loadRelease();
+    }
   </script>
 </body>
 </html>
