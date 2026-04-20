@@ -329,6 +329,11 @@ collections:
       - { label: "Website", name: "website", widget: "string", required: false }
       - { label: "Mixcloud", name: "mixcloud", widget: "string", required: false }
       - { label: "Bandcamp", name: "bandcamp", widget: "string", required: false }
+      - { label: "Traxsource", name: "traxsource", widget: "string", required: false }
+      - { label: "Beatport", name: "beatport", widget: "string", required: false }
+      - { label: "Apple Music", name: "apple_music", widget: "string", required: false }
+      - { label: "YouTube", name: "youtube", widget: "string", required: false }
+      - { label: "Tidal", name: "tidal", widget: "string", required: false }
       - label: "SEO"
         name: "seo"
         widget: "object"

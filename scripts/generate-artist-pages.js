@@ -17,6 +17,11 @@ function generateTemplate(data) {
   if(data.website && data.website.trim() && data.website.trim() !== "''") links.push({url: data.website.trim(), icon: 'fa-solid fa-globe', label: 'Website'});
   if(data.mixcloud && data.mixcloud.trim() && data.mixcloud.trim() !== "''") links.push({url: data.mixcloud.trim(), icon: 'fa-brands fa-mixcloud', label: 'Mixcloud'});
   if(data.bandcamp && data.bandcamp.trim() && data.bandcamp.trim() !== "''") links.push({url: data.bandcamp.trim(), icon: 'fa-brands fa-bandcamp', label: 'Bandcamp'});
+  if(data.traxsource && data.traxsource.trim() && data.traxsource.trim() !== "''") links.push({url: data.traxsource.trim(), icon: 'fa-solid fa-music', label: 'Traxsource'});
+  if(data.beatport && data.beatport.trim() && data.beatport.trim() !== "''") links.push({url: data.beatport.trim(), icon: 'fa-solid fa-record-vinyl', label: 'Beatport'});
+  if(data.apple_music && data.apple_music.trim() && data.apple_music.trim() !== "''") links.push({url: data.apple_music.trim(), icon: 'fa-brands fa-apple', label: 'Apple Music'});
+  if(data.youtube && data.youtube.trim() && data.youtube.trim() !== "''") links.push({url: data.youtube.trim(), icon: 'fa-brands fa-youtube', label: 'YouTube'});
+  if(data.tidal && data.tidal.trim() && data.tidal.trim() !== "''") links.push({url: data.tidal.trim(), icon: 'fa-solid fa-wave-square', label: 'Tidal'});
   
   const linksHtml = links.map(l => `
     <a href="${l.url}" target="_blank" rel="noopener">
