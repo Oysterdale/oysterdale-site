@@ -41,7 +41,7 @@ const TEMPLATE = `<!DOCTYPE html>
       border-radius: 12px;
     }
     .artist-info h1 {
-      margin: 0 0 0.5rem;
+      margin: 0 0 1rem;
       font-size: clamp(2rem, 4vw, 3rem);
       color: #fff;
     }
@@ -71,6 +71,8 @@ const TEMPLATE = `<!DOCTYPE html>
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+      margin-top: 1rem;
+      justify-content: center;
     }
     .artist-links a {
       display: inline-flex;
