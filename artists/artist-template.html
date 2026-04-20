@@ -142,6 +142,12 @@
   </script>
 
   <script>
+    fetch("/footer.html")
+      .then(r => r.text())
+      .then(html => document.body.insertAdjacentHTML("beforeend", html));
+  </script>
+
+  <script>
     const OWNER = "Oysterdale";
     const REPO = "oysterdale-site";
     
@@ -283,7 +289,7 @@
       const releasesHtml = releases.length > 0 
         ? releases.map(r => `
             <div class="release">
-              <a href="/releases/${r.data.title?.toLowerCase().replace(/\s+/g, '-')}.html">
+              <a href="/releases/${r.data.title?.toLowerCase().replace(/\s+/g, '-')}/">
                 <img src="${r.data.cover || r.data.image}" alt="${r.data.title}" class="release-cover" loading="lazy">
                 <h3>${r.data.title}</h3>
                 <p>${r.data.artists?.join(' | ')}</p>
