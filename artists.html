@@ -25,7 +25,21 @@
   <meta name="theme-color" content="#000000">
 
   <!-- Anti-FOUC -->
-  <style>body{opacity:0;transition:opacity .18s ease}</style>
+  <style>
+    body{opacity:0;transition:opacity .18s ease}
+    .artist-card {
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease;
+      display: block;
+    }
+    .artist-card:hover {
+      transform: translateY(-4px);
+    }
+    .artist-card:hover h3 {
+      color: #bbb;
+    }
+  </style>
 
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
@@ -239,10 +253,12 @@
       else if(a.instagram && /^https?:\/\//.test(a.instagram.trim())) link = a.instagram.trim();
 
       return `
-        <div class="artist">
-          ${imgTag(img, name, link)}
-          <h3>${name}</h3>
-        </div>
+        <a href="/artists/${a.name.toLowerCase().replace(/\s+/g, '-')}/" class="artist-card">
+          <div class="artist">
+            ${imgTag(img, name, link)}
+            <h3>${name}</h3>
+          </div>
+        </a>
       `;
     }
 
