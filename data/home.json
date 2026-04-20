@@ -27,6 +27,26 @@
       }
     },
     {
+      "id": "heading-latest-news",
+      "text": "Latest News",
+      "marquee": {
+        "enabled": false,
+        "speed": 22
+      },
+      "button": null,
+      "image": null
+    },
+    {
+      "id": "heading-join-crew",
+      "text": "Join The Crew",
+      "marquee": {
+        "enabled": false,
+        "speed": 22
+      },
+      "button": null,
+      "image": null
+    },
+    {
       "id": "heading-playlists",
       "text": "Spotify Playlists",
       "marquee": {

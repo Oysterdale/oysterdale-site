@@ -95,10 +95,6 @@
     }
 
     .latest-wrap h2, #spotify-section h2 { text-align:left; }
-    .latest-wrap, #spotify-section {
-      content-visibility:auto;
-      contain-intrinsic-size:600px 800px;
-    }
     footer a { color:#fff; }
     footer a:hover { color:#bbb; }
 
@@ -146,6 +142,34 @@
 
     @media (prefers-reduced-motion: reduce){
       .scroll-title.is-marquee-on .marquee-track{ animation:none; }
+    }
+    
+    /* Fix mobile scroll glitch - disable will-change on touch devices */
+    @media (hover: none) and (pointer: coarse) {
+      .scroll-title .marquee-track {
+        will-change: auto;
+        transform: translateZ(0);
+      }
+    }
+    
+    /* Static headings - no marquee */
+    #heading-latest-news.scroll-title,
+    #heading-join-crew.scroll-title {
+      overflow: visible;
+      white-space: normal;
+    }
+    #heading-latest-news.scroll-title .marquee-clip,
+    #heading-join-crew.scroll-title .marquee-clip {
+      display: inline;
+      overflow: visible;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    #heading-latest-news.scroll-title .marquee-track,
+    #heading-join-crew.scroll-title .marquee-track {
+      display: inline;
+      animation: none !important;
+      transform: none !important;
     }
 
     .heading-extra{
@@ -261,7 +285,7 @@
 
     <!-- LATEST NEWS (auto-generated) -->
     <section id="latest-news-section" class="latest-wrap">
-      <h2 class="scroll-title">LATEST NEWS</h2>
+      <h2 id="heading-latest-news" class="scroll-title">LATEST NEWS</h2>
       <div id="latest-news-container" class="news-preview-grid">
         <div class="skeleton" style="height:200px;border-radius:10px;"></div>
       </div>
@@ -270,7 +294,7 @@
 
     <!-- NEWSLETTER SIGNUP -->
     <section id="newsletter-section" class="latest-wrap">
-      <h2 class="scroll-title">JOIN THE CREW</h2>
+      <h2 id="heading-join-crew" class="scroll-title">JOIN THE CREW</h2>
       <p style="text-align:center;opacity:.7;margin-bottom:1.5rem;">Get weekly pearls delivered to your inbox. No spam, just groove.</p>
       
       <!-- Success message (hidden by default) -->
