@@ -11,7 +11,7 @@ instagram: ''
 website: ''
 mixcloud: ''
 bandcamp: ''
-traxsource: ''
+traxsource: https://www.traxsource.com/artist/943771/emel
 beatport: ''
 youtube: ''
 photo: /uploads/okplus_portrett_square_top_1200x1200.jpg
