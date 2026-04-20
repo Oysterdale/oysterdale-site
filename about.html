@@ -82,6 +82,26 @@
   <main class="page-content">
     <h1>About</h1>
     <div id="about-content">Loading...</div>
+
+    <!-- NEWSLETTER SIGNUP -->
+    <section id="newsletter-section" style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);">
+      <h2>Join the Crew</h2>
+      <p style="opacity:.7;margin-bottom:1.5rem;">Get weekly pearls delivered to your inbox. No spam, just groove.</p>
+      <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;display:flex;flex-direction:column;gap:16px;">
+        <p style="display:none;">
+          <label>Don't fill this out: <input name="bot-field" /></label>
+        </p>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <label for="newsletter-name" style="font-size:12px;text-transform:uppercase;letter-spacing:0.05em;opacity:0.7;margin-left:16px;">Name</label>
+          <input type="text" id="newsletter-name" name="name" placeholder="Your name" required style="width:100%;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:#fff;font-size:14px;outline:none;">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <label for="newsletter-email" style="font-size:12px;text-transform:uppercase;letter-spacing:0.05em;opacity:0.7;margin-left:16px;">Email</label>
+          <input type="email" id="newsletter-email" name="email" placeholder="your@email.com" required style="width:100%;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:#fff;font-size:14px;outline:none;">
+        </div>
+        <button type="submit" style="padding:12px 24px;border-radius:999px;border:none;background:#fff;color:#000;font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s;margin-top:4px;">Subscribe</button>
+      </form>
+    </section>
   </main>
 
   <!-- MARKDOWN LOADER -->

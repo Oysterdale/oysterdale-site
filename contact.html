@@ -85,12 +85,19 @@
     <section id="newsletter-section" style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);">
       <h2>Join the Crew</h2>
       <p style="opacity:.7;margin-bottom:1.5rem;">Get weekly pearls delivered to your inbox. No spam, just groove.</p>
-      <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;display:flex;gap:12px;flex-wrap:wrap;">
+      <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;display:flex;flex-direction:column;gap:16px;">
         <p style="display:none;">
           <label>Don't fill this out: <input name="bot-field" /></label>
         </p>
-        <input type="email" name="email" placeholder="your@email.com" required style="flex:1;min-width:220px;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:#fff;font-size:14px;outline:none;">
-        <button type="submit" style="padding:12px 24px;border-radius:999px;border:none;background:#fff;color:#000;font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s;">Subscribe</button>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <label for="newsletter-name" style="font-size:12px;text-transform:uppercase;letter-spacing:0.05em;opacity:0.7;margin-left:16px;">Name</label>
+          <input type="text" id="newsletter-name" name="name" placeholder="Your name" required style="width:100%;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:#fff;font-size:14px;outline:none;">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <label for="newsletter-email" style="font-size:12px;text-transform:uppercase;letter-spacing:0.05em;opacity:0.7;margin-left:16px;">Email</label>
+          <input type="email" id="newsletter-email" name="email" placeholder="your@email.com" required style="width:100%;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:#fff;font-size:14px;outline:none;">
+        </div>
+        <button type="submit" style="padding:12px 24px;border-radius:999px;border:none;background:#fff;color:#000;font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s;margin-top:4px;">Subscribe</button>
       </form>
     </section>
   </main>
@@ -104,12 +111,20 @@
 
     (async()=>{
       try{
-        const res = await fetch("content/contact.md",{cache:"force-cache"});
+        const res = await fetch("content/contact.md",{cache:"no-store"});
+        if(!res.ok) throw new Error("Failed to load contact.md");
         const md = await res.text();
         const html = marked.parse(stripFrontmatter(md));
         document.getElementById("contact-content").innerHTML = html;
       }catch(err){
         console.error("Contact markdown load error:",err);
+        document.getElementById("contact-content").innerHTML = `
+          <p>For demos, collaborations, press inquiries, or anything else — feel free to reach out at:</p>
+          <p><strong>contact@oysterdalerecords.com</strong></p>
+          <h4>Demo submissions</h4>
+          <p>We're always open to hearing fresh and exciting music, so feel free to send us private streaming links (SoundCloud, Dropbox, etc.) with a short introduction. We listen to every demo.</p>
+          <p><em>Based in Oslo, working worldwide.</em></p>
+        `;
       }
     })();
   </script>
