@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Artist | Oysterdale Records</title>
-  <meta name="description" content="Discover artists on Oysterdale Records.">
+  <title>Elise Lizz | Oysterdale Records</title>
+  <meta name="description" content="''">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/styles-news.css">
   <link rel="icon" href="/images/favicon.png" type="image/png">
@@ -18,19 +18,16 @@
       align-items: start;
       margin: 2rem 0;
     }
-    
     .artist-photo {
       width: 100%;
       aspect-ratio: 1;
       object-fit: cover;
       border-radius: 12px;
     }
-    
     .artist-info h1 {
       margin: 0 0 0.5rem;
       font-size: clamp(2rem, 4vw, 3rem);
     }
-    
     .artist-role {
       display: inline-block;
       padding: 4px 12px;
@@ -41,20 +38,17 @@
       letter-spacing: 0.05em;
       margin-bottom: 1.5rem;
     }
-    
     .artist-bio {
       font-size: 1.1rem;
       line-height: 1.7;
       color: #ccc;
       margin-bottom: 2rem;
     }
-    
     .artist-links {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
     }
-    
     .artist-links a {
       display: inline-flex;
       align-items: center;
@@ -65,31 +59,25 @@
       font-size: 0.9rem;
       transition: background 0.2s;
     }
-    
     .artist-links a:hover {
       background: rgba(255,255,255,0.12);
     }
-    
     .artist-releases {
       margin-top: 4rem;
     }
-    
     .artist-releases h2 {
       margin-bottom: 1.5rem;
     }
-    
     .releases-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 1.5rem;
     }
-    
     @media (max-width: 768px) {
       .artist-hero {
         grid-template-columns: 1fr;
         gap: 1.5rem;
       }
-      
       .artist-photo {
         max-width: 280px;
         margin: 0 auto;
@@ -98,8 +86,6 @@
   </style>
 </head>
 <body>
-
-  <!-- HEADER -->
   <script>
     fetch("/header.html")
       .then(r => r.text())
@@ -124,11 +110,49 @@
 
   <main class="page-content">
     <div id="artist-content">
-      <p>Loading artist...</p>
+      <div class="artist-hero">
+        <img src="/uploads/output.webp" alt="Elise Lizz" class="artist-photo">
+        <div class="artist-info">
+          <h1>Elise Lizz</h1>
+          <span class="artist-role">vocalist</span>
+          <p class="artist-bio">''</p>
+          <div class="artist-links">
+            
+    <a href="https://open.spotify.com/artist/6CQNhuYALSQcjbLUrdN8Sp?si=tmK-YepmToSHPoJmc18IaQ" target="_blank" rel="noopener">
+      <i class="fa-brands fa-spotify"></i> Spotify
+    </a>
+  
+    <a href="''" target="_blank" rel="noopener">
+      <i class="fa-brands fa-soundcloud"></i> SoundCloud
+    </a>
+  
+    <a href="''" target="_blank" rel="noopener">
+      <i class="fa-brands fa-instagram"></i> Instagram
+    </a>
+  
+    <a href="''" target="_blank" rel="noopener">
+      <i class="fa-solid fa-globe"></i> Website
+    </a>
+  
+    <a href="''" target="_blank" rel="noopener">
+      <i class="fa-brands fa-mixcloud"></i> Mixcloud
+    </a>
+  
+    <a href="''" target="_blank" rel="noopener">
+      <i class="fa-brands fa-bandcamp"></i> Bandcamp
+    </a>
+  
+          </div>
+        </div>
+      </div>
+      
+      <div class="artist-releases">
+        <h2>Releases on Oysterdale</h2>
+        <div class="releases-grid" id="artist-releases"></div>
+      </div>
     </div>
   </main>
 
-  <!-- FOOTER -->
   <script>
     fetch("/footer.html")
       .then(r => r.text())
@@ -136,83 +160,47 @@
   </script>
 
   <script>
-    const OWNER = "Oysterdale";
-    const REPO = "oysterdale-site";
-    
-    // Get artist slug from URL
-    const pathParts = window.location.pathname.split('/');
-    const artistSlug = pathParts[pathParts.length - 2] || pathParts[pathParts.length - 1];
-    
-    async function loadArtist() {
+    // Load releases for this artist
+    async function loadReleases() {
       try {
-        // Find artist file by slug
-        const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/artists`);
+        const r = await fetch('https://api.github.com/repos/Oysterdale/oysterdale-site/contents/releases');
         const files = await r.json();
+        const releases = [];
         
-        // Find file matching slug
-        const artistFile = files.find(f => {
-          const name = f.name.replace('.md', '');
-          return name.includes(artistSlug) || 
-                 name.toLowerCase().includes(artistSlug.toLowerCase());
-        });
+        for(const file of files.filter(f => f.name.endsWith('.md'))) {
+          const md = await fetch(file.download_url).then(r => r.text());
+          const { data } = parseFrontmatter(md);
+          
+          if(data.artists && data.artists.some(a => 
+            a.toLowerCase().includes('elise lizz') || 
+            'elise lizz'.includes(a.toLowerCase())
+          )) {
+            releases.push(data);
+          }
+        }
         
-        if (!artistFile) {
-          document.getElementById('artist-content').innerHTML = '<p>Artist not found.</p>';
+        const container = document.getElementById('artist-releases');
+        if(releases.length === 0) {
+          container.innerHTML = '<p>No releases yet.</p>';
           return;
         }
         
-        const md = await fetch(artistFile.download_url).then(r => r.text());
-        const { data } = parseFrontmatter(md);
-        
-        // Load releases to find artist's tracks
-        const releases = await loadReleases();
-        const artistReleases = releases.filter(r => {
-          const artists = r.data.artists || [];
-          return artists.some(a => 
-            a.toLowerCase().includes(data.name?.toLowerCase()) ||
-            data.name?.toLowerCase().includes(a.toLowerCase())
-          );
-        });
-        
-        renderArtist(data, artistReleases);
+        container.innerHTML = releases.map(r => `
+          <div class="release">
+            <a href="/releases/${r.title.toLowerCase().replace(/\s+/g, '-')}.html">
+              <img src="${r.cover || r.image}" alt="${r.title}" class="release-cover" loading="lazy">
+              <h3>${r.title}</h3>
+              <p>${r.artists.join(' | ')}</p>
+            </a>
+          </div>
+        `).join('');
         
       } catch(e) {
         console.error(e);
-        document.getElementById('artist-content').innerHTML = '<p>Error loading artist.</p>';
       }
     }
     
     function parseFrontmatter(md) {
-      const parts = md.split('---');
-      if(parts.length < 3) return {data: {}};
-      const yaml = parts[1];
-      const data = {};
-      yaml.split(/\r?\n/).forEach(line => {
-        const m = line.match(/^([^:]+):\s*(.*)$/);
-        if(m){
-          data[m[1].trim()] = m[2].trim().replace(/^"(.*)"$/, "$1");
-        }
-      });
-      return {data};
-    }
-    
-    async function loadReleases() {
-      try {
-        const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/releases`);
-        const files = await r.json();
-        const releases = await Promise.all(
-          files.filter(f => f.name.endsWith('.md')).map(async f => {
-            const md = await fetch(f.download_url).then(r => r.text());
-            return parseReleaseFrontmatter(md);
-          })
-        );
-        return releases;
-      } catch(e) {
-        return [];
-      }
-    }
-    
-    function parseReleaseFrontmatter(md) {
       const parts = md.split('---');
       if(parts.length < 3) return {data: {}};
       const yaml = parts[1];
@@ -222,19 +210,16 @@
       let listKey = null;
       for(const line of lines){
         if(!line.trim()) continue;
-        
         const listStart = line.match(/^([A-Za-z0-9_]+):\s*$/);
         if(listStart){
           listKey = listStart[1];
           data[listKey] = [];
           continue;
         }
-        
         if(listKey && line.trim().startsWith("-")){
           data[listKey].push(line.replace(/^\s*-\s*/, "").trim());
           continue;
         }
-        
         const field = line.match(/^([^:]+):\s*(.*)$/);
         if(field){
           data[field[1].trim()] = field[2].replace(/^["']|["']$/g, "");
@@ -254,61 +239,7 @@
       return {data};
     }
     
-    function renderArtist(data, releases) {
-      const links = [];
-      
-      if(data.spotify) links.push({url: data.spotify, icon: 'fa-brands fa-spotify', label: 'Spotify'});
-      if(data.soundcloud) links.push({url: data.soundcloud, icon: 'fa-brands fa-soundcloud', label: 'SoundCloud'});
-      if(data.instagram) links.push({url: data.instagram, icon: 'fa-brands fa-instagram', label: 'Instagram'});
-      if(data.website) links.push({url: data.website, icon: 'fa-solid fa-globe', label: 'Website'});
-      if(data.mixcloud) links.push({url: data.mixcloud, icon: 'fa-brands fa-mixcloud', label: 'Mixcloud'});
-      if(data.bandcamp) links.push({url: data.bandcamp, icon: 'fa-brands fa-bandcamp', label: 'Bandcamp'});
-      
-      const linksHtml = links.map(l => `
-        <a href="${l.url}" target="_blank" rel="noopener">
-          <i class="${l.icon}"></i> ${l.label}
-        </a>
-      `).join('');
-      
-      const releasesHtml = releases.length > 0 
-        ? releases.map(r => `
-            <div class="release">
-              <a href="/releases/${r.data.title?.toLowerCase().replace(/\s+/g, '-')}.html">
-                <img src="${r.data.cover || r.data.image}" alt="${r.data.title}" class="release-cover" loading="lazy">
-                <h3>${r.data.title}</h3>
-                <p>${r.data.artists?.join(' | ')}</p>
-              </a>
-            </div>
-          `).join('')
-        : '<p>No releases yet.</p>';
-      
-      document.getElementById('artist-content').innerHTML = `
-        <div class="artist-hero">
-          <img src="${data.photo || data.image}" alt="${data.name}" class="artist-photo">
-          <div class="artist-info">
-            <h1>${data.name}</h1>
-            <span class="artist-role">${data.role}</span>
-            <p class="artist-bio">${data.bio}</p>
-            <div class="artist-links">
-              ${linksHtml}
-            </div>
-          </div>
-        </div>
-        
-        <div class="artist-releases">
-          <h2>Releases on Oysterdale</h2>
-          <div class="releases-grid">
-            ${releasesHtml}
-          </div>
-        </div>
-      `;
-      
-      // Update page title
-      document.title = `${data.name} – Oysterdale Records`;
-    }
-    
-    loadArtist();
+    loadReleases();
   </script>
-
 </body>
 </html>

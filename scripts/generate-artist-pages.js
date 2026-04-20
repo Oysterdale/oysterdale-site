@@ -1,10 +1,14 @@
-<!DOCTYPE html>
+const fs = require('fs');
+const path = require('path');
+
+const ARTISTS_DIR = path.join(__dirname, '..', 'artists');
+const TEMPLATE = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cavego | Oysterdale Records</title>
-  <meta name="description" content="''">
+  <title>{{name}} | Oysterdale Records</title>
+  <meta name="description" content="{{bio}}">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/styles-news.css">
   <link rel="icon" href="/images/favicon.png" type="image/png">
@@ -111,37 +115,13 @@
   <main class="page-content">
     <div id="artist-content">
       <div class="artist-hero">
-        <img src="/uploads/Cavego_600x600.webp" alt="Cavego" class="artist-photo">
+        <img src="{{photo}}" alt="{{name}}" class="artist-photo">
         <div class="artist-info">
-          <h1>Cavego</h1>
-          <span class="artist-role">producer</span>
-          <p class="artist-bio">''</p>
+          <h1>{{name}}</h1>
+          <span class="artist-role">{{role}}</span>
+          <p class="artist-bio">{{bio}}</p>
           <div class="artist-links">
-            
-    <a href="https://open.spotify.com/artist/5mF9jb0at58HIWigwZCuQx?si=HgHC9VlERDycdD6DhMIGAw" target="_blank" rel="noopener">
-      <i class="fa-brands fa-spotify"></i> Spotify
-    </a>
-  
-    <a href="''" target="_blank" rel="noopener">
-      <i class="fa-brands fa-soundcloud"></i> SoundCloud
-    </a>
-  
-    <a href="''" target="_blank" rel="noopener">
-      <i class="fa-brands fa-instagram"></i> Instagram
-    </a>
-  
-    <a href="''" target="_blank" rel="noopener">
-      <i class="fa-solid fa-globe"></i> Website
-    </a>
-  
-    <a href="''" target="_blank" rel="noopener">
-      <i class="fa-brands fa-mixcloud"></i> Mixcloud
-    </a>
-  
-    <a href="''" target="_blank" rel="noopener">
-      <i class="fa-brands fa-bandcamp"></i> Bandcamp
-    </a>
-  
+            {{links}}
           </div>
         </div>
       </div>
@@ -172,8 +152,8 @@
           const { data } = parseFrontmatter(md);
           
           if(data.artists && data.artists.some(a => 
-            a.toLowerCase().includes('cavego') || 
-            'cavego'.includes(a.toLowerCase())
+            a.toLowerCase().includes('{{name_lower}}') || 
+            '{{name_lower}}'.includes(a.toLowerCase())
           )) {
             releases.push(data);
           }
@@ -185,15 +165,15 @@
           return;
         }
         
-        container.innerHTML = releases.map(r => `
+        container.innerHTML = releases.map(r => \`
           <div class="release">
-            <a href="/releases/${r.title.toLowerCase().replace(/\s+/g, '-')}.html">
-              <img src="${r.cover || r.image}" alt="${r.title}" class="release-cover" loading="lazy">
-              <h3>${r.title}</h3>
-              <p>${r.artists.join(' | ')}</p>
+            <a href="/releases/\${r.title.toLowerCase().replace(/\\s+/g, '-')}.html">
+              <img src="\${r.cover || r.image}" alt="\${r.title}" class="release-cover" loading="lazy">
+              <h3>\${r.title}</h3>
+              <p>\${r.artists.join(' | ')}</p>
             </a>
           </div>
-        `).join('');
+        \`).join('');
         
       } catch(e) {
         console.error(e);
@@ -205,22 +185,22 @@
       if(parts.length < 3) return {data: {}};
       const yaml = parts[1];
       const data = {};
-      const lines = yaml.split(/\r?\n/);
+      const lines = yaml.split(/\\r?\\n/);
       
       let listKey = null;
       for(const line of lines){
         if(!line.trim()) continue;
-        const listStart = line.match(/^([A-Za-z0-9_]+):\s*$/);
+        const listStart = line.match(/^([A-Za-z0-9_]+):\\s*$/);
         if(listStart){
           listKey = listStart[1];
           data[listKey] = [];
           continue;
         }
         if(listKey && line.trim().startsWith("-")){
-          data[listKey].push(line.replace(/^\s*-\s*/, "").trim());
+          data[listKey].push(line.replace(/^\\s*-\\s*/, "").trim());
           continue;
         }
-        const field = line.match(/^([^:]+):\s*(.*)$/);
+        const field = line.match(/^([^:]+):\\s*(.*)$/);
         if(field){
           data[field[1].trim()] = field[2].replace(/^["']|["']$/g, "");
         }
@@ -242,4 +222,65 @@
     loadReleases();
   </script>
 </body>
-</html>
+</html>`;
+
+function parseFrontmatter(md) {
+  const parts = md.split('---');
+  if(parts.length < 3) return {};
+  const yaml = parts[1];
+  const data = {};
+  yaml.split(/\r?\n/).forEach(line => {
+    const m = line.match(/^([^:]+):\s*(.*)$/);
+    if(m){
+      data[m[1].trim()] = m[2].trim().replace(/^"(.*)"$/, "$1");
+    }
+  });
+  return data;
+}
+
+function generateLinks(data) {
+  const links = [];
+  if(data.spotify) links.push({url: data.spotify, icon: 'fa-brands fa-spotify', label: 'Spotify'});
+  if(data.soundcloud) links.push({url: data.soundcloud, icon: 'fa-brands fa-soundcloud', label: 'SoundCloud'});
+  if(data.instagram) links.push({url: data.instagram, icon: 'fa-brands fa-instagram', label: 'Instagram'});
+  if(data.website) links.push({url: data.website, icon: 'fa-solid fa-globe', label: 'Website'});
+  if(data.mixcloud) links.push({url: data.mixcloud, icon: 'fa-brands fa-mixcloud', label: 'Mixcloud'});
+  if(data.bandcamp) links.push({url: data.bandcamp, icon: 'fa-brands fa-bandcamp', label: 'Bandcamp'});
+  if(data.contact_email) links.push({url: `mailto:${data.contact_email}`, icon: 'fa-solid fa-envelope', label: 'Contact'});
+  
+  return links.map(l => `
+    <a href="${l.url}" target="_blank" rel="noopener">
+      <i class="${l.icon}"></i> ${l.label}
+    </a>
+  `).join('');
+}
+
+function generateArtistPage(data, slug) {
+  return TEMPLATE
+    .replace(/\{\{name\}\}/g, data.name || '')
+    .replace(/\{\{name_lower\}\}/g, (data.name || '').toLowerCase())
+    .replace(/\{\{role\}\}/g, data.role || '')
+    .replace(/\{\{bio\}\}/g, data.bio || '')
+    .replace(/\{\{photo\}\}/g, data.photo || data.image || '')
+    .replace(/\{\{links\}\}/g, generateLinks(data));
+}
+
+// Main
+const files = fs.readdirSync(ARTISTS_DIR).filter(f => f.endsWith('.md'));
+
+files.forEach(file => {
+  const md = fs.readFileSync(path.join(ARTISTS_DIR, file), 'utf8');
+  const data = parseFrontmatter(md);
+  const slug = data.name ? data.name.toLowerCase().replace(/\s+/g, '-') : file.replace('.md', '');
+  
+  const dir = path.join(ARTISTS_DIR, slug);
+  if(!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, {recursive: true});
+  }
+  
+  const html = generateArtistPage(data, slug);
+  fs.writeFileSync(path.join(dir, 'index.html'), html);
+  console.log(`Generated: ${dir}/index.html`);
+});
+
+console.log('Done!');

@@ -314,6 +314,15 @@ collections:
           - "^[^\\s]+\\.(png|jpe?g|webp)$"
           - "Filnavn kan ikke ha mellomrom. Bruk bindestrek."
       - { label: "Bio", name: "bio", widget: "text", required: false }
+      - label: "Photo (for artist page)"
+        name: "photo"
+        widget: "image"
+        choose_url: false
+        multiple: false
+        required: false
+        media_folder: "uploads/artists"
+        public_folder: "/uploads/artists"
+      - { label: "Contact Email", name: "contact_email", widget: "string", required: false }
       - { label: "Spotify", name: "spotify", widget: "string", required: false }
       - { label: "SoundCloud", name: "soundcloud", widget: "string", required: false }
       - { label: "Instagram", name: "instagram", widget: "string", required: false }
