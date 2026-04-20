@@ -23,18 +23,35 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <header class="site-header">
+    <div class="logo-title">
+      <a href="/" aria-label="Home">
+        <img src="/.netlify/images?url=/images/oysterdale-logo.png&w=220&h=60&fit=contain&fm=webp&q=74" alt="Oysterdale Records Logo" class="logo-img" width="220" height="60">
+      </a>
+    </div>
+
+    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">☰</button>
+
     <nav class="main-nav">
-      <a href="/" class="logo">Oysterdale Records</a>
-      <ul class="nav-links">
-        <li><a href="/releases.html">Releases</a></li>
-        <li><a href="/artists.html">Artists</a></li>
-        <li><a href="/news/" class="active">News</a></li>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/contact.html">Contact</a></li>
-      </ul>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/releases">Releases</a>
+        <a href="/artists">Artists</a>
+        <a href="/news/" class="active">News</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </div>
+
+      <div class="social-icons">
+        <a href="https://www.instagram.com/oysterdalerecords/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@oysterdalerecords" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.youtube.com/@OysterdaleRecords" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am" target="_blank" rel="noopener" aria-label="Spotify" title="Spotify"><i class="fab fa-spotify"></i></a>
+        <a href="https://www.twitch.tv/oysterdalerecords" target="_blank" rel="noopener" aria-label="Twitch" title="Twitch"><i class="fab fa-twitch"></i></a>
+      </div>
     </nav>
   </header>
 
