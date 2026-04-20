@@ -11,12 +11,12 @@ function generateTemplate(data) {
   
   // Generate links
   const links = [];
-  if(data.spotify) links.push({url: data.spotify, icon: 'fa-brands fa-spotify', label: 'Spotify'});
-  if(data.soundcloud) links.push({url: data.soundcloud, icon: 'fa-brands fa-soundcloud', label: 'SoundCloud'});
-  if(data.instagram) links.push({url: data.instagram, icon: 'fa-brands fa-instagram', label: 'Instagram'});
-  if(data.website) links.push({url: data.website, icon: 'fa-solid fa-globe', label: 'Website'});
-  if(data.mixcloud) links.push({url: data.mixcloud, icon: 'fa-brands fa-mixcloud', label: 'Mixcloud'});
-  if(data.bandcamp) links.push({url: data.bandcamp, icon: 'fa-brands fa-bandcamp', label: 'Bandcamp'});
+  if(data.spotify && data.spotify.trim() && data.spotify.trim() !== "''") links.push({url: data.spotify.trim(), icon: 'fa-brands fa-spotify', label: 'Spotify'});
+  if(data.soundcloud && data.soundcloud.trim() && data.soundcloud.trim() !== "''") links.push({url: data.soundcloud.trim(), icon: 'fa-brands fa-soundcloud', label: 'SoundCloud'});
+  if(data.instagram && data.instagram.trim() && data.instagram.trim() !== "''") links.push({url: data.instagram.trim(), icon: 'fa-brands fa-instagram', label: 'Instagram'});
+  if(data.website && data.website.trim() && data.website.trim() !== "''") links.push({url: data.website.trim(), icon: 'fa-solid fa-globe', label: 'Website'});
+  if(data.mixcloud && data.mixcloud.trim() && data.mixcloud.trim() !== "''") links.push({url: data.mixcloud.trim(), icon: 'fa-brands fa-mixcloud', label: 'Mixcloud'});
+  if(data.bandcamp && data.bandcamp.trim() && data.bandcamp.trim() !== "''") links.push({url: data.bandcamp.trim(), icon: 'fa-brands fa-bandcamp', label: 'Bandcamp'});
   
   const linksHtml = links.map(l => `
     <a href="${l.url}" target="_blank" rel="noopener">
