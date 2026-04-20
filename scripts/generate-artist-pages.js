@@ -31,7 +31,7 @@ const TEMPLATE = `<!DOCTYPE html>
       display: grid;
       grid-template-columns: 300px 1fr;
       gap: 3rem;
-      align-items: start;
+      align-items: center;
       margin: 2rem 0;
     }
     .artist-photo {
@@ -40,39 +40,22 @@ const TEMPLATE = `<!DOCTYPE html>
       object-fit: cover;
       border-radius: 12px;
     }
+    .artist-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
     .artist-info h1 {
-      margin: 0 0 1rem;
-      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0;
+      font-size: clamp(2.5rem, 5vw, 4rem);
       color: #fff;
-    }
-    .artist-info a {
-      color: #fff !important;
-    }
-    .artist-role {
-      display: inline-block;
-      padding: 4px 12px;
-      background: rgba(107, 76, 122, 0.3);
-      border-radius: 999px;
-      font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-bottom: 1.5rem;
-    }
-    .artist-bio-full {
-      margin: 2rem 0;
-      max-width: 800px;
-    }
-    .artist-bio-full p {
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: #ccc;
     }
     .artist-links {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
-      margin-top: 1rem;
-      justify-content: center;
     }
     .artist-links a {
       display: inline-flex;
