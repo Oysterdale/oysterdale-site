@@ -135,7 +135,6 @@ const TEMPLATE = `<!DOCTYPE html>
         <img src="{{photo}}" alt="{{name}}" class="artist-photo">
         <div class="artist-info">
           <h1>{{name}}</h1>
-          <span class="artist-role">{{role}}</span>
           <p class="artist-bio">{{bio}}</p>
           <div class="artist-links">
             {{links}}
