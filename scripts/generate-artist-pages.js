@@ -44,7 +44,7 @@ function generateTemplate(data) {
   <style>
     /* Force white text */
     body {
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%) !important;
+      background: linear-gradient(135deg, #050505 0%, #0a0a1a 50%, #0d1117 100%) !important;
       background-attachment: fixed !important;
       color: #fff !important;
       min-height: 100vh;
