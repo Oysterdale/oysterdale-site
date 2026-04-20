@@ -92,7 +92,15 @@
     <section id="newsletter-section" style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);">
       <h2>Join the Crew</h2>
       <p style="opacity:.7;margin-bottom:1.5rem;">Get weekly pearls delivered to your inbox. No spam, just groove.</p>
-      <form name="newsletter" method="POST" action="/contact.html?subscribed=true" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;display:flex;flex-direction:column;gap:16px;">
+      
+      <!-- Success message (hidden by default) -->
+      <div id="newsletter-success" style="display:none;max-width:480px;text-align:center;background:rgba(107,76,122,0.3);border:1px solid rgba(155,123,184,0.5);border-radius:12px;padding:20px;">
+        <div style="font-size:32px;margin-bottom:8px;">✅</div>
+        <h3 style="margin:0 0 0.5rem;color:#fff;">Welcome to the crew!</h3>
+        <p style="margin:0;opacity:0.9;">Thank you for joining the family. Watch your inbox for weekly pearls.</p>
+      </div>
+      
+      <form id="newsletter-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;display:flex;flex-direction:column;gap:16px;">
         <p style="display:none;">
           <label>Don't fill this out: <input name="bot-field" /></label>
         </p>
@@ -107,6 +115,39 @@
         <button type="submit" style="padding:12px 24px;border-radius:999px;border:none;background:#fff;color:#000;font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s;margin-top:4px;">Subscribe</button>
       </form>
     </section>
+
+    <!-- NEWSLETTER AJAX HANDLER -->
+    <script>
+    (function(){
+      const form = document.getElementById('newsletter-form');
+      const success = document.getElementById('newsletter-success');
+      if(!form) return;
+      
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]');
+        const originalText = btn.textContent;
+        btn.textContent = 'Subscribing...';
+        btn.disabled = true;
+        
+        const data = new FormData(form);
+        
+        fetch('/', {
+          method: 'POST',
+          body: data
+        })
+        .then(function(){
+          form.style.display = 'none';
+          if(success) success.style.display = 'block';
+        })
+        .catch(function(){
+          btn.textContent = originalText;
+          btn.disabled = false;
+          alert('Something went wrong. Please try again.');
+        });
+      });
+    })();
+    </script>
   </main>
 
   <!-- MARKDOWN LOADER -->
