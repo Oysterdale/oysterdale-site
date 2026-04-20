@@ -219,7 +219,10 @@
         const releases = await Promise.all(
           files.filter(f => f.name.endsWith('.md')).map(async f => {
             const md = await fetch(f.download_url).then(r => r.text());
-            return parseReleaseFrontmatter(md);
+            return {
+              ...parseReleaseFrontmatter(md),
+              slug: f.name.replace('.md', '')
+            };
           })
         );
         return releases;
@@ -289,7 +292,7 @@
       const releasesHtml = releases.length > 0 
         ? releases.map(r => `
             <div class="release">
-              <a href="/releases/${r.data.title?.toLowerCase().replace(/\s+/g, '-')}/">
+              <a href="/releases/${r.slug}/">
                 <img src="${r.data.cover || r.data.image}" alt="${r.data.title}" class="release-cover" loading="lazy">
                 <h3>${r.data.title}</h3>
                 <p>${r.data.artists?.join(' | ')}</p>
