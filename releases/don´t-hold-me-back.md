@@ -7,12 +7,6 @@ artists:
 date: 2025-08-15
 catalog: OYSTR25004
 cover: /uploads/DHMB_COVER.webp
-genre: Deep House
-tags:
-  - deep house
-  - vocal house
-  - emotional
-  - collaboration
 credits:
   producer: MINIJACK
   vocals: Emél

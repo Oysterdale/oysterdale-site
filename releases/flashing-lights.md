@@ -6,12 +6,6 @@ artists:
 date: 2025-11-21
 catalog: OYSTR25007
 cover: /uploads/flashing_lights_400.webp
-genre: Vocal House
-tags:
-  - vocal house
-  - disco
-  - female vocals
-  - club ready
 credits:
   producer: MINIJACK
   vocals: Elise Lizz

@@ -7,12 +7,6 @@ artists:
 date: 2025-07-11
 catalog: OYSTR25001
 cover: /uploads/Chasing_Rainbows_Cover_vxyz.webp
-genre: Deep House
-tags:
-  - deep house
-  - vocal house
-  - summer anthem
-  - collaboration
 credits:
   producer: OKPLUS
   vocals: Sebastian Emes

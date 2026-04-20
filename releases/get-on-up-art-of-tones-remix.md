@@ -7,13 +7,6 @@ artists:
 date: 2025-12-12
 catalog: OYSTR25010
 cover: /uploads/get_on_up_art_of_tones_400.webp
-genre: Deep House
-tags:
-  - deep house
-  - remix
-  - art of tones
-  - french touch
-  - sophisticated
 credits:
   original_producer: OKPLUS
   remixer: Art Of Tones

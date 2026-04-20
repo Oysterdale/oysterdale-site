@@ -5,12 +5,6 @@ artists:
 date: 2025-10-24
 catalog: OYSTR25006
 cover: /uploads/Is_This_Real_Coverart_400x400.webp
-genre: Disco House
-tags:
-  - disco house
-  - nu disco
-  - funky
-  - feel good
 credits:
   producer: MINIJACK
   mixing: MINIJACK

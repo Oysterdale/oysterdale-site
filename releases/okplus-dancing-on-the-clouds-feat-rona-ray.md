@@ -6,13 +6,6 @@ artists:
 date: 2025-08-01
 catalog: OYSTR25003
 cover: /uploads/DancingOnTheClouds400x400.webp
-genre: Deep House
-tags:
-  - deep house
-  - vocal house
-  - rona ray
-  - emotional
-  - summer
 credits:
   producer: OKPLUS
   vocals: Rona Ray

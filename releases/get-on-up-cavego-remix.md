@@ -7,13 +7,6 @@ artists:
 date: 2025-11-21
 catalog: OYSTR25008
 cover: /uploads/get_on_up_cavego_400.webp
-genre: Nu Disco
-tags:
-  - nu disco
-  - remix
-  - cavego
-  - norwegian
-  - groovy
 credits:
   original_producer: OKPLUS
   remixer: Cavego

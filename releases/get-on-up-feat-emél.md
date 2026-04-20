@@ -6,12 +6,6 @@ artists:
 date: 2025-06-27
 catalog: OYSTR25002
 cover: /uploads/Get_On_Up_400x400.webp
-genre: Disco House
-tags:
-  - disco house
-  - funky
-  - vocal
-  - summer
 credits:
   producer: OKPLUS
   vocals: Emél

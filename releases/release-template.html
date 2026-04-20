@@ -61,28 +61,6 @@
       color: #999;
       margin-bottom: 1.5rem;
     }
-    .release-genre {
-      display: inline-block;
-      padding: 6px 16px;
-      background: rgba(107, 76, 122, 0.4);
-      border: 1px solid rgba(155, 123, 184, 0.5);
-      border-radius: 999px;
-      font-size: 0.85rem;
-      margin-bottom: 1.5rem;
-    }
-    .release-tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 1.5rem;
-    }
-    .release-tag {
-      padding: 4px 12px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 999px;
-      font-size: 0.8rem;
-      color: #aaa;
-    }
     .release-description {
       font-size: 1.1rem;
       line-height: 1.7;
@@ -297,12 +275,6 @@
           continue;
         }
         
-        if(/^tags\s*:\s*$/.test(line.trim())){
-          inTags = true;
-          data.tags = [];
-          continue;
-        }
-        
         if(/^credits\s*:\s*$/.test(line.trim())){
           inCredits = true;
           data.credits = {};
@@ -315,15 +287,6 @@
           } else {
             const m = line.trim().match(/^([^:]+):\s*(.*)$/);
             if(m) data.links[m[1].trim()] = m[2].replace(/^["']|["']$/g,"");
-            continue;
-          }
-        }
-        
-        if(inTags){
-          if(!line.startsWith(" ")){
-            inTags = false;
-          } else {
-            data.tags.push(line.replace(/^\s*-\s*/,"").trim());
             continue;
           }
         }
@@ -397,11 +360,6 @@
         ? content.replace(/\*\*/g, '').replace(/\n/g, '<br>')
         : '';
       
-      // Tags
-      const tagsHtml = (data.tags || []).map(tag => 
-        `<span class="release-tag">${tag}</span>`
-      ).join('');
-      
       // Credits
       const credits = data.credits || {};
       const creditsHtml = Object.entries(credits).map(([role, name]) => {
@@ -418,8 +376,6 @@
           <div class="release-info">
             <h1>${data.title}</h1>
             <div class="release-artists">${artists}</div>
-            ${data.genre ? `<div class="release-genre">${data.genre}</div>` : ''}
-            ${tagsHtml ? `<div class="release-tags">${tagsHtml}</div>` : ''}
             ${data.date ? `<div class="release-date">Released: ${new Date(data.date).toLocaleDateString('en-GB', {day: 'numeric', month: 'long', year: 'numeric'})}</div>` : ''}
             ${data.catalog ? `<div class="release-date">Catalog: ${data.catalog}</div>` : ''}
             ${description ? `<div class="release-description">${description}</div>` : ''}

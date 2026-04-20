@@ -52,19 +52,6 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .release-tags {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin: 0.5rem 0;
-    }
-    .release-tag {
-      padding: 3px 10px;
-      background: rgba(107, 76, 122, 0.3);
-      border-radius: 999px;
-      font-size: 0.75rem;
-      color: #bbb;
-    }
     .read-more {
       display: inline-flex;
       align-items: center;
@@ -130,14 +117,8 @@
         <p>Stream or buy from your preferred platform.</p>
       </section>
 
-      <div id="genre-filter" style="margin: 2rem 0; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-        <span style="font-size: 0.9rem; color: #999;">Filter by genre:</span>
-        <button class="genre-btn active" data-genre="all" style="padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">All</button>
-        <button class="genre-btn" data-genre="deep house" style="padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #aaa; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">Deep House</button>
-        <button class="genre-btn" data-genre="disco house" style="padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #aaa; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">Disco House</button>
-        <button class="genre-btn" data-genre="nu disco" style="padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #aaa; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">Nu Disco</button>
-        <button class="genre-btn" data-genre="vocal house" style="padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #aaa; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">Vocal House</button>
-        <button class="genre-btn" data-genre="house" style="padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: #aaa; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">House</button>
+      <div id="search-filter" style="margin: 2rem 0;">
+        <input type="text" id="search-input" placeholder="Search releases or artists..." style="width: 100%; max-width: 400px; padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; font-size: 0.9rem; outline: none;">
       </div>
 
       <div id="releases-content" class="releases-grid">Loading releases...</div>
@@ -381,8 +362,6 @@
       const cover = clean(data.cover || data.image);
       const dateStr = clean(data.date);
       const links = data.links || {};
-      const tags = data.tags || [];
-      const genre = clean(data.genre || (tags[0] ? tags[0] : ''));
       
       // Get teaser from description (first sentence or first 120 chars)
       let teaser = '';
@@ -406,8 +385,8 @@
       
       return {
         date: dateStr ? new Date(dateStr) : new Date(0),
-        genre: genre,
-        tags: tags,
+        title: title,
+        artists: data.artists || [],
         html: `
           <div class="release">
             <a href="/releases/${releaseSlug}/" class="release-link">
@@ -423,9 +402,6 @@
                        class="release-cover"
                        loading="lazy"
                        decoding="async">` : ""}
-
-                ${genre ? `<div style="margin-top:0.5rem;"><span class="release-tag" style="background:rgba(107,76,122,0.5);">${genre}</span></div>` : ''}
-                ${tagsHtml ? `<div class="release-tags">${tagsHtml}</div>` : ''}
                 
                 ${teaser ? `<p class="release-teaser">${teaser}</p>` : ''}
 
@@ -456,8 +432,8 @@
 
         renderCards(cards);
         
-        // Setup genre filter
-        setupGenreFilter(allCards);
+        // Setup search
+        setupSearch(allCards);
 
       }catch(e){
         console.error(e);
@@ -470,34 +446,24 @@
       container.innerHTML = cards.map(c => c.html).join("");
     }
     
-    function setupGenreFilter(allCards) {
-      const filterButtons = document.querySelectorAll('.genre-btn');
+    function setupSearch(allCards) {
+      const searchInput = document.getElementById('search-input');
       
-      filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          // Update active state
-          filterButtons.forEach(b => {
-            b.classList.remove('active');
-            b.style.background = 'transparent';
-            b.style.color = '#aaa';
-          });
-          btn.classList.add('active');
-          btn.style.background = 'rgba(255,255,255,0.1)';
-          btn.style.color = '#fff';
-          
-          const genre = btn.dataset.genre;
-          
-          if (genre === 'all') {
-            renderCards(allCards);
-          } else {
-            const filtered = allCards.filter(card => {
-              const cardGenre = (card.genre || '').toLowerCase();
-              const cardTags = (card.tags || []).map(t => t.toLowerCase());
-              return cardGenre === genre || cardTags.includes(genre);
-            });
-            renderCards(filtered);
-          }
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        
+        if (!query) {
+          renderCards(allCards);
+          return;
+        }
+        
+        const filtered = allCards.filter(card => {
+          const titleMatch = (card.title || '').toLowerCase().includes(query);
+          const artistMatch = (card.artists || []).some(a => a.toLowerCase().includes(query));
+          return titleMatch || artistMatch;
         });
+        
+        renderCards(filtered);
       });
     }
 

@@ -7,13 +7,6 @@ artists:
 date: 2025-11-14
 catalog: OYSTR25009
 cover: /uploads/get_on_up_mark_picchiotti_400.webp
-genre: House
-tags:
-  - house
-  - remix
-  - mark picchiotti
-  - chicago
-  - classic
 credits:
   original_producer: OKPLUS
   remixer: Mark Picchiotti
