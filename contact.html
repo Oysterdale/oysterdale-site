@@ -79,13 +79,20 @@
   <!-- CONTENT -->
   <main class="page-content fade-in">
     <h1>Contact</h1>
+    
+    <!-- Success message after newsletter signup -->
+    <div id="newsletter-success" style="display:none;background:rgba(107,76,122,0.3);border:1px solid rgba(155,123,184,0.5);border-radius:12px;padding:20px;margin-bottom:2rem;">
+      <h3 style="margin:0 0 0.5rem;color:#fff;">🎉 Welcome to the crew!</h3>
+      <p style="margin:0;opacity:0.9;">You're subscribed. Watch your inbox for weekly pearls.</p>
+    </div>
+    
     <div id="contact-content">Loading content...</div>
 
     <!-- NEWSLETTER SIGNUP -->
     <section id="newsletter-section" style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);">
       <h2>Join the Crew</h2>
       <p style="opacity:.7;margin-bottom:1.5rem;">Get weekly pearls delivered to your inbox. No spam, just groove.</p>
-      <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;display:flex;flex-direction:column;gap:16px;">
+      <form name="newsletter" method="POST" action="/contact.html?subscribed=true" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;display:flex;flex-direction:column;gap:16px;">
         <p style="display:none;">
           <label>Don't fill this out: <input name="bot-field" /></label>
         </p>
@@ -107,6 +114,12 @@
     function stripFrontmatter(text){
       const fm=/^\s*---\s*\n[\s\S]*?\n---\s*\n?/;
       return text.replace(fm,"");
+    }
+
+    // Show success message if subscribed
+    if(window.location.search.includes('subscribed=true')){
+      const successDiv = document.getElementById('newsletter-success');
+      if(successDiv) successDiv.style.display = 'block';
     }
 
     (async()=>{
