@@ -94,7 +94,23 @@
       100%{background-position:-100% 0}
     }
 
-    .latest-wrap h2, #spotify-section h2 { text-align:left; }
+    .latest-wrap h2, #spotify-section h2 { text-align:center; }
+    
+    /* Consistent section spacing */
+    .latest-wrap, #spotify-section, #newsletter-section {
+      margin: 3rem 0;
+      padding: 0 5%;
+    }
+    
+    /* Override any inline styles */
+    #newsletter-section {
+      margin: 3rem auto !important;
+      padding: 0 5% !important;
+    }
+    
+    .latest-wrap:first-of-type {
+      margin-top: 2rem;
+    }
     footer a { color:#fff; }
     footer a:hover { color:#bbb; }
 
