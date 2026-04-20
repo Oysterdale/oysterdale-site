@@ -168,10 +168,14 @@
         const releases = await loadReleases();
         const artistReleases = releases.filter(r => {
           const artists = r.data.artists || [];
-          return artists.some(a => 
-            a.toLowerCase().includes(data.name?.toLowerCase()) ||
-            data.name?.toLowerCase().includes(a.toLowerCase())
-          );
+          return artists.some(a => {
+            const artistName = a.toLowerCase();
+            const currentName = data.name?.toLowerCase() || '';
+            // Match full name or partial (e.g., "OKPLUS" matches "OKPLUS")
+            return artistName === currentName || 
+                   artistName.includes(currentName) || 
+                   currentName.includes(artistName);
+          });
         });
         
         renderArtist(data, artistReleases);
