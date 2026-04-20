@@ -58,11 +58,14 @@ const TEMPLATE = `<!DOCTYPE html>
       letter-spacing: 0.05em;
       margin-bottom: 1.5rem;
     }
-    .artist-bio {
+    .artist-bio-full {
+      margin: 2rem 0;
+      max-width: 800px;
+    }
+    .artist-bio-full p {
       font-size: 1.1rem;
       line-height: 1.7;
       color: #ccc;
-      margin-bottom: 2rem;
     }
     .artist-links {
       display: flex;
@@ -135,11 +138,14 @@ const TEMPLATE = `<!DOCTYPE html>
         <img src="{{photo}}" alt="{{name}}" class="artist-photo">
         <div class="artist-info">
           <h1>{{name}}</h1>
-          <p class="artist-bio">{{bio}}</p>
           <div class="artist-links">
             {{links}}
           </div>
         </div>
+      </div>
+      
+      <div class="artist-bio-full">
+        <p>{{bio}}</p>
       </div>
       
       <div class="artist-releases">
