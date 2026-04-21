@@ -307,7 +307,7 @@
           <div class="artist-info">
             <h1>${data.name}</h1>
             <span class="artist-role">${data.role}</span>
-            <p class="artist-bio">${data.bio}</p>
+            ${data.bio ? `<p class="artist-bio">${data.bio}</p>` : ''}
             <div class="artist-links">
               ${linksHtml}
             </div>
