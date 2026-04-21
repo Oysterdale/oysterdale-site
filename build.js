@@ -179,6 +179,7 @@ function generateNewsPostPage(post) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="/scripts/menu.js?v=3" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -302,6 +303,7 @@ function generateNewsIndex(posts) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="/scripts/menu.js?v=3" defer></script>
 </head>
 <body>
   <header class="site-header">
