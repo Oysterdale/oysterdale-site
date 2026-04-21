@@ -646,6 +646,7 @@ footer nav.footer-nav a:hover{color:#bbb}
   display: flex;
   flex-wrap: wrap;
   gap: .5rem;
+  margin-top: .5rem;
 }
 
 .news-post .post-tags .tag {
@@ -657,6 +658,7 @@ footer nav.footer-nav a:hover{color:#bbb}
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: rgba(255,255,255,.7);
+  white-space: nowrap;
 }
 
 .news-post .post-image {

@@ -33,15 +33,23 @@
 .news-preview-image{
   margin:0;
   overflow:hidden;
+  background:#111;
 }
 
 .news-preview-image img{
   width:100%;
   height:auto;
-  max-height:400px;
+  max-height:350px;
   object-fit:contain;
   object-position:center top;
   transition:transform .3s ease;
+}
+
+/* Desktop: wider image */
+@media (min-width: 769px) {
+  .news-preview-image img {
+    max-height:400px;
+  }
 }
 
 .news-preview-card:hover .news-preview-image img{
