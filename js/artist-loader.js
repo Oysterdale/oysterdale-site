@@ -17,12 +17,12 @@ function parseFrontmatter(md) {
   let currentKey = null;
   let currentValue = [];
   let inBlock = false;
-  let blockIndent = 0;
+  let blockIndent = null;
   
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     
-    // Check for block scalar start (> or | with optional modifiers)
+    // Check for block scalar start (> or | with optional modifiers like |-, >+, etc.)
     const blockMatch = line.match(/^(\w+):\s*([>|](?:[-+]?))\s*$/);
     if (blockMatch) {
       if (currentKey) {
@@ -31,19 +31,34 @@ function parseFrontmatter(md) {
       currentKey = blockMatch[1];
       currentValue = [];
       inBlock = true;
-      blockIndent = 0;
+      blockIndent = null; // Will be determined by first content line
       continue;
     }
     
-    // Check for simple field
+    // Check for simple field (key: value)
     const fieldMatch = line.match(/^(\w+):\s*(.*)$/);
+    
+    // If we're in a block and encounter a new field at root level (no indent), end the block
+    if (inBlock && fieldMatch) {
+      const indent = line.match(/^(\s*)/)[1].length;
+      // If this line has no indent (or less than block indent), it's a new field
+      if (indent === 0 || (blockIndent !== null && indent < blockIndent)) {
+        data[currentKey] = currentValue.join('\n').trim();
+        currentKey = fieldMatch[1];
+        currentValue = [fieldMatch[2].trim().replace(/^["']|["']$/g, '')];
+        inBlock = false;
+        blockIndent = null;
+        continue;
+      }
+    }
+    
+    // Regular field (not in block)
     if (fieldMatch && !inBlock) {
       if (currentKey) {
         data[currentKey] = currentValue.join('\n').trim();
       }
       currentKey = fieldMatch[1];
       currentValue = [fieldMatch[2].trim().replace(/^["']|["']$/g, '')];
-      inBlock = false;
       continue;
     }
     
@@ -61,25 +76,25 @@ function parseFrontmatter(md) {
     
     // Handle block content
     if (inBlock) {
-      // If we encounter a new field at root level (no indent), block is done
-      if (fieldMatch && !line.startsWith(' ') && !line.startsWith('\t')) {
-        data[currentKey] = currentValue.join('\n').trim();
-        currentKey = fieldMatch[1];
-        currentValue = [fieldMatch[2].trim().replace(/^["']|["']$/g, '')];
-        inBlock = false;
-        continue;
-      }
-      
-      // Set block indent on first non-empty line
-      if (blockIndent === 0 && line.trim().length > 0) {
+      // Determine block indent from first non-empty line
+      if (blockIndent === null && line.trim().length > 0) {
         blockIndent = line.match(/^(\s*)/)[1].length;
       }
       
-      // Add line to block (remove base indent)
+      // Add line to block value
       if (line.trim().length === 0) {
         currentValue.push('');
+      } else if (blockIndent !== null) {
+        // Remove the base indent
+        const lineIndent = line.match(/^(\s*)/)[1].length;
+        if (lineIndent >= blockIndent) {
+          currentValue.push(line.substring(blockIndent));
+        } else {
+          // Less indent than expected - still add it
+          currentValue.push(line.trim());
+        }
       } else {
-        currentValue.push(line.substring(Math.min(blockIndent, line.match(/^(\s*)/)[1].length)));
+        currentValue.push(line);
       }
     }
   }
@@ -89,36 +104,12 @@ function parseFrontmatter(md) {
     data[currentKey] = currentValue.join('\n').trim();
   }
   
-  return { data, content };
+  return { data, content: parts.slice(2).join('---').trim() };
 }
 
 // Load all releases for cross-referencing
 async function loadReleases() {
   try {
-    // Use raw GitHub URL instead of API to avoid rate limits
-    const releasesIndexUrl = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/releases/index.json`;
-    
-    try {
-      const indexResponse = await fetch(releasesIndexUrl);
-      if (indexResponse.ok) {
-        const releaseFiles = await indexResponse.json();
-        
-        const releases = await Promise.all(
-          releaseFiles
-            .filter(f => f.endsWith('.md'))
-            .map(async filename => {
-              const md = await fetch(`https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/releases/${filename}`).then(r => r.text());
-              const { data } = parseFrontmatter(md);
-              return { data, slug: filename.replace('.md', '') };
-            })
-        );
-        
-        return releases;
-      }
-    } catch (e) {
-      console.log('No releases index, trying fallback...');
-    }
-    
     // Fallback: try common release files
     const commonReleases = [
       'get-on-up.md', 'dont-hold-me-back.md', 'get-on-up-remixes.md',
@@ -284,31 +275,6 @@ async function loadArtist() {
         }
       } catch (e) {
         // Continue to next file
-      }
-    }
-    
-    // If not found, try API as fallback
-    if (!md) {
-      try {
-        const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/artists`);
-        const files = await r.json();
-        
-        const artistFile = files.find(f => {
-          if (!f.name.endsWith('.md')) return false;
-          const name = f.name.toLowerCase().replace('.md', '');
-          const normalizedName = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          const normalizedSlug = artistSlug.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          return normalizedName.includes(normalizedSlug) || 
-                 normalizedSlug.includes(normalizedName);
-        });
-        
-        if (artistFile) {
-          const mdUrl = artistFile.download_url || 
-            `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/artists/${artistFile.name}`;
-          md = await fetch(mdUrl).then(r => r.text());
-        }
-      } catch (e) {
-        console.error('API fallback failed:', e);
       }
     }
     
