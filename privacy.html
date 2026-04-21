@@ -23,6 +23,8 @@
         const t=()=>{const o=nav.classList.toggle("open");btn.textContent=o?"✖":"☰";};
         btn.addEventListener("click",t);
       }
+      // Set active nav state
+      if (window.setActiveNav) window.setActiveNav();
     });
   </script>
 
