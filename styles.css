@@ -710,7 +710,9 @@ footer nav.footer-nav a:hover{color:#bbb}
   border: none;
   margin: 2.5rem 0;
   height: 1px;
-  background: rgba(255,255,255,.15);
+  background: rgba(255,255,255,.2);
+  width: 100%;
+  display: block;
 }
 
 .news-post .post-footer {
