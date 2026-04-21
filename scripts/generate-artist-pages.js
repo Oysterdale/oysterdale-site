@@ -29,6 +29,27 @@ function generateTemplate(data) {
     </a>
   `).join('');
   
+  // Generate contact buttons
+  const contactEmail = (data.contact_email || '').trim().replace(/^["']|["']$/g, '');
+  const bookingEmail = (data.booking_email || '').trim().replace(/^["']|["']$/g, '');
+  const fallbackEmail = 'contact@oysterdalerecords.com';
+  
+  let contactButtons = [];
+  if(bookingEmail && bookingEmail !== "''"){
+    contactButtons.push(`<a href="mailto:${bookingEmail}?subject=Booking%20Inquiry%20-%20${encodeURIComponent(name)}" class="secondary"><i class="fa-solid fa-calendar"></i> Book ${name.split(' ')[0]}</a>`);
+  }
+  if(contactEmail && contactEmail !== "''"){
+    contactButtons.push(`<a href="mailto:${contactEmail}?subject=Inquiry%20about%20${encodeURIComponent(name)}"><i class="fa-solid fa-envelope"></i> Contact</a>`);
+  } else if(!bookingEmail || bookingEmail === "''"){
+    contactButtons.push(`<a href="mailto:${fallbackEmail}?subject=Inquiry%20about%20${encodeURIComponent(name)}"><i class="fa-solid fa-envelope"></i> Contact</a>`);
+  }
+  
+  const contactHtml = contactButtons.length > 0 ? `
+    <div class="artist-contact">
+      ${contactButtons.join('')}
+    </div>
+  ` : '';
+  
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -102,6 +123,36 @@ function generateTemplate(data) {
     .artist-links a:hover {
       background: rgba(255,255,255,0.12);
     }
+    .artist-contact {
+      margin-top: 2rem;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .artist-contact a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #6b4c7a, #9b7bb8);
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: transform 0.2s, box-shadow 0.2s;
+      color: #fff !important;
+      text-decoration: none;
+    }
+    .artist-contact a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(155, 123, 184, 0.3);
+    }
+    .artist-contact a.secondary {
+      background: rgba(255,255,255,0.08);
+    }
+    .artist-contact a.secondary:hover {
+      background: rgba(255,255,255,0.15);
+      box-shadow: none;
+    }
     .artist-bio-full {
       margin: 2rem 0;
       max-width: 800px;
@@ -136,6 +187,9 @@ function generateTemplate(data) {
         text-align: center;
       }
       .artist-links {
+        justify-content: center;
+      }
+      .artist-contact {
         justify-content: center;
       }
       .artist-bio-full {
@@ -183,6 +237,7 @@ function generateTemplate(data) {
           <div class="artist-links">
             ${linksHtml}
           </div>
+          ${contactHtml}
         </div>
       </div>
       
