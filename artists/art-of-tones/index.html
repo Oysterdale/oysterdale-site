@@ -71,6 +71,36 @@
     .artist-links a:hover {
       background: rgba(255,255,255,0.12);
     }
+    .artist-contact {
+      margin-top: 2rem;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .artist-contact a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #6b4c7a, #9b7bb8);
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: transform 0.2s, box-shadow 0.2s;
+      color: #fff !important;
+      text-decoration: none;
+    }
+    .artist-contact a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(155, 123, 184, 0.3);
+    }
+    .artist-contact a.secondary {
+      background: rgba(255,255,255,0.08);
+    }
+    .artist-contact a.secondary:hover {
+      background: rgba(255,255,255,0.15);
+      box-shadow: none;
+    }
     .artist-bio-full {
       margin: 2rem 0;
       max-width: 800px;
@@ -105,6 +135,9 @@
         text-align: center;
       }
       .artist-links {
+        justify-content: center;
+      }
+      .artist-contact {
         justify-content: center;
       }
       .artist-bio-full {
@@ -172,6 +205,11 @@
     </a>
   
           </div>
+          
+    <div class="artist-contact">
+      <a href="mailto:contact@oysterdalerecords.com?subject=Inquiry%20about%20Art%20Of%20Tones"><i class="fa-solid fa-envelope"></i> Contact</a>
+    </div>
+  
         </div>
       </div>
       
