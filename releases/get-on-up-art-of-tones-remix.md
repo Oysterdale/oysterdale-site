@@ -31,7 +31,7 @@ credits:
   original_producer: OKPLUS
 ---
 
-**Art of Tones** brings his signature French touch to Get On Up, transforming the original into a sophisticated, groove-led club version built from the ground up.
+**Art of Tones** brings his signature French touch to _Get On Up_, transforming the original into a sophisticated, groove-led club version built from the ground up.
 
 Rather than simply reworking the original, he fully reinvents the instrumental — introducing new harmonies, textures, and a deep, driving foundation while keeping Emél’s vocal front and center.
 
