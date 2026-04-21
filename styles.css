@@ -608,15 +608,14 @@ footer nav.footer-nav a:hover{color:#bbb}
   border-color: rgba(255,255,255,.4);
 }
 
-/* News post layout */
 .news-post {
-  max-width: 720px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 2rem 5%;
 }
 
 .news-post .post-header {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .news-post .post-meta {
@@ -629,10 +628,10 @@ footer nav.footer-nav a:hover{color:#bbb}
 }
 
 .news-post .post-title {
-  font-size: clamp(28px, 4vw, 42px);
+  font-size: clamp(32px, 5vw, 52px);
   font-weight: 600;
-  line-height: 1.15;
-  margin: 0 0 .75rem;
+  line-height: 1.1;
+  margin: 0 0 1rem;
   text-transform: none;
 }
 
@@ -662,7 +661,7 @@ footer nav.footer-nav a:hover{color:#bbb}
 }
 
 .news-post .post-image {
-  margin: 0 0 2rem;
+  margin: 0 0 2.5rem;
 }
 
 .news-post .post-image img {
@@ -675,25 +674,25 @@ footer nav.footer-nav a:hover{color:#bbb}
 }
 
 .news-post .post-content {
-  font-size: 1.05rem;
-  line-height: 1.7;
+  font-size: 1.15rem;
+  line-height: 1.8;
 }
 
 .news-post .post-content p {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .news-post .post-content h2 {
-  font-size: clamp(22px, 3vw, 28px);
+  font-size: clamp(24px, 3.5vw, 32px);
   font-weight: 600;
-  margin: 2.5rem 0 1rem;
+  margin: 3rem 0 1.25rem;
   text-transform: none;
 }
 
 .news-post .post-content h3 {
-  font-size: clamp(18px, 2.5vw, 22px);
+  font-size: clamp(20px, 2.5vw, 24px);
   font-weight: 600;
-  margin: 2rem 0 .75rem;
+  margin: 2.5rem 0 1rem;
   text-transform: none;
 }
 
@@ -708,8 +707,8 @@ footer nav.footer-nav a:hover{color:#bbb}
 }
 
 .news-post .post-footer {
-  margin-top: 3rem;
-  padding-top: 1.5rem;
+  margin-top: 4rem;
+  padding-top: 2rem;
   border-top: 1px solid rgba(255,255,255,.1);
 }
 
@@ -731,10 +730,14 @@ footer nav.footer-nav a:hover{color:#bbb}
   }
   
   .news-post .post-title {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
   
   .news-post .post-content {
-    font-size: 1rem;
+    font-size: 1.05rem;
+  }
+  
+  .news-post .post-content p {
+    margin-bottom: 1.5rem;
   }
 }
