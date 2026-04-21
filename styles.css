@@ -608,21 +608,131 @@ footer nav.footer-nav a:hover{color:#bbb}
   border-color: rgba(255,255,255,.4);
 }
 
-/* Mobile */
+/* News post layout */
+.news-post {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 5%;
+}
+
+.news-post .post-header {
+  margin-bottom: 2rem;
+}
+
+.news-post .post-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: .9rem;
+  color: rgba(255,255,255,.5);
+}
+
+.news-post .post-title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 .75rem;
+  text-transform: none;
+}
+
+.news-post .post-author {
+  font-size: .95rem;
+  color: rgba(255,255,255,.6);
+  margin: 0 0 1rem;
+}
+
+.news-post .post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.news-post .post-tags .tag {
+  display: inline-block;
+  padding: .35rem .75rem;
+  background: rgba(255,255,255,.08);
+  border-radius: 999px;
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,.7);
+}
+
+.news-post .post-image {
+  margin: 0 0 2rem;
+}
+
+.news-post .post-image img {
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  object-position: center top;
+  border-radius: 12px;
+  background: #111;
+}
+
+.news-post .post-content {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.news-post .post-content p {
+  margin-bottom: 1.5rem;
+}
+
+.news-post .post-content h2 {
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 600;
+  margin: 2.5rem 0 1rem;
+  text-transform: none;
+}
+
+.news-post .post-content h3 {
+  font-size: clamp(18px, 2.5vw, 22px);
+  font-weight: 600;
+  margin: 2rem 0 .75rem;
+  text-transform: none;
+}
+
+.news-post .post-content strong {
+  font-weight: 600;
+  color: #fff;
+}
+
+.news-post .post-content br {
+  display: block;
+  margin-bottom: .5rem;
+}
+
+.news-post .post-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+.news-post .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-weight: 500;
+  transition: opacity .2s ease;
+}
+
+.news-post .back-link:hover {
+  opacity: .7;
+}
+
 @media (max-width: 768px) {
-  .news-index {
+  .news-post {
     padding: 1.5rem 4.5%;
   }
   
-  .news-index .page-header {
-    margin-bottom: 2rem;
+  .news-post .post-title {
+    font-size: 1.75rem;
   }
   
-  .news-hero {
-    margin-bottom: 2rem;
-  }
-  
-  .news-list-item {
-    padding: 1.25rem 0;
+  .news-post .post-content {
+    font-size: 1rem;
   }
 }

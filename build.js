@@ -220,7 +220,7 @@ function generateNewsPostPage(post) {
         </div>
         <h1 class="post-title">${post.title}</h1>
         <p class="post-author">by ${post.author}</p>
-        ${post.tags.length ? `<div class="post-tags">${post.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>` : ""}
+        ${post.tags.length ? `<div class="post-tags">${post.tags.map(t => `<span class="tag">${t}</span>`).join(" ")}</div>` : ""}
       </header>
       
       ${imageUrl ? `<figure class="post-image"><img src="${post.image}" alt="${post.title}"></figure>` : ""}
