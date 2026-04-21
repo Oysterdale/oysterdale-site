@@ -475,8 +475,9 @@ footer nav.footer-nav a:hover{color:#bbb}
 
 .news-hero-image {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  max-height: 500px;
+  object-fit: contain;
+  object-position: center top;
   border-radius: 12px;
   margin-bottom: 1.25rem;
   background: #111;
