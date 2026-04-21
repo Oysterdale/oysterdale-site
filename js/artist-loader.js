@@ -17,6 +17,7 @@ function parseFrontmatter(md) {
   let currentKey = null;
   let currentValue = [];
   let inBlock = false;
+  let blockIndent = 0;
   
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -25,11 +26,12 @@ function parseFrontmatter(md) {
     const blockMatch = line.match(/^(\w+):\s*([>|](?:[-+]?))\s*$/);
     if (blockMatch) {
       if (currentKey) {
-        data[currentKey] = currentValue.join('\n');
+        data[currentKey] = currentValue.join('\n').trim();
       }
       currentKey = blockMatch[1];
       currentValue = [];
       inBlock = true;
+      blockIndent = 0; // Will be set on first content line
       continue;
     }
     
@@ -37,7 +39,7 @@ function parseFrontmatter(md) {
     const fieldMatch = line.match(/^(\w+):\s*(.*)$/);
     if (fieldMatch && !inBlock) {
       if (currentKey) {
-        data[currentKey] = currentValue.join('\n');
+        data[currentKey] = currentValue.join('\n').trim();
       }
       currentKey = fieldMatch[1];
       currentValue = [fieldMatch[2].trim().replace(/^["']|["']$/g, '')];
@@ -57,21 +59,33 @@ function parseFrontmatter(md) {
       continue;
     }
     
-    // Continue block value
-    if (inBlock && line.trim() === '' && currentValue.length > 0) {
-      // Empty line in block - add it
-      currentValue.push('');
-      continue;
-    }
-    
+    // Handle block content
     if (inBlock) {
-      currentValue.push(line);
+      // If we encounter a new field at root level (no indent), block is done
+      if (fieldMatch && !line.startsWith(' ') && !line.startsWith('\t')) {
+        data[currentKey] = currentValue.join('\n').trim();
+        currentKey = fieldMatch[1];
+        currentValue = [fieldMatch[2].trim().replace(/^["']|["']$/g, '')];
+        inBlock = false;
+        continue;
+      }
+      
+      // Set block indent on first non-empty line
+      if (blockIndent === 0 && line.trim().length > 0) {
+        blockIndent = line.match(/^(\s*)/)[1].length;
+      }
+      
+      // Add line to block (remove base indent)
+      if (line.trim().length === 0) {
+        currentValue.push('');
+      } else {
+        currentValue.push(line.substring(Math.min(blockIndent, line.match(/^(\s*)/)[1].length)));
+      }
     }
   }
   
   // Save last key
   if (currentKey) {
-    // Trim trailing whitespace for block values
     data[currentKey] = currentValue.join('\n').trim();
   }
   
@@ -166,7 +180,7 @@ function renderArtist(data, releases) {
       `).join('')
     : '<p>No releases yet.</p>';
   
-  // Format bio with paragraphs
+  // Format bio with paragraphs - split on blank lines
   const bioHtml = data.bio 
     ? data.bio.split(/\n\n+/).map(p => `<p>${p.trim()}</p>`).join('')
     : '';
