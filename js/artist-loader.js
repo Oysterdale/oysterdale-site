@@ -215,8 +215,9 @@ async function loadArtist() {
     const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/artists`);
     const files = await r.json();
     
-    // Find matching file
+    // Find matching file - look for .md files only
     const artistFile = files.find(f => {
+      if (!f.name.endsWith('.md')) return false;
       const name = f.name.toLowerCase().replace('.md', '');
       return name.includes(artistSlug.toLowerCase()) || 
              artistSlug.toLowerCase().includes(name);
@@ -227,8 +228,12 @@ async function loadArtist() {
       return;
     }
     
+    // Use raw GitHub URL for markdown content
+    const mdUrl = artistFile.download_url || 
+      `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/artists/${artistFile.name}`;
+    
     // Load artist markdown
-    const md = await fetch(artistFile.download_url).then(r => r.text());
+    const md = await fetch(mdUrl).then(r => r.text());
     const { data } = parseFrontmatter(md);
     
     // Load releases for cross-referencing
