@@ -340,6 +340,68 @@
       <div class="spotify-grid" id="spotify-grid"></div>
     </section>
 
+    <!-- Spotify iframe loader (lazy, on scroll) -->
+    <script>
+    (function(){
+      const SECTION = document.getElementById('spotify-section');
+      const GRID = document.getElementById('spotify-grid');
+      let loaded = false;
+
+      function loadIframes(){
+        if(loaded) return;
+        const cards = GRID.querySelectorAll('.spotify-card[data-src]');
+        cards.forEach(card => {
+          const src = card.dataset.src;
+          const title = card.dataset.title || 'Spotify';
+          const height = card.dataset.height || '352';
+          const compact = card.classList.contains('compact');
+          
+          const iframe = document.createElement('iframe');
+          iframe.src = src;
+          iframe.title = title;
+          iframe.height = height;
+          iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+          iframe.loading = 'lazy';
+          iframe.style.width = '100%';
+          iframe.style.border = '0';
+          iframe.style.borderRadius = '12px';
+          
+          card.innerHTML = '';
+          card.appendChild(iframe);
+        });
+        loaded = true;
+      }
+
+      // Click to load (for mobile/touch)
+      if(GRID){
+        GRID.addEventListener('click', function(e){
+          const card = e.target.closest('.spotify-card[data-src]');
+          if(card && !loaded){
+            loadIframes();
+          }
+        });
+      }
+
+      // IntersectionObserver - load when section enters viewport
+      if('IntersectionObserver' in window && SECTION && GRID){
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if(entry.isIntersecting){
+              loadIframes();
+              observer.disconnect();
+            }
+          });
+        }, { rootMargin: '200px' });
+        observer.observe(SECTION);
+      } else if(GRID) {
+        // Fallback: load on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', loadIframes);
+      }
+
+      window._spotifyLoadIframes = loadIframes;
+    })();
+    </script>
+
     <!-- NEWSLETTER SIGNUP -->
     <section id="newsletter-section" class="latest-wrap">
       <h2 id="heading-join-crew" class="scroll-title">JOIN THE CREW</h2>
@@ -576,22 +638,24 @@
               const hProp = !isString && p.height ? parseInt(p.height,10) : null;
 
               const {src, height: hFromIframe} = parseSpotifyInput(raw);
-              const height = hProp || hFromIframe || null;
+              const height = hProp || hFromIframe || 352;
               const compact = (height && height <= 180) || size === 'small' || size === 'compact';
 
               return `
-                <div class="spotify-card${compact ? ' compact' : ''}">
-                  <iframe
-                    src="${src}"
-                    title="${title ? `Spotify – ${title}` : 'Spotify'}"
-                    ${height ? `height="${height}"` : ''}
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    loading="lazy"></iframe>
+                <div class="spotify-card${compact ? ' compact' : ''}" data-src="${src}" data-title="${title ? `Spotify – ${title}` : 'Spotify'}" data-height="${height}">
+                  <div class="spotify-placeholder" style="width:100%;height:${height}px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+                    <i class="fa-brands fa-spotify" style="font-size:48px;color:#1DB954;"></i>
+                    <span style="color:#fff;font-size:14px;opacity:0.8;">${title || 'Spotify Playlist'}</span>
+                    <span style="color:#fff;font-size:12px;opacity:0.5;">Click to load</span>
+                  </div>
                 </div>
               `;
             }).join('');
 
             section.style.display = 'block';
+
+            // Trigger iframe loading if already visible
+            if(window._spotifyLoadIframes) window._spotifyLoadIframes();
           }
         })
         .catch(()=>{});

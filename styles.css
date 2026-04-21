@@ -375,11 +375,21 @@ footer nav.footer-nav a:hover{color:#bbb}
   height:152px;
 }
 
+.spotify-card .spotify-placeholder{
+  cursor:pointer;
+  transition:opacity 0.2s ease;
+}
+
+.spotify-card .spotify-placeholder:hover{
+  opacity:0.9;
+}
+
 .spotify-card.compact iframe{height:152px;}
 
 @media(max-width:600px){
   .spotify-grid{margin:1.4rem auto;}
   .spotify-card iframe{height:180px;}
+  .spotify-card .spotify-placeholder{height:180px !important;}
 }
 
 /* ===================================================== */
