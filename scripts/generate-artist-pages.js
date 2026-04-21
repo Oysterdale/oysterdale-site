@@ -221,6 +221,7 @@ function generateTemplate(data) {
             a.toLowerCase().includes('${nameLower}') || 
             '${nameLower}'.includes(a.toLowerCase())
           )) {
+            data.fileName = file.name;
             releases.push(data);
           }
         }
@@ -232,7 +233,7 @@ function generateTemplate(data) {
         }
         
         container.innerHTML = releases.map(function(r) {
-          var releaseSlug = r.title.toLowerCase().replace(/\\s+/g, '-');
+          var releaseSlug = r.fileName.replace('.md', '').toLowerCase();
           return '<div class="release">' +
             '<a href="/releases/' + releaseSlug + '/">' +
             '<img src="' + (r.cover || r.image) + '" alt="' + r.title + '" class="release-cover" loading="lazy">' +
