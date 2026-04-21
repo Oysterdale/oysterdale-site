@@ -33,7 +33,7 @@ credits:
 
 **Art of Tones** brings his signature French touch to Get On Up, transforming the original into a sophisticated, groove-led club version built from the ground up.
 
-Rather than simply reworking the original, he fully reinvents the instrumental — introducing new rhythms, textures, and a deeper, more driving foundation while keeping Emél’s vocal front and center.
+Rather than simply reworking the original, he fully reinvents the instrumental — introducing new harmonies, textures, and a deep, driving foundation while keeping Emél’s vocal front and center.
 
 The original by **OKPLUS** and **Emél** already carried a strong identity through its live instrumentation and warm, disco-leaning feel. This remix takes a different route — more stripped, more focused, and firmly aimed at the dancefloor.
 
