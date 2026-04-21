@@ -158,5 +158,20 @@
   </script>
 
   <script src="/scripts/menu.js?v=3"></script>
+  
+  <!-- Direct inline menu toggle for mobile -->
+  <script>
+  (function(){
+    const toggleButton = document.getElementById('menu-toggle');
+    const nav = document.querySelector('.main-nav');
+    
+    if(toggleButton && nav) {
+      toggleButton.addEventListener('click', function(){
+        nav.classList.toggle('open');
+        toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
+      });
+    }
+  })();
+  </script>
 </body>
 </html>
