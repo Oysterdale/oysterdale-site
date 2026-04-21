@@ -706,6 +706,13 @@ footer nav.footer-nav a:hover{color:#bbb}
   margin-bottom: .5rem;
 }
 
+.news-post .post-content hr {
+  border: none;
+  margin: 2.5rem 0;
+  height: 1px;
+  background: rgba(255,255,255,.15);
+}
+
 .news-post .post-footer {
   margin-top: 4rem;
   padding-top: 2rem;
