@@ -7,11 +7,6 @@ artists:
 date: 2025-12-12
 catalog: OYSTR25010
 cover: /uploads/get_on_up_art_of_tones_400.webp
-credits:
-  original_producer: OKPLUS
-  remixer: Art Of Tones
-  vocals: Emél
-  mastering: Sam Wills at Wired Masters
 links:
   spotify_url: https://open.spotify.com/album/4yDFEJY5hrObW1D4yMvNCR?si=MZTDBoZ9TB-YOjHijBkTUA
   apple_music_url: https://music.apple.com/no/album/get-on-up-art-of-tones-remix-single/1851549543?l=nb
@@ -29,11 +24,19 @@ seo:
   og_title: ''
   og_description: ''
   og_image: ''
+credits:
+  mastering: Sam Wills at Wired Masters
+  vocals: Emél
+  remixer: Art Of Tones
+  original_producer: OKPLUS
 ---
 
-**Art Of Tones** brings his signature French touch to "Get On Up," transforming the original into a sophisticated deep house journey.
+**Art of Tones** brings his signature French touch to _Get On Up_, transforming the original into a sophisticated, groove-led club version built from the ground up.
 
-Known for his work on labels like Lumberjacks In Hell and his impeccable taste in groove, Art Of Tones strips things back and rebuilds with precision. The remix breathes new life into Emél's vocals, placing them in a more restrained, hypnotic context.
+Rather than simply reworking the original, he fully reinvents the instrumental — introducing new rhythms, textures, and a deeper, more driving foundation while keeping Emél’s vocal front and center.
 
-The result is a track that works as well at 3 AM in a basement as it does at sunset on a terrace. Pure class from one of the masters of the genre.
+The original by **OKPLUS** and **Emél** already carried a strong identity through its live instrumentation and warm, disco-leaning feel. This remix takes a different route — more stripped, more focused, and firmly aimed at the dancefloor.
 
+The result is hypnotic and effective. A rolling groove, tight arrangement, and so funky.
+
+The release has picked up strong support from names like **Michael Gray**, **Dave Lee**, **Sgt. Slick**, **Da Lukas**, **Dr. Packer**, **N.W.N.**, and **Birdee**, while also holding a spot in the Soul/Funk/Disco Top 100 on Traxsource for over three months.
