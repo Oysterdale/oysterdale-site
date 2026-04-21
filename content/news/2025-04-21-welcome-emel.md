@@ -1,12 +1,10 @@
 ---
-title: "Emél Joins Oysterdale"
+title: Emél Joins Oysterdale
 date: 2025-04-21
+author: ''
 category: news
-tags:
-  - artist
-  - signing
-  - house
-  - soul
+tags: []
+excerpt: ''
 image: /uploads/Emel_600x600.webp
 ---
 
@@ -22,24 +20,21 @@ Emél represents exactly why we started Oysterdale. Not just to release records,
 
 Stay tuned — we're just getting started.
 
----
+***
 
 ## While You Wait: This Week's Pearls
 
 Here's what's been spinning in our studio:
 
-**I Feel The Love (Extended)**  
-That moment when the groove locks in and you know — this is why we dig. Pure dancefloor energy that doesn't let go.
+**I Feel The Love (Extended) - Mirko & Meex, Riu Morris**
+Pure dancefloor energy that doesn't let go.
 
-**Tango Hustle (Dave Lee Latican Hustle)**  
-Dave Lee doing what Dave Lee does best. The Latican twist gives this one a fresh angle on a classic hustle vibe.
+**Tango Hustle (Dave Lee Latican Hustle) - Foreal People, Dave Lee ZR**
+Dave Lee doing what Dave Lee does best.
 
-**Soul / Funk / Disco Charts**  
-When you need that timeless sound with modern polish, this is where you start digging.
+**I'll Be Gone (Original Mix) - N.W.N.**
+Finally getting some originals from one of the most active remixers in the Deep House scene. Perfect track for those late-night basement sessions.
 
-**I'll Be Gone (Original Mix)**  
-Sometimes the original is all you need. This one sits in that sweet spot between deep house and soulful — perfect for those late-night basement sessions.
-
----
+***
 
 Welcome to the family, Emél.
