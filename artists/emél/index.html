@@ -202,6 +202,7 @@
             a.toLowerCase().includes('emél') || 
             'emél'.includes(a.toLowerCase())
           )) {
+            data.fileName = file.name;
             releases.push(data);
           }
         }
@@ -213,7 +214,7 @@
         }
         
         container.innerHTML = releases.map(function(r) {
-          var releaseSlug = r.title.toLowerCase().replace(/\s+/g, '-');
+          var releaseSlug = r.fileName.replace('.md', '').toLowerCase();
           return '<div class="release">' +
             '<a href="/releases/' + releaseSlug + '/">' +
             '<img src="' + (r.cover || r.image) + '" alt="' + r.title + '" class="release-cover" loading="lazy">' +
