@@ -1,5 +1,5 @@
 /* Mobile menu toggle for all Oysterdale pages */
-(function(){
+document.addEventListener('DOMContentLoaded', function() {
   const toggleButton = document.getElementById('menu-toggle');
   const nav = document.querySelector('.main-nav');
   const navLinks = document.querySelectorAll('.main-nav a');
@@ -19,4 +19,4 @@
       }
     });
   });
-})();
+});
