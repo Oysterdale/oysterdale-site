@@ -1,8 +1,9 @@
 // Artist loader - loads artist data dynamically from markdown files
-// This file is included by all artist pages
+// Uses raw GitHub URLs to avoid API rate limits
 
 const OWNER = "Oysterdale";
 const REPO = "oysterdale-site";
+const BRANCH = "main";
 
 // Parse YAML frontmatter with support for multi-line values
 function parseFrontmatter(md) {
@@ -10,7 +11,6 @@ function parseFrontmatter(md) {
   if (parts.length < 3) return { data: {}, content: '' };
   
   const yaml = parts[1].trim();
-  const content = parts.slice(2).join('---').trim();
   const data = {};
   
   const lines = yaml.split(/\r?\n/);
@@ -31,7 +31,7 @@ function parseFrontmatter(md) {
       currentKey = blockMatch[1];
       currentValue = [];
       inBlock = true;
-      blockIndent = 0; // Will be set on first content line
+      blockIndent = 0;
       continue;
     }
     
@@ -95,20 +95,54 @@ function parseFrontmatter(md) {
 // Load all releases for cross-referencing
 async function loadReleases() {
   try {
-    const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/releases`);
-    const files = await r.json();
+    // Use raw GitHub URL instead of API to avoid rate limits
+    const releasesIndexUrl = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/releases/index.json`;
+    
+    try {
+      const indexResponse = await fetch(releasesIndexUrl);
+      if (indexResponse.ok) {
+        const releaseFiles = await indexResponse.json();
+        
+        const releases = await Promise.all(
+          releaseFiles
+            .filter(f => f.endsWith('.md'))
+            .map(async filename => {
+              const md = await fetch(`https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/releases/${filename}`).then(r => r.text());
+              const { data } = parseFrontmatter(md);
+              return { data, slug: filename.replace('.md', '') };
+            })
+        );
+        
+        return releases;
+      }
+    } catch (e) {
+      console.log('No releases index, trying fallback...');
+    }
+    
+    // Fallback: try common release files
+    const commonReleases = [
+      'get-on-up.md', 'dont-hold-me-back.md', 'get-on-up-remixes.md',
+      'get-on-up-extended.md', 'ill-be-gone.md', 'ill-be-gone-extended.md',
+      'get-on-up-dub.md', 'get-on-up-minijack-remix.md'
+    ];
     
     const releases = await Promise.all(
-      files
-        .filter(f => f.name.endsWith('.md'))
-        .map(async f => {
-          const md = await fetch(f.download_url).then(r => r.text());
+      commonReleases.map(async filename => {
+        try {
+          const md = await fetch(`https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/releases/${filename}`).then(r => {
+            if (!r.ok) return null;
+            return r.text();
+          });
+          if (!md) return null;
           const { data } = parseFrontmatter(md);
-          return { data, slug: f.name.replace('.md', '') };
-        })
+          return { data, slug: filename.replace('.md', '') };
+        } catch (e) {
+          return null;
+        }
+      })
     );
     
-    return releases;
+    return releases.filter(r => r !== null);
   } catch (e) {
     console.error('Error loading releases:', e);
     return [];
@@ -225,29 +259,58 @@ async function loadArtist() {
   }
   
   try {
-    // Load artist list from GitHub
-    const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/artists`);
-    const files = await r.json();
+    // Try to load artist markdown directly using common patterns
+    const possibleFiles = [
+      `${artistSlug}.md`,
+      `${artistSlug.toLowerCase()}.md`,
+      `map-name-${artistSlug.toLowerCase()}-role-vocalist-image-uploads-okplus_portrett_square_top_1200x1200-jpg.md`
+    ];
     
-    // Find matching file - look for .md files only
-    const artistFile = files.find(f => {
-      if (!f.name.endsWith('.md')) return false;
-      const name = f.name.toLowerCase().replace('.md', '');
-      return name.includes(artistSlug.toLowerCase()) || 
-             artistSlug.toLowerCase().includes(name);
-    });
+    let md = null;
+    let foundFile = null;
     
-    if (!artistFile) {
+    for (const filename of possibleFiles) {
+      try {
+        const url = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/artists/${filename}`;
+        const response = await fetch(url);
+        if (response.ok) {
+          md = await response.text();
+          foundFile = filename;
+          break;
+        }
+      } catch (e) {
+        // Continue to next file
+      }
+    }
+    
+    // If not found, try API as fallback
+    if (!md) {
+      try {
+        const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/artists`);
+        const files = await r.json();
+        
+        const artistFile = files.find(f => {
+          if (!f.name.endsWith('.md')) return false;
+          const name = f.name.toLowerCase().replace('.md', '');
+          return name.includes(artistSlug.toLowerCase()) || 
+                 artistSlug.toLowerCase().includes(name);
+        });
+        
+        if (artistFile) {
+          const mdUrl = artistFile.download_url || 
+            `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/artists/${artistFile.name}`;
+          md = await fetch(mdUrl).then(r => r.text());
+        }
+      } catch (e) {
+        console.error('API fallback failed:', e);
+      }
+    }
+    
+    if (!md) {
       container.innerHTML = '<p>Artist not found.</p>';
       return;
     }
     
-    // Use raw GitHub URL for markdown content
-    const mdUrl = artistFile.download_url || 
-      `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/artists/${artistFile.name}`;
-    
-    // Load artist markdown
-    const md = await fetch(mdUrl).then(r => r.text());
     const { data } = parseFrontmatter(md);
     
     // Load releases for cross-referencing
