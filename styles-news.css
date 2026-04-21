@@ -45,6 +45,7 @@
   object-fit:contain;
   object-position:center top;
   transition:transform .3s ease;
+  border-radius: 8px;
 }
 
 /* Desktop: wider image */
