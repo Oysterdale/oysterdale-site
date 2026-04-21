@@ -3,20 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Artist | Oysterdale Records</title>
-  <meta name="description" content="Discover artists on Oysterdale Records.">
+  <title>Mark Picchiotti | Oysterdale Records</title>
+  <meta name="description" content="''">
   <link rel="stylesheet" href="/styles.css?v=2">
   <link rel="stylesheet" href="/styles-news.css">
   <link rel="icon" href="/images/favicon.png" type="image/png">
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin=""></noscript>
   <style>
-    .page-content { padding-top: 100px; }
+    /* Force white text */
+    body {
+      background: linear-gradient(135deg, #050505 0%, #0a0a1a 50%, #0d1117 100%) !important;
+      background-attachment: fixed !important;
+      color: #fff !important;
+      min-height: 100vh;
+    }
+    a {
+      color: #fff !important;
+    }
+    /* Offset for fixed header */
+    .page-content {
+      padding-top: 100px;
+    }
+    
     .artist-hero {
       display: grid;
       grid-template-columns: 300px 1fr;
       gap: 3rem;
-      align-items: start;
+      align-items: center;
       margin: 2rem 0;
     }
     .artist-photo {
@@ -25,32 +39,22 @@
       object-fit: cover;
       border-radius: 12px;
     }
-    .artist-info h1 {
-      margin: 0 0 0.5rem;
-      font-size: clamp(2rem, 4vw, 3rem);
-      color: #fff;
+    .artist-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
-    .artist-role {
-      display: inline-block;
-      padding: 4px 12px;
-      background: rgba(107, 76, 122, 0.3);
-      border-radius: 999px;
-      font-size: 0.85rem;
+    .artist-info h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: #fff;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-bottom: 1.5rem;
-    }
-    .artist-bio-full p {
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: #ccc;
-      margin-bottom: 1rem;
     }
     .artist-links {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
-      margin-top: 1.5rem;
     }
     .artist-links a {
       display: inline-flex;
@@ -61,9 +65,20 @@
       border-radius: 999px;
       font-size: 0.9rem;
       transition: background 0.2s;
+      color: #fff !important;
+      text-decoration: none;
     }
     .artist-links a:hover {
       background: rgba(255,255,255,0.12);
+    }
+    .artist-bio-full {
+      margin: 2rem 0;
+      max-width: 800px;
+    }
+    .artist-bio-full p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #ccc;
     }
     .artist-releases {
       margin-top: 4rem;
@@ -80,10 +95,27 @@
       .artist-hero {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+        text-align: center;
       }
       .artist-photo {
         max-width: 280px;
         margin: 0 auto;
+      }
+      .artist-info {
+        text-align: center;
+      }
+      .artist-links {
+        justify-content: center;
+      }
+      .artist-bio-full {
+        text-align: center;
+        margin: 2rem auto;
+      }
+      .artist-releases {
+        text-align: center;
+      }
+      .artist-releases h2 {
+        text-align: center;
       }
     }
   </style>
@@ -94,7 +126,6 @@
       .then(r => r.text())
       .then(html => {
         document.body.insertAdjacentHTML("afterbegin", html);
-        if (window.setActiveNav) window.setActiveNav();
         const btn = document.getElementById("menu-toggle");
         const nav = document.querySelector(".main-nav");
         if(btn && nav){
@@ -102,13 +133,48 @@
             const open = nav.classList.toggle("open");
             btn.textContent = open ? "✖" : "☰";
           });
+          document.addEventListener("click", e => {
+            if(e.target.closest(".nav-links a")){
+              nav.classList.remove("open");
+              btn.textContent = "☰";
+            }
+          });
         }
       });
   </script>
 
   <main class="page-content">
     <div id="artist-content">
-      <p>Loading artist...</p>
+      <div class="artist-hero">
+        <img src="/uploads/Mark_Picchiotti_600x600.webp" alt="Mark Picchiotti" class="artist-photo">
+        <div class="artist-info">
+          <h1>Mark Picchiotti</h1>
+          <div class="artist-links">
+            
+    <a href="https://open.spotify.com/artist/6mfoAawlriO9xRqOQGAIfM" target="_blank" rel="noopener">
+      <i class="fa-brands fa-spotify"></i> Spotify
+    </a>
+  
+    <a href="https://www.traxsource.com/search/tracks?term=Mark+Picchiotti" target="_blank" rel="noopener">
+      <i class="fa-solid fa-music"></i> Traxsource
+    </a>
+  
+    <a href="https://music.apple.com/us/artist/mark-picchiotti/54783938" target="_blank" rel="noopener">
+      <i class="fa-brands fa-apple"></i> Apple Music
+    </a>
+  
+          </div>
+        </div>
+      </div>
+      
+      <div class="artist-bio-full">
+        <p>''</p>
+      </div>
+      
+      <div class="artist-releases">
+        <h2>Oysterdale Releases</h2>
+        <div class="releases-grid" id="artist-releases"></div>
+      </div>
     </div>
   </main>
 
@@ -118,6 +184,95 @@
       .then(html => document.body.insertAdjacentHTML("beforeend", html));
   </script>
 
-  <script src="/js/artist-loader.js"></script>
+  <script>
+    const OWNER = "Oysterdale";
+    const REPO = "oysterdale-site";
+    
+    async function loadReleases() {
+      try {
+        const r = await fetch('https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/releases');
+        const files = await r.json();
+        const releases = [];
+        
+        for(const file of files.filter(f => f.name.endsWith('.md'))) {
+          const md = await fetch(file.download_url).then(r => r.text());
+          const data = parseFrontmatter(md);
+          
+          if(data.artists && data.artists.some(a => 
+            a.toLowerCase().includes('mark picchiotti') || 
+            'mark picchiotti'.includes(a.toLowerCase())
+          )) {
+            data.fileName = file.name;
+            releases.push(data);
+          }
+        }
+        
+        const container = document.getElementById('artist-releases');
+        if(releases.length === 0) {
+          container.innerHTML = '<p>No releases yet.</p>';
+          return;
+        }
+        
+        container.innerHTML = releases.map(function(r) {
+          var releaseSlug = r.fileName.replace('.md', '').toLowerCase();
+          return '<div class="release">' +
+            '<a href="/releases/' + releaseSlug + '/">' +
+            '<img src="' + (r.cover || r.image) + '" alt="' + r.title + '" class="release-cover" loading="lazy">' +
+            '<h3>' + r.title + '</h3>' +
+            '<p>' + r.artists.join(' | ') + '</p>' +
+            '</a>' +
+            '</div>';
+        }).join('');
+        
+      } catch(e) {
+        console.error(e);
+      }
+    }
+    
+    function parseFrontmatter(md) {
+      var parts = md.split('---');
+      if(parts.length < 3) return {data: {}};
+      var yaml = parts[1];
+      var data = {};
+      var lines = yaml.split(/\r?\n/);
+      
+      var listKey = null;
+      for(var i = 0; i < lines.length; i++){
+        var line = lines[i];
+        if(!line.trim()) continue;
+        
+        var listStart = line.match(/^([A-Za-z0-9_]+):\s*$/);
+        if(listStart){
+          listKey = listStart[1];
+          data[listKey] = [];
+          continue;
+        }
+        
+        if(listKey && line.trim().startsWith("-")){
+          data[listKey].push(line.replace(/^\s*-\s*/, "").trim());
+          continue;
+        }
+        
+        var field = line.match(/^([^:]+):\s*(.*)$/);
+        if(field){
+          data[field[1].trim()] = field[2].replace(/^["']|["']$/g, "");
+        }
+      }
+      
+      if(data.artists){
+        if(Array.isArray(data.artists)){
+          data.artists = data.artists.map(function(a) {
+            return typeof a === "string" ? a : (a.existing || a.custom || "");
+          }).filter(Boolean);
+        } else {
+          data.artists = [String(data.artists).trim()];
+        }
+      }
+      
+      return data;
+    }
+    
+    loadReleases();
+  </script>
 </body>
 </html>
