@@ -671,7 +671,7 @@ footer nav.footer-nav a:hover{color:#bbb}
   object-fit: contain;
   object-position: center top;
   border-radius: 12px;
-  background: #111;
+  background: transparent;
 }
 
 .news-post .post-content {
