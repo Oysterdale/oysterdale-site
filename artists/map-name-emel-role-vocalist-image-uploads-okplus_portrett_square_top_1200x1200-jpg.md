@@ -10,7 +10,7 @@ bio: |-
   As both a writer and performer, Emél brings a balance of soulfulness and control.  It's that combination — musicality, authenticity, and instinct — that defines her as an artist.
   Now part of the Oysterdale family, she represents the core of what the label stands for: timeless records, real feeling, and music that lasts beyond the moment.
 photo: /uploads/okplus_portrett_square_top_1200x1200.jpg
-contact_email: ''
+contact_email: contact@oysterdalerecords.com
 spotify: https://open.spotify.com/artist/3DABbjPF97i0tEMgdM7BE3
 soundcloud: ''
 instagram: ''

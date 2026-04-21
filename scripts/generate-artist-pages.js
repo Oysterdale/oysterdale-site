@@ -29,10 +29,9 @@ function generateTemplate(data) {
     </a>
   `).join('');
   
-  // Generate contact buttons
+  // Generate contact buttons - ONLY show if explicitly configured
   const contactEmail = (data.contact_email || '').trim().replace(/^["']|["']$/g, '');
   const bookingEmail = (data.booking_email || '').trim().replace(/^["']|["']$/g, '');
-  const fallbackEmail = 'contact@oysterdalerecords.com';
   
   let contactButtons = [];
   if(bookingEmail && bookingEmail !== "''"){
@@ -40,8 +39,6 @@ function generateTemplate(data) {
   }
   if(contactEmail && contactEmail !== "''"){
     contactButtons.push(`<a href="mailto:${contactEmail}?subject=Inquiry%20about%20${encodeURIComponent(name)}"><i class="fa-solid fa-envelope"></i> Contact</a>`);
-  } else if(!bookingEmail || bookingEmail === "''"){
-    contactButtons.push(`<a href="mailto:${fallbackEmail}?subject=Inquiry%20about%20${encodeURIComponent(name)}"><i class="fa-solid fa-envelope"></i> Contact</a>`);
   }
   
   const contactHtml = contactButtons.length > 0 ? `
