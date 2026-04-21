@@ -284,6 +284,9 @@ async function loadArtist() {
     }
     
     const { data } = parseFrontmatter(md);
+    console.log('Loaded artist:', data.name);
+    console.log('Bio length:', data.bio?.length);
+    console.log('Bio:', data.bio?.substring(0, 100));
     
     // Load releases for cross-referencing
     const releases = await loadReleases();
