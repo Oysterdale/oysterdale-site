@@ -1,5 +1,5 @@
 ---
-title: "Welcome to the Family: Emél Joins Oysterdale"
+title: "Emél Joins Oysterdale"
 date: 2025-04-21
 category: news
 tags:
