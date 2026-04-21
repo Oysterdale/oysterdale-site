@@ -298,16 +298,95 @@ function generateTemplate(data) {
 }
 
 function parseFrontmatter(md) {
-  const parts = md.split('---');
+  const parts = md.split(/^---\s*$/m);
   if(parts.length < 3) return {};
-  const yaml = parts[1];
+  const yaml = parts[1].trim();
   const data = {};
-  yaml.split(/\r?\n/).forEach(line => {
-    const m = line.match(/^([^:]+):\s*(.*)$/);
-    if(m){
-      data[m[1].trim()] = m[2].trim().replace(/^"(.*)"$/, "$1");
+  const lines = yaml.split(/\r?\n/);
+  
+  let currentKey = null;
+  let currentValue = [];
+  let inBlock = false;
+  let blockIndent = null;
+  
+  for(let i = 0; i < lines.length; i++){
+    const line = lines[i];
+    
+    // Check for block scalar start (|, >, |-, >+, etc.)
+    const blockMatch = line.match(/^(\w+):\s*([>|](?:[-+]?)\s*)$/);
+    if(blockMatch){
+      if(currentKey){
+        data[currentKey] = currentValue.join('\n').trim();
+      }
+      currentKey = blockMatch[1];
+      currentValue = [];
+      inBlock = true;
+      blockIndent = null;
+      continue;
     }
-  });
+    
+    // Check for simple field (key: value)
+    const fieldMatch = line.match(/^(\w+):\s*(.*)$/);
+    
+    // If we're in a block and encounter a new field at root level, end the block
+    if(inBlock && fieldMatch){
+      const indent = line.match(/^(\s*)/)[1].length;
+      if(indent === 0 || (blockIndent !== null && indent < blockIndent)){
+        data[currentKey] = currentValue.join('\n').trim();
+        currentKey = fieldMatch[1];
+        currentValue = [fieldMatch[2].trim().replace(/^["']|["']$/g, '')];
+        inBlock = false;
+        blockIndent = null;
+        continue;
+      }
+    }
+    
+    // Regular field (not in block)
+    if(fieldMatch && !inBlock){
+      if(currentKey){
+        data[currentKey] = currentValue.join('\n').trim();
+      }
+      currentKey = fieldMatch[1];
+      currentValue = [fieldMatch[2].trim().replace(/^["']|["']$/g, '')];
+      continue;
+    }
+    
+    // Check for list item
+    const listMatch = line.match(/^\s+-\s+(.*)$/);
+    if(listMatch){
+      if(currentKey){
+        if(!Array.isArray(data[currentKey])){
+          data[currentKey] = data[currentKey] ? [data[currentKey]] : [];
+        }
+        data[currentKey].push(listMatch[1].trim().replace(/^["']|["']$/g, ''));
+      }
+      continue;
+    }
+    
+    // Handle block content
+    if(inBlock){
+      if(blockIndent === null && line.trim().length > 0){
+        blockIndent = line.match(/^(\s*)/)[1].length;
+      }
+      if(line.trim().length === 0){
+        currentValue.push('');
+      } else if(blockIndent !== null){
+        const lineIndent = line.match(/^(\s*)/)[1].length;
+        if(lineIndent >= blockIndent){
+          currentValue.push(line.substring(blockIndent));
+        } else {
+          currentValue.push(line.trim());
+        }
+      } else {
+        currentValue.push(line);
+      }
+    }
+  }
+  
+  if(currentKey){
+    data[currentKey] = currentValue.join('\n').trim();
+  }
+  
   return data;
 }
 
