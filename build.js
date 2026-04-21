@@ -255,27 +255,37 @@ function generateNewsIndex(posts) {
   ensureDir(NEWS_BUILD_DIR);
   
   const recentPosts = posts.slice(0, 10); // Show 10 most recent
+  const featuredPost = recentPosts[0]; // First post is featured
+  const listPosts = recentPosts.slice(1); // Rest go in list
   
-  const postsHTML = recentPosts.map(post => {
-    const postUrl = `/news/${post.slug}/`;
-    const imageHTML = post.image ? `<img src="${post.image}" alt="${post.title}" loading="lazy">` : "";
-    
-    return `
-      <article class="news-card">
-        <a href="${postUrl}" class="news-card-link">
-          ${imageHTML ? `<figure class="news-card-image">${imageHTML}</figure>` : ""}
-          <div class="news-card-content">
-            <header>
-              <time datetime="${post.date}">${formatDate(post.date)}</time>
-              <span class="category">${post.category}</span>
-            </header>
-            <h2>${post.title}</h2>
-            <p class="excerpt">${post.excerpt}</p>
-          </div>
-        </a>
-      </article>
-    `;
-  }).join("\n");
+  // Featured post HTML
+  const featuredHTML = featuredPost ? `
+    <section class="news-hero">
+      <a href="/news/${featuredPost.slug}/" class="news-hero-link">
+        ${featuredPost.image ? `<img src="${featuredPost.image}" alt="${featuredPost.title}" class="news-hero-image" loading="eager">` : ""}
+        <div class="news-hero-meta">
+          <time datetime="${featuredPost.date}">${formatDate(featuredPost.date)}</time>
+          <span class="category">${featuredPost.category}</span>
+        </div>
+        <h2>${featuredPost.title}</h2>
+        <p>${featuredPost.excerpt}</p>
+      </a>
+    </section>
+  ` : "";
+  
+  // List posts HTML (clean, no cards)
+  const listHTML = listPosts.map(post => `
+    <li class="news-list-item">
+      <a href="/news/${post.slug}/" class="news-list-link">
+        <div class="news-list-meta">
+          <time datetime="${post.date}">${formatDate(post.date)}</time>
+          <span class="category">${post.category}</span>
+        </div>
+        <h3>${post.title}</h3>
+        <p>${post.excerpt}</p>
+      </a>
+    </li>
+  `).join("\n");
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -342,7 +352,11 @@ function generateNewsIndex(posts) {
     </header>
     
     <div class="news-grid">
-      ${postsHTML}
+      ${featuredHTML}
+      
+      <ul class="news-list">
+        ${listHTML}
+      </ul>
     </div>
     
     ${posts.length > 10 ? `<p class="archive-link"><a href="/news/archive/">View all ${posts.length} posts →</a></p>` : ""}

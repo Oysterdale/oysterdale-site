@@ -3,169 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>News | Oysterdale Records</title>
-  <meta name="description" content="Latest news, weekly house briefs, and updates from Oysterdale Records – a Norwegian house and disco label.">
-  <link rel="canonical" href="https://oysterdalerecords.com/news/">
-  
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://oysterdalerecords.com/news/">
-  <meta property="og:title" content="News | Oysterdale Records">
-  <meta property="og:description" content="Latest news, weekly house briefs, and updates from Oysterdale Records.">
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="News | Oysterdale Records">
-  <meta name="twitter:description" content="Latest news, weekly house briefs, and updates from Oysterdale Records.">
-  
-  <link rel="alternate" type="application/rss+xml" title="Oysterdale Records News" href="/news/rss.xml">
+  <title>News – Oysterdale Records</title>
+  <meta name="description" content="Latest news and updates from Oysterdale Records">
   <link rel="stylesheet" href="/styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <!-- HEADER -->
-  <script>
-    fetch("/header.html").then(r=>r.text()).then(html=>{
-      document.body.insertAdjacentHTML("afterbegin",html);
-      const btn=document.getElementById("menu-toggle");
-      const nav=document.querySelector(".main-nav");
-      if(btn && nav){
-        btn.addEventListener("click",()=>{
-          const open = nav.classList.toggle("open");
-          btn.textContent = open ? "✖" : "☰";
-        });
-        document.addEventListener("click",e=>{
-          if(e.target.closest(".nav-links a")){
-            nav.classList.remove("open");
-            btn.textContent="☰";
-          }
-        });
-      }
-    });
-  </script>
+  <header class="site-header">
+    <nav class="main-nav">
+      <a href="/" class="logo">Oysterdale</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/artists/">Artists</a></li>
+        <li><a href="/releases/">Releases</a></li>
+        <li><a href="/news/" class="active">News</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <main class="news-index">
     <header class="page-header">
       <h1>News</h1>
-      <p class="subtitle">Weekly pearls from the house and disco underground</p>
+      <p class="subtitle">Latest from the label</p>
     </header>
-    
-    <div class="news-grid">
-      
-      <article class="news-card">
-        <a href="/news/this-weeks-pearls-april-20-2025/" class="news-card-link">
-          
-          <div class="news-card-content">
-            <header>
-              <time datetime="Sun Apr 20 2025 02:00:00 GMT+0200 (Central European Summer Time)">April 20, 2025</time>
-              <span class="category">news</span>
-            </header>
-            <h2>This Week's Pearls – April 20, 2025</h2>
-            <p class="excerpt">From our basement to your speakers — this week's crate dig through the house and disco underground. Spring is blooming in Oslo, and so are the releases. Here's what caught our ear while the vinyl was ...</p>
-          </div>
-        </a>
-      </article>
-    
 
-      <article class="news-card">
-        <a href="/news/weekly-house-brief-april-19-2025/" class="news-card-link">
-          
-          <div class="news-card-content">
-            <header>
-              <time datetime="Sat Apr 19 2025 02:00:00 GMT+0200 (Central European Summer Time)">April 19, 2025</time>
-              <span class="category">news</span>
-            </header>
-            <h2>Weekly House Brief – April 19, 2025</h2>
-            <p class="excerpt">This week's house music briefing highlights new releases from Defected and Toolroom, rising artists like Rossi. and Two Shell, and the growing fusion of soulful vocals with tech-house production.
-
-## ...</p>
-          </div>
-        </a>
-      </article>
-    
-    </div>
-    
-    <!-- NEWSLETTER SIGNUP -->
-    <section id="newsletter-section" style="margin-top:3rem;padding:2rem;background:rgba(255,255,255,.03);border-radius:16px;text-align:center;">
-      <h2>Join the Crew</h2>
-      <p style="opacity:.7;margin-bottom:1.5rem;">Get weekly pearls delivered to your inbox. No spam, just groove.</p>
-        <div id="newsletter-success" style="display:none;padding:1.5rem;background:rgba(107,76,122,0.3);border-radius:12px;">
-          <p style="margin:0;font-weight:600;">✓ You're on the list! Welcome to the crew.</p>
+    <section class="news-hero">
+      <a href="/news/2025-04-18-weekly-brief/" class="news-hero-link">
+        <img src="/uploads/2025-04-18-weekly-brief.webp" alt="This Week's Pearls – April 18, 2025" class="news-hero-image" loading="eager">
+        <div class="news-hero-meta">
+          <time datetime="2025-04-18">April 18, 2025</time>
+          <span class="category">news</span>
         </div>
-        <form id="newsletter-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:12px;">
-        <p style="display:none;">
-          <label>Don't fill this out: <input name="bot-field" /></label>
-        </p>
-        <input type="text" name="name" placeholder="Your name" required style="width:100%;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:#fff;font-size:14px;outline:none;">
-        <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-          <input type="email" name="email" placeholder="your@email.com" required style="flex:1;min-width:220px;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:#fff;font-size:14px;outline:none;">
-          <button type="submit" style="padding:12px 24px;border-radius:999px;border:none;background:#fff;color:#000;font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s;">Subscribe</button>
-        </div>
-      </form>
+        <h2>This Week's Pearls – April 18, 2025</h2>
+        <p>This week brought some serious heat from the global house scene, plus a few Nordic gems that caught my ear. Let's dig in.</p>
+      </a>
     </section>
+
+    <ul class="news-list">
+      <li class="news-list-item">
+        <a href="/news/2025-04-11-weekly-brief/" class="news-list-link">
+          <div class="news-list-meta">
+            <time datetime="2025-04-11">April 11, 2025</time>
+            <span class="category">news</span>
+          </div>
+          <h3>This Week's Pearls – April 11, 2025</h3>
+          <p>The sun's finally hitting Oslo, and the basement studio is warming up. This week's digging turned up some proper gems.</p>
+        </a>
+      </li>
+      <li class="news-list-item">
+        <a href="/news/2025-04-04-weekly-brief/" class="news-list-link">
+          <div class="news-list-meta">
+            <time datetime="2025-04-04">April 4, 2025</time>
+            <span class="category">news</span>
+          </div>
+          <h3>This Week's Pearls – April 4, 2025</h3>
+          <p>Spring's creeping into the basement studio, and the digging has been fruitful. Here's what moved me this week.</p>
+        </a>
+      </li>
+      <li class="news-list-item">
+        <a href="/news/2025-03-28-weekly-brief/" class="news-list-link">
+          <div class="news-list-meta">
+            <time datetime="2025-03-28">March 28, 2025</time>
+            <span class="category">news</span>
+          </div>
+          <h3>This Week's Pearls – March 28, 2025</h3>
+          <p>Been deep in the crates this week, and the house gods delivered. Some serious heat landed, plus a few Nordic surprises.</p>
+        </a>
+      </li>
+      <li class="news-list-item">
+        <a href="/news/2025-03-21-weekly-brief/" class="news-list-link">
+          <div class="news-list-meta">
+            <time datetime="2025-03-21">March 21, 2025</time>
+            <span class="category">news</span>
+          </div>
+          <h3>This Week's Pearls – March 21, 2025</h3>
+          <p>The Oslo basement is buzzing this week. Spring's trying to break through, and the new releases are matching that energy.</p>
+        </a>
+      </li>
+    </ul>
   </main>
 
-  <footer>
-    <div class="footer-logo">
-      <img src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74" alt="Oysterdale Records Logo" class="footer-logo-img" width="260" height="260" loading="lazy">
-    </div>
-
-    <p>© 2026 Oysterdale Records. All rights reserved.</p>
-    <p><a href="/privacy">Privacy Policy</a></p>
+  <footer class="site-footer">
+    <p>&copy; 2025 Oysterdale Records. Every record is a pearl.</p>
   </footer>
-  <!-- NEWSLETTER AJAX HANDLER -->
-  <script>
-  (function(){
-    const form = document.getElementById('newsletter-form');
-    const success = document.getElementById('newsletter-success');
-    if(!form) return;
-    
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      const btn = form.querySelector('button[type="submit"]');
-      const originalText = btn.textContent;
-      btn.textContent = 'Subscribing...';
-      btn.disabled = true;
-      
-      const data = new FormData(form);
-      
-      fetch('/', {
-        method: 'POST',
-        body: data
-      })
-      .then(function(){
-        form.style.display = 'none';
-        if(success) success.style.display = 'block';
-      })
-      .catch(function(){
-        btn.textContent = originalText;
-        btn.disabled = false;
-        alert('Something went wrong. Please try again.');
-      });
-    });
-  })();
-  </script>
-
-  <!-- Direct inline menu toggle for mobile -->
-  <script>
-  (function(){
-    const toggleButton = document.getElementById('menu-toggle');
-    const nav = document.querySelector('.main-nav');
-    
-    if(toggleButton && nav) {
-      console.log('Inline script: Adding click listener');
-      toggleButton.addEventListener('click', function(){
-        console.log('Inline script: Toggle clicked');
-        nav.classList.toggle('open');
-        toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
-      });
-    } else {
-      console.log('Inline script: Elements not found');
-    }
-  })();
-  </script>
 </body>
 </html>
