@@ -157,30 +157,6 @@
   })();
   </script>
 
-  <!-- MOBILE MENU TOGGLE -->
-  <script>
-  (function(){
-    const toggleButton=document.getElementById('menu-toggle');
-    const nav=document.querySelector('.main-nav');
-    const navLinks=document.querySelectorAll('.main-nav a');
-
-    if(toggleButton&&nav){
-      toggleButton.addEventListener('click', ()=>{
-        nav.classList.toggle('open');
-        toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
-      });
-      navLinks.forEach(link=>{
-        link.addEventListener('click', ()=>{
-          if(nav.classList.contains('open')){
-            nav.classList.remove('open');
-            toggleButton.textContent='☰';
-          }
-        });
-      });
-    }
-  })();
-  </script>
-
-  <script src="/scripts/menu.js" defer></script>
+  <script src="/scripts/menu.js"></script>
 </body>
 </html>
