@@ -260,10 +260,14 @@ async function loadArtist() {
   
   try {
     // Try to load artist markdown directly using common patterns
+    const slugLower = artistSlug.toLowerCase();
+    const slugNormalized = slugLower.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Remove accents
+    
     const possibleFiles = [
       `${artistSlug}.md`,
-      `${artistSlug.toLowerCase()}.md`,
-      `map-name-${artistSlug.toLowerCase()}-role-vocalist-image-uploads-okplus_portrett_square_top_1200x1200-jpg.md`
+      `${slugLower}.md`,
+      `${slugNormalized}.md`,
+      `map-name-${slugNormalized}-role-vocalist-image-uploads-okplus_portrett_square_top_1200x1200-jpg.md`
     ];
     
     let md = null;
@@ -292,8 +296,10 @@ async function loadArtist() {
         const artistFile = files.find(f => {
           if (!f.name.endsWith('.md')) return false;
           const name = f.name.toLowerCase().replace('.md', '');
-          return name.includes(artistSlug.toLowerCase()) || 
-                 artistSlug.toLowerCase().includes(name);
+          const normalizedName = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          const normalizedSlug = artistSlug.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          return normalizedName.includes(normalizedSlug) || 
+                 normalizedSlug.includes(normalizedName);
         });
         
         if (artistFile) {
