@@ -20,7 +20,7 @@ Emél represents exactly why we started Oysterdale. Not just to release records,
 
 Stay tuned — we're just getting started.
 
-***
+---
 
 ## While You Wait: This Week's Pearls
 
@@ -34,7 +34,5 @@ Dave Lee doing what Dave Lee does best.
 
 **I'll Be Gone (Original Mix) - N.W.N.**
 Finally getting some originals from one of the most active remixers in the Deep House scene. Perfect track for those late-night basement sessions.
-
-***
 
 Welcome to the family, Emél.
