@@ -166,10 +166,14 @@
     const nav = document.querySelector('.main-nav');
     
     if(toggleButton && nav) {
+      console.log('Inline script: Adding click listener');
       toggleButton.addEventListener('click', function(){
+        console.log('Inline script: Toggle clicked');
         nav.classList.toggle('open');
         toggleButton.textContent = nav.classList.contains('open') ? '✖' : '☰';
       });
+    } else {
+      console.log('Inline script: Elements not found');
     }
   })();
   </script>
