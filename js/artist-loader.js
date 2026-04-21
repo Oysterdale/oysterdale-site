@@ -21,8 +21,8 @@ function parseFrontmatter(md) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     
-    // Check for block scalar start (> or |)
-    const blockMatch = line.match(/^(\w+):\s*([>|]([-+]?))\s*$/);
+    // Check for block scalar start (> or | with optional modifiers)
+    const blockMatch = line.match(/^(\w+):\s*([>|](?:[-+]?))\s*$/);
     if (blockMatch) {
       if (currentKey) {
         data[currentKey] = currentValue.join('\n');
@@ -71,7 +71,8 @@ function parseFrontmatter(md) {
   
   // Save last key
   if (currentKey) {
-    data[currentKey] = currentValue.join('\n');
+    // Trim trailing whitespace for block values
+    data[currentKey] = currentValue.join('\n').trim();
   }
   
   return { data, content };
