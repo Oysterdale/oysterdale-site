@@ -17,7 +17,7 @@ links:
   apple_music_url: https://music.apple.com/no/album/is-this-real/1844456654?i=1844456658&l=nb
   itunes_url: https://music.apple.com/no/album/is-this-real-single/1844456654?l=nb
   tidal_url: https://tidal.com/track/465240691/u
-  amazon_music_url: ''
+  amazon_music_url: https://music.amazon.com/albums/B0FV1342X2
   youtube_url: https://www.youtube.com/watch?v=i4mgQAg1K4k&list=RDi4mgQAg1K4k&start_radio=1
   traxsource_url: https://www.traxsource.com/track/14003269/is-this-real-extended-mix
   beatport_url: ''
