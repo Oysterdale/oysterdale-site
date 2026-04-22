@@ -391,7 +391,8 @@
       if(links.tidal_url) platformButtons.push({url: links.tidal_url, icon: 'img', img: '/images/platforms/tidal.svg', label: 'Tidal'});
       if(links.deezer_url) platformButtons.push({url: links.deezer_url, icon: 'img', img: '/images/platforms/deezer.svg', label: 'Deezer'});
       
-      const iconHtml = p.icon === 'img' 
+      const platformHtml = platformButtons.map(p => {
+        const iconHtml = p.icon === 'img' 
           ? `<img src="${p.img}" alt="${p.label}" style="width:24px;height:24px;filter:brightness(0) invert(1);">`
           : `<i class="${p.icon}"></i>`;
         return `
@@ -399,6 +400,7 @@
           ${iconHtml} ${p.label}
         </a>
       `;
+      }).join('');
       
       // Parse markdown content for description
       const description = content 

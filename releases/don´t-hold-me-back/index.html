@@ -377,7 +377,7 @@
     function renderRelease(data, content, allFiles, currentFile) {
       const artists = (data.artists || []).map(a => {
         const slug = a.toLowerCase().replace(/\s+/g, '-');
-        return `<a href="/artists/${slug}/">${a}</a>`;
+        return `<a href="/artists/${slug}/">${a}</a>
       }).join(" | ");
       
       const links = data.links || {};
@@ -416,7 +416,7 @@
       const credits = data.credits || {};
       const creditsHtml = Object.entries(credits).map(([role, name]) => {
         const roleLabel = role.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-        return `<li><strong>${roleLabel}</strong>${name}</li>`;
+        return `<li><strong>${roleLabel}</strong>${name}</li>
       }).join('');
       
       // Find related releases (same artist or genre)
@@ -456,10 +456,10 @@
           </div>
         </div>
         ` : ''}
-      `;
+      
       
       // Update page title
-      document.title = `${data.title} – Oysterdale Records`;
+      document.title = `${data.title} – Oysterdale Records
     }
     
     function findRelatedReleases(currentData, allFiles, currentFile) {

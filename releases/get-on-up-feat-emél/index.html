@@ -22,7 +22,7 @@
     .page-content {
       padding-top: 100px;
     }
-    
+
     .release-hero {
       display: grid;
       grid-template-columns: 400px 1fr;
@@ -248,74 +248,74 @@
   <script>
     const OWNER = "Oysterdale";
     const REPO = "oysterdale-site";
-    
+
     // Get release slug from URL
     const pathParts = window.location.pathname.split('/');
     const releaseSlug = pathParts[pathParts.length - 2] || pathParts[pathParts.length - 1];
-    
+
     async function loadRelease() {
       try {
         // Find release file by slug
         const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/releases`);
         const files = await r.json();
-        
+
         // Find file matching slug
         const releaseFile = files.find(f => {
           const name = f.name.replace('.md', '').toLowerCase();
           return name === releaseSlug || name.includes(releaseSlug);
         });
-        
+
         if (!releaseFile) {
           document.getElementById('release-content').innerHTML = '<p>Release not found.</p>';
           return;
         }
-        
+
         const md = await fetch(releaseFile.download_url).then(r => r.text());
         const { data, content } = parseFrontmatter(md);
-        
+
         renderRelease(data, content, files, releaseFile);
-        
+
       } catch(e) {
         console.error(e);
         document.getElementById('release-content').innerHTML = '<p>Error loading release.</p>';
       }
     }
-    
+
     function parseFrontmatter(md) {
       const parts = md.split('---');
       if(parts.length < 3) return {data: {}, content: ''};
-      
+
       const yaml = parts[1];
       const content = parts.slice(2).join('---').trim();
       const data = {};
       const lines = yaml.split(/\r?\n/);
-      
+
       let listKey = null;
       let inLinks = false;
       let inCredits = false;
       let inTags = false;
-      
+
       for(const line of lines){
         if(!line.trim()) continue;
-        
+
         if(/^links\s*:\s*$/.test(line.trim())){
           inLinks = true;
           data.links = {};
           continue;
         }
-        
+
         if(/^tags\s*:\s*$/.test(line.trim())){
           inTags = true;
           data.tags = [];
           continue;
         }
-        
+
         if(/^credits\s*:\s*$/.test(line.trim())){
           inCredits = true;
           data.credits = {};
           continue;
         }
-        
+
         if(inLinks){
           if(!line.startsWith(" ")){
             inLinks = false;
@@ -325,7 +325,7 @@
             continue;
           }
         }
-        
+
         if(inTags){
           if(!line.startsWith(" ")){
             inTags = false;
@@ -334,7 +334,7 @@
             continue;
           }
         }
-        
+
         if(inCredits){
           if(!line.startsWith(" ")){
             inCredits = false;
@@ -344,47 +344,47 @@
             continue;
           }
         }
-        
+
         const listStart = line.match(/^([A-Za-z0-9_]+):\s*$/);
         if(listStart){
           listKey = listStart[1];
           data[listKey] = [];
           continue;
         }
-        
+
         if(listKey && line.trim().startsWith("-")){
           data[listKey].push(line.replace(/^\s*-\s*/,"").trim());
           continue;
         }
-        
+
         const field = line.match(/^([^:]+):\s*(.*)$/);
         if(field){
           data[field[1].trim()] = field[2].replace(/^["']|["']$/g,"");
         }
       }
-      
+
       if(data.artists){
         if(Array.isArray(data.artists)){
-          data.artists = data.artists.map(a => 
+          data.artists = data.artists.map(a =>
             typeof a === "string" ? a : (a.existing || a.custom || "")
           ).filter(Boolean);
         } else {
           data.artists = [String(data.artists).trim()];
         }
       }
-      
+
       return {data, content};
     }
-    
+
     function renderRelease(data, content, allFiles, currentFile) {
       const artists = (data.artists || []).map(a => {
         const slug = a.toLowerCase().replace(/\s+/g, '-');
-        return `<a href="/artists/${slug}/">${a}</a>`;
+        return `<a href="/artists/${slug}/">${a}</a>
       }).join(" | ");
-      
+
       const links = data.links || {};
       const platformButtons = [];
-      
+
       if(links.spotify_url) platformButtons.push({url: links.spotify_url, icon: 'fa-brands fa-spotify', label: 'Spotify'});
       if(links.apple_music_url) platformButtons.push({url: links.apple_music_url, icon: 'fa-brands fa-apple', label: 'Apple Music'});
       if(links.beatport_url) platformButtons.push({url: links.beatport_url, icon: 'img', img: '/images/platforms/beatport.svg', label: 'Beatport'});
@@ -392,36 +392,38 @@
       if(links.youtube_url) platformButtons.push({url: links.youtube_url, icon: 'fa-brands fa-youtube', label: 'YouTube'});
       if(links.tidal_url) platformButtons.push({url: links.tidal_url, icon: 'img', img: '/images/platforms/tidal.svg', label: 'Tidal'});
       if(links.deezer_url) platformButtons.push({url: links.deezer_url, icon: 'img', img: '/images/platforms/deezer.svg', label: 'Deezer'});
-      
-      const iconHtml = p.icon === 'img' 
+
+      const platformHtml = platformButtons.map(p => {
+        const iconHtml = p.icon === 'img' 
           ? `<img src="${p.img}" alt="${p.label}" style="width:24px;height:24px;filter:brightness(0) invert(1);">`
           : `<i class="${p.icon}"></i>`;
         return `
         <a href="${p.url}" target="_blank" rel="noopener">
           ${iconHtml} ${p.label}
         </a>
-      `).join('');
-      
+      `;
+      }).join('');
+
       // Parse markdown content for description
-      const description = content 
+      const description = content
         ? content.replace(/\*\*/g, '').replace(/\n/g, '<br>')
         : '';
-      
+
       // Tags
-      const tagsHtml = (data.tags || []).map(tag => 
+      const tagsHtml = (data.tags || []).map(tag =>
         `<span class="release-tag">${tag}</span>`
       ).join('');
-      
+
       // Credits
       const credits = data.credits || {};
       const creditsHtml = Object.entries(credits).map(([role, name]) => {
         const roleLabel = role.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-        return `<li><strong>${roleLabel}</strong>${name}</li>`;
+        return `<li><strong>${roleLabel}</strong>${name}</li>
       }).join('');
-      
+
       // Find related releases (same artist or genre)
       const relatedHtml = findRelatedReleases(data, allFiles, currentFile);
-      
+
       document.getElementById('release-content').innerHTML = `
         <div class="release-hero">
           <img src="${data.cover || data.image}" alt="${data.title}" class="release-cover-large">
@@ -438,7 +440,7 @@
             </div>
           </div>
         </div>
-        
+
         ${creditsHtml ? `
         <div class="credits">
           <h3>Credits</h3>
@@ -447,7 +449,7 @@
           </ul>
         </div>
         ` : ''}
-        
+
         ${relatedHtml ? `
         <div class="related-releases">
           <h2>Related Releases</h2>
@@ -456,30 +458,30 @@
           </div>
         </div>
         ` : ''}
-      `;
-      
+
+
       // Update page title
-      document.title = `${data.title} – Oysterdale Records`;
+      document.title = `${data.title} - Oysterdale Records
     }
-    
+
     function findRelatedReleases(currentData, allFiles, currentFile) {
       if (!allFiles || !currentFile) return '';
-      
+
       const currentArtists = currentData.artists || [];
       const currentGenre = currentData.genre || '';
-      
+
       // Find files with matching artists or genre
       const related = allFiles
         .filter(f => f.name.endsWith('.md') && f.name !== currentFile.name)
         .slice(0, 3); // Limit to 3
-      
+
       return related.map(f => {
         const slug = f.name.replace('.md', '');
         // We'll need to fetch these to get cover/title, so just show placeholders for now
         return '';
       }).join('');
     }
-    
+
     loadRelease();
   </script>
 </body>
