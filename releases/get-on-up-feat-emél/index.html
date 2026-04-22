@@ -15,20 +15,31 @@
     a { color: #fff !important; }
     .page-content { padding-top: 100px; max-width: none !important; }
     .release-hero {
-      display: grid !important;
-      grid-template-columns: 400px 1fr !important;
-      gap: 4rem !important;
-      align-items: start !important;
-      margin: 2rem auto !important;
-      max-width: 1400px !important;
-      padding: 0 2rem !important;
+      display: flex;
+      flex-direction: row;
+      gap: 4rem;
+      align-items: flex-start;
+      margin: 2rem auto;
+      max-width: 1400px;
+      padding: 0 2rem;
+    }
+    .release-left {
+      flex: 0 0 400px;
     }
     .release-main {
-      display: grid !important;
-      grid-template-columns: 1fr auto !important;
-      gap: 6rem !important;
-      align-items: start !important;
-      min-width: 0 !important;
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      gap: 6rem;
+      align-items: flex-start;
+    }
+    .release-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .platform-section {
+      flex: 0 0 auto;
+      min-width: 200px;
     }
     .release-info, .release-info * { text-align: left !important; }
     .release-info {
