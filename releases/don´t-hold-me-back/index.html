@@ -377,8 +377,7 @@
     function renderRelease(data, content, allFiles, currentFile) {
       const artists = (data.artists || []).map(a => {
         const slug = a.toLowerCase().replace(/\s+/g, '-');
-        return `<a href="/artists/${slug}/">${a}</a>
-      }).join(" | ");
+        return `<a href="/artists/${slug}/">${a}</a>`;
       
       const links = data.links || {};
       const platformButtons = [];
@@ -416,8 +415,7 @@
       const credits = data.credits || {};
       const creditsHtml = Object.entries(credits).map(([role, name]) => {
         const roleLabel = role.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-        return `<li><strong>${roleLabel}</strong>${name}</li>
-      }).join('');
+        return `<li><strong>${roleLabel}</strong>${name}</li>`;
       
       // Find related releases (same artist or genre)
       const relatedHtml = findRelatedReleases(data, allFiles, currentFile);
