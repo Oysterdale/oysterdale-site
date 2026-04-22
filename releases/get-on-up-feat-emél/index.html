@@ -126,10 +126,18 @@
       background: rgba(255,255,255,0.15);
       transform: translateX(4px);
     }
-    .platform-links a i {
+    .platform-links a i, .platform-links a .platform-icon {
       font-size: 1.2rem;
       width: 24px;
+      height: 24px;
       text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .platform-links a .platform-icon img {
+      width: 20px;
+      height: 20px;
     }
     .credits {
       margin-top: 3rem;
@@ -261,13 +269,13 @@
           <div class="platform-section"><h3>Listen / Buy</h3><div class="platform-links">
 <a href="https://open.spotify.com/track/27886NlVukyDisXVz8MLPe?si=893d61e2ed6b481e" target="_blank" rel="noopener"><i class="fa-brands fa-spotify"></i> Spotify</a>
 <a href="https://music.apple.com/no/album/get-on-up-feat-em%C3%A9l-single/1817452862?l=nb" target="_blank" rel="noopener"><i class="fa-brands fa-apple"></i> Apple Music</a>
-<a href="https://music.apple.com/no/album/get-on-up-feat-em%C3%A9l-single/1817452862?l=nb" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> itunes</a>
-<a href="https://tidal.com/browse/album/438943180" target="_blank" rel="noopener"><i class="fa-solid fa-wave-square"></i> Tidal</a>
-<a href="https://music.amazon.com/albums/B0FB9NLSHL" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> amazon_music</a>
+<a href="https://music.apple.com/no/album/get-on-up-feat-em%C3%A9l-single/1817452862?l=nb" target="_blank" rel="noopener"><span class="platform-icon"><img src="/images/platforms/itunes.svg" alt="iTunes" width="20" height="20"></span> iTunes</a>
+<a href="https://tidal.com/browse/album/438943180" target="_blank" rel="noopener"><span class="platform-icon"><img src="/images/platforms/tidal.svg" alt="Tidal" width="20" height="20"></span> Tidal</a>
+<a href="https://music.amazon.com/albums/B0FB9NLSHL" target="_blank" rel="noopener"><span class="platform-icon"><img src="/images/platforms/amazon_music.svg" alt="Amazon Music" width="20" height="20"></span> Amazon Music</a>
 <a href="https://www.youtube.com/watch?v=UZ51yZgg3Os" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
-<a href="https://www.traxsource.com/track/13589616/get-on-up-extended-mix" target="_blank" rel="noopener"><i class="fa-solid fa-record-vinyl"></i> Traxsource</a>
-<a href="https://www.beatport.com/release/get-on-up/5109036" target="_blank" rel="noopener"><i class="fa-solid fa-record-vinyl"></i> Beatport</a>
-<a href="https://link.deezer.com/s/30RsZKxTAnrjKdnMgkiU8" target="_blank" rel="noopener"><i class="fa-solid fa-headphones"></i> Deezer</a>
+<a href="https://www.traxsource.com/track/13589616/get-on-up-extended-mix" target="_blank" rel="noopener"><span class="platform-icon"><img src="/images/platforms/traxsource.svg" alt="Traxsource" width="20" height="20"></span> Traxsource</a>
+<a href="https://www.beatport.com/release/get-on-up/5109036" target="_blank" rel="noopener"><span class="platform-icon"><img src="/images/platforms/beatport.svg" alt="Beatport" width="20" height="20"></span> Beatport</a>
+<a href="https://link.deezer.com/s/30RsZKxTAnrjKdnMgkiU8" target="_blank" rel="noopener"><span class="platform-icon"><img src="/images/platforms/deezer.svg" alt="Deezer" width="20" height="20"></span> Deezer</a>
 </div></div>
         </div>
       </div>

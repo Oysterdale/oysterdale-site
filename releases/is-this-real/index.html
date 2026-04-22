@@ -122,10 +122,18 @@
       background: rgba(255,255,255,0.15);
       transform: translateX(4px);
     }
-    .platform-links a i {
+    .platform-links a i, .platform-links a .platform-icon {
       font-size: 1.2rem;
       width: 24px;
+      height: 24px;
       text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .platform-links a .platform-icon img {
+      width: 20px;
+      height: 20px;
     }
     .credits {
       margin-top: 3rem;
@@ -253,12 +261,12 @@
           <div class="platform-section"><h3>Listen / Buy</h3><div class="platform-links">
 <a href="https://open.spotify.com/track/5EUOdWoI7RnJyI8CTg8h8V?si=5a6137fc41004bed" target="_blank" rel="noopener"><i class="fa-brands fa-spotify"></i> Spotify</a>
 <a href="https://music.apple.com/no/album/is-this-real/1844456654?i=1844456658&l=nb" target="_blank" rel="noopener"><i class="fa-brands fa-apple"></i> Apple Music</a>
-<a href="https://music.apple.com/no/album/is-this-real-single/1844456654?l=nb" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> itunes</a>
-<a href="https://tidal.com/track/465240691/u" target="_blank" rel="noopener"><i class="fa-solid fa-wave-square"></i> Tidal</a>
-<a href="https://music.amazon.com/albums/B0FV1342X2" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> amazon_music</a>
+<a href="https://music.apple.com/no/album/is-this-real-single/1844456654?l=nb" target="_blank" rel="noopener"><span class="platform-icon"><img src="/images/platforms/itunes.svg" alt="iTunes" width="20" height="20"></span> iTunes</a>
+<a href="https://tidal.com/track/465240691/u" target="_blank" rel="noopener"><span class="platform-icon"><img src="/images/platforms/tidal.svg" alt="Tidal" width="20" height="20"></span> Tidal</a>
+<a href="https://music.amazon.com/albums/B0FV1342X2" target="_blank" rel="noopener"><span class="platform-icon"><img src="/images/platforms/amazon_music.svg" alt="Amazon Music" width="20" height="20"></span> Amazon Music</a>
 <a href="https://www.youtube.com/watch?v=i4mgQAg1K4k&list=RDi4mgQAg1K4k&start_radio=1" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
-<a href="https://www.traxsource.com/track/14003269/is-this-real-extended-mix" target="_blank" rel="noopener"><i class="fa-solid fa-record-vinyl"></i> Traxsource</a>
-<a href="https://link.deezer.com/s/31p7voW5K4j6BlRrKFgTb" target="_blank" rel="noopener"><i class="fa-solid fa-headphones"></i> Deezer</a>
+<a href="https://www.traxsource.com/track/14003269/is-this-real-extended-mix" target="_blank" rel="noopener"><span class="platform-icon"><img src="/images/platforms/traxsource.svg" alt="Traxsource" width="20" height="20"></span> Traxsource</a>
+<a href="https://link.deezer.com/s/31p7voW5K4j6BlRrKFgTb" target="_blank" rel="noopener"><span class="platform-icon"><img src="/images/platforms/deezer.svg" alt="Deezer" width="20" height="20"></span> Deezer</a>
 </div></div>
         </div>
       </div>

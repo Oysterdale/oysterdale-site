@@ -733,6 +733,21 @@ footer nav.footer-nav a:hover{color:#bbb}
   opacity: .7;
 }
 
+/* Platform icons for release pages */
+.platform-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.platform-icon img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+}
+
 @media (max-width: 768px) {
   .news-post {
     padding: 1.5rem 4.5%;

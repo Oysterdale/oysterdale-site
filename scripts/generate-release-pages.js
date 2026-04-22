@@ -150,11 +150,13 @@ function generateLinksHtml(links) {
   const platformIcons = {
     spotify_url: ['fa-brands fa-spotify', 'Spotify'],
     apple_music_url: ['fa-brands fa-apple', 'Apple Music'],
-    traxsource_url: ['fa-solid fa-record-vinyl', 'Traxsource'],
-    beatport_url: ['fa-solid fa-record-vinyl', 'Beatport'],
+    itunes_url: ['/images/platforms/itunes.svg', 'iTunes'],
+    traxsource_url: ['/images/platforms/traxsource.svg', 'Traxsource'],
+    beatport_url: ['/images/platforms/beatport.svg', 'Beatport'],
     youtube_url: ['fa-brands fa-youtube', 'YouTube'],
-    tidal_url: ['fa-solid fa-wave-square', 'Tidal'],
-    deezer_url: ['fa-solid fa-headphones', 'Deezer'],
+    tidal_url: ['/images/platforms/tidal.svg', 'Tidal'],
+    deezer_url: ['/images/platforms/deezer.svg', 'Deezer'],
+    amazon_music_url: ['/images/platforms/amazon_music.svg', 'Amazon Music'],
     soundcloud_url: ['fa-brands fa-soundcloud', 'SoundCloud'],
     bandcamp_url: ['fa-brands fa-bandcamp', 'Bandcamp']
   };
@@ -163,7 +165,12 @@ function generateLinksHtml(links) {
     .filter(([_, url]) => url)
     .map(([key, url]) => {
       const [icon, label] = platformIcons[key] || ['fa-solid fa-link', key.replace(/_url$/, '')];
-      return `<a href="${url}" target="_blank" rel="noopener"><i class="${icon}"></i> ${label}</a>`;
+      // Check if icon is a path (starts with /) = SVG, otherwise Font Awesome
+      if (icon.startsWith('/')) {
+        return `<a href="${url}" target="_blank" rel="noopener"><span class="platform-icon"><img src="${icon}" alt="${label}" width="20" height="20"></span> ${label}</a>`;
+      } else {
+        return `<a href="${url}" target="_blank" rel="noopener"><i class="${icon}"></i> ${label}</a>`;
+      }
     })
     .join('\n');
 
