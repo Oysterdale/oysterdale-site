@@ -7,6 +7,15 @@ artists:
 date: 2025-12-12
 catalog: OYSTR25010
 cover: /uploads/get_on_up_art_of_tones_400.webp
+credits:
+  vocals:
+    - Emél
+  mastering:
+    - Sam Wills at Wired Masters
+  original_producer:
+    - OKPLUS
+  remixer:
+    - Art Of Tones
 links:
   spotify_url: https://open.spotify.com/album/4yDFEJY5hrObW1D4yMvNCR?si=MZTDBoZ9TB-YOjHijBkTUA
   apple_music_url: https://music.apple.com/no/album/get-on-up-art-of-tones-remix-single/1851549543?l=nb
@@ -24,19 +33,9 @@ seo:
   og_title: ''
   og_description: ''
   og_image: ''
-credits:
-  mastering:
-    - Sam Wills at Wired Masters
-  vocals:
-    - Emél
-  remixer:
-    - Art Of Tones
-  original_producer:
-    - OKPLUS
-
 ---
 
-**Art of Tones** brings his signature French touch to _Get On Up_, transforming the original into a sophisticated, groove-led club version built from the ground up.
+**Art of Tones** brings his signature French touch to **Get On Up**, transforming the original into a sophisticated, groove-led club version built from the ground up.
 
 Rather than simply reworking the original, he fully reinvents the instrumental — introducing new harmonies, textures, and a deep, driving foundation while keeping Emél’s vocal front and center.
 
