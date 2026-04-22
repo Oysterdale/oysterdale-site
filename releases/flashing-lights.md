@@ -32,4 +32,4 @@ seo:
   og_image: ''
 ---
 
-**Flashing Lights** brings together MINIJACK's distinct production and Elise Lizz's captivating vocals.
+**Flashing Lights** brings together **MINIJACK**'s distinct production and **Elise Lizz**'s captivating vocals.
