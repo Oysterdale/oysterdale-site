@@ -11,11 +11,8 @@ credits:
     - MINIJACK
   vocals:
     - Elise Lizz
-  mixing:
-    - MINIJACK
-  mastering:
-    - Sam Wills at Wired Masters
-
+  mixing: []
+  mastering: []
 links:
   spotify_url: https://open.spotify.com/track/3JPVxqSlnYWtQl2nPT1iar?si=303012cd1b494bdd
   apple_music_url: https://music.apple.com/no/album/flashing-lights/1850758948?i=1850758952&l=nb
@@ -35,9 +32,4 @@ seo:
   og_image: ''
 ---
 
-**Flashing Lights** brings together MINIJACK's production prowess and Elise Lizz's captivating vocals for a vocal house gem that demands attention.
-
-The track builds around a classic disco sample, reimagined for modern dancefloors. Elise's voice cuts through the mix with authority, delivering a hook that stays with you long after the night ends.
-
-From the first beat to the last, this is club music designed for peak-time moments — when the lights are flashing and the crowd is moving as one.
-
+**Flashing Lights** brings together MINIJACK's distinct production and Elise Lizz's captivating vocals.
