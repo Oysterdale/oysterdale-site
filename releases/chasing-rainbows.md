@@ -10,16 +10,11 @@ cover: /uploads/Chasing_Rainbows_Cover_vxyz.webp
 credits:
   producer:
     - OKPLUS
-    - Sebastian Emes
-    - Roman Blum
-  vocals: []
   mixing:
     - Anthony Chase
     - Kevin Vadsten
   mastering:
     - Sam Wills at Wired Masters
-  co_producer:
-    - Roman Blum
 links:
   spotify_url: https://open.spotify.com/track/0WZaQhTyGYMJpMsi7qVwAy?si=ba54cd82944e4bc1
   apple_music_url: https://music.apple.com/no/album/chasing-rainbows-radio-edit/1822138673?i=1822138675&l=nb
