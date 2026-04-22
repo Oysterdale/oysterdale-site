@@ -3,124 +3,110 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{title}} | Oysterdale Records</title>
-  <meta name="description" content="{{description}}">
-  <link rel="stylesheet" href="/styles.css">
+  <title>Is This Real – Oysterdale Records</title>
+  <meta name="description" content="Is This Real by MINIJACK - Oysterdale Records">
+  <link rel="stylesheet" href="/styles.css?v=2">
   <link rel="stylesheet" href="/styles-news.css">
   <link rel="icon" href="/images/favicon.png" type="image/png">
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin=""></noscript>
   <style>
-    /* Force white text */
-    body {
-      color: #fff !important;
-    }
-    a {
-      color: #fff !important;
-    }
-    /* Offset for fixed header */
-    .page-content {
-      padding-top: 100px;
-    }
-    
+    body { color: #fff !important; }
+    a { color: #fff !important; }
+    .page-content { padding-top: 100px; }
     .release-hero {
-        text-align: center;
       display: grid;
-      grid-template-columns: 400px 1fr;
-      gap: 3rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
       align-items: start;
       margin: 2rem 0;
+      max-width: 1200px;
     }
     .release-cover-large {
-        margin: 0 auto;
       width: 100%;
+      max-width: 500px;
       aspect-ratio: 1;
       object-fit: cover;
       border-radius: 12px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     }
+    .release-info, .release-info * { text-align: left !important; }
+    .release-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
     .release-info h1 {
-      margin: 0 0 0.5rem;
-      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
       color: #fff;
+      font-weight: 700;
+      line-height: 1.2;
     }
     .release-artists {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #ccc;
-      margin-bottom: 1rem;
+      margin: 0;
     }
     .release-artists a {
       color: #fff !important;
       text-decoration: none;
       transition: opacity 0.2s;
     }
-    .release-artists a:hover {
-      opacity: 0.7;
-      text-decoration: underline;
-    }
-    .release-date {
-      font-size: 0.9rem;
-      color: #999;
-      margin-bottom: 1.5rem;
-    }
-    .release-genre {
-      display: inline-block;
-      padding: 6px 16px;
-      background: rgba(107, 76, 122, 0.4);
-      border: 1px solid rgba(155, 123, 184, 0.5);
-      border-radius: 999px;
+    .release-artists a:hover { opacity: 0.7; text-decoration: underline; }
+    .release-meta {
       font-size: 0.85rem;
-      margin-bottom: 1.5rem;
-    }
-    .release-tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 1.5rem;
-    }
-    .release-tag {
-      padding: 4px 12px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 999px;
-      font-size: 0.8rem;
-      color: #aaa;
+      color: #999;
+      margin: 0;
+      text-align: left !important;
     }
     .release-description {
-      font-size: 1.1rem;
+      font-size: 1rem;
       line-height: 1.7;
       color: #ccc;
-      margin-bottom: 2rem;
+      margin: 1rem 0;
+    }
+    .platform-section { margin-top: 2rem; }
+    .platform-section h3 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #999;
+      margin-bottom: 1rem;
     }
     .platform-links {
-        justify-content: center;
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 1rem;
+      flex-direction: column;
+      gap: 10px;
     }
     .platform-links a {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 12px 20px;
+      gap: 12px;
+      padding: 14px 24px;
       background: rgba(255,255,255,0.08);
-      border-radius: 999px;
-      font-size: 0.95rem;
-      transition: background 0.2s;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.2s;
       text-decoration: none;
+      width: fit-content;
+      min-width: 200px;
     }
     .platform-links a:hover {
       background: rgba(255,255,255,0.15);
+      transform: translateX(4px);
+    }
+    .platform-links a i {
+      font-size: 1.2rem;
+      width: 24px;
+      text-align: center;
     }
     .credits {
       margin-top: 3rem;
       padding-top: 2rem;
       border-top: 1px solid rgba(255,255,255,0.1);
     }
-    .credits h3 {
-      margin-bottom: 1rem;
-      font-size: 1.2rem;
-    }
+    .credits h3 { margin-bottom: 1rem; font-size: 1.2rem; }
     .credits-list {
       list-style: none;
       padding: 0;
@@ -140,12 +126,8 @@
       letter-spacing: 0.05em;
       margin-bottom: 2px;
     }
-    .related-releases {
-      margin-top: 4rem;
-    }
-    .related-releases h2 {
-      margin-bottom: 1.5rem;
-    }
+    .related-releases { margin-top: 4rem; }
+    .related-releases h2 { margin-bottom: 1.5rem; }
     .related-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -156,9 +138,7 @@
       color: inherit;
       transition: transform 0.2s;
     }
-    .related-card:hover {
-      transform: translateY(-4px);
-    }
+    .related-card:hover { transform: translateY(-4px); }
     .related-card img {
       width: 100%;
       aspect-ratio: 1;
@@ -166,15 +146,8 @@
       border-radius: 8px;
       margin-bottom: 0.5rem;
     }
-    .related-card h4 {
-      margin: 0;
-      font-size: 1rem;
-    }
-    .related-card p {
-      margin: 0.25rem 0 0;
-      font-size: 0.85rem;
-      color: #999;
-    }
+    .related-card h4 { margin: 0; font-size: 1rem; }
+    .related-card p { margin: 0.25rem 0 0; font-size: 0.85rem; color: #999; }
     .back-link {
       display: inline-flex;
       align-items: center;
@@ -185,23 +158,19 @@
       font-size: 0.9rem;
       transition: color 0.2s;
     }
-    .back-link:hover {
-      color: #fff;
-    }
+    .back-link:hover { color: #fff; }
     @media (max-width: 768px) {
+      .release-info, .release-info * { text-align: center !important; }
       .release-hero {
-        text-align: center;
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 2rem;
       }
       .release-cover-large {
-        margin: 0 auto;
-        max-width: 300px;
+        max-width: 400px;
         margin: 0 auto;
       }
-      .credits-list {
-        grid-template-columns: 1fr;
-      }
+      .platform-links a { width: 100%; }
+      .credits-list { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -233,7 +202,40 @@
       <i class="fa-solid fa-arrow-left"></i> Back to releases
     </a>
     <div id="release-content">
-      <p>Loading release...</p>
+      <div class="release-hero">
+        <div class="release-left">
+          <img src="/uploads/Is_This_Real_Coverart_400x400.webp" alt="Is This Real" class="release-cover-large">
+        </div>
+        <div class="release-right">
+          <div class="release-info">
+            <h1>IS THIS REAL</h1>
+            
+            <div class="release-artists"><a href="/artists/minijack/">MINIJACK</a></div>
+            <div class="release-meta">Released 24 October 2025</div>
+            <p><strong>Is This Real</strong> is pure disco house joy. MINIJACK crafted a track that asks the question we all wonder when the night is perfect and the music hits just right.</p><p>With funky basslines, shimmering synths, and a groove that doesn't quit, this is the kind of record that makes you believe in the magic of the dancefloor. The nu-disco influence shines through, giving it that timeless feel while keeping it firmly rooted in today's sound.</p><p>A feel-good anthem that reminds us why we fell in love with house music in the first place.</p>
+          </div>
+          <div class="platform-section"><h3>Listen / Buy</h3><div class="platform-links"><a href="https://open.spotify.com/track/5EUOdWoI7RnJyI8CTg8h8V?si=5a6137fc41004bed" target="_blank" rel="noopener"><i class="fa-brands fa-spotify"></i> Spotify</a>
+<a href="https://music.apple.com/no/album/is-this-real/1844456654?i=1844456658&l=nb" target="_blank" rel="noopener"><i class="fa-brands fa-apple"></i> Apple Music</a>
+<a href="https://www.traxsource.com/track/14003269/is-this-real-extended-mix" target="_blank" rel="noopener"><i class="fa-solid fa-record-vinyl"></i> Traxsource</a>
+<a href="https://www.youtube.com/watch?v=i4mgQAg1K4k&list=RDi4mgQAg1K4k&start_radio=1" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
+<a href="https://tidal.com/track/465240691/u" target="_blank" rel="noopener"><i class="fa-solid fa-wave-square"></i> Tidal</a>
+<a href="https://link.deezer.com/s/31p7voW5K4j6BlRrKFgTb" target="_blank" rel="noopener"><i class="fa-solid fa-headphones"></i> Deezer</a></div></div>
+        </div>
+      </div>
+      <div class="credits"><h3>Credits</h3><ul class="credits-list"><li><strong>Producer</strong>MINIJACK</li><li><strong>Mixing</strong>MINIJACK</li><li><strong>Mastering</strong>Sam Wills at Wired Masters</li></ul></div>
+      <div class="related-releases"><h2>Related Releases</h2><div class="related-grid">
+            <a href="/releases/don´t-hold-me-back/" class="related-card">
+                <img src="/uploads/DHMB_COVER.webp" alt="Don't Hold Me Back">
+                <h4>Don't Hold Me Back</h4>
+                <p>MINIJACK, Emél</p>
+            </a>
+            
+            <a href="/releases/flashing-lights/" class="related-card">
+                <img src="/uploads/flashing_lights_400.webp" alt="Flashing Lights">
+                <h4>Flashing Lights</h4>
+                <p>MINIJACK, Elise Lizz</p>
+            </a>
+            </div></div>
     </div>
   </main>
 
@@ -241,258 +243,6 @@
     fetch("/footer.html")
       .then(r => r.text())
       .then(html => document.body.insertAdjacentHTML("beforeend", html));
-  </script>
-
-  <script>
-    const OWNER = "Oysterdale";
-    const REPO = "oysterdale-site";
-    
-    // Get release slug from URL
-    const pathParts = window.location.pathname.split('/');
-    const releaseSlug = pathParts[pathParts.length - 2] || pathParts[pathParts.length - 1];
-    
-        async function loadRelease() {
-      try {
-        // Try multiple name variants (original, lowercase, no accents)
-        const possibleNames = [
-          releaseSlug,
-          releaseSlug.toLowerCase(),
-          releaseSlug.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-        ];
-        
-        let md = null;
-        let foundName = null;
-        
-        for (const name of possibleNames) {
-          try {
-            const url = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/releases/${name}.md`;
-            const response = await fetch(url);
-            if (response.ok) {
-              md = await response.text();
-              foundName = name;
-              break;
-            }
-          } catch (e) {
-            // Continue to next name
-          }
-        }
-        
-        if (!md) {
-          document.getElementById('release-content').innerHTML = '<p>Release not found.</p>';
-          return;
-        }
-        
-        const { data, content } = parseFrontmatter(md);
-        renderRelease(data, content, [], { name: foundName + '.md' });
-        
-      } catch(e) {
-        console.error(e);
-        document.getElementById('release-content').innerHTML = '<p>Error loading release.</p>';
-      }
-    }
-    
-    function parseFrontmatter(md) {
-      const parts = md.split('---');
-      if(parts.length < 3) return {data: {}, content: ''};
-      
-      const yaml = parts[1];
-      const content = parts.slice(2).join('---').trim();
-      const data = {};
-      const lines = yaml.split(/\r?\n/);
-      
-      let listKey = null;
-      let inLinks = false;
-      let inCredits = false;
-      let inTags = false;
-      
-      for(const line of lines){
-        if(!line.trim()) continue;
-        
-        if(/^links\s*:\s*$/.test(line.trim())){
-          inLinks = true;
-          data.links = {};
-          continue;
-        }
-        
-        if(/^tags\s*:\s*$/.test(line.trim())){
-          inTags = true;
-          data.tags = [];
-          continue;
-        }
-        
-        if(/^credits\s*:\s*$/.test(line.trim())){
-          inCredits = true;
-          data.credits = {};
-          continue;
-        }
-        
-        if(inLinks){
-          if(!line.startsWith(" ")){
-            inLinks = false;
-          } else {
-            const m = line.trim().match(/^([^:]+):\s*(.*)$/);
-            if(m) data.links[m[1].trim()] = m[2].replace(/^["']|["']$/g,"");
-            continue;
-          }
-        }
-        
-        if(inTags){
-          if(!line.startsWith(" ")){
-            inTags = false;
-          } else {
-            data.tags.push(line.replace(/^\s*-\s*/,"").trim());
-            continue;
-          }
-        }
-        
-        if(inCredits){
-          if(!line.startsWith(" ")){
-            inCredits = false;
-          } else {
-            const m = line.trim().match(/^([^:]+):\s*(.*)$/);
-            if(m) data.credits[m[1].trim()] = m[2].replace(/^["']|["']$/g,"");
-            continue;
-          }
-        }
-        
-        const listStart = line.match(/^([A-Za-z0-9_]+):\s*$/);
-        if(listStart){
-          listKey = listStart[1];
-          data[listKey] = [];
-          continue;
-        }
-        
-        if(listKey && line.trim().startsWith("-")){
-          data[listKey].push(line.replace(/^\s*-\s*/,"").trim());
-          continue;
-        }
-        
-        const field = line.match(/^([^:]+):\s*(.*)$/);
-        if(field){
-          data[field[1].trim()] = field[2].replace(/^["']|["']$/g,"");
-        }
-      }
-      
-      if(data.artists){
-        if(Array.isArray(data.artists)){
-          data.artists = data.artists.map(a => 
-            typeof a === "string" ? a : (a.existing || a.custom || "")
-          ).filter(Boolean);
-        } else {
-          data.artists = [String(data.artists).trim()];
-        }
-      }
-      
-      return {data, content};
-    }
-    
-    function renderRelease(data, content, allFiles, currentFile) {
-      const artists = (data.artists || []).map(a => {
-        const slug = a.toLowerCase().replace(/\s+/g, '-');
-        return `<a href="/artists/${slug}/">${a}</a>`;
-      }).join(" | ");
-      
-      const links = data.links || {};
-      const platformButtons = [];
-      
-      if(links.spotify_url) platformButtons.push({url: links.spotify_url, icon: 'fa-brands fa-spotify', label: 'Spotify'});
-      if(links.apple_music_url) platformButtons.push({url: links.apple_music_url, icon: 'fa-brands fa-apple', label: 'Apple Music'});
-      if(links.beatport_url) platformButtons.push({url: links.beatport_url, icon: 'img', img: '/images/platforms/beatport.svg', label: 'Beatport'});
-      if(links.traxsource_url) platformButtons.push({url: links.traxsource_url, icon: 'img', img: '/images/platforms/traxsource.svg', label: 'Traxsource'});
-      if(links.youtube_url) platformButtons.push({url: links.youtube_url, icon: 'fa-brands fa-youtube', label: 'YouTube'});
-      if(links.tidal_url) platformButtons.push({url: links.tidal_url, icon: 'img', img: '/images/platforms/tidal.svg', label: 'Tidal'});
-      if(links.deezer_url) platformButtons.push({url: links.deezer_url, icon: 'img', img: '/images/platforms/deezer.svg', label: 'Deezer'});
-      
-      const platformHtml = platformButtons.map(p => {
-        const iconHtml = p.icon === 'img' 
-          ? `<img src="${p.img}" alt="${p.label}" style="width:24px;height:24px;filter:brightness(0) invert(1);">`
-          : `<i class="${p.icon}"></i>`;
-        return `
-        <a href="${p.url}" target="_blank" rel="noopener">
-          ${iconHtml} ${p.label}
-        </a>
-      `;
-      }).join('');
-      
-      // Parse markdown content for description
-      const description = content 
-        ? content.replace(/\*\*/g, '').replace(/\n/g, '<br>')
-        : '';
-      
-      // Tags
-      const tagsHtml = (data.tags || []).map(tag => 
-        `<span class="release-tag">${tag}</span>`
-      ).join('');
-      
-      // Credits
-      const credits = data.credits || {};
-      const creditsHtml = Object.entries(credits).map(([role, name]) => {
-        const roleLabel = role.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-        return `<li><strong>${roleLabel}</strong>${name}</li>`;
-      }).join('');
-      
-      // Find related releases (same artist or genre)
-      const relatedHtml = findRelatedReleases(data, allFiles, currentFile);
-      
-      document.getElementById('release-content').innerHTML = `
-        <div class="release-hero">
-          <img src="${data.cover || data.image}" alt="${data.title}" class="release-cover-large">
-          <div class="release-info">
-            <h1>${data.title}</h1>
-            <div class="release-artists">${artists}</div>
-            ${data.genre ? `<div class="release-genre">${data.genre}</div>` : ''}
-            ${tagsHtml ? `<div class="release-tags">${tagsHtml}</div>` : ''}
-            ${data.date ? `<div class="release-date">Released: ${new Date(data.date).toLocaleDateString('en-GB', {day: 'numeric', month: 'long', year: 'numeric'})}</div>` : ''}
-            ${data.catalog ? `<div class="release-date">Catalog: ${data.catalog}</div>` : ''}
-            ${description ? `<div class="release-description">${description}</div>` : ''}
-            <div class="platform-links">
-              ${platformHtml}
-            </div>
-          </div>
-        </div>
-        
-        ${creditsHtml ? `
-        <div class="credits">
-          <h3>Credits</h3>
-          <ul class="credits-list">
-            ${creditsHtml}
-          </ul>
-        </div>
-        ` : ''}
-        
-        ${relatedHtml ? `
-        <div class="related-releases">
-          <h2>Related Releases</h2>
-          <div class="related-grid">
-            ${relatedHtml}
-          </div>
-        </div>
-        ` : ''}
-      `;
-      
-      // Update page title
-      document.title = `${data.title} – Oysterdale Records`;
-    }
-    
-    function findRelatedReleases(currentData, allFiles, currentFile) {
-      if (!allFiles || !currentFile) return '';
-      
-      const currentArtists = currentData.artists || [];
-      const currentGenre = currentData.genre || '';
-      
-      // Find files with matching artists or genre
-      const related = allFiles
-        .filter(f => f.name.endsWith('.md') && f.name !== currentFile.name)
-        .slice(0, 3); // Limit to 3
-      
-      return related.map(f => {
-        const slug = f.name.replace('.md', '');
-        // We'll need to fetch these to get cover/title, so just show placeholders for now
-        return '';
-      }).join('');
-    }
-    
-    loadRelease();
   </script>
 </body>
 </html>
