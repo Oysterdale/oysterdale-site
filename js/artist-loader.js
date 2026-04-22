@@ -172,9 +172,9 @@ function renderArtist(data, releases) {
     bandcamp: { icon: 'fa-brands fa-bandcamp', label: 'Bandcamp' },
     apple_music: { icon: 'fa-brands fa-apple', label: 'Apple Music' },
     youtube: { icon: 'fa-brands fa-youtube', label: 'YouTube' },
-    tidal: { icon: 'fa-solid fa-music', label: 'Tidal' },
-    traxsource: { icon: 'fa-solid fa-record-vinyl', label: 'Traxsource' },
-    beatport: { icon: 'fa-solid fa-headphones', label: 'Beatport' }
+    tidal: { icon: 'img', img: '/images/platforms/tidal.svg', label: 'Tidal' },
+    traxsource: { icon: 'img', img: '/images/platforms/traxsource.svg', label: 'Traxsource' },
+    beatport: { icon: 'img', img: '/images/platforms/beatport.svg', label: 'Beatport' }
   };
   
   for (const [key, config] of Object.entries(linkMap)) {
@@ -184,11 +184,16 @@ function renderArtist(data, releases) {
   }
   
   const linksHtml = links.length > 0 
-    ? links.map(l => `
+    ? links.map(l => {
+        const iconHtml = l.icon === 'img'
+          ? `<img src="${l.img}" alt="${l.label}" style="width:24px;height:24px;filter:brightness(0) invert(1);">`
+          : `<i class="${l.icon}"></i>`;
+        return `
         <a href="${l.url}" target="_blank" rel="noopener">
-          <i class="${l.icon}"></i> ${l.label}
+          ${iconHtml} ${l.label}
         </a>
-      `).join('')
+      `;
+      }).join('')
     : '';
   
   // Build releases section
