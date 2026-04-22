@@ -13,7 +13,7 @@ photo: /uploads/okplus_portrett_square_top_1200x1200.jpg
 contact_email: contact@oysterdalerecords.com
 spotify: https://open.spotify.com/artist/3DABbjPF97i0tEMgdM7BE3
 soundcloud: ''
-instagram: ''
+instagram: https://www.instagram.com/e_m_e_l_music/
 website: ''
 mixcloud: ''
 bandcamp: ''
@@ -24,4 +24,3 @@ youtube: ''
 tidal: ''
 title: Emél
 ---
-
