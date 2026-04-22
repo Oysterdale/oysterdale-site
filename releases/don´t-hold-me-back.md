@@ -12,6 +12,7 @@ credits:
     - MINIJACK
   vocals:
     - Emél
+    - EL 360
   mixing:
     - MINIJACK
   mastering:
