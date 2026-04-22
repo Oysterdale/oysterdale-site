@@ -11,8 +11,7 @@ credits:
   mixing:
     - MINIJACK
   mastering:
-    - Sam Wills at Wired Masters
-
+    - Oskar Mikalsen
 links:
   spotify_url: https://open.spotify.com/track/5EUOdWoI7RnJyI8CTg8h8V?si=5a6137fc41004bed
   apple_music_url: https://music.apple.com/no/album/is-this-real/1844456654?i=1844456658&l=nb
@@ -31,9 +30,4 @@ seo:
   og_description: ''
 ---
 
-**Is This Real** is pure disco house joy. MINIJACK crafted a track that asks the question we all wonder when the night is perfect and the music hits just right.
-
-With funky basslines, shimmering synths, and a groove that doesn't quit, this is the kind of record that makes you believe in the magic of the dancefloor. The nu-disco influence shines through, giving it that timeless feel while keeping it firmly rooted in today's sound.
-
-A feel-good anthem that reminds us why we fell in love with house music in the first place.
-
+With **Is This Real**, MINIJACK delivers a deep and driving cut, fusing hypnotic textures with late-night energy, groovy bassline, and a subtle sense of tension that keeps the track in constant motion.
