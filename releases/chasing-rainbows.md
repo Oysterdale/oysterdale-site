@@ -10,6 +10,8 @@ cover: /uploads/Chasing_Rainbows_Cover_vxyz.webp
 credits:
   producer:
     - OKPLUS
+    - Sebastian Emes
+    - Roman Blum
   vocals: []
   mixing:
     - Anthony Chase
