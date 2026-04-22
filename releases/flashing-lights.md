@@ -18,7 +18,7 @@ links:
   apple_music_url: https://music.apple.com/no/album/flashing-lights/1850758948?i=1850758952&l=nb
   itunes_url: https://music.apple.com/no/album/flashing-lights-single/1850758948?l=nb
   tidal_url: ''
-  amazon_music_url: ''
+  amazon_music_url: https://music.amazon.com/albums/B0FZM1476K
   youtube_url: https://www.youtube.com/watch?v=d3GgCMuMJPA&list=RDd3GgCMuMJPA&start_radio=1
   traxsource_url: https://www.traxsource.com/track/14091140/flashing-lights
   beatport_url: https://www.beatport.com/release/flashing-lights/5557790
