@@ -239,6 +239,28 @@ function generatePage(mdFile) {
 
   fs.writeFileSync(outputPath, template);
   console.log(`✓ Generated: releases/${slug}/index.html`);
+
+  // Return data for releases.json
+  return {
+    slug,
+    title: data.title || slug,
+    artists: data.artists || [],
+    date: data.date || '',
+    cover: data.cover || data.image || '',
+    catalog: data.catalog || ''
+  };
+}
+
+function generateReleasesJson(allReleases) {
+  const outputPath = path.join(__dirname, '..', 'releases.json');
+  // Sort by date descending
+  allReleases.sort((a, b) => {
+    const dateA = a.date ? new Date(a.date) : new Date(0);
+    const dateB = b.date ? new Date(b.date) : new Date(0);
+    return dateB - dateA;
+  });
+  fs.writeFileSync(outputPath, JSON.stringify(allReleases, null, 2));
+  console.log(`✓ Generated: releases.json (${allReleases.length} releases)`);
 }
 
 function main() {
@@ -256,9 +278,14 @@ function main() {
 
   console.log(`Found ${files.length} releases to generate\n`);
 
+  const allReleases = [];
   for (const file of files) {
-    generatePage(file);
+    const releaseData = generatePage(file);
+    if (releaseData) allReleases.push(releaseData);
   }
+
+  // Generate releases.json for static loading
+  generateReleasesJson(allReleases);
 
   console.log('\n✓ Done!');
 }

@@ -1,0 +1,105 @@
+[
+  {
+    "slug": "get-on-up-art-of-tones-remix",
+    "title": "Get On Up (Art Of Tones Remix)",
+    "artists": [
+      "OKPLUS",
+      "Emél",
+      "Art Of Tones"
+    ],
+    "date": "2025-12-12",
+    "cover": "/uploads/get_on_up_art_of_tones_400.webp",
+    "catalog": "OYSTR25010"
+  },
+  {
+    "slug": "flashing-lights",
+    "title": "Flashing Lights",
+    "artists": [
+      "MINIJACK",
+      "Elise Lizz"
+    ],
+    "date": "2025-11-21",
+    "cover": "/uploads/flashing_lights_400.webp",
+    "catalog": "OYSTR25007"
+  },
+  {
+    "slug": "get-on-up-cavego-remix",
+    "title": "Get On Up (Cavego Remix)",
+    "artists": [
+      "OKPLUS",
+      "Emél",
+      "Cavego"
+    ],
+    "date": "2025-11-21",
+    "cover": "/uploads/get_on_up_cavego_400.webp",
+    "catalog": "OYSTR25008"
+  },
+  {
+    "slug": "get-on-up-mark-picchiotti-remix",
+    "title": "Get On Up (Mark Picchiotti Remix)",
+    "artists": [
+      "OKPLUS",
+      "Emél",
+      "Mark Picchiotti"
+    ],
+    "date": "2025-11-14",
+    "cover": "/uploads/get_on_up_mark_picchiotti_400.webp",
+    "catalog": "OYSTR25009"
+  },
+  {
+    "slug": "is-this-real",
+    "title": "Is This Real",
+    "artists": [
+      "MINIJACK"
+    ],
+    "date": "2025-10-24",
+    "cover": "/uploads/Is_This_Real_Coverart_400x400.webp",
+    "catalog": "OYSTR25006"
+  },
+  {
+    "slug": "don´t-hold-me-back",
+    "title": "Don't Hold Me Back",
+    "artists": [
+      "MINIJACK",
+      "Emél",
+      "EL 360"
+    ],
+    "date": "2025-08-15",
+    "cover": "/uploads/DHMB_COVER.webp",
+    "catalog": "OYSTR25004"
+  },
+  {
+    "slug": "okplus-dancing-on-the-clouds-feat-rona-ray",
+    "title": "Dancing On The Clouds",
+    "artists": [
+      "OKPLUS",
+      "Rona Ray"
+    ],
+    "date": "2025-08-01",
+    "cover": "/uploads/DancingOnTheClouds400x400.webp",
+    "catalog": "OYSTR25003"
+  },
+  {
+    "slug": "chasing-rainbows",
+    "title": "Chasing Rainbows",
+    "artists": [
+      "OKPLUS",
+      "Sebastian Emes",
+      "Roman Blum"
+    ],
+    "date": "2025-07-11",
+    "cover": "/uploads/Chasing_Rainbows_Cover_vxyz.webp",
+    "catalog": "OYSTR25001"
+  },
+  {
+    "slug": "get-on-up-feat-emél",
+    "title": "Get On Up",
+    "artists": [
+      "OKPLUS",
+      "Emél"
+    ],
+    "date": "2025-06-27",
+    "cover": "/uploads/Get_On_Up_400x400.webp",
+    "catalog": "OYSTR25002"
+  }
+]

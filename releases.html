@@ -209,9 +209,27 @@
   <script>
     const OWNER="Oysterdale", REPO="oysterdale-site", DIR="releases";
 
-    async function listFiles(){
+    async function loadReleasesFromJson() {
+      try {
+        const r = await fetch('/releases.json', { cache: 'no-store' });
+        if (!r.ok) throw new Error('releases.json not found');
+        return await r.json();
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function listFilesFromGitHub(){
       const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}`);
-      return (await r.json()).filter(f => f.type === "file" && f.name.endsWith(".md"));
+      if (!r.ok) {
+        const error = await r.json();
+        throw new Error(error.message || `GitHub API error: ${r.status}`);
+      }
+      const data = await r.json();
+      if (!Array.isArray(data)) {
+        throw new Error('Invalid response from GitHub API');
+      }
+      return data.filter(f => f.type === "file" && f.name.endsWith(".md"));
     }
 
     function parseFrontmatter(md){
@@ -280,7 +298,7 @@
 
     function clean(v){ return (v??"").toString().trim(); }
 
-    async function loadCard(file){
+    async function loadCardFromGitHub(file){
       if (!file.download_url) {
         console.warn('No download_url for:', file.name);
         return null;
@@ -337,33 +355,98 @@
       };
     }
 
+    function createCardFromJson(release) {
+      const title = clean(release.title);
+      
+      // Split title: main part and parenthetical part
+      let titleMain = title;
+      let titleParen = '';
+      const parenMatch = title.match(/^(.+?)\s*(\([^)]+\))\s*$/);
+      if (parenMatch) {
+        titleMain = parenMatch[1].trim();
+        titleParen = parenMatch[2];
+      }
+      
+      const artists = (release.artists || []).map(a => {
+        const slug = a.toLowerCase().replace(/\s+/g, '-');
+        return `<a href="/artists/${slug}/" class="artist-link">${a}</a>`;
+      }).join(" | ");
+      const cover = clean(release.cover);
+      const dateStr = clean(release.date);
+      const releaseSlug = release.slug.toLowerCase();
+      
+      return {
+        date: dateStr ? new Date(dateStr) : new Date(0),
+        title: title,
+        artists: release.artists || [],
+        html: `
+          <div class="release">
+            <a href="/releases/${releaseSlug}/" class="release-link">
+              <div class="release-content">
+                ${cover ? `
+                  <img src="${cover}"
+                       alt="${title}"
+                       class="release-cover"
+                       loading="lazy"
+                       decoding="async">` : ""}
+                
+                <div class="release-header" style="margin-top: 1rem;">
+                  ${titleMain ? `<h2 class="release-title" style="margin:0;">${titleMain.toUpperCase()}</h2>` : ""}
+                  ${titleParen ? `<h3 class="release-subtitle" style="margin:0.25rem 0 0; font-size:0.9rem; color:#999; font-weight:400;">${titleParen}</h3>` : ""}
+                  ${artists ? `<p class="release-artist" style="margin:0.5rem 0 0; font-size:0.95rem; color:#ccc;">${artists}</p>` : ""}
+                </div>
+                
+
+              </div>
+            </a>
+          </div>
+        `
+      };
+    }
+
     (async()=>{
       const container = document.getElementById("releases-content");
       let allCards = [];
 
       try{
-        const files = await listFiles();
-        const cards = await Promise.all(files.map(loadCard));
-
-        // Filter out nulls (files that failed to load)
-        const validCards = cards.filter(c => c !== null);
-
-        validCards.sort((a,b)=>b.date - a.date);
-        allCards = validCards;
-
-        renderCards(validCards);
+        // Try static JSON first (avoids GitHub API rate limits)
+        const jsonReleases = await loadReleasesFromJson();
         
-        // Setup search
-        setupSearch(allCards);
+        if (jsonReleases && Array.isArray(jsonReleases) && jsonReleases.length > 0) {
+          // Use static JSON
+          allCards = jsonReleases.map(createCardFromJson);
+          allCards.sort((a,b)=>b.date - a.date);
+          renderCards(allCards);
+          setupSearch(allCards);
+          console.log('Loaded releases from static JSON');
+        } else {
+          // Fallback to GitHub API
+          const files = await listFilesFromGitHub();
+          const cards = await Promise.all(files.map(loadCardFromGitHub));
+
+          // Filter out nulls (files that failed to load)
+          const validCards = cards.filter(c => c !== null);
+
+          validCards.sort((a,b)=>b.date - a.date);
+          allCards = validCards;
+
+          renderCards(validCards);
+          setupSearch(allCards);
+          console.log('Loaded releases from GitHub API');
+        }
 
       }catch(e){
-        console.error(e);
-        container.innerHTML = "<p>Could not load releases.</p>";
+        console.error('Failed to load releases:', e);
+        container.innerHTML = `<p>Could not load releases. <button onclick="location.reload()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 16px;border-radius:999px;cursor:pointer;margin-top:10px;">Try Again</button></p>`;
       }
     })();
     
     function renderCards(cards) {
       const container = document.getElementById("releases-content");
+      if (cards.length === 0) {
+        container.innerHTML = "<p>No releases found.</p>";
+        return;
+      }
       container.innerHTML = cards.map(c => c.html).join("");
     }
     
