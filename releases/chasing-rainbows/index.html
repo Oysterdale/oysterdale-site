@@ -251,27 +251,39 @@
     const pathParts = window.location.pathname.split('/');
     const releaseSlug = pathParts[pathParts.length - 2] || pathParts[pathParts.length - 1];
     
-    async function loadRelease() {
+        async function loadRelease() {
       try {
-        // Find release file by slug
-        const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/releases`);
-        const files = await r.json();
+        // Try multiple name variants (original, lowercase, no accents)
+        const possibleNames = [
+          releaseSlug,
+          releaseSlug.toLowerCase(),
+          releaseSlug.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        ];
         
-        // Find file matching slug
-        const releaseFile = files.find(f => {
-          const name = f.name.replace('.md', '').toLowerCase();
-          return name === releaseSlug || name.includes(releaseSlug);
-        });
+        let md = null;
+        let foundName = null;
         
-        if (!releaseFile) {
+        for (const name of possibleNames) {
+          try {
+            const url = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/releases/${name}.md`;
+            const response = await fetch(url);
+            if (response.ok) {
+              md = await response.text();
+              foundName = name;
+              break;
+            }
+          } catch (e) {
+            // Continue to next name
+          }
+        }
+        
+        if (!md) {
           document.getElementById('release-content').innerHTML = '<p>Release not found.</p>';
           return;
         }
         
-        const md = await fetch(releaseFile.download_url).then(r => r.text());
         const { data, content } = parseFrontmatter(md);
-        
-        renderRelease(data, content, files, releaseFile);
+        renderRelease(data, content, [], { name: foundName + '.md' });
         
       } catch(e) {
         console.error(e);
