@@ -117,7 +117,7 @@ function generateCreditsHtml(credits) {
   if (!credits || Object.keys(credits).length === 0) return '';
 
   const labelMap = {
-    producer: 'Producer',
+    producer: 'Producer(s)',
     vocals: 'Vocals',
     mixing: 'Mixing',
     mastering: 'Mastering',
