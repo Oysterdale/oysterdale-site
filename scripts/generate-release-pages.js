@@ -210,9 +210,19 @@ function generatePage(mdFile) {
   const linksHtml = generateLinksHtml(data.links);
 
   // Convert markdown description to HTML
+  function markdownToHtml(text) {
+    // Convert **bold** to <strong>
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // Convert *italic* to <em>
+    text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    // Convert [link](url) to <a href="url">link</a>
+    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+    return text;
+  }
+
   const descriptionHtml = content
     .split('\n\n')
-    .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
+    .map(p => `<p>${markdownToHtml(p.replace(/\n/g, '<br>'))}</p>`)
     .join('\n');
 
   // Replace in template - handle both {{var}} and {{ var }} formats
