@@ -12,11 +12,14 @@ credits:
     - OKPLUS
     - Sebastian Emes
     - Roman Blum
+  vocals: []
   mixing:
     - Anthony Chase
     - Kevin Vadsten
   mastering:
     - Sam Wills at Wired Masters
+  co_producer:
+    - Roman Blum
 links:
   spotify_url: https://open.spotify.com/track/0WZaQhTyGYMJpMsi7qVwAy?si=ba54cd82944e4bc1
   apple_music_url: https://music.apple.com/no/album/chasing-rainbows-radio-edit/1822138673?i=1822138675&l=nb
@@ -29,9 +32,9 @@ links:
   deezer_url: https://www.deezer.com/en/album/776600281
 ---
 
-_Chasing Rainbows_ started as a late-night studio session in Oslo.
+**Chasing Rainbows** started as a late-night studio session in Oslo.
 
-A collaboration between OKPLUS, Sebastian Emes, and Roman Blum, the track leans into an afro house direction, shaped by years behind the decks.
+A collaboration between **OKPLUS**, **Sebastian Emes**, and **Roman Blum**, the track leans into an afro house direction, shaped by years behind the decks.
 
 A rolling groove drives the track, built on percussive elements, warm chords, and live saxophone that adds that extra bit of character.
 
