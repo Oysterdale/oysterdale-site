@@ -281,6 +281,10 @@
     function clean(v){ return (v??"").toString().trim(); }
 
     async function loadCard(file){
+      if (!file.download_url) {
+        console.warn('No download_url for:', file.name);
+        return null;
+      }
       const md = await fetch(file.download_url).then(r => r.text());
       const {data} = parseFrontmatter(md);
 
@@ -341,10 +345,13 @@
         const files = await listFiles();
         const cards = await Promise.all(files.map(loadCard));
 
-        cards.sort((a,b)=>b.date - a.date);
-        allCards = cards;
+        // Filter out nulls (files that failed to load)
+        const validCards = cards.filter(c => c !== null);
 
-        renderCards(cards);
+        validCards.sort((a,b)=>b.date - a.date);
+        allCards = validCards;
+
+        renderCards(validCards);
         
         // Setup search
         setupSearch(allCards);
