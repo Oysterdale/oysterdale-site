@@ -246,6 +246,53 @@ collections:
       - { label: "Catalog Number", name: "catalog", widget: "string", required: false }
       - { label: "Cover", name: "cover", widget: "image", required: false, multiple: false }
 
+      - label: "Credits"
+        name: "credits"
+        widget: "object"
+        collapsed: false
+        required: false
+        fields:
+          - label: "Producer(s)"
+            name: "producer"
+            widget: "list"
+            required: false
+            field: { label: "Name", name: "name", widget: "string" }
+          - label: "Vocalist(s)"
+            name: "vocals"
+            widget: "list"
+            required: false
+            field: { label: "Name", name: "name", widget: "string" }
+          - label: "Mixing Engineer(s)"
+            name: "mixing"
+            widget: "list"
+            required: false
+            field: { label: "Name", name: "name", widget: "string" }
+          - label: "Mastering Engineer(s)"
+            name: "mastering"
+            widget: "list"
+            required: false
+            field: { label: "Name", name: "name", widget: "string" }
+          - label: "Remix Artist(s)"
+            name: "remix"
+            widget: "list"
+            required: false
+            field: { label: "Name", name: "name", widget: "string" }
+          - label: "Composer(s)"
+            name: "composer"
+            widget: "list"
+            required: false
+            field: { label: "Name", name: "name", widget: "string" }
+          - label: "Lyricist(s)"
+            name: "lyrics"
+            widget: "list"
+            required: false
+            field: { label: "Name", name: "name", widget: "string" }
+          - label: "Additional Production"
+            name: "additional_production"
+            widget: "list"
+            required: false
+            field: { label: "Name", name: "name", widget: "string" }
+
       - label: "Links"
         name: "links"
         widget: "object"
