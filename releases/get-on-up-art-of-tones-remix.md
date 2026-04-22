@@ -21,7 +21,7 @@ links:
   apple_music_url: https://music.apple.com/no/album/get-on-up-art-of-tones-remix-single/1851549543?l=nb
   itunes_url: https://music.apple.com/no/album/get-on-up-art-of-tones-remix-single/1851549543?l=nb
   tidal_url: https://tidal.com/album/472476761/u
-  amazon_music_url: ''
+  amazon_music_url: https://music.amazon.com/albums/B0G1D1LJDG
   youtube_url: https://www.youtube.com/watch?v=2a6-V2nwoJc&list=RD2a6-V2nwoJc&start_radio=1
   traxsource_url: https://www.traxsource.com/track/14104427/get-on-up-art-of-tones-extended-remix
   beatport_url: ''
