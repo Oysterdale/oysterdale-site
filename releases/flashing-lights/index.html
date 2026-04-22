@@ -429,10 +429,15 @@
             <h1>${data.title}</h1>
             <div class="release-artists">${artists}</div>
             ${data.genre ? `<div class="release-genre">${data.genre}</div>` : ''}
+      `;
             ${tagsHtml ? `<div class="release-tags">${tagsHtml}</div>` : ''}
+      `;
             ${data.date ? `<div class="release-date">Released: ${new Date(data.date).toLocaleDateString('en-GB', {day: 'numeric', month: 'long', year: 'numeric'})}</div>` : ''}
+      `;
             ${data.catalog ? `<div class="release-date">Catalog: ${data.catalog}</div>` : ''}
+      `;
             ${description ? `<div class="release-description">${description}</div>` : ''}
+      `;
             <div class="platform-links">
               ${platformHtml}
             </div>
@@ -447,6 +452,7 @@
           </ul>
         </div>
         ` : ''}
+      `;
 
         ${relatedHtml ? `
         <div class="related-releases">
@@ -456,10 +462,11 @@
           </div>
         </div>
         ` : ''}
+      `;
 
 
       // Update page title
-      document.title = `${data.title} - Oysterdale Records
+      document.title = `${data.title} – Oysterdale Records`;
     }
 
     function findRelatedReleases(currentData, allFiles, currentFile) {
