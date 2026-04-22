@@ -149,7 +149,7 @@ function generateLinksHtml(links) {
 
   const platformIcons = {
     spotify_url: ['fa-brands fa-spotify', 'Spotify'],
-    apple_music_url: ['/images/platforms/apple_music.svg', 'Apple Music'],
+    apple_music_url: ['fa-brands fa-apple', 'Apple Music'],
     itunes_url: ['/images/platforms/itunes.svg', 'iTunes'],
     traxsource_url: ['/images/platforms/traxsource.svg', 'Traxsource'],
     beatport_url: ['/images/platforms/beatport.svg', 'Beatport'],
