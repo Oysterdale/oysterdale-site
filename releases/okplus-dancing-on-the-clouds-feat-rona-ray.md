@@ -7,10 +7,15 @@ date: 2025-08-01
 catalog: OYSTR25003
 cover: /uploads/DancingOnTheClouds400x400.webp
 credits:
-  producer: OKPLUS
-  vocals: Rona Ray
-  mixing: Kevin Vadsten
-  mastering: Sam Wills at Wired Masters
+  producer:
+    - OKPLUS
+  vocals:
+    - Rona Ray
+  mixing:
+    - Kevin Vadsten
+  mastering:
+    - Sam Wills at Wired Masters
+
 links:
   spotify_url: https://open.spotify.com/track/6bWcWjQ571RfzvOfiFlZG1?si=6617b203961a4d83
   apple_music_url: https://music.apple.com/no/album/dancing-on-the-clouds-radio-edit/1823123654?i=1823123655&l=nb

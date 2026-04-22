@@ -6,9 +6,13 @@ date: 2025-10-24
 catalog: OYSTR25006
 cover: /uploads/Is_This_Real_Coverart_400x400.webp
 credits:
-  producer: MINIJACK
-  mixing: MINIJACK
-  mastering: Sam Wills at Wired Masters
+  producer:
+    - MINIJACK
+  mixing:
+    - MINIJACK
+  mastering:
+    - Sam Wills at Wired Masters
+
 links:
   spotify_url: https://open.spotify.com/track/5EUOdWoI7RnJyI8CTg8h8V?si=5a6137fc41004bed
   apple_music_url: https://music.apple.com/no/album/is-this-real/1844456654?i=1844456658&l=nb

@@ -8,10 +8,15 @@ date: 2025-11-21
 catalog: OYSTR25008
 cover: /uploads/get_on_up_cavego_400.webp
 credits:
-  original_producer: OKPLUS
-  remixer: Cavego
-  vocals: Emél
-  mastering: Sam Wills at Wired Masters
+  original_producer:
+    - OKPLUS
+  remixer:
+    - Cavego
+  vocals:
+    - Emél
+  mastering:
+    - Sam Wills at Wired Masters
+
 links:
   spotify_url: https://open.spotify.com/track/15P4j2ILdRuGlLAAwBz1xO?si=defad931e40a4e02
   apple_music_url: https://music.apple.com/no/album/get-on-up-cavego-remix/1851278378?i=1851278379&l=nb

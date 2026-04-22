@@ -7,10 +7,15 @@ date: 2025-06-27
 catalog: OYSTR25002
 cover: /uploads/Get_On_Up_400x400.webp
 credits:
-  producer: OKPLUS
-  vocals: Emél
-  mixing: Kevin Vadsten
-  mastering: Sam Wills at Wired Masters
+  producer:
+    - OKPLUS
+  vocals:
+    - Emél
+  mixing:
+    - Kevin Vadsten
+  mastering:
+    - Sam Wills at Wired Masters
+
 links:
   spotify_url: https://open.spotify.com/track/27886NlVukyDisXVz8MLPe?si=893d61e2ed6b481e
   apple_music_url: https://music.apple.com/no/album/get-on-up-feat-em%C3%A9l-single/1817452862?l=nb

@@ -8,11 +8,17 @@ date: 2025-08-15
 catalog: OYSTR25004
 cover: /uploads/DHMB_COVER.webp
 credits:
-  producer: MINIJACK
-  vocals: Emél
-  co_producer: EL 360
-  mixing: MINIJACK
-  mastering: Sam Wills at Wired Masters
+  producer:
+    - MINIJACK
+  vocals:
+    - Emél
+  co_producer:
+    - EL 360
+  mixing:
+    - MINIJACK
+  mastering:
+    - Sam Wills at Wired Masters
+
 links:
   spotify_url: https://open.spotify.com/track/52hElNjPFNd8QIpF4T8Odt?si=9e9d639fb6ec4de4
   apple_music_url: https://music.apple.com/no/album/dont-hold-me-back/1830055814?i=1830055817&l=nb

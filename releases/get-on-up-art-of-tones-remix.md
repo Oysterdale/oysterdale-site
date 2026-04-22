@@ -25,10 +25,15 @@ seo:
   og_description: ''
   og_image: ''
 credits:
-  mastering: Sam Wills at Wired Masters
-  vocals: Emél
-  remixer: Art Of Tones
-  original_producer: OKPLUS
+  mastering:
+    - Sam Wills at Wired Masters
+  vocals:
+    - Emél
+  remixer:
+    - Art Of Tones
+  original_producer:
+    - OKPLUS
+
 ---
 
 **Art of Tones** brings his signature French touch to _Get On Up_, transforming the original into a sophisticated, groove-led club version built from the ground up.

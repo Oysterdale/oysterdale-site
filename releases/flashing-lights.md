@@ -7,10 +7,15 @@ date: 2025-11-21
 catalog: OYSTR25007
 cover: /uploads/flashing_lights_400.webp
 credits:
-  producer: MINIJACK
-  vocals: Elise Lizz
-  mixing: MINIJACK
-  mastering: Sam Wills at Wired Masters
+  producer:
+    - MINIJACK
+  vocals:
+    - Elise Lizz
+  mixing:
+    - MINIJACK
+  mastering:
+    - Sam Wills at Wired Masters
+
 links:
   spotify_url: https://open.spotify.com/track/3JPVxqSlnYWtQl2nPT1iar?si=303012cd1b494bdd
   apple_music_url: https://music.apple.com/no/album/flashing-lights/1850758948?i=1850758952&l=nb

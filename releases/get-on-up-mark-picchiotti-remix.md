@@ -8,10 +8,15 @@ date: 2025-11-14
 catalog: OYSTR25009
 cover: /uploads/get_on_up_mark_picchiotti_400.webp
 credits:
-  original_producer: OKPLUS
-  remixer: Mark Picchiotti
-  vocals: Emél
-  mastering: Sam Wills at Wired Masters
+  original_producer:
+    - OKPLUS
+  remixer:
+    - Mark Picchiotti
+  vocals:
+    - Emél
+  mastering:
+    - Sam Wills at Wired Masters
+
 links:
   spotify_url: https://open.spotify.com/album/4n1cYATidm1ZVbdKa19zyh?si=1ObInNjsSNq-WofGATlNGQ
   apple_music_url: https://music.apple.com/no/album/get-on-up-mark-picchiotti-remix-single/1851276491?l=nb
