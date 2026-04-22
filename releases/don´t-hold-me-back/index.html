@@ -378,6 +378,7 @@
       const artists = (data.artists || []).map(a => {
         const slug = a.toLowerCase().replace(/\s+/g, '-');
         return `<a href="/artists/${slug}/">${a}</a>`;
+      }).join(" | ");
       
       const links = data.links || {};
       const platformButtons = [];
@@ -416,6 +417,7 @@
       const creditsHtml = Object.entries(credits).map(([role, name]) => {
         const roleLabel = role.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         return `<li><strong>${roleLabel}</strong>${name}</li>`;
+      }).join('');
       
       // Find related releases (same artist or genre)
       const relatedHtml = findRelatedReleases(data, allFiles, currentFile);
