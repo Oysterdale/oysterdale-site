@@ -34,6 +34,16 @@
       margin: 2rem 0;
       max-width: 1200px;
     }
+    .release-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .release-left {
+      display: flex;
+      justify-content: center;
+    }
     .release-cover-large {
       width: 100%;
       max-width: 500px;
@@ -202,6 +212,10 @@
         text-align: center !important;
       }
       .release-hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .release-main {
         grid-template-columns: 1fr;
         gap: 2rem;
       }
@@ -436,7 +450,7 @@
           <div class="release-left">
             <img src="${data.cover || data.image}" alt="${data.title}" class="release-cover-large">
           </div>
-          <div class="release-right">
+          <div class="release-main">
             <div class="release-info">
               <h1>${titleMain.toUpperCase()}</h1>
               ${titleParen ? `<div style="font-size: 1.2rem; color: #999; margin-top: 0.25rem; text-align: left;">${titleParen}</div>` : ''}

@@ -22,6 +22,16 @@
       margin: 2rem 0;
       max-width: 1200px;
     }
+    .release-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .release-left {
+      display: flex;
+      justify-content: center;
+    }
     .release-cover-large {
       width: 100%;
       max-width: 500px;
@@ -159,9 +169,13 @@
       transition: color 0.2s;
     }
     .back-link:hover { color: #fff; }
-    @media (max-width: 768px) {
+        @media (max-width: 768px) {
       .release-info, .release-info * { text-align: center !important; }
       .release-hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .release-main {
         grid-template-columns: 1fr;
         gap: 2rem;
       }
@@ -206,7 +220,7 @@
         <div class="release-left">
           <img src="/uploads/Is_This_Real_Coverart_400x400.webp" alt="Is This Real" class="release-cover-large">
         </div>
-        <div class="release-right">
+        <div class="release-main">
           <div class="release-info">
             <h1>IS THIS REAL</h1>
             
@@ -220,6 +234,8 @@
 <a href="https://www.youtube.com/watch?v=i4mgQAg1K4k&list=RDi4mgQAg1K4k&start_radio=1" target="_blank" rel="noopener"><i class="fa-brands fa-youtube"></i> YouTube</a>
 <a href="https://tidal.com/track/465240691/u" target="_blank" rel="noopener"><i class="fa-solid fa-wave-square"></i> Tidal</a>
 <a href="https://link.deezer.com/s/31p7voW5K4j6BlRrKFgTb" target="_blank" rel="noopener"><i class="fa-solid fa-headphones"></i> Deezer</a></div></div>
+        </div>
+      </div>
         </div>
       </div>
       <div class="credits"><h3>Credits</h3><ul class="credits-list"><li><strong>Producer</strong>MINIJACK</li><li><strong>Mixing</strong>MINIJACK</li><li><strong>Mastering</strong>Sam Wills at Wired Masters</li></ul></div>
