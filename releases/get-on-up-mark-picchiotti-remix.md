@@ -24,7 +24,7 @@ links:
   apple_music_url: https://music.apple.com/no/album/get-on-up-mark-picchiotti-remix-single/1851276491?l=nb
   itunes_url: https://music.apple.com/no/album/get-on-up-mark-picchiotti-remix-single/1851276491?l=nb
   tidal_url: https://tidal.com/album/472188235/u
-  amazon_music_url: ''
+  amazon_music_url: https://music.amazon.com/albums/B0G16DHKBS
   youtube_url: https://www.youtube.com/watch?v=fO-zosFk6k4&list=RDfO-zosFk6k4&start_radio=1
   traxsource_url: https://www.traxsource.com/track/14099840/get-on-up-mark-picchiotti-extended-remix
   beatport_url: https://www.beatport.com/track/get-on-up/22434725
