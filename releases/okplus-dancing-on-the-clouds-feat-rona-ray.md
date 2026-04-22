@@ -12,10 +12,9 @@ credits:
   vocals:
     - Rona Ray
   mixing:
-    - Kevin Vadsten
+    - Sam Wills at Wired Masters
   mastering:
     - Sam Wills at Wired Masters
-
 links:
   spotify_url: https://open.spotify.com/track/6bWcWjQ571RfzvOfiFlZG1?si=6617b203961a4d83
   apple_music_url: https://music.apple.com/no/album/dancing-on-the-clouds-radio-edit/1823123654?i=1823123655&l=nb
@@ -28,10 +27,6 @@ links:
   deezer_url: https://www.deezer.com/en/album/778993921
 ---
 
-**Dancing On The Clouds** is a collaboration between OKPLUS and the incredible Rona Ray — and it's as ethereal as the title suggests.
+**Dancing On The Clouds** is a collaboration between OKPLUS and Rona Ray, built from a studio jam that naturally found its direction.
 
-Rona's voice has this quality that floats, that defies gravity. When Kevin heard her demo, he knew immediately that this needed to be a track about transcendence, about losing yourself in the moment.
-
-The production wraps around her vocals like a warm blanket of sound — layers of pads, a gentle but insistent groove, and moments of pure release. It's deep house that aims for the heart as much as the feet.
-
-A summer anthem that feels like the best night of your life.
+Rona Ray brings years of experience from the global house scene, with releases on labels like Defected and Nervous, and collaborations with a wide range of producers. Her vocal carries that background — soulful, controlled, and effortless.
