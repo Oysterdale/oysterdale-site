@@ -8,15 +8,17 @@ date: 2025-11-14
 catalog: OYSTR25009
 cover: /uploads/get_on_up_mark_picchiotti_400.webp
 credits:
-  original_producer:
-    - OKPLUS
-  remixer:
-    - Mark Picchiotti
   vocals:
     - Emél
   mastering:
     - Sam Wills at Wired Masters
-
+  remix:
+    - Mark Picchiotti
+  composer: []
+  remixer:
+    - Mark Picchiotti
+  original_producer:
+    - OKPLUS
 links:
   spotify_url: https://open.spotify.com/album/4n1cYATidm1ZVbdKa19zyh?si=1ObInNjsSNq-WofGATlNGQ
   apple_music_url: https://music.apple.com/no/album/get-on-up-mark-picchiotti-remix-single/1851276491?l=nb
@@ -36,9 +38,8 @@ seo:
   og_image: ''
 ---
 
-**Mark Picchiotti** — a true legend with roots in Chicago's house music history — brings his decades of experience to "Get On Up."
+Mark Picchiotti — a true legend with roots in Chicago’s house music history — brings decades of experience to _Get On Up_.
 
-This remix is a masterclass in classic house production. Picchiotti knows exactly where to place every element, creating a track that's both timeless and contemporary. The energy builds naturally, the drops hit just right, and the groove never lets up.
+A pioneer of the scene, Picchiotti has built a legacy through productions and remixes for artists like Madonna, Beyoncé, and Michael Jackson, alongside releases on iconic labels such as Defected, Positiva, and Strictly Rhythm. That heritage is fully present in this rework.
 
-Emél's vocals get the treatment they deserve, sitting perfectly in the mix while the production drives forward with purpose. When a legend like Picchiotti touches your track, you know it's going to be special.
-
+His remix channels that unmistakable spirit of gospel-driven house — funky, uplifting, and rooted in groove — bringing new energy to the track while staying true to its core.
