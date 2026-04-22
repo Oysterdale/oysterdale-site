@@ -25,7 +25,7 @@ links:
   apple_music_url: https://music.apple.com/no/album/get-on-up-cavego-remix/1851278378?i=1851278379&l=nb
   itunes_url: https://music.apple.com/no/album/get-on-up-cavego-remix-single/1851278378?l=nb
   tidal_url: https://tidal.com/track/472190204/u
-  amazon_music_url: ''
+  amazon_music_url: https://music.amazon.com/albums/B0G168JJHR
   youtube_url: https://www.youtube.com/watch?v=V_8fECAmovE&list=RDV_8fECAmovE&start_radio=1
   traxsource_url: https://www.traxsource.com/track/14099850/get-on-up-cavego-extended-remix
   beatport_url: https://www.beatport.com/release/flashing-lights/5557790
