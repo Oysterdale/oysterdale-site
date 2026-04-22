@@ -8,15 +8,18 @@ date: 2025-11-21
 catalog: OYSTR25008
 cover: /uploads/get_on_up_cavego_400.webp
 credits:
-  original_producer:
-    - OKPLUS
-  remixer:
-    - Cavego
   vocals:
     - Emél
+  mixing:
+    - Anthony Chase
   mastering:
     - Sam Wills at Wired Masters
-
+  remix:
+    - Cavego
+  remixer:
+    - Cavego
+  original_producer:
+    - OKPLUS
 links:
   spotify_url: https://open.spotify.com/track/15P4j2ILdRuGlLAAwBz1xO?si=defad931e40a4e02
   apple_music_url: https://music.apple.com/no/album/get-on-up-cavego-remix/1851278378?i=1851278379&l=nb
@@ -36,9 +39,10 @@ seo:
   og_image: ''
 ---
 
-**Cavego** puts his Norwegian nu-disco magic on "Get On Up," delivering a remix that's all about the groove.
+**Cavego** puts his Norwegian nu-disco magic on **Get On Up**, bringing a fresh, melodic take that leans into both warmth and movement.
 
-Hailing from Norway's vibrant electronic scene, Cavego brings a playful energy to the track. His remix adds shimmering synths, a bouncier bassline, and an overall sunny disposition that makes this version perfect for daytime festivals and rooftop parties.
+Known as one of the rising names in the Scandinavian disco scene, Cavego has built a reputation for uplifting productions and remixes for artists like Satin Jackets and Blende. His sound blends classic Nu-Disco with a modern dancefloor pulse — and that balance carries through here.
 
-Emél's vocals glide over the top, and the whole thing just makes you smile. It's a testament to what happens when Scandinavian sensibility meets disco house.
+Lush synth layers, bright chords, and a more driving groove give the remix a new vibe, still keeping Emél’s vocal at the center.
 
+Equally at home in daytime sets and late-night moments — with that distinctly Scandinavian disco sound.
