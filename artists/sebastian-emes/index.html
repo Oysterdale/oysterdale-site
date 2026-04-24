@@ -27,7 +27,7 @@ His breakout ">
     .page-content {
       padding-top: 100px;
     }
-
+    
     .artist-hero {
       display: grid;
       grid-template-columns: 300px 1fr;
@@ -185,46 +185,46 @@ His breakout ">
         <div class="artist-info">
           <h1>Sebastian Emes</h1>
           <div class="artist-links">
-
+            
     <a href="https://open.spotify.com/artist/7aGq0wr1mgg1tLgdwOX8cF" target="_blank" rel="noopener">
       <i class="fa-brands fa-spotify"></i> Spotify
     </a>
-
+  
     <a href="https://www.sebastianemes.com/" target="_blank" rel="noopener">
       <i class="fa-solid fa-globe"></i> Website
     </a>
-
+  
     <a href="https://www.traxsource.com/artist/512480/sebastian-emes" target="_blank" rel="noopener">
       <img src="/images/platforms/traxsource.svg" alt="Traxsource" style="width:24px;height:24px;filter:brightness(0) invert(1);"> Traxsource
     </a>
-
+  
     <a href="https://music.apple.com/us/artist/sebastian-emes/459097645" target="_blank" rel="noopener">
       <i class="fa-brands fa-apple"></i> Apple Music
     </a>
-
+  
     <a href="https://tidal.com/browse/artist/5684729" target="_blank" rel="noopener">
       <img src="/images/platforms/tidal.svg" alt="Tidal" style="width:24px;height:24px;filter:brightness(0) invert(1);"> Tidal
     </a>
-
+  
           </div>
-
+          
         </div>
       </div>
-
+      
       <div class="artist-bio-full">
-        <p>Sebastian Emes is a Norwegian DJ and producer, known for capturing immediate emotion in his music, a quality that has become his signature sound.</p>
+        <p>Sebastian Emes is a Norwegian DJ and producer, known for capturing immediate emotion in his music, a quality that has become his signature sound.
 
-<p>His breakout single "Making Me (Feel Good)" has surpassed 2.5 million Spotify streams and received global support, including a premiere by house legend David Penn on his Urbana radioshow. With releases on labels such as Peppermint Jam, Emes continues to build strong momentum.</p>
+His breakout single “Making Me (Feel Good)” has surpassed 2.5 million Spotify streams and received global support, including a premiere by house legend David Penn on his Urbana radioshow. With releases on labels such as Peppermint Jam, Emes continues to build strong momentum.
 
-<p>His collaboration "With You" with Swiss producer Doobious has received ongoing airplay on Switzerland's Radio SRF 3 and Sirius XM, supported by Liquid Todd. His track "Really Nice" (Hive) reached #18 on the Traxsource Top 100 Deep House Chart. He has also co-produced the platinum-certified single "KlubbKamel" for Norwegian artist Kamelen.</p>
+His collaboration “With You” with Swiss producer Doobious has received ongoing airplay on Switzerland’s Radio SRF 3 and Sirius XM, supported by Liquid Todd. His track “Really Nice” (Hive) reached #18 on the Traxsource Top 100 Deep House Chart. He has also co-produced the platinum-certified single “KlubbKamel” for Norwegian artist Kamelen.
 
-<p>Emes' music has been featured by leading music blogs and editorial playlists, including Disco Belle and Dancing Astronaut.</p>
+Emes’ music has been featured by leading music blogs and editorial playlists, including Disco Belle and Dancing Astronaut.
 
-<p>A 2x Red Bull 3Style champion, he brings over 15 years of experience as a full-time DJ. He has performed extensively across Norway's festival and club scene, as well as internationally in Australia, the US, and throughout Europe.</p>
+A 2x Red Bull 3Style champion, he brings over 15 years of experience as a full-time DJ. He has performed extensively across Norway’s festival and club scene, as well as internationally in Australia, the US, and throughout Europe.
 
-<p>He has shared the stage with a wide range of international artists, including The Shapeshifters, Dave Lee, Breakbot & Irfane, DJ Jazzy Jeff, Big Boi, Karpe, Matoma, J. Cole, Kartell, 99 Souls, Dagny, Mr. Belt & Wezol, NEIKED, and KREAM.</p>
+He has shared the stage with a wide range of international artists, including The Shapeshifters, Dave Lee, Breakbot & Irfane, DJ Jazzy Jeff, Big Boi, Karpe, Matoma, J. Cole, Kartell, 99 Souls, Dagny, Mr. Belt & Wezol, NEIKED, and KREAM.</p>
       </div>
-
+      
       <div class="artist-releases">
         <h2>Oysterdale Releases</h2>
         <div class="releases-grid" id="artist-releases"></div>
@@ -241,32 +241,32 @@ His breakout ">
   <script>
     const OWNER = "Oysterdale";
     const REPO = "oysterdale-site";
-
+    
     async function loadReleases() {
       try {
         const r = await fetch('https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/releases');
         const files = await r.json();
         const releases = [];
-
+        
         for(const file of files.filter(f => f.name.endsWith('.md'))) {
           const md = await fetch(file.download_url).then(r => r.text());
           const data = parseFrontmatter(md);
-
-          if(data.artists && data.artists.some(a =>
-            a.toLowerCase().includes('sebastian emes') ||
+          
+          if(data.artists && data.artists.some(a => 
+            a.toLowerCase().includes('sebastian emes') || 
             'sebastian emes'.includes(a.toLowerCase())
           )) {
             data.fileName = file.name;
             releases.push(data);
           }
         }
-
+        
         const container = document.getElementById('artist-releases');
         if(releases.length === 0) {
           container.innerHTML = '<p>No releases yet.</p>';
           return;
         }
-
+        
         container.innerHTML = releases.map(function(r) {
           var releaseSlug = r.fileName.replace('.md', '').toLowerCase();
           return '<div class="release">' +
@@ -277,42 +277,42 @@ His breakout ">
             '</a>' +
             '</div>';
         }).join('');
-
+        
       } catch(e) {
         console.error(e);
       }
     }
-
+    
     function parseFrontmatter(md) {
       var parts = md.split('---');
       if(parts.length < 3) return {data: {}};
       var yaml = parts[1];
       var data = {};
       var lines = yaml.split(/\r?\n/);
-
+      
       var listKey = null;
       for(var i = 0; i < lines.length; i++){
         var line = lines[i];
         if(!line.trim()) continue;
-
+        
         var listStart = line.match(/^([A-Za-z0-9_]+):\s*$/);
         if(listStart){
           listKey = listStart[1];
           data[listKey] = [];
           continue;
         }
-
+        
         if(listKey && line.trim().startsWith("-")){
           data[listKey].push(line.replace(/^\s*-\s*/, "").trim());
           continue;
         }
-
+        
         var field = line.match(/^([^:]+):\s*(.*)$/);
         if(field){
           data[field[1].trim()] = field[2].replace(/^["']|["']$/g, "");
         }
       }
-
+      
       if(data.artists){
         if(Array.isArray(data.artists)){
           data.artists = data.artists.map(function(a) {
@@ -322,10 +322,10 @@ His breakout ">
           data.artists = [String(data.artists).trim()];
         }
       }
-
+      
       return data;
     }
-
+    
     loadReleases();
   </script>
 </body>
