@@ -244,7 +244,7 @@ function generateTemplate(data) {
       </div>
       
       <div class="artist-bio-full">
-        <p>${bio}</p>
+        ${bio.split(/\n\n+/).map(p => `<p>${p.trim()}</p>`).join('\n')}
       </div>
       
       <div class="artist-releases">
