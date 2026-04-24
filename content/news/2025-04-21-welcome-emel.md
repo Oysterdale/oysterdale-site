@@ -1,6 +1,6 @@
 ---
 title: Emél Joins Oysterdale
-date: 2025-04-21
+date: 2026-04-24
 author: ''
 category: news
 tags: []
@@ -20,17 +20,17 @@ Emél represents exactly why we started Oysterdale. Not just to release records,
 
 Stay tuned — we're just getting started.
 
----
+***
 
 ## While You Wait: This Week's Pearls
 
 Here's what's been spinning in our studio:
 
-**I Feel The Love (Extended) - Mirko & Meex, Riu Morris**
-Pure dancefloor energy that doesn't let go.
+**Block, Delete - Sebastian Emes, Emma Emes**
+One from the Oysterdale family. A sibling collaboration blending deep house with early Disclosure vibes.
 
 **Tango Hustle (Dave Lee Latican Hustle) - Foreal People, Dave Lee ZR**
-Dave Lee doing what Dave Lee does best.
+Dave Lee doing what Dave Lee does best. Soooo funky.
 
 **I'll Be Gone (Original Mix) - N.W.N.**
 Finally getting some originals from one of the most active remixers in the Deep House scene. Perfect track for those late-night basement sessions.
