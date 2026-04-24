@@ -171,13 +171,15 @@
         const footerHtml = `
           <footer>
             <div class="footer-logo">
-              <img src="${logo}"
-                   alt="Oysterdale Records Logo"
-                   class="footer-logo-img"
-                   width="${w}" height="${w}"
-                   loading="lazy" decoding="async">
+              <a href="/" aria-label="Home">
+                <img src="${logo}"
+                     alt="Oysterdale Records Logo"
+                     class="footer-logo-img"
+                     width="${w}" height="${w}"
+                     loading="lazy" decoding="async">
+              </a>
             </div>
-            <p>${cfg.text || "© 2025 Oysterdale Records. All rights reserved."}</p>
+            <p>${cfg.text || "© 2026 Oysterdale Records. All rights reserved."}</p>
             ${linksHtml}
           </footer>`;
 
