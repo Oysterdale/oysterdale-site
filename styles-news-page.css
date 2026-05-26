@@ -1,13 +1,6 @@
-/* Newsletter section alignment (matches other pages) */
-#newsletter-section {
-  margin-top: 3rem !important;
-  padding: 2rem 5% !important;
-  border-top: 1px solid rgba(255,255,255,.1);
-}
-
-#newsletter-section h2 {
-  text-align: left;
-}
+/* ===================================================== */
+/* NEWS PAGE ONLY - No gray backgrounds, full-bleed images */
+/* ===================================================== */
 
 /* News hero (featured post) */
 .news-hero {
