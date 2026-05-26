@@ -5,8 +5,6 @@
 /* News hero (featured post) */
 .news-hero {
   margin-bottom: 2rem;
-  display: flex;
-  justify-content: center;
 }
 
 .news-hero-link {
@@ -16,12 +14,13 @@
   border-radius: 12px;
   overflow: hidden;
   transition: transform .2s ease, box-shadow .2s ease;
+  width: fit-content;
   max-width: 100%;
+  margin: 0 auto;
 }
 
 .news-hero-image {
-  width: auto;
-  max-width: 100%;
+  width: 100%;
   max-height: 500px;
   object-fit: contain;
   object-position: center center;
