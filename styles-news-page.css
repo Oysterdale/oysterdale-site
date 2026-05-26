@@ -128,8 +128,7 @@
 
 .news-scroll-outer {
   position: relative;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
+  width: 100%;
   overflow: visible;
 }
 
@@ -139,7 +138,7 @@
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 60px;
+  padding: 0 80px;
 }
 
 .news-scroll-container {
@@ -227,7 +226,7 @@
 
 /* Scroll buttons */
 .scroll-btn {
-  position: fixed;
+  position: absolute;
   top: 50%;
   transform: translateY(-50%);
   width: 56px;
@@ -238,7 +237,7 @@
   color: #fff;
   font-size: 40px;
   cursor: pointer;
-  z-index: 100;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -251,11 +250,11 @@
 }
 
 .scroll-btn.scroll-left {
-  left: 20px;
+  left: 10px;
 }
 
 .scroll-btn.scroll-right {
-  right: 20px;
+  right: 10px;
 }
 
 .news-section-title {
