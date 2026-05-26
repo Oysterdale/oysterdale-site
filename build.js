@@ -11,6 +11,37 @@ const { JSDOM } = require("jsdom");
 const yaml = require("js-yaml");
 
 const ROOT = process.cwd();
+
+const NEWSLETTER_SECTION = `
+  <!-- NEWSLETTER SIGNUP -->
+  <section id="newsletter-section" class="latest-wrap">
+    <h2 id="heading-join-crew" class="scroll-title">JOIN THE CREW</h2>
+    <p style="opacity:.7;margin-bottom:1.5rem;">Get weekly pearls delivered to your inbox. No spam, just groove.</p>
+    
+    <!-- Success message (hidden by default) -->
+    <div id="newsletter-success" style="display:none;max-width:480px;text-align:center;background:rgba(107,76,122,0.3);border:1px solid rgba(155,123,184,0.5);border-radius:12px;padding:20px;">
+      <div style="font-size:32px;margin-bottom:8px;">✅</div>
+      <h3 style="margin:0 0 0.5rem;color:#fff;">Welcome to the crew!</h3>
+      <p style="margin:0;opacity:0.9;">Thank you for joining the family. Watch your inbox for weekly pearls.</p>
+    </div>
+    
+    <form id="newsletter-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;display:flex;flex-direction:column;gap:16px;">
+      <p style="display:none;">
+        <label>Don't fill this out: <input name="bot-field"></label>
+      </p>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <label for="newsletter-name" style="font-size:12px;text-transform:uppercase;letter-spacing:0.05em;opacity:0.7;margin-left:16px;">Name</label>
+        <input type="text" id="newsletter-name" name="name" placeholder="Your name" required style="width:100%;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:#fff;font-size:14px;outline:none;">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <label for="newsletter-email" style="font-size:12px;text-transform:uppercase;letter-spacing:0.05em;opacity:0.7;margin-left:16px;">Email</label>
+        <input type="email" id="newsletter-email" name="email" placeholder="your@email.com" required style="width:100%;padding:12px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:#fff;font-size:14px;outline:none;">
+      </div>
+      <button type="submit" style="padding:12px 24px;border-radius:999px;border:none;background:#fff;color:#000;font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s;margin-top:4px;">Subscribe</button>
+    </form>
+  </section>
+`;
+
 const cfgPath = path.join(ROOT, "site.config.json");
 const siteCfg = fs.existsSync(cfgPath) ? JSON.parse(fs.readFileSync(cfgPath, "utf8")) : {};
 const siteUrl = (siteCfg.siteUrl || "https://oysterdalerecords.com").replace(/\/$/, "");
@@ -253,6 +284,8 @@ function generateNewsPostPage(post) {
     </article>
   </main>
 
+  ${NEWSLETTER_SECTION}
+
   <footer>
     <div class="footer-logo">
       <img src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74" alt="Oysterdale Records Logo" class="footer-logo-img" width="260" height="260" loading="lazy">
@@ -379,6 +412,8 @@ function generateNewsIndex(posts) {
     
     ${posts.length > 10 ? `<p class="archive-link"><a href="/news/archive/">View all ${posts.length} posts →</a></p>` : ""}
   </main>
+
+  ${NEWSLETTER_SECTION}
 
   <footer>
     <div class="footer-logo">
