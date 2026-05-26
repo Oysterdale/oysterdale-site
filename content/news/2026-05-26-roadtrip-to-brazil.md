@@ -24,7 +24,7 @@ Every record is a pearl.
 
 ***
 
-## While You Wait: This Week's Pearls
+## Weekly Pearls
 
 Here's what's been spinning in our studio:
 
