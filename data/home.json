@@ -28,7 +28,7 @@
     },
     {
       "id": "heading-latest-news",
-      "text": "Latest News",
+      "text": "Weekly Pearls: News",
       "marquee": {
         "enabled": false,
         "speed": 22
