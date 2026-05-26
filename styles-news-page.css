@@ -1,6 +1,19 @@
-/* ===================================================== */
-/* NEWS PAGE ONLY - No gray backgrounds, full-bleed images */
-/* ===================================================== */
+/* Newsletter section alignment (matches homepage) */
+#newsletter-section {
+  margin: 3rem auto !important;
+  padding: 0 5% !important;
+  text-align: center;
+}
+
+#newsletter-section h2 {
+  text-align: center;
+}
+
+#newsletter-form,
+#newsletter-success {
+  margin-left: auto;
+  margin-right: auto;
+}
 
 /* News hero (featured post) */
 .news-hero {
@@ -24,9 +37,9 @@
 
 .news-hero-image {
   width: 100%;
-  aspect-ratio: 16/9;
-  object-fit: cover;
-  object-position: center center;
+  max-height: 500px;
+  object-fit: contain;
+  object-position: center top;
   display: block;
   transition: transform .4s ease;
 }
