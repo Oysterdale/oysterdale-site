@@ -316,13 +316,17 @@ function generateNewsIndex(posts) {
   const featuredHTML = featuredPost ? `
     <section class="news-hero">
       <a href="/news/${featuredPost.slug}/" class="news-hero-link">
-        ${featuredPost.image ? `<img src="${featuredPost.image}" alt="${featuredPost.title}" class="news-hero-image" loading="eager">` : ""}
-        <div class="news-hero-meta">
-          <time datetime="${featuredPost.date}">${formatDate(featuredPost.date)}</time>
-          <span class="category">${featuredPost.category}</span>
-        </div>
-        <h2>${featuredPost.title}</h2>
-        <p>${featuredPost.excerpt}</p>
+        <figure class="news-hero-figure">
+          ${featuredPost.image ? `<img src="${featuredPost.image}" alt="${featuredPost.title}" class="news-hero-image" loading="eager">` : ""}
+          <figcaption>
+            <div class="news-hero-meta">
+              <time datetime="${featuredPost.date}">${formatDate(featuredPost.date)}</time>
+              <span class="category">${featuredPost.category}</span>
+            </div>
+            <h2>${featuredPost.title}</h2>
+            <p>${featuredPost.excerpt}</p>
+          </figcaption>
+        </figure>
       </a>
     </section>
   ` : "";

@@ -5,17 +5,24 @@
 /* News hero (featured post) */
 .news-hero {
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 .news-hero-link {
-  display: table;
-  margin: 0 auto;
+  display: inline-block;
   text-align: left;
   color: #fff;
   text-decoration: none;
   border-radius: 12px;
   overflow: hidden;
   transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.news-hero-figure {
+  margin: 0;
+  display: table;
+  width: auto;
+  max-width: 100%;
 }
 
 .news-hero-image {
@@ -34,24 +41,27 @@
   transform: scale(1.02);
 }
 
+.news-hero-figure figcaption {
+  padding: 1rem 0 0;
+}
+
 .news-hero-meta {
   display: flex;
   gap: 1rem;
-  padding: 1rem 0 0;
   font-size: .8rem;
   color: #888;
   text-transform: uppercase;
   letter-spacing: .05em;
 }
 
-.news-hero-link h2 {
+.news-hero-figure h2 {
   padding: .5rem 0;
   margin: 0;
   font-size: 1.5rem;
   line-height: 1.3;
 }
 
-.news-hero-link p {
+.news-hero-figure p {
   padding: 0 0 1.2rem;
   margin: 0;
   color: #aaa;
