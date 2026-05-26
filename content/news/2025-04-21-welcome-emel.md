@@ -5,7 +5,7 @@ author: ''
 category: news
 tags: []
 excerpt: ''
-image: /uploads/Emel_600x600.webp
+image: /uploads/weekly-pearls-001-emel.webp
 ---
 
 Some voices stop you in your tracks. The kind that makes you put down the coffee, turn up the speakers, and just listen. That's exactly what happened the first time we heard Emél.
