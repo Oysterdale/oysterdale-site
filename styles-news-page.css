@@ -9,7 +9,9 @@
 }
 
 .news-hero-link {
-  display: inline-block;
+  display: inline-grid;
+  grid-template-columns: minmax(0, auto);
+  justify-content: center;
   text-align: left;
   color: #fff;
   text-decoration: none;
@@ -42,6 +44,8 @@
   color: #888;
   text-transform: uppercase;
   letter-spacing: .05em;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .news-hero-link h2 {
@@ -49,6 +53,8 @@
   margin: 0;
   font-size: 1.5rem;
   line-height: 1.3;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .news-hero-link p {
@@ -57,6 +63,8 @@
   color: #aaa;
   font-size: .9rem;
   line-height: 1.5;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 /* News list items */
