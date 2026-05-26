@@ -1,17 +1,17 @@
-/* Newsletter section alignment (matches homepage) */
+/* Newsletter section alignment (matches other pages - left-aligned) */
 #newsletter-section {
-  margin: 3rem auto !important;
-  padding: 0 5% !important;
-  text-align: center;
+  margin-top: 3rem !important;
+  padding-top: 2rem !important;
+  border-top: 1px solid rgba(255,255,255,.1);
 }
 
 #newsletter-section h2 {
-  text-align: center;
+  text-align: left;
 }
 
 #newsletter-form,
 #newsletter-success {
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
 }
 
