@@ -78,23 +78,41 @@ function slugify(text) {
 
 // Simple markdown to HTML converter
 function markdownToHTML(md) {
-  let html = md
-    // Headers
-    .replace(/^### (.*$)/gim, "<h3>$1</h3>")
-    .replace(/^## (.*$)/gim, "<h2>$1</h2>")
-    .replace(/^# (.*$)/gim, "<h1>$1</h1>")
-    // Bold/Italic
-    .replace(/\*\*\*(.*?)\*\*\*/g, "<strong><em>$1</em></strong>")
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.*?)\*/g, "<em>$1</em>")
-    // Links
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-    // Paragraphs
-    .replace(/\n\n/g, "</p><p>")
-    // Line breaks
-    .replace(/\n/g, "<br>");
+  const hrRegex = /^(?:---|\*\*\*|___)\s*$/gim;
   
-  return "<p>" + html + "</p>";
+  // Split by horizontal rules
+  const parts = md.split(hrRegex);
+  const hrs = md.match(hrRegex) || [];
+  
+  let result = "";
+  
+  parts.forEach((part, i) => {
+    let html = part.trim()
+      // Headers
+      .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+      .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+      .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+      // Bold/Italic
+      .replace(/\*\*\*(.*?)\*\*\*/g, "<strong><em>$1</em></strong>")
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      // Links
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+      // Paragraphs
+      .replace(/\n\n/g, "</p><p>")
+      // Line breaks
+      .replace(/\n/g, "<br>");
+    
+    if (html) {
+      result += "<p>" + html + "</p>";
+    }
+    
+    if (i < hrs.length) {
+      result += "<hr>";
+    }
+  });
+  
+  return result;
 }
 
 // Get all news posts
