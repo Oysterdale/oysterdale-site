@@ -26,6 +26,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="/scripts/menu.js?v=3" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.querySelector('.news-scroll-container');
+      const leftBtn = document.querySelector('.scroll-left');
+      const rightBtn = document.querySelector('.scroll-right');
+      
+      if (container && leftBtn && rightBtn) {
+        leftBtn.addEventListener('click', function() {
+          container.scrollBy({ left: -container.clientWidth * 0.8, behavior: 'smooth' });
+        });
+        rightBtn.addEventListener('click', function() {
+          container.scrollBy({ left: container.clientWidth * 0.8, behavior: 'smooth' });
+        });
+      }
+    });
+  </script>
 </head>
 <body>
   <header class="site-header">
@@ -66,27 +82,46 @@
     <div class="news-grid">
       
     <section class="news-hero">
-      <a href="/news/eml-joins-oysterdale/" class="news-hero-link">
+      <a href="/news/2026-05-26-roadtrip-to-brazil/" class="news-hero-link">
         <figure class="news-hero-figure">
-          <img src="/uploads/weekly-pearls-001-emel.webp" alt="Emél Joins Oysterdale" class="news-hero-image" loading="eager">
+          <img src="/uploads/weekly-pearls-002-roadtrip-to-brazil.webp" alt="Roadtrip To Brazil — Sebastian Emes feat. Bruna Santana" class="news-hero-image" loading="eager">
           <figcaption>
             <div class="news-hero-meta">
-              <time datetime="Fri Apr 24 2026 02:00:00 GMT+0200 (Central European Summer Time)">April 24, 2026</time>
+              <time datetime="2026-05-26">May 26, 2026</time>
               <span class="category">news</span>
             </div>
-            <h2>Emél Joins Oysterdale</h2>
-            <p>Some voices stop you in your tracks. The kind that makes you put down the coffee, turn up the speakers, and just listen. That's exactly what happened the first time we heard Emél.
-
-We're proud to anno...</p>
+            <h2>Roadtrip To Brazil — Sebastian Emes feat. Bruna Santana</h2>
+            <p>We're proud to present "Roadtrip To Brazil" — the latest release on Oysterdale Records from Sebastian Emes featuring Bruna Santana. Sebastian Emes has already made his mark through releases on labels like Peppermint Jam Records...</p>
           </figcaption>
         </figure>
       </a>
     </section>
   
       
-      <ul class="news-list">
-        
-      </ul>
+      <div class="news-scroll-container-wrapper">
+        <h2 class="news-section-title">More News</h2>
+        <button class="scroll-btn scroll-left" aria-label="Scroll left">‹</button>
+        <div class="news-scroll-container">
+          
+      <article class="news-card">
+        <a href="/news/eml-joins-oysterdale/" class="news-card-link">
+          <figure class="news-card-figure">
+            <img src="/uploads/weekly-pearls-001-emel.webp" alt="Emél Joins Oysterdale" class="news-card-image" loading="lazy">
+            <figcaption>
+              <div class="news-card-meta">
+                <time datetime="2026-04-24">April 24, 2026</time>
+                <span class="category">news</span>
+              </div>
+              <h3>Emél Joins Oysterdale</h3>
+              <p>Some voices stop you in your tracks. The kind that makes you put down the coffee, turn up the speakers...</p>
+            </figcaption>
+          </figure>
+        </a>
+      </article>
+    
+        </div>
+        <button class="scroll-btn scroll-right" aria-label="Scroll right">›</button>
+      </div>
     </div>
     
     
