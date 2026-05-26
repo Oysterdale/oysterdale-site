@@ -24,6 +24,7 @@
   display: block;
   border-radius: 12px;
   transition: transform .4s ease;
+  background: transparent !important;
 }
 
 .news-hero-link:hover .news-hero-image {
