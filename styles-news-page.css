@@ -11,21 +11,18 @@
   display: block;
   color: #fff;
   text-decoration: none;
-  background: #000;
   border-radius: 12px;
   overflow: hidden;
   transition: transform .2s ease, box-shadow .2s ease;
 }
 
-.news-hero-link:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(255,255,255,.08);
-}
-
 .news-hero-image {
   width: 100%;
-  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+  object-position: center center;
   display: block;
+  border-radius: 12px;
   transition: transform .4s ease;
 }
 
