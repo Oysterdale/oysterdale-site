@@ -9,7 +9,7 @@ tags:
   - bruna santana
   - house
 excerpt: ''
-image: /uploads/roadtrip-to-brazil-cover.webp
+image: /uploads/weekly-pearls-002-roadtrip-to-brazil.webp
 ---
 
 We’re proud to present the latest release on Oysterdale Records: **Sebastian Emes featuring Bruna Santana**.
