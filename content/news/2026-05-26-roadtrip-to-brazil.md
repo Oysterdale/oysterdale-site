@@ -12,7 +12,7 @@ excerpt: ''
 image: /uploads/weekly-pearls-002-roadtrip-to-brazil.webp
 ---
 
-We’re proud to present the latest release on Oysterdale Records: **Sebastian Emes featuring Bruna Santana**.
+We're proud to present **"Roadtrip To Brazil"** — the latest release on Oysterdale Records from **Sebastian Emes featuring Bruna Santana**.
 
 Sebastian Emes has already made his mark through releases on labels like Peppermint Jam Records and of course Oysterdale Records, consistently delivering groove-driven house music with character, soul and musicality. On this release, he takes things in a more tropical direction — blending Disco-House energy with Brazilian influences, warm instrumentation and a proper summer feel that actually makes you want to roll the windows down.
 
