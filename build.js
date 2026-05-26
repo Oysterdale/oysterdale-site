@@ -332,17 +332,22 @@ function generateNewsIndex(posts) {
   ` : "";
   
   // List posts HTML (clean, no cards)
-  const listHTML = listPosts.map(post => `
-    <li class="news-list-item">
-      <a href="/news/${post.slug}/" class="news-list-link">
-        <div class="news-list-meta">
-          <time datetime="${post.date}">${formatDate(post.date)}</time>
-          <span class="category">${post.category}</span>
-        </div>
-        <h3>${post.title}</h3>
-        <p>${post.excerpt}</p>
+  const cardsHTML = listPosts.map(post => `
+    <article class="news-card">
+      <a href="/news/${post.slug}/" class="news-card-link">
+        <figure class="news-card-figure">
+          ${post.image ? `<img src="${post.image}" alt="${post.title}" class="news-card-image" loading="lazy">` : ""}
+          <figcaption>
+            <div class="news-card-meta">
+              <time datetime="${post.date}">${formatDate(post.date)}</time>
+              <span class="category">${post.category}</span>
+            </div>
+            <h3>${post.title}</h3>
+            <p>${post.excerpt}</p>
+          </figcaption>
+        </figure>
       </a>
-    </li>
+    </article>
   `).join("\n");
 
   const html = `<!DOCTYPE html>
@@ -413,9 +418,14 @@ function generateNewsIndex(posts) {
     <div class="news-grid">
       ${featuredHTML}
       
-      <ul class="news-list">
-        ${listHTML}
-      </ul>
+      <div class="news-scroll-container-wrapper">
+        <h2 class="news-section-title">More News</h2>
+        <button class="scroll-btn scroll-left" aria-label="Scroll left">&#8249;</button>
+        <div class="news-scroll-container">
+          ${cardsHTML}
+        </div>
+        <button class="scroll-btn scroll-right" aria-label="Scroll right">&#8250;</button>
+      </div>
     </div>
     
     ${posts.length > 10 ? `<p class="archive-link"><a href="/news/archive/">View all ${posts.length} posts →</a></p>` : ""}
