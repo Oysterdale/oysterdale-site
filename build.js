@@ -403,7 +403,7 @@ function generateNewsIndex(posts) {
   <main class="news-index">
     <header class="page-header">
       <h1>News</h1>
-      <p class="subtitle">Weekly pearls from the house and disco underground</p>
+      <p class="subtitle">Weekly pearls from the house and disco scene</p>
     </header>
     
     <div class="news-grid">
@@ -463,7 +463,7 @@ function generateRSS(posts) {
   <channel>
     <title>Oysterdale Records News</title>
     <link>${siteUrl}/news/</link>
-    <description>Weekly pearls from the house and disco underground – news, releases, and updates from Oysterdale Records.</description>
+    <description>Weekly pearls from the house and disco scene – news, releases, and updates from Oysterdale Records.</description>
     <language>en</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${siteUrl}/news/rss.xml" rel="self" type="application/rss+xml"/>
