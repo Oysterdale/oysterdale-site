@@ -266,16 +266,51 @@
   color: #fff;
   margin-bottom: 1rem;
   padding-left: 0.5rem;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .news-section-title {
+    text-align: center;
+    padding-left: 0;
+  }
 }
 
 @media (max-width: 768px) {
   .news-card {
-    flex: 0 0 calc(50% - .75rem);
-    min-width: 260px;
+    flex: 0 0 calc(85% - 1rem);
+    min-width: 280px;
+    max-width: 340px;
   }
   
   .scroll-btn {
     display: none;
+  }
+  
+  .news-section-title {
+    text-align: center;
+    padding-left: 0;
+  }
+  
+  .news-scroll-container-wrapper {
+    padding: 0 20px;
+  }
+  
+  /* Scroll hint gradient */
+  .news-scroll-container-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 60px;
+    background: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
+    pointer-events: none;
+    z-index: 5;
+  }
+  
+  .news-scroll-container {
+    padding-right: 40px;
   }
 }
 
