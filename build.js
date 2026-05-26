@@ -224,6 +224,7 @@ function generateNewsPostPage(post) {
   ${post.tags.map(tag => `<meta property="article:tag" content="${tag}">`).join("\n  ")}
   
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles-news-page.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -360,6 +361,7 @@ function generateNewsIndex(posts) {
   
   <link rel="alternate" type="application/rss+xml" title="Oysterdale Records News" href="/news/rss.xml">
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles-news-page.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -583,30 +585,40 @@ function injectSEO() {
       ["og:title", ogTitle],
       ["og:description", ogDesc]
     ];
-    if (ogImage) {
-      ogPairs.push(["og:image", ogImage]);
-      ogPairs.push(["og:image:width", "1200"]);
-      ogPairs.push(["og:image:height", "630"]);
-    }
-    ogPairs.forEach(([prop, val]) => {
-      const m = document.createElement("meta");
-      m.setAttribute("property", prop);
-      m.setAttribute("content", val);
-      document.head.appendChild(m);
+
+    ogPairs.forEach(([prop, content]) => {
+      const meta = document.createElement("meta");
+      meta.setAttribute("property", prop);
+      meta.setAttribute("content", content);
+      document.head.appendChild(meta);
     });
 
+    if (ogImage) {
+      const metaImg = document.createElement("meta");
+      metaImg.setAttribute("property", "og:image");
+      metaImg.setAttribute("content", ogImage);
+      document.head.appendChild(metaImg);
+    }
+
     const twPairs = [
-      ["twitter:card", ogImage ? "summary_large_image" : "summary"],
+      ["twitter:card", "summary"],
       ["twitter:title", ogTitle],
       ["twitter:description", ogDesc]
     ];
-    if (ogImage) twPairs.push(["twitter:image", ogImage]);
-    twPairs.forEach(([name, val]) => {
-      const m = document.createElement("meta");
-      m.setAttribute("name", name);
-      m.setAttribute("content", val);
-      document.head.appendChild(m);
+
+    twPairs.forEach(([name, content]) => {
+      const meta = document.createElement("meta");
+      meta.setAttribute("name", name);
+      meta.setAttribute("content", content);
+      document.head.appendChild(meta);
     });
+
+    if (ogImage) {
+      const metaTwImg = document.createElement("meta");
+      metaTwImg.setAttribute("name", "twitter:image");
+      metaTwImg.setAttribute("content", ogImage);
+      document.head.appendChild(metaTwImg);
+    }
 
     fs.writeFileSync(htmlPath, dom.serialize(), "utf8");
     console.log("Injected SEO into:", page.html);
@@ -622,21 +634,15 @@ function build() {
   // Step 1: Generate news pages
   console.log("Step 1: Generating news pages...");
   const posts = getNewsPosts();
-  if (posts.length > 0) {
-    posts.forEach(generateNewsPostPage);
-    generateNewsIndex(posts);
-    generateRSS(posts);
-  } else {
-    console.log("No news posts found in content/news/");
-    // Create empty news index
-    generateNewsIndex([]);
-  }
+  posts.forEach(generateNewsPostPage);
+  generateNewsIndex(posts);
+  generateRSS(posts);
   
   // Step 2: Update navigation
   console.log("\nStep 2: Updating navigation...");
   updateNavigation();
   
-  // Step 3: Inject SEO (original functionality)
+  // Step 3: Inject SEO
   console.log("\nStep 3: Injecting SEO metadata...");
   injectSEO();
   
@@ -646,4 +652,5 @@ function build() {
   console.log("RSS feed: /news/rss.xml");
 }
 
+// Run build
 build();
