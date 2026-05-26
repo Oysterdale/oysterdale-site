@@ -443,6 +443,21 @@ function generateNewsIndex(posts) {
     <p>© ${new Date().getFullYear()} Oysterdale Records. All rights reserved.</p>
     <p><a href="/privacy">Privacy Policy</a></p>
   </footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const container = document.querySelector(".news-scroll-container");
+      const leftBtn = document.querySelector(".scroll-left");
+      const rightBtn = document.querySelector(".scroll-right");
+      if (container && leftBtn && rightBtn) {
+        leftBtn.addEventListener("click", function() {
+          container.scrollBy({ left: -container.clientWidth * 0.8, behavior: "smooth" });
+        });
+        rightBtn.addEventListener("click", function() {
+          container.scrollBy({ left: container.clientWidth * 0.8, behavior: "smooth" });
+        });
+      }
+    });
+  </script>
 </body>
 </html>`;
 
