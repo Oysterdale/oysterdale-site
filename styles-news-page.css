@@ -128,7 +128,8 @@
 
 .news-scroll-outer {
   position: relative;
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
   overflow: visible;
 }
 
@@ -250,11 +251,11 @@
 }
 
 .scroll-btn.scroll-left {
-  left: 10px;
+  left: 20px;
 }
 
 .scroll-btn.scroll-right {
-  right: 10px;
+  right: 20px;
 }
 
 .news-section-title {
