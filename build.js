@@ -419,8 +419,8 @@ function generateNewsIndex(posts) {
       ${featuredHTML}
       
       <div class="news-scroll-container-wrapper">
-        <h2 class="news-section-title">More News</h2>
-        <button class="scroll-btn scroll-left" aria-label="Scroll left">&#8249;</button>
+        <h2 class="news-section-title" style="color:#fff">More News</h2>
+        <button class="scroll-btn scroll-left" aria-label="Scroll left" style="background:transparent;border:none;color:#fff;font-size:28px;opacity:0.8">&#8249;</button>
         <div class="news-scroll-container">
           ${cardsHTML}
         </div>
