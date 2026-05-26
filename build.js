@@ -170,7 +170,7 @@ function getNewsPosts() {
       author: frontmatter.author || "Oysterdale Records",
       category: frontmatter.category || "news",
       tags: frontmatter.tags || [],
-      excerpt: frontmatter.excerpt || body.substring(0, 200) + "...",
+      excerpt: frontmatter.excerpt || body.substring(0, 250).replace(/\*\*/g, '').replace(/\*/g, '') + "...",
       image: frontmatter.image || "",
       seo: frontmatter.seo || {},
       body
