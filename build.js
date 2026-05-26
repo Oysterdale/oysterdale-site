@@ -418,6 +418,7 @@ function generateNewsIndex(posts) {
     <div class="news-grid">
       ${featuredHTML}
       
+      <div class="news-scroll-outer">
       <div class="news-scroll-container-wrapper">
         <h2 class="news-section-title" style="color:#fff">More News</h2>
         <button class="scroll-btn scroll-left" aria-label="Scroll left" style="background:transparent;border:none;color:#fff;font-size:28px;opacity:0.8">&#8249;</button>
@@ -425,6 +426,7 @@ function generateNewsIndex(posts) {
           ${cardsHTML}
         </div>
         <button class="scroll-btn scroll-right" aria-label="Scroll right">&#8250;</button>
+      </div>
       </div>
     </div>
     
