@@ -232,6 +232,11 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
 .release-cover{
   width:100%;aspect-ratio:1/1;object-fit:cover;
   border-radius:10px;margin:.3rem 0 .8rem;
+  transition:transform .3s ease;
+}
+
+.release:hover .release-cover{
+  transform:scale(1.05);
 }
 
 /* Platform icons */
