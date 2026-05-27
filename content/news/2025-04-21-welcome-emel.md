@@ -24,23 +24,12 @@ Stay tuned — we're just getting started.
 
 ***
 
-<div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin:2rem 0;">
-
-<div style="text-align:center;max-width:200px;">
-<a href="/releases/get-on-up-feat-em%C3%A9l/">
-<img src="/uploads/Get_On_Up_400x400.webp" alt="Get On Up" style="width:100%;border-radius:8px;">
+<p style="text-align:center;">
+<a href="/artists/emel/" style="display:inline-flex;align-items:center;gap:12px;padding:14px 28px;background:rgba(107,76,122,0.3);border:1px solid rgba(155,123,184,0.5);border-radius:999px;color:#fff;text-decoration:none;font-size:1rem;">
+<img src="/uploads/Emel_600x600.webp" alt="Emél" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+<span>Se Emél's artist page og alle releaser →</span>
 </a>
-<p style="margin-top:0.5rem;"><a href="/releases/get-on-up-feat-em%C3%A9l/"><strong>Get On Up</strong></a><br>OKPLUS feat. Emél</p>
-</div>
-
-<div style="text-align:center;max-width:200px;">
-<a href="/releases/don%C2%B4t-hold-me-back/">
-<img src="/uploads/DHMB_COVER.webp" alt="Don't Hold Me Back" style="width:100%;border-radius:8px;">
-</a>
-<p style="margin-top:0.5rem;"><a href="/releases/don%C2%B4t-hold-me-back/"><strong>Don't Hold Me Back</strong></a><br>MINIJACK feat. Emél & EL 360</p>
-</div>
-
-</div>
+</p>
 
 ***
 
