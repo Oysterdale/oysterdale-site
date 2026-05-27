@@ -88,7 +88,7 @@
     <h1>Artists</h1>
 
     <section style="margin:30px 0 10px;">
-      <h2>Oysterdale Family</h2>
+      <h2>Oysterdale Roster</h2>
     </section>
     <div class="releases-grid" id="family"></div>
 
@@ -271,7 +271,7 @@
         const collaborators = items.filter(a => !/signed/i.test(a.status || ""));
 
         document.getElementById("family").innerHTML =
-          family.map(card).join("") || '<p style="opacity:.6;margin-left:8px;">No signed artists yet.</p>';
+          family.map(card).join("") || '<p style="opacity:.6;margin-left:8px;">No roster artists yet. Edit an artist .md file and set status: signed</p>';
 
         document.getElementById("collaborators").innerHTML =
           collaborators.map(card).join("") || '<p style="opacity:.6;margin-left:8px;">No collaborators yet.</p>';
