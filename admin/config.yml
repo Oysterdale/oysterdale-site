@@ -349,6 +349,14 @@ collections:
         options:
           - { label: "Producer / Main Artist", value: "producer" }
           - { label: "Vocalist", value: "vocalist" }
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Collaborator / Guest", value: "collaborator" }
+          - { label: "Oysterdale Roster (Signed)", value: "signed" }
+        default: "collaborator"
+        hint: "Collaborators vises under 'Collaborators & Guests', Roster-artister vises under 'Oysterdale Roster' med badge."
       - label: "Profile Image"
         name: "image"
         widget: "image"
