@@ -15,7 +15,6 @@ credits:
   vocals: []
   mixing:
     - Anthony Chase
-    - Kevin Vadsten
   mastering:
     - Sam Wills at Wired Masters
   co_producer: []
