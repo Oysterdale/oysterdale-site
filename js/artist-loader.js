@@ -110,30 +110,21 @@ function parseFrontmatter(md) {
 // Load all releases for cross-referencing
 async function loadReleases() {
   try {
-    // Fallback: try common release files
-    const commonReleases = [
-      'get-on-up.md', 'dont-hold-me-back.md', 'get-on-up-remixes.md',
-      'get-on-up-extended.md', 'ill-be-gone.md', 'ill-be-gone-extended.md',
-      'get-on-up-dub.md', 'get-on-up-minijack-remix.md'
-    ];
+    // Use local releases.json (avoids GitHub API rate limits)
+    const response = await fetch('/releases.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('releases.json not found');
+    const releases = await response.json();
     
-    const releases = await Promise.all(
-      commonReleases.map(async filename => {
-        try {
-          const md = await fetch(`https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/releases/${filename}`).then(r => {
-            if (!r.ok) return null;
-            return r.text();
-          });
-          if (!md) return null;
-          const { data } = parseFrontmatter(md);
-          return { data, slug: filename.replace('.md', '') };
-        } catch (e) {
-          return null;
-        }
-      })
-    );
-    
-    return releases.filter(r => r !== null);
+    return releases.map(r => ({
+      data: {
+        title: r.title,
+        artists: r.artists || [],
+        cover: r.cover,
+        date: r.date,
+        catalog: r.catalog
+      },
+      slug: r.slug
+    }));
   } catch (e) {
     console.error('Error loading releases:', e);
     return [];
