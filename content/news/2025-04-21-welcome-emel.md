@@ -24,11 +24,8 @@ Stay tuned — we're just getting started.
 
 ***
 
-<p style="text-align:center;">
-<a href="/artists/emel/" style="display:inline-flex;align-items:center;gap:12px;padding:14px 28px;background:rgba(107,76,122,0.3);border:1px solid rgba(155,123,184,0.5);border-radius:999px;color:#fff;text-decoration:none;font-size:1rem;">
-<img src="/uploads/Emel_600x600.webp" alt="Emél" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
-<span>Se Emél's artist page og alle releaser →</span>
-</a>
+<p style="text-align:center;margin:1.5rem 0;">
+<a href="/artists/emel/" style="color:#9b7bb8;text-decoration:underline;font-size:1rem;">View all of Emél's releases on her artist page →</a>
 </p>
 
 ***
