@@ -20,6 +20,28 @@ Emél represents exactly why we started Oysterdale. Not just to release records,
 
 Stay tuned — we're just getting started.
 
+## Emél's Oysterdale Releases
+
+***
+
+<div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin:2rem 0;">
+
+<div style="text-align:center;max-width:200px;">
+<a href="/releases/get-on-up-feat-em%C3%A9l/">
+<img src="/uploads/Get_On_Up_400x400.webp" alt="Get On Up" style="width:100%;border-radius:8px;">
+</a>
+<p style="margin-top:0.5rem;"><a href="/releases/get-on-up-feat-em%C3%A9l/"><strong>Get On Up</strong></a><br>OKPLUS feat. Emél</p>
+</div>
+
+<div style="text-align:center;max-width:200px;">
+<a href="/releases/don%C2%B4t-hold-me-back/">
+<img src="/uploads/DHMB_COVER.webp" alt="Don't Hold Me Back" style="width:100%;border-radius:8px;">
+</a>
+<p style="margin-top:0.5rem;"><a href="/releases/don%C2%B4t-hold-me-back/"><strong>Don't Hold Me Back</strong></a><br>MINIJACK feat. Emél & EL 360</p>
+</div>
+
+</div>
+
 ***
 
 ## While You Wait: This Week's Pearls

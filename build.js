@@ -112,39 +112,63 @@ function slugify(text) {
 // Simple markdown to HTML converter
 function markdownToHTML(md) {
   const hrRegex = /^(?:---|\*\*\*|___)\s*$/gim;
-  
+
   // Split by horizontal rules
   const parts = md.split(hrRegex);
   const hrs = md.match(hrRegex) || [];
-  
+
   let result = "";
-  
+
   parts.forEach((part, i) => {
-    let html = part.trim()
-      // Headers
-      .replace(/^### (.*$)/gim, "<h3>$1</h3>")
-      .replace(/^## (.*$)/gim, "<h2>$1</h2>")
-      .replace(/^# (.*$)/gim, "<h1>$1</h1>")
-      // Bold/Italic
-      .replace(/\*\*\*(.*?)\*\*\*/g, "<strong><em>$1</em></strong>")
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      // Links
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-      // Paragraphs
-      .replace(/\n\n/g, "</p><p>")
-      // Line breaks
-      .replace(/\n/g, "<br>");
-    
-    if (html) {
-      result += "<p>" + html + "</p>";
+    const trimmed = part.trim();
+    if (!trimmed) return;
+
+    // If the entire part looks like a single HTML block, pass it through raw
+    const isHTMLBlock =
+      /^<([a-zA-Z][a-zA-Z0-9]*)[^>]*>[\s\S]*<\/\1>\s*$/.test(trimmed) ||
+      /^<[a-zA-Z][^>]*\/>\s*$/.test(trimmed);
+
+    let html;
+    if (isHTMLBlock) {
+      // Convert bold/italic/links inside HTML text nodes
+      html = trimmed
+        .replace(/>([^<]*?)\*\*\*([^<]*?)\*\*\*([^<]*?)</g, ">$1<strong><em>$2</em></strong>$3<")
+        .replace(/>([^<]*?)\*\*([^<]*?)\*\*([^<]*?)</g, ">$1<strong>$2</strong>$3<")
+        .replace(/>([^<]*?)\*([^<]*?)\*([^<]*?)</g, ">$1<em>$2</em>$3<")
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+    } else {
+      html = trimmed
+        // Headers
+        .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+        .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+        .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+        // Bold/Italic
+        .replace(/\*\*\*(.*?)\*\*\*/g, "<strong><em>$1</em></strong>")
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.*?)\*/g, "<em>$1</em>")
+        // Images
+        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">')
+        // Links
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+        // Paragraphs
+        .replace(/\n\n/g, "</p><p>")
+        // Line breaks
+        .replace(/\n/g, "<br>");
     }
-    
+
+    if (html) {
+      if (isHTMLBlock) {
+        result += html;
+      } else {
+        result += "<p>" + html + "</p>";
+      }
+    }
+
     if (i < hrs.length) {
       result += "<hr>";
     }
   });
-  
+
   return result;
 }
 
