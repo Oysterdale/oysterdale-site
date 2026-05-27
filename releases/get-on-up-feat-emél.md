@@ -12,7 +12,7 @@ credits:
   vocals:
     - Emél
   mixing:
-    - Kevin Vadsten
+    - Sam Wills at Wired Masters
   mastering:
     - Sam Wills at Wired Masters
 links:
