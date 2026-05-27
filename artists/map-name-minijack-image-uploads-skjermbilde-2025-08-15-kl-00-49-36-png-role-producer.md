@@ -1,6 +1,7 @@
 ---
 name: MINIJACK
 role: producer
+status: signed
 image: /uploads/Minijack_600x600.webp
 bio: |-
   MINIJACK is a producer and DJ duo from Oslo, brought together by a shared obsession with rhythm, groove, and the emotional pull of dance music. Since teaming up, they’ve carved out a sound that feels both effortless and intentional.

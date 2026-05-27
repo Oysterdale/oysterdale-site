@@ -88,14 +88,14 @@
     <h1>Artists</h1>
 
     <section style="margin:30px 0 10px;">
-      <h2>Producers</h2>
+      <h2>Oysterdale Family</h2>
     </section>
-    <div class="releases-grid" id="producers"></div>
+    <div class="releases-grid" id="family"></div>
 
     <section style="margin:40px 0 10px;">
-      <h2>Vocalists</h2>
+      <h2>Collaborators & Guests</h2>
     </section>
-    <div class="releases-grid" id="vocalists"></div>
+    <div class="releases-grid" id="collaborators"></div>
 
     <!-- NEWSLETTER SIGNUP -->
     <section id="newsletter-section" style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);">
@@ -242,6 +242,9 @@
     function card(a){
       const name = a.name || a.title || "";
       const img  = a.image || a.photo || "";
+      const role = a.role || "";
+      const isSigned = /signed/i.test(a.status || "");
+      const badge = isSigned ? `<span style="display:inline-block;margin-top:6px;padding:3px 10px;background:rgba(155,123,184,0.25);border:1px solid rgba(155,123,184,0.4);border-radius:999px;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#cbb8d8;">Oysterdale Family</span>` : "";
 
       const artistSlug = a.name.toLowerCase().replace(/\s+/g, '-');
       return `
@@ -249,6 +252,8 @@
           <a href="/artists/${artistSlug}/" class="artist-link">
             ${imgTag(img, name)}
             <h3>${name}</h3>
+            ${role ? `<p style="margin:4px 0 0;font-size:13px;opacity:.55;text-transform:capitalize;">${role}</p>` : ""}
+            ${badge}
           </a>
         </div>
       `;
@@ -262,14 +267,14 @@
           return parseFrontmatter(md).data;
         }));
 
-        const producers = items.filter(a => /producer/i.test(a.role || ""));
-        const vocalists = items.filter(a => /vocal/i.test(a.role || ""));
+        const family = items.filter(a => /signed/i.test(a.status || ""));
+        const collaborators = items.filter(a => !/signed/i.test(a.status || ""));
 
-        document.getElementById("producers").innerHTML =
-          producers.map(card).join("");
+        document.getElementById("family").innerHTML =
+          family.map(card).join("") || '<p style="opacity:.6;margin-left:8px;">No signed artists yet.</p>';
 
-        document.getElementById("vocalists").innerHTML =
-          vocalists.map(card).join("");
+        document.getElementById("collaborators").innerHTML =
+          collaborators.map(card).join("") || '<p style="opacity:.6;margin-left:8px;">No collaborators yet.</p>';
 
       }catch(e){console.error(e);}
     })();

@@ -1,6 +1,7 @@
 ---
 name: Roman Blum
 role: producer
+status: collaborator
 image: /uploads/Roman_Blum_600x600.webp
 bio: ''
 spotify: https://open.spotify.com/artist/1hxSHYNdiW9sgVQQNPptD0

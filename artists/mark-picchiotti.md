@@ -1,6 +1,7 @@
 ---
 name: Mark Picchiotti
 role: producer
+status: collaborator
 image: /uploads/Mark_Picchiotti_600x600.webp
 bio: ''
 spotify: https://open.spotify.com/artist/6mfoAawlriO9xRqOQGAIfM

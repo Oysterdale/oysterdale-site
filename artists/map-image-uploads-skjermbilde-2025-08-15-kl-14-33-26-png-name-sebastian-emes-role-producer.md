@@ -1,6 +1,7 @@
 ---
 name: Sebastian Emes
 role: producer
+status: collaborator
 image: /uploads/Sebastian_Emes_600x600.webp
 bio: |-
   Sebastian Emes is a Norwegian DJ and producer, known for capturing immediate emotion in his music, a quality that has become his signature sound.

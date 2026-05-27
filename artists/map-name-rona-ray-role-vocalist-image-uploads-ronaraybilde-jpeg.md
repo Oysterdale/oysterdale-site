@@ -1,6 +1,7 @@
 ---
 name: Rona Ray
 role: vocalist
+status: collaborator
 image: /uploads/Rona_Ray_600x600.webp
 bio: ''
 spotify: https://open.spotify.com/artist/3kirHdB9pQSMLSgLCgVp1P

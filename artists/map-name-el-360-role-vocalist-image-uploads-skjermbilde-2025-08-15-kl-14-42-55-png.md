@@ -1,6 +1,7 @@
 ---
 name: EL 360
 role: vocalist
+status: collaborator
 image: /uploads/EL360.webp
 bio: ''
 spotify: https://open.spotify.com/artist/22EGLr1GE5um7p8EVmbROT

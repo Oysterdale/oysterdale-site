@@ -1,6 +1,7 @@
 ---
 name: Art Of Tones
 role: producer
+status: collaborator
 image: /uploads/AOT_600x600.webp
 bio: ''
 contact_email: ''

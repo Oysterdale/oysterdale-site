@@ -1,6 +1,7 @@
 ---
 name: Elise Lizz
 role: vocalist
+status: collaborator
 image: /uploads/output.webp
 bio: ''
 spotify: https://open.spotify.com/artist/6CQNhuYALSQcjbLUrdN8Sp

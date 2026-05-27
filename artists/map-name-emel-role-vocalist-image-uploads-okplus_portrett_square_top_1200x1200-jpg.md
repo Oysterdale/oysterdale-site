@@ -1,6 +1,7 @@
 ---
 name: Emél
 role: vocalist
+status: signed
 image: /uploads/Emel_600x600.webp
 bio: |-
   Emél is a Norwegian-Bosnian artist and songwriter known for her distinctive voice, songwriting skills, and natural sense of groove.
