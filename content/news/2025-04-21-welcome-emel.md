@@ -20,13 +20,18 @@ Emél represents exactly why we started Oysterdale. Not just to release records,
 
 Stay tuned — we're just getting started.
 
-## Emél's Oysterdale Releases
+## Emél's Artist Page
 
 ***
 
-<p style="text-align:center;margin:1.5rem 0;">
-<a href="/artists/emel/" style="color:#9b7bb8;text-decoration:underline;font-size:1rem;">View all of Emél's releases on her artist page →</a>
-</p>
+<div style="text-align:center;margin:1.5rem 0;">
+<a href="/artists/emel/" class="artist-link" style="text-decoration:none;color:inherit;display:inline-block;">
+<div style="max-width:200px;margin:0 auto;">
+<img src="/uploads/Emel_600x600.webp" alt="Emél" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;" loading="lazy" decoding="async">
+</div>
+<p style="margin-top:0.75rem;font-size:1rem;"><strong>View Emél's artist page →</strong></p>
+</a>
+</div>
 
 ***
 
