@@ -27,12 +27,10 @@ links:
   deezer_url: https://link.deezer.com/s/30RsZKxTAnrjKdnMgkiU8
 ---
 
-***
-
-_Get On Up_ by OKPLUS and Emél is a strong disco house track made for dance floors.
+**Get On Up** by **OKPLUS** and **Emél** is a strong disco house track made for dance floors.
 
 Live instrumentation runs through the whole track — brass, strings, keys, guitar, bass, percussion — giving it a warm, organic feel and a groove that blends naturally with the club-focused production.
 
-The track has proven itself where it counts, with strong support from DJs like Michael Gray, Dave Lee, Sgt. Slick, Da Lukas, Dr. Packer, N.W.N., and Birdee.
+The track has proven itself where it counts, with strong support from DJs like **Michael Gray, Dave Lee, Sgt. Slick, Da Lukas, Dr. Packer, N.W.N., and Birdee.**
 
 Get On Up have been topping charts on Traxsource for months and getting played on clubs and radio stations globally.
