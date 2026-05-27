@@ -15,10 +15,10 @@ credits:
   remix:
     - Mark Picchiotti
   composer: []
-  remixer:
-    - Mark Picchiotti
   original_producer:
     - OKPLUS
+  remixer:
+    - Mark Picchiotti
 links:
   spotify_url: https://open.spotify.com/album/4n1cYATidm1ZVbdKa19zyh?si=1ObInNjsSNq-WofGATlNGQ
   apple_music_url: https://music.apple.com/no/album/get-on-up-mark-picchiotti-remix-single/1851276491?l=nb
@@ -38,7 +38,7 @@ seo:
   og_image: ''
 ---
 
-Mark Picchiotti — a true legend with roots in Chicago’s house music history — brings decades of experience to _Get On Up_.
+**Mark Picchiotti** — a true legend with roots in Chicago’s house music history — brings decades of experience to **Get On Up**.
 
 A pioneer of the scene, Picchiotti has built a legacy through productions and remixes for artists like Madonna, Beyoncé, and Michael Jackson, alongside releases on iconic labels such as Defected, Positiva, and Strictly Rhythm. That heritage is fully present in this rework.
 
