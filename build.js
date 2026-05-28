@@ -283,6 +283,8 @@ function generateNewsPostPage(post) {
         <a href="https://www.youtube.com/@OysterdaleRecords" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><i class="fab fa-youtube"></i></a>
         <a href="https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am" target="_blank" rel="noopener" aria-label="Spotify" title="Spotify"><i class="fab fa-spotify"></i></a>
         <a href="https://www.twitch.tv/oysterdalerecords" target="_blank" rel="noopener" aria-label="Twitch" title="Twitch"><i class="fab fa-twitch"></i></a>
+        <a href="https://soundcloud.com/oysterdale-records" target="_blank" rel="noopener" aria-label="SoundCloud" title="SoundCloud"><i class="fab fa-soundcloud"></i></a>
+        <a href="https://www.mixcloud.com/OysterdaleRecords/" target="_blank" rel="noopener" aria-label="Mixcloud" title="Mixcloud"><i class="fab fa-mixcloud"></i></a>
       </div>
     </nav>
   </header>
@@ -431,6 +433,8 @@ function generateNewsIndex(posts) {
         <a href="https://www.youtube.com/@OysterdaleRecords" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><i class="fab fa-youtube"></i></a>
         <a href="https://open.spotify.com/user/312r3ae6wsblyvtxnq6p5d7am" target="_blank" rel="noopener" aria-label="Spotify" title="Spotify"><i class="fab fa-spotify"></i></a>
         <a href="https://www.twitch.tv/oysterdalerecords" target="_blank" rel="noopener" aria-label="Twitch" title="Twitch"><i class="fab fa-twitch"></i></a>
+        <a href="https://soundcloud.com/oysterdale-records" target="_blank" rel="noopener" aria-label="SoundCloud" title="SoundCloud"><i class="fab fa-soundcloud"></i></a>
+        <a href="https://www.mixcloud.com/OysterdaleRecords/" target="_blank" rel="noopener" aria-label="Mixcloud" title="Mixcloud"><i class="fab fa-mixcloud"></i></a>
       </div>
     </nav>
   </header>
