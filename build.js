@@ -315,7 +315,9 @@ function generateNewsPostPage(post) {
 
   <footer>
     <div class="footer-logo">
-      <img src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74" alt="Oysterdale Records Logo" class="footer-logo-img" width="260" height="260" loading="lazy">
+      <a href="/" aria-label="Home">
+        <img src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74" alt="Oysterdale Records Logo" class="footer-logo-img" width="260" height="260" loading="lazy">
+      </a>
     </div>
 
     <p>© ${new Date().getFullYear()} Oysterdale Records. All rights reserved.</p>
@@ -461,7 +463,9 @@ function generateNewsIndex(posts) {
 
   <footer>
     <div class="footer-logo">
-      <img src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74" alt="Oysterdale Records Logo" class="footer-logo-img" width="260" height="260" loading="lazy">
+      <a href="/" aria-label="Home">
+        <img src="/.netlify/images?url=/uploads/OysterdaleRecords_white_logo.png&w=260&h=260&fit=contain&fm=webp&q=74" alt="Oysterdale Records Logo" class="footer-logo-img" width="260" height="260" loading="lazy">
+      </a>
     </div>
 
     <p>© ${new Date().getFullYear()} Oysterdale Records. All rights reserved.</p>
