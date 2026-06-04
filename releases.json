@@ -1,5 +1,16 @@
 [
   {
+    "slug": "roadtrip-to-brazil",
+    "title": "Roadtrip To Brazil",
+    "artists": [
+      "Sebastian Emes",
+      "Bruna Santana"
+    ],
+    "date": "2026-05-26",
+    "cover": "/uploads/roadtrip-to-brazil-cover.webp",
+    "catalog": "OYSTR260XX"
+  },
+  {
     "slug": "get-on-up-art-of-tones-remix",
     "title": "Get On Up (Art Of Tones Remix)",
     "artists": [

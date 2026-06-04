@@ -18,14 +18,14 @@ const NEWSLETTER_SECTION = `
     <section id="newsletter-section" style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);">
       <h2>Join the Crew</h2>
       <p style="opacity:.7;margin-bottom:1.5rem;">Get weekly pearls delivered to your inbox. No spam, just groove.</p>
-      
+
       <!-- Success message (hidden by default) -->
       <div id="newsletter-success" style="display:none;max-width:480px;text-align:center;background:rgba(107,76,122,0.3);border:1px solid rgba(155,123,184,0.5);border-radius:12px;padding:20px;">
         <div style="font-size:32px;margin-bottom:8px;">✅</div>
         <h3 style="margin:0 0 0.5rem;color:#fff;">Welcome to the crew!</h3>
         <p style="margin:0;opacity:0.9;">Thank you for joining the family. Watch your inbox for weekly pearls.</p>
       </div>
-      
+
       <form id="newsletter-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:480px;display:flex;flex-direction:column;gap:16px;">
         <p style="display:none;">
           <label>Don't fill this out: <input name="bot-field"></label>
@@ -68,11 +68,11 @@ function readJSON(p) {
 function readMarkdown(filePath) {
   if (!fs.existsSync(filePath)) return null;
   const content = fs.readFileSync(filePath, "utf8");
-  
+
   // Parse frontmatter
   const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!match) return null;
-  
+
   try {
     const frontmatter = yaml.load(match[1]);
     const body = match[2].trim();
@@ -176,16 +176,16 @@ function markdownToHTML(md) {
 function getNewsPosts() {
   ensureDir(NEWS_DIR);
   const files = fs.readdirSync(NEWS_DIR).filter(f => f.endsWith(".md"));
-  
+
   const posts = files.map(file => {
     const filePath = path.join(NEWS_DIR, file);
     const parsed = readMarkdown(filePath);
     if (!parsed) return null;
-    
+
     const { frontmatter, body } = parsed;
     const slug = slugify(frontmatter.title || file.replace(".md", ""));
     const date = frontmatter.date || new Date().toISOString();
-    
+
     return {
       file,
       slug,
@@ -200,7 +200,7 @@ function getNewsPosts() {
       body
     };
   }).filter(Boolean);
-  
+
   // Sort by date (newest first)
   return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
@@ -209,17 +209,17 @@ function getNewsPosts() {
 function generateNewsPostPage(post) {
   const pageDir = path.join(NEWS_BUILD_DIR, post.slug);
   ensureDir(pageDir);
-  
+
   const pageUrl = `${siteUrl}/news/${post.slug}/`;
   const imageUrl = post.image ? toAbsolute(post.image) : "";
-  
+
   // Use SEO from frontmatter or defaults
   const metaTitle = post.seo.meta_title || post.title;
   const metaDesc = post.seo.meta_description || post.excerpt;
   const ogTitle = post.seo.og_title || metaTitle;
   const ogDesc = post.seo.og_description || metaDesc;
   const ogImage = post.seo.og_image ? toAbsolute(post.seo.og_image) : imageUrl;
-  
+
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -229,26 +229,26 @@ function generateNewsPostPage(post) {
   <meta name="description" content="${metaDesc}">
   <meta name="keywords" content="${post.tags.join(", ")}">
   <link rel="canonical" href="${pageUrl}">
-  
+
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="${pageUrl}">
   <meta property="og:title" content="${ogTitle}">
   <meta property="og:description" content="${ogDesc}">
   ${ogImage ? `<meta property="og:image" content="${ogImage}">` : ""}
-  
+
   <!-- Twitter -->
   <meta name="twitter:card" content="${ogImage ? "summary_large_image" : "summary"}">
   <meta name="twitter:title" content="${ogTitle}">
   <meta name="twitter:description" content="${ogDesc}">
   ${ogImage ? `<meta name="twitter:image" content="${ogImage}">` : ""}
-  
+
   <!-- Article metadata -->
   <meta property="article:published_time" content="${post.date}">
   <meta property="article:author" content="${post.author}">
   <meta property="article:section" content="${post.category}">
   ${post.tags.map(tag => `<meta property="article:tag" content="${tag}">`).join("\n  ")}
-  
+
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/styles-news-page.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -300,13 +300,13 @@ function generateNewsPostPage(post) {
         <p class="post-author">by ${post.author}</p>
         ${post.tags.length ? `<div class="post-tags">${post.tags.map(t => `<span class="tag">${t}</span>`).join(" ")}</div>` : ""}
       </header>
-      
+
       ${imageUrl ? `<figure class="post-image"><img src="${post.image}" alt="${post.title}"></figure>` : ""}
-      
+
       <div class="post-content">
         ${markdownToHTML(post.body)}
       </div>
-      
+
       <footer class="post-footer">
         <a href="/news/" class="back-link">← Back to all news</a>
       </footer>
@@ -335,11 +335,11 @@ function generateNewsPostPage(post) {
 // Generate news index page
 function generateNewsIndex(posts) {
   ensureDir(NEWS_BUILD_DIR);
-  
+
   const recentPosts = posts.slice(0, 10); // Show 10 most recent
   const featuredPost = recentPosts[0]; // First post is featured
   const listPosts = recentPosts.slice(1); // Rest go in list
-  
+
   // Featured post HTML
   const featuredHTML = featuredPost ? `
     <section class="news-hero">
@@ -358,7 +358,7 @@ function generateNewsIndex(posts) {
       </a>
     </section>
   ` : "";
-  
+
   // List posts HTML (clean, no cards)
   const cardsHTML = listPosts.map(post => `
     <article class="news-card">
@@ -384,20 +384,20 @@ function generateNewsIndex(posts) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>News | Oysterdale Records</title>
-  <meta name="description" content="Latest news, weekly house briefs, and updates from Oysterdale Records – a Norwegian house and disco label.">
+  <meta name="description" content="Latest news, weekly house briefs, and updates from Oysterdale Records - a Norwegian house and disco label.">
   <link rel="canonical" href="${siteUrl}/news/">
-  
+
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="${siteUrl}/news/">
   <meta property="og:title" content="News | Oysterdale Records">
   <meta property="og:description" content="Latest news, weekly house briefs, and updates from Oysterdale Records.">
-  
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="News | Oysterdale Records">
   <meta name="twitter:description" content="Latest news, weekly house briefs, and updates from Oysterdale Records.">
-  
+
   <link rel="alternate" type="application/rss+xml" title="Oysterdale Records News" href="/news/rss.xml">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/styles-news-page.css">
@@ -444,10 +444,10 @@ function generateNewsIndex(posts) {
       <h1>News</h1>
       <p class="subtitle">Weekly pearls from the house and disco scene</p>
     </header>
-    
+
     <div class="news-grid">
       ${featuredHTML}
-      
+
       <div class="news-scroll-outer">
       <div class="news-scroll-container-wrapper">
         <h2 class="news-section-title" style="color:#fff">More News</h2>
@@ -459,7 +459,7 @@ function generateNewsIndex(posts) {
       </div>
       </div>
     </div>
-    
+
     ${posts.length > 10 ? `<p class="archive-link"><a href="/news/archive/">View all ${posts.length} posts →</a></p>` : ""}
   </main>
 
@@ -500,11 +500,11 @@ function generateNewsIndex(posts) {
 // Generate RSS feed
 function generateRSS(posts) {
   const recentPosts = posts.slice(0, 20); // RSS shows 20 most recent
-  
+
   const items = recentPosts.map(post => {
     const postUrl = `${siteUrl}/news/${post.slug}/`;
     const date = new Date(post.date).toUTCString();
-    
+
     return `
     <item>
       <title>${post.title}</title>
@@ -526,7 +526,7 @@ function generateRSS(posts) {
   <channel>
     <title>Oysterdale Records News</title>
     <link>${siteUrl}/news/</link>
-    <description>Weekly pearls from the house and disco scene – news, releases, and updates from Oysterdale Records.</description>
+    <description>Weekly pearls from the house and disco scene - news, releases, and updates from Oysterdale Records.</description>
     <language>en</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${siteUrl}/news/rss.xml" rel="self" type="application/rss+xml"/>
@@ -546,28 +546,28 @@ function generateRSS(posts) {
 // Update header navigation in all HTML files to include News link
 function updateNavigation() {
   const htmlFiles = [
-    "index.html", "about.html", "releases.html", 
+    "index.html", "about.html", "releases.html",
     "artists.html", "contact.html", "privacy.html"
   ];
-  
+
   htmlFiles.forEach(file => {
     const filePath = path.join(ROOT, file);
     if (!fs.existsSync(filePath)) return;
-    
+
     let html = fs.readFileSync(filePath, "utf8");
-    
+
     // Check if News link already exists
     if (html.includes('href="/news/"')) {
       console.log("News link already exists in:", file);
       return;
     }
-    
+
     // Add News link to navigation (after Artists, before About)
     html = html.replace(
       /<li><a href="\/artists.html">Artists<\/a><\/li>/,
       `<li><a href="/artists.html">Artists</a></li>\n        <li><a href="/news/">News</a></li>`
     );
-    
+
     fs.writeFileSync(filePath, html, "utf8");
     console.log("Added News link to:", file);
   });
@@ -696,21 +696,31 @@ function injectSEO() {
 function build() {
   console.log("\n=== Oysterdale Records Build ===\n");
   
+  // Step 0: Generate release pages + releases.json
+  console.log("Step 0: Generating release pages...");
+  const releaseScript = path.join(__dirname, "scripts", "generate-release-pages.js");
+  if (fs.existsSync(releaseScript)) {
+    require(releaseScript);
+    console.log("✓ Release pages generated");
+  } else {
+    console.log("⚠ Release script not found, skipping");
+  }
+
   // Step 1: Generate news pages
-  console.log("Step 1: Generating news pages...");
+  console.log("\nStep 1: Generating news pages...");
   const posts = getNewsPosts();
   posts.forEach(generateNewsPostPage);
   generateNewsIndex(posts);
   generateRSS(posts);
-  
+
   // Step 2: Update navigation
   console.log("\nStep 2: Updating navigation...");
   updateNavigation();
-  
+
   // Step 3: Inject SEO
   console.log("\nStep 3: Injecting SEO metadata...");
   injectSEO();
-  
+
   console.log("\n=== Build Complete ===");
   console.log(`Generated ${posts.length} news post(s)`);
   console.log("News index: /news/");

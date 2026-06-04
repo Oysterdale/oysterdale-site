@@ -3,9 +3,9 @@
   <channel>
     <title>Oysterdale Records News</title>
     <link>https://oysterdalerecords.com/news/</link>
-    <description>Weekly pearls from the house and disco scene – news, releases, and updates from Oysterdale Records.</description>
+    <description>Weekly pearls from the house and disco scene - news, releases, and updates from Oysterdale Records.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 28 May 2026 09:13:52 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 04 Jun 2026 23:47:17 GMT</lastBuildDate>
     <atom:link href="https://oysterdalerecords.com/news/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://oysterdalerecords.com/uploads/logo.png</url>
@@ -13,6 +13,24 @@
       <link>https://oysterdalerecords.com</link>
     </image>
     
+    <item>
+      <title>Weekly Pearls — 29 May 2026</title>
+      <link>https://oysterdalerecords.com/news/weekly-pearls-29-may-2026/</link>
+      <guid isPermaLink="true">https://oysterdalerecords.com/news/weekly-pearls-29-may-2026/</guid>
+      <pubDate>Fri, 29 May 2026 00:00:00 GMT</pubDate>
+      <author>Kevin Vadsten</author>
+      <category>news</category>
+      
+      <description><![CDATA[
+        # Weekly Pearls — 29 May 2026
+
+There's a particular frequency that house music hits when the vocals are real, the groove is patient, and the room is dark enough that you stop thinking and start feeling. This week had that frequency in spades.
+
+Jonas ...
+        
+      ]]></description>
+    </item>
+
     <item>
       <title>Emél Joins Oysterdale</title>
       <link>https://oysterdalerecords.com/news/eml-joins-oysterdale/</link>
