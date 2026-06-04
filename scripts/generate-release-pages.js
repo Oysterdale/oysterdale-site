@@ -131,10 +131,15 @@ function generateCreditsHtml(credits) {
   };
 
   const items = Object.entries(credits)
-    .filter(([_, values]) => values && values.length > 0)
+    .filter(([_, values]) => {
+      if (!values) return false;
+      if (Array.isArray(values)) return values.length > 0;
+      if (typeof values === 'string') return values.trim() !== '';
+      return false;
+    })
     .map(([key, values]) => {
       const label = labelMap[key] || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-      const value = values.join(', ');
+      const value = Array.isArray(values) ? values.join(', ') : String(values);
       return `<li><strong>${label}</strong>${value}</li>`;
     })
     .join('\n');
