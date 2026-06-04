@@ -2,7 +2,7 @@
 title: Roadtrip To Brazil (feat. Bruna Santana)
 artists:
   - Sebastian Emes
-date: ''
+date: 2026-06-05
 catalog: OYSTR26001
 cover: /uploads/Roadtrip_To_Brazil_Cover_Final.webp
 credits: null
