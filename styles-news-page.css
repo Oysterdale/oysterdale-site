@@ -336,3 +336,16 @@
   object-position: center center;
   display: block;
 }
+
+/* Links inside post content */
+.post-content a {
+  color: rgba(155,123,184,0.9);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(155,123,184,0.3);
+  transition: border-color .2s, color .2s;
+}
+
+.post-content a:hover {
+  color: #fff;
+  border-bottom-color: rgba(155,123,184,0.8);
+}
