@@ -41,3 +41,5 @@ Both Birdee's original and this remix are funky as hell. You can't stand still w
 
 **Chain Gun (Husky Remix) — Simon Field**
 Australian producer Husky puts his own groovy spin on Simon Field's tech house original.
+
+[Beatport](https://www.beatport.com/track/chain-gun/24330789)
