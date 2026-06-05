@@ -20,6 +20,8 @@ To make the journey complete, the track features the incredible vocals of **Brun
 
 **"Roadtrip To Brazil"** is a celebration of musical cultures meeting on the dancefloor. Uplifting groove and organic instrumentation come together in a track designed for sunsets, open-air parties and late summer nights.
 
+**Traxsource exclusive June 5th — general release June 22nd.**
+
 Every record is a pearl.
 
 ***
