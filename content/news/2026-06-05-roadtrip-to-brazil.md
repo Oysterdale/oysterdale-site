@@ -22,6 +22,8 @@ To make the journey complete, the track features the incredible vocals of **Brun
 
 **Traxsource exclusive June 5th — general release June 22nd.**
 
+**https://www.traxsource.com/track/14713221/roadtrip-to-brazil-extended-mix**
+
 Every record is a pearl.
 
 ***
