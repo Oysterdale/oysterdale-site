@@ -250,6 +250,13 @@ function generatePage(mdFile) {
     .map(p => `<p>${markdownToHtml(p.replace(/\n/g, '<br>'))}</p>`)
     .join('\n');
 
+  // Plain text version for meta description (strip HTML tags)
+  const metaDescription = content
+    .replace(/<[^>]*>/g, '')
+    .replace(/\n+/g, ' ')
+    .trim()
+    .substring(0, 160);
+
   // Replace in template - handle both {{var}} and {{ var }} formats
   template = template
     .replace(/\{\{\s*title\s*\}\}/gi, title.toUpperCase())
@@ -258,6 +265,7 @@ function generatePage(mdFile) {
     .replace(/\{\{\s*cover\s*\}\}/gi, cover)
     .replace(/\{\{\s*catalog\s*\}\}/gi, catalog)
     .replace(/\{\{\s*description\s*\}\}/gi, descriptionHtml)
+    .replace(/\{\{\s*meta_description\s*\}\}/gi, metaDescription)
     .replace(/\{\{\s*credits\s*\}\}/gi, creditsHtml)
     .replace(/\{\{\s*links\s*\}\}/gi, linksHtml)
     .replace(/\{\{\s*slug\s*\}\}/gi, slug);
