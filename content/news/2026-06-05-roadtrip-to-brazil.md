@@ -7,7 +7,6 @@ tags:
   - release
   - Sebastian Emes
   - Bruna Santana
-  - House
 excerpt: ''
 image: /uploads/weekly-pearls-002-roadtrip-to-brazil.webp
 ---
