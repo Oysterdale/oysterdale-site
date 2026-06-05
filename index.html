@@ -754,11 +754,21 @@
         const wrap=document.getElementById('latest-release'); if(!wrap) return;
         const artistStr=artistsToString(data.artists || data.artist);
 
+        // Split title: main part and parenthetical part (same as releases page)
+        let titleMain = data.title || '';
+        let titleParen = '';
+        const parenMatch = titleMain.match(/^(.*?)\s*(\([^)]+\))\s*$/);
+        if (parenMatch) {
+          titleMain = parenMatch[1].trim();
+          titleParen = parenMatch[2];
+        }
+
         wrap.innerHTML=`
           <div class="release latest">
             <div class="release-header">
               ${artistStr ? `<h2 class="release-artist">${artistStr}</h2>` : ``}
-              ${data.title ? `<h3 class="release-title">${data.title}</h3>` : ``}
+              ${titleMain ? `<h3 class="release-title">${titleMain.toUpperCase()}</h3>` : ``}
+              ${titleParen ? `<h4 class="release-subtitle" style="margin:0.25rem 0 0;font-size:0.9rem;color:#999;font-weight:400;">${titleParen}</h4>` : ``}
             </div>
             ${data.cover ? `<a href="/releases"><img src="${data.cover}" class="release-cover" alt="${(data.title||'Release')} cover" loading="lazy" decoding="async"></a>` : ``}
             ${data.date ? `<p class="release-date">Release date: ${niceDate(data.date)}</p>` : ``}
