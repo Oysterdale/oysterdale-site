@@ -84,7 +84,18 @@ function parseFrontmatter(md) {
 
     const field = line.match(/^([^:]+):\s*(.*)$/);
     if (field) {
-      data[field[1].trim()] = field[2].replace(/^["']|["']$/g, '');
+      let val = field[2].trim();
+      // YAML literal handling
+      if (val === 'null' || val === 'Null' || val === 'NULL' || val === '~') {
+        val = null;
+      } else if (val === 'true' || val === 'True' || val === 'TRUE') {
+        val = true;
+      } else if (val === 'false' || val === 'False' || val === 'FALSE') {
+        val = false;
+      } else {
+        val = val.replace(/^["']|["']$/g, '');
+      }
+      data[field[1].trim()] = val;
     }
   }
 
@@ -114,7 +125,9 @@ function formatDate(dateStr) {
 }
 
 function generateCreditsHtml(credits) {
-  if (!credits || Object.keys(credits).length === 0) return '';
+  if (!credits || typeof credits !== 'object' || Array.isArray(credits) || Object.keys(credits).length === 0) {
+    return '';
+  }
 
   const labelMap = {
     producer: 'Producer(s)',
