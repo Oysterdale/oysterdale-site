@@ -1,20 +1,20 @@
 ---
-title: 'New Release: Sebastian Emes — Roadtrip To Brazil feat. Bruna Santana'
+title: 'New Release: Roadtrip To Brazil'
 date: 2026-06-05
 author: ''
 category: news
 tags:
   - release
-  - sebastian emes
-  - bruna santana
-  - house
+  - Sebastian Emes
+  - Bruna Santana
+  - House
 excerpt: ''
 image: /uploads/weekly-pearls-002-roadtrip-to-brazil.webp
 ---
 
 We're proud to present **"Roadtrip To Brazil"** — the latest release on Oysterdale Records from **Sebastian Emes featuring Bruna Santana**.
 
-Sebastian Emes has already made his mark through releases on labels like Peppermint Jam Records and of course Oysterdale Records, consistently delivering groove-driven house music with character, soul and musicality. On this release, he takes things in a more tropical direction — blending Disco-House energy with Brazilian influences, warm instrumentation and a proper summer feel that actually makes you want to roll the windows down.
+Sebastian Emes has already made his mark through releases on labels like Peppermint Jam, Fullt Hus and of course Oysterdale Records, consistently delivering groove-driven house music with character, soul and musicality. On this release, he takes things in a more tropical direction — blending Disco-House energy with Brazilian influences, warm instrumentation and a proper summer feel that actually makes you want to roll the windows down.
 
 To make the journey complete, the track features the incredible vocals of **Bruna Santana** — one of the strongest voices in the Brazilian music scene in Europe. Born and raised in São Paulo, Bruna brings authenticity, emotion and elegance to the record with her soulful Portuguese vocals. In 2022, she was awarded “Best Brazilian Singer in Europe” by High Profile Magazine in Paris.
 
