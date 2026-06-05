@@ -5,7 +5,7 @@
     <link>https://oysterdalerecords.com/news/</link>
     <description>Weekly pearls from the house and disco scene - news, releases, and updates from Oysterdale Records.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 05 Jun 2026 08:59:45 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jun 2026 09:03:02 GMT</lastBuildDate>
     <atom:link href="https://oysterdalerecords.com/news/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://oysterdalerecords.com/uploads/logo.png</url>
@@ -13,6 +13,25 @@
       <link>https://oysterdalerecords.com</link>
     </image>
     
+    <item>
+      <title>New Release: Sebastian Emes — Roadtrip To Brazil feat. Bruna Santana</title>
+      <link>https://oysterdalerecords.com/news/new-release-sebastian-emes-roadtrip-to-brazil-feat-bruna-santana/</link>
+      <guid isPermaLink="true">https://oysterdalerecords.com/news/new-release-sebastian-emes-roadtrip-to-brazil-feat-bruna-santana/</guid>
+      <pubDate>Fri, 05 Jun 2026 00:00:00 GMT</pubDate>
+      <author>Oysterdale Records</author>
+      <category>news</category>
+      <category>release</category>
+      <category>sebastian emes</category>
+      <category>bruna santana</category>
+      <category>house</category>
+      <description><![CDATA[
+        We're proud to present "Roadtrip To Brazil" — the latest release on Oysterdale Records from Sebastian Emes featuring Bruna Santana.
+
+Sebastian Emes has already made his mark through releases on labels like Peppermint Jam Records and of course...
+        <img src="https://oysterdalerecords.com/uploads/weekly-pearls-002-roadtrip-to-brazil.webp" alt="New Release: Sebastian Emes — Roadtrip To Brazil feat. Bruna Santana">
+      ]]></description>
+    </item>
+
     <item>
       <title>Emél Joins Oysterdale</title>
       <link>https://oysterdalerecords.com/news/eml-joins-oysterdale/</link>
@@ -26,25 +45,6 @@
 
 We're proud to announce that Emél has officially joined the Oysterdal...
         <img src="https://oysterdalerecords.com/uploads/weekly-pearls-001-emel.webp" alt="Emél Joins Oysterdale">
-      ]]></description>
-    </item>
-
-    <item>
-      <title>New Release: Sebastian Emes — Roadtrip To Brazil feat. Bruna Santana</title>
-      <link>https://oysterdalerecords.com/news/new-release-sebastian-emes-roadtrip-to-brazil-feat-bruna-santana/</link>
-      <guid isPermaLink="true">https://oysterdalerecords.com/news/new-release-sebastian-emes-roadtrip-to-brazil-feat-bruna-santana/</guid>
-      <pubDate>Tue, 26 May 2026 00:00:00 GMT</pubDate>
-      <author>Oysterdale Records</author>
-      <category>news</category>
-      <category>release</category>
-      <category>sebastian emes</category>
-      <category>bruna santana</category>
-      <category>house</category>
-      <description><![CDATA[
-        We're proud to present "Roadtrip To Brazil" — the latest release on Oysterdale Records from Sebastian Emes featuring Bruna Santana.
-
-Sebastian Emes has already made his mark through releases on labels like Peppermint Jam Records and of course...
-        <img src="https://oysterdalerecords.com/uploads/weekly-pearls-002-roadtrip-to-brazil.webp" alt="New Release: Sebastian Emes — Roadtrip To Brazil feat. Bruna Santana">
       ]]></description>
     </item>
   </channel>
