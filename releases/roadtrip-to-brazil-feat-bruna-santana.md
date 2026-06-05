@@ -29,4 +29,8 @@ With "Roadtrip To Brazil", Sebastian Emes and Brazilian vocalist Bruna Santana i
 
 The track is a vibrant blend of modern disco house, Brazilian musical influences and live musicianship. Organic instruments recorded by Norwegian session musicians sit alongside Sebastian's polished production.
 
+**Traxsource exclusive June 5th — general release June 22nd.**
+
+**Traxsource exclusive June 5th — general release June 22nd.**
+
 The amazing Bruna Santana's soulful Portuguese vocals glide effortlessly over the warm groove, uplifting rhythms and sun-drenched melodies, making this a soundtrack for summer road trips, beach sunsets and late-night dancefloors alike.
