@@ -229,6 +229,12 @@ function generatePage(mdFile) {
   const cover = data.cover || data.image || '';
   const catalog = data.catalog || '';
 
+  // Format title: put parenthetical part on its own line
+  const titleUpper = title.toUpperCase();
+  const formattedTitle = titleUpper.includes('(') && titleUpper.includes(')')
+    ? titleUpper.replace(/\s*\(/, '<br>(')
+    : titleUpper;
+
   // Build HTML
   const artistsHtml = generateArtistsHtml(artists);
   const creditsHtml = generateCreditsHtml(data.credits);
@@ -259,7 +265,7 @@ function generatePage(mdFile) {
 
   // Replace in template - handle both {{var}} and {{ var }} formats
   template = template
-    .replace(/\{\{\s*title\s*\}\}/gi, title.toUpperCase())
+    .replace(/\{\{\s*title\s*\}\}/gi, formattedTitle)
     .replace(/\{\{\s*artists\s*\}\}/gi, artistsHtml)
     .replace(/\{\{\s*date\s*\}\}/gi, date)
     .replace(/\{\{\s*cover\s*\}\}/gi, cover)
