@@ -14,11 +14,11 @@ excerpt: Our own OKPLUS held it down at Klubb 37+ alongside Mousse T., and Roadt
 image: /uploads/weekly-pearls-003-okplus-mousset.png
 ---
 
-Last Saturday at Tårnet Kulturarena, Oslo — Klubb 37+ threw a dayparty, and **our own OKPLUS** was right there in the middle of it.
+Last Saturday at Tårnet Kulturarena, Oslo — [Klubb 37+](https://www.klubb37.no/) threw a dayparty, and **our own** [**OKPLUS**](https://oysterdalerecords.com/artists/okplus/) was right there in the middle of it.
 
 The afternoon was built around one of the true legends of the scene: **Mousse T.** For those who don't know (and honestly, if you're reading this, you probably do), Mousse T. has been shaping house music since the '90s. From "Horny" to his work with Tom Jones and countless remixes that defined an era — he's not just a DJ, he's a curator of decades of dancefloor history. Seeing him work a room is watching someone who doesn't need to prove anything, but still brings everything.
 
-And our own **OKPLUS** held it down on support. There's something special about watching an artist you've worked with in the studio step onto a stage like this and own it. The crowd was locked in from the first beat — that rare moment when the opener and the room find the same frequency immediately.
+And our own **OKPLUS** held it down on support. The crowd was locked in from the first beat —such great vibes one the dancefloor.
 
 **Third Attempt** and **FUN:KEY** set the stage perfectly, too. By the time Mousse T. took over, the energy was already at that point where nobody's checking their phone anymore — they're just... there.
 
