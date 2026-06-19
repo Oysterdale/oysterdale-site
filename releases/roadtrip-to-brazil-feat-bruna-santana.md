@@ -7,15 +7,15 @@ catalog: OYSTR26001
 cover: /uploads/Roadtrip_To_Brazil_Cover_Final.webp
 credits: null
 links:
-  spotify_url: ''
-  apple_music_url: ''
-  itunes_url: ''
-  tidal_url: ''
-  amazon_music_url: ''
-  youtube_url: ''
+  spotify_url: https://open.spotify.com/album/2KaPTJhCLBYAWVcRbZVZ3f?si=JZ5dHAlrQVO63RFfvY9Azw
+  apple_music_url: https://music.apple.com/no/album/roadtrip-to-brazil-feat-bruna-santana-single/6771897923?l=nb
+  itunes_url: https://music.apple.com/no/album/roadtrip-to-brazil-feat-bruna-santana-single/6771897923?l=nb
+  tidal_url: https://tidal.com/album/526899033/u
+  amazon_music_url: https://music.amazon.com/albums/B0H2K7YXDS
+  youtube_url: https://www.youtube.com/watch?v=z-mESDSDt0s&list=OLAK5uy_nZCtsF7QjTljhamJ2brItXLZ8hsPBdb0o
   traxsource_url: https://www.traxsource.com/track/14713221/roadtrip-to-brazil-extended-mix
-  beatport_url: ''
-  deezer_url: ''
+  beatport_url: https://www.beatport.com/release/roadtrip-to-brazil/6967914
+  deezer_url: https://link.deezer.com/s/33B4PNXiJIfuJ3pQpHGqo
 seo:
   meta_title: ''
   meta_description: ''
