@@ -3,13 +3,7 @@ title: Klubb 37+ Mousse T.
 date: 2026-06-19
 author: Kevin Vadsten
 category: news
-tags:
-  - weekly-pearls
-  - OKPLUS
-  - Mousse T.
-  - Klubb 37
-  - Oslo
-  - house-music
+tags: []
 excerpt: Our own OKPLUS held it down at Klubb 37+ alongside Mousse T., and Roadtrip To Brazil hits Traxsource's Essentials chart.
 image: /uploads/weekly-pearls-003-okplus-mousset.png
 ---
