@@ -263,7 +263,7 @@
         </div>
       </div>
       {{credits}}
-      <div class="related-releases"><h2>Related Releases</h2><div class="related-grid">
+      <div class="related-releases"><h2>Related Releases</h2><div class="related-grid" data-current-slug="{{slug}}">
         <!-- Related releases will be added here -->
       </div></div>
     </div>
@@ -274,5 +274,6 @@
       .then(r => r.text())
       .then(html => document.body.insertAdjacentHTML("beforeend", html));
   </script>
+  <script src="/js/related-releases.js"></script>
 </body>
 </html>
