@@ -265,6 +265,7 @@ function generatePage(mdFile) {
 
   // Replace in template - handle both {{var}} and {{ var }} formats
   template = template
+    .replace(/\{\{\s*page_title\s*\}\}/gi, titleUpper)
     .replace(/\{\{\s*title\s*\}\}/gi, formattedTitle)
     .replace(/\{\{\s*artists\s*\}\}/gi, artistsHtml)
     .replace(/\{\{\s*date\s*\}\}/gi, date)
