@@ -11,7 +11,7 @@ tags:
   - Oslo
   - house-music
 excerpt: "Our own OKPLUS held it down at Klubb 37+ alongside Mousse T., and Roadtrip To Brazil hits Traxsource's Essentials chart."
-image: /uploads/weekly-pearls-003-okplus-mousset.webp
+image: /uploads/weekly-pearls-003-okplus-mousset.png
 ---
 
 🦪 **Weekly Pearls #003**
