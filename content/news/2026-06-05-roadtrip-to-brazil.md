@@ -3,10 +3,7 @@ title: 'New Release: Roadtrip To Brazil'
 date: 2026-06-05
 author: ''
 category: news
-tags:
-  - release
-  - Sebastian Emes
-  - Bruna Santana
+tags: []
 excerpt: ''
 image: /uploads/weekly-pearls-002-roadtrip-to-brazil.webp
 ---
@@ -20,7 +17,6 @@ To make the journey complete, the track features the incredible vocals of **Brun
 **"Roadtrip To Brazil"** is a celebration of musical cultures meeting on the dancefloor. Uplifting groove and organic instrumentation come together in a track designed for sunsets, open-air parties and late summer nights.
 
 [Traxsource](Traxsource) **exclusive June 5th — general release June 22nd.**
-
 
 Every record is a pearl.
 
