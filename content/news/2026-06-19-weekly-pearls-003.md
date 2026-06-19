@@ -1,7 +1,7 @@
 ---
 title: Klubb 37+ Mousse T.
 date: 2026-06-19
-author: Kevin Vadsten
+author: Oysterdale Records
 category: news
 tags: []
 excerpt: Our own OKPLUS held it down at Klubb 37+ alongside Mousse T., and Roadtrip To Brazil hits Traxsource's Essentials chart.
