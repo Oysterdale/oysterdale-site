@@ -30,16 +30,16 @@ If you haven't caught it yet — now's the time. The track is finding its way in
 
 Here's what's been spinning in our studio:
 
-**Disco Juice (Extended)**
+**Disco Juice (Extended) - Cristoph**
 Pure feel-good energy. 
 [Traxsource](https://www.traxsource.com/track/14486571/disco-juice-extended)
 
-**Eyes Across The Room (Extended) — Groove Culture**
-Groove Culture continues to deliver exactly what their name promises. Funky classic sounding disco house.
+**Eyes Across The Room (Extended) — Mark Lower, Derrick McKenzie, Sarina Voorn**
+Funky classic sounding disco house, released on Groove Culture.
 [Traxsource](https://www.traxsource.com/track/14688925/eyes-across-the-room-extended)
 
-**Sometimes I Feel (Extended) — Groove Culture**
-Another gem from the Groove Culture camp. Groove-driven track ferfect for prime timer.
+**Sometimes I Feel (Extended) — Shabi**
+Another gem from the Groove Culture camp. Groove-driven track perfect during prime time.
 [Traxsource](https://www.traxsource.com/track/14662265/sometimes-i-feel-extended)
 
-Every record is a pearl.
+_Every record is a pearl._
