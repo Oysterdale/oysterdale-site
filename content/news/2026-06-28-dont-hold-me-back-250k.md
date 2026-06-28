@@ -1,9 +1,9 @@
 ---
-title: "Don't Hold Me Back reaches 250,000 Spotify streams"
+title: Don't Hold Me Back reaches 250,000 streams
 date: 2026-06-28
 author: Kevin Vadsten
 category: news
-excerpt: "MINIJACK, Emél and EL 360's 'Don't Hold Me Back' passes 250,000 streams on Spotify."
+excerpt: MINIJACK, Emél and EL 360's 'Don't Hold Me Back' passes 250,000 streams.
 image: /uploads/weekly-pearls-004.jpg
 ---
 
