@@ -42,4 +42,4 @@ Funky classic sounding disco house, released on Groove Culture.
 Another gem from the Groove Culture camp. Groove-driven track perfect during prime time.
 [Traxsource](https://www.traxsource.com/track/14662265/sometimes-i-feel-extended)
 
-_Every record is a pearl._
+Every record is a pearl.
