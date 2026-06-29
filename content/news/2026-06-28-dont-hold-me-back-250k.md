@@ -11,9 +11,7 @@ We're incredibly happy to see **"**[**Don't Hold Me Back**](https://oysterdalere
 
 Released through Oysterdale Records, the track has continued to grow steadily through playlist support, DJ plays and listeners discovering it organically.
 
-Reaching **a quarter of a million streams** is a special milestone for any independent release, and we're incredibly proud to see _Don't Hold Me Back_ continue finding new listeners almost a year after its release.
-
-A huge thank you to everyone who has streamed the record, added it to a playlist, played it in a DJ set or shared it with a friend. Every listen genuinely makes a difference.
+Reaching **a quarter of a million streams** is a special milestone for any independent release, and we're incredibly proud to see Don't Hold Me Back continue finding new listeners almost a year after its release. A huge thank you to everyone who has streamed the record, added it to a playlist, played it in a DJ set or shared it with a friend. Every listen genuinely makes a difference.
 
 Congratulations to MINIJACK, Emél and EL 360 on an incredible achievement. On to the next one!
 
