@@ -4,7 +4,7 @@ date: 2026-06-28
 author: Kevin Vadsten
 category: news
 excerpt: MINIJACK, Emél and EL 360's 'Don't Hold Me Back' passes 250,000 streams.
-image: /uploads/weekly-pearls-004.jpg
+image: /uploads/weekly-pearls-004.png
 ---
 
 We're incredibly happy to see **"**[**Don't Hold Me Back**](https://oysterdalerecords.com/releases/don%C2%B4t-hold-me-back/)**"** by [**MINIJACK**](https://oysterdalerecords.com/artists/minijack/)**,** [**Emél**](https://oysterdalerecords.com/artists/em%C3%A9l/) **and** [**EL 360**](https://oysterdalerecords.com/artists/el-360/) pass **250,000 streams**.
