@@ -7,8 +7,6 @@ excerpt: MINIJACK, Emél and EL 360's 'Don't Hold Me Back' passes 250,000 stream
 image: /uploads/weekly-pearls-004.jpg
 ---
 
-🦪 **Weekly Pearls #004**
-
 We're incredibly happy to see **"Don't Hold Me Back"** by **MINIJACK, Emél and EL 360** pass **250,000 streams**.
 
 Released through Oysterdale Records, the track has continued to grow steadily through playlist support, DJ plays and listeners discovering it organically.
