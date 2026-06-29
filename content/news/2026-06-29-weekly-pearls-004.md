@@ -5,7 +5,7 @@ author: Oysterdale Records
 category: news
 tags: []
 excerpt: A quarter million and counting
-image: /uploads/weekly-pearls-004.jpg
+image: /uploads/weekly-pearls-004.png
 ---
 
 It's a milestone worth celebrating. **MINIJACK**'s [**"Don't Hold Me Back"**](https://oysterdalerecords.com/releases/dont-hold-me-back/) — featuring the incredible vocals of **Emél** — has just crossed **250,000 streams**. 
