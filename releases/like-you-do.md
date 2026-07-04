@@ -5,9 +5,18 @@ artists:
   - L2Sounds
   - KayV
 date: 2026-09-18
-catalog: ''
+catalog: NOB5V2600004
 cover: /uploads/Like You Do Cover.jpg
-credits: null
+credits:
+  producer: []
+  vocals: []
+  mixing:
+    - Mike Newman, Panthera Mastering
+  mastering: []
+  remix: []
+  composer: []
+  lyrics: []
+  additional_production: []
 links: null
 seo:
   meta_title: ''
