@@ -1,0 +1,19 @@
+---
+title: Like You Do
+artists:
+  - OKPLUS
+  - L2Sounds
+  - KayV
+date: 2026-09-18
+catalog: ''
+cover: /uploads/Like You Do Cover.jpg
+credits: null
+links: null
+seo:
+  meta_title: ''
+  meta_description: ''
+  keywords: []
+  og_title: ''
+  og_description: ''
+  og_image: ''
+---
