@@ -782,8 +782,21 @@
           const fm=parseFM(md);
           return { data: fm, date: new Date(fm.date || 0) };
         }));
-        entries.sort((a,b)=>b.date-a.date);
-        return entries[0]?.data;
+
+        // Filter out future releases (show 14 days before release date)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const visibilityWindow = new Date(today);
+        visibilityWindow.setDate(visibilityWindow.getDate() + 14);
+
+        const visibleEntries = entries.filter(e => {
+          const releaseDate = new Date(e.data.date || 0);
+          releaseDate.setHours(0, 0, 0, 0);
+          return releaseDate <= visibilityWindow;
+        });
+
+        visibleEntries.sort((a,b)=>b.date-a.date);
+        return visibleEntries[0]?.data;
       }
 
       function renderLatest(data){
