@@ -429,12 +429,23 @@
           // Filter out nulls (files that failed to load)
           const validCards = cards.filter(c => c !== null);
 
-          validCards.sort((a,b)=>b.date - a.date);
-          allCards = validCards;
+          // Filter out future releases (show 14 days before release)
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const visibilityWindow = new Date(today);
+          visibilityWindow.setDate(visibilityWindow.getDate() + 14);
+          const visibleCards = validCards.filter(c => {
+            const releaseDate = new Date(c.date);
+            releaseDate.setHours(0, 0, 0, 0);
+            return releaseDate <= visibilityWindow;
+          });
 
-          renderCards(validCards);
+          visibleCards.sort((a,b)=>b.date - a.date);
+          allCards = visibleCards;
+
+          renderCards(visibleCards);
           setupSearch(allCards);
-          console.log('Loaded releases from GitHub API');
+          console.log('Loaded releases from GitHub API (future releases hidden)');
         }
 
       }catch(e){

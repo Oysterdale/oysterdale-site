@@ -293,14 +293,28 @@ function generatePage(mdFile) {
 
 function generateReleasesJson(allReleases) {
   const outputPath = path.join(__dirname, '..', 'releases.json');
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Show releases 14 days before release date (pre-release visibility window)
+  const visibilityWindow = new Date(today);
+  visibilityWindow.setDate(visibilityWindow.getDate() + 14);
+
+  const visibleReleases = allReleases.filter(r => {
+    if (!r.date) return true;
+    const releaseDate = new Date(r.date);
+    releaseDate.setHours(0, 0, 0, 0);
+    return releaseDate <= visibilityWindow;
+  });
+
   // Sort by date descending
-  allReleases.sort((a, b) => {
+  visibleReleases.sort((a, b) => {
     const dateA = a.date ? new Date(a.date) : new Date(0);
     const dateB = b.date ? new Date(b.date) : new Date(0);
     return dateB - dateA;
   });
-  fs.writeFileSync(outputPath, JSON.stringify(allReleases, null, 2));
-  console.log(`✓ Generated: releases.json (${allReleases.length} releases)`);
+  fs.writeFileSync(outputPath, JSON.stringify(visibleReleases, null, 2));
+  console.log(`✓ Generated: releases.json (${visibleReleases.length} of ${allReleases.length} releases visible, ${allReleases.length - visibleReleases.length} future release(s) hidden)`);
 }
 
 function main() {
