@@ -6,7 +6,7 @@ artists:
   - KayV
 date: 2026-09-18
 catalog: NOB5V2600004
-cover: /uploads/Like You Do Cover.jpg
+cover: /uploads/Like_You_Do_Oysterdale.webp
 credits:
   producer: []
   vocals: []
