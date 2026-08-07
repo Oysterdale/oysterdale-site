@@ -4,7 +4,8 @@ artists:
   - OKPLUS
   - L2Sounds
   - KayV
-date: 2026-08-07
+date: 2026-08-21
+pre_release_date: 2026-08-07
 catalog: NOB5V2600004
 cover: /uploads/Like_You_Do_Oysterdale.webp
 credits:
