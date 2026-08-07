@@ -324,7 +324,7 @@
         return `<a href="/artists/${slug}/" class="artist-link">${a}</a>`;
       }).join(" | ");
       const cover = clean(data.cover || data.image);
-      const dateStr = clean(data.date);
+      const dateStr = clean(data.pre_release_date || data.date);
 
       const releaseSlug = file.name.replace('.md', '').toLowerCase();
       
@@ -374,7 +374,7 @@
         return `<a href="/artists/${slug}/" class="artist-link">${a}</a>`;
       }).join(" | ");
       const cover = clean(release.cover);
-      const dateStr = clean(release.date);
+      const dateStr = clean(release.pre_release_date || release.date);
       const releaseSlug = release.slug.toLowerCase();
       
       return {
@@ -429,15 +429,13 @@
           // Filter out nulls (files that failed to load)
           const validCards = cards.filter(c => c !== null);
 
-          // Filter out future releases (show 14 days before release)
+          // Filter out releases not yet visible (pre_release_date if set, otherwise release date)
           const today = new Date();
           today.setHours(0, 0, 0, 0);
-          const visibilityWindow = new Date(today);
-          visibilityWindow.setDate(visibilityWindow.getDate() + 14);
           const visibleCards = validCards.filter(c => {
-            const releaseDate = new Date(c.date);
-            releaseDate.setHours(0, 0, 0, 0);
-            return releaseDate <= visibilityWindow;
+            const visibilityDate = new Date(c.date);
+            visibilityDate.setHours(0, 0, 0, 0);
+            return visibilityDate <= today;
           });
 
           visibleCards.sort((a,b)=>b.date - a.date);

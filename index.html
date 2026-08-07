@@ -780,19 +780,18 @@
         const entries=await Promise.all(files.map(async f=>{
           const md=await fetch(f.download_url).then(r=>r.text());
           const fm=parseFM(md);
-          return { data: fm, date: new Date(fm.date || 0) };
+          const visibilityDate = fm.pre_release_date || fm.date || null;
+          return { data: fm, date: new Date(visibilityDate || 0) };
         }));
 
-        // Filter out future releases (show 14 days before release date)
+        // Filter out releases not yet visible (pre_release_date if set, otherwise release date)
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const visibilityWindow = new Date(today);
-        visibilityWindow.setDate(visibilityWindow.getDate() + 14);
 
         const visibleEntries = entries.filter(e => {
-          const releaseDate = new Date(e.data.date || 0);
-          releaseDate.setHours(0, 0, 0, 0);
-          return releaseDate <= visibilityWindow;
+          const d = new Date(e.date);
+          d.setHours(0, 0, 0, 0);
+          return d <= today;
         });
 
         visibleEntries.sort((a,b)=>b.date-a.date);

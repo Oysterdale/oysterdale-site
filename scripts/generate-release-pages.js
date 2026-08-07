@@ -286,6 +286,7 @@ function generatePage(mdFile) {
     title: data.title || slug,
     artists: data.artists || [],
     date: data.date || '',
+    pre_release_date: data.pre_release_date || '',
     cover: data.cover || data.image || '',
     catalog: data.catalog || ''
   };
@@ -296,21 +297,20 @@ function generateReleasesJson(allReleases) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Show releases 14 days before release date (pre-release visibility window)
-  const visibilityWindow = new Date(today);
-  visibilityWindow.setDate(visibilityWindow.getDate() + 14);
-
+  // A release is visible from its pre-release date (if set), otherwise from its release date
   const visibleReleases = allReleases.filter(r => {
-    if (!r.date) return true;
-    const releaseDate = new Date(r.date);
-    releaseDate.setHours(0, 0, 0, 0);
-    return releaseDate <= visibilityWindow;
+    const visibilityDateStr = r.pre_release_date || r.date;
+    if (!visibilityDateStr) return true; // no dates = visible
+    const visibilityDate = new Date(visibilityDateStr);
+    if (isNaN(visibilityDate)) return true; // invalid date = visible
+    visibilityDate.setHours(0, 0, 0, 0);
+    return visibilityDate <= today;
   });
 
-  // Sort by date descending
+  // Sort by visibility date descending (pre-release date if set, otherwise release date)
   visibleReleases.sort((a, b) => {
-    const dateA = a.date ? new Date(a.date) : new Date(0);
-    const dateB = b.date ? new Date(b.date) : new Date(0);
+    const dateA = a.pre_release_date ? new Date(a.pre_release_date) : (a.date ? new Date(a.date) : new Date(0));
+    const dateB = b.pre_release_date ? new Date(b.pre_release_date) : (b.date ? new Date(b.date) : new Date(0));
     return dateB - dateA;
   });
   fs.writeFileSync(outputPath, JSON.stringify(visibleReleases, null, 2));

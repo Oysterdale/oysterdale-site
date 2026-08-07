@@ -243,6 +243,7 @@ collections:
         field:
           { label: "Artist", name: "artist", widget: "string", hint: "Skriv inn navn fritt, eller bruk samme navn som i Artists-samlingen" }
       - { label: "Release Date", name: "date", widget: "datetime", time_format: false, required: false }
+      - { label: "Pre-Release Date", name: "pre_release_date", widget: "datetime", time_format: false, required: false, hint: "Optional. The release becomes visible on the site from this date. If empty, the release date is used." }
       - { label: "Catalog Number", name: "catalog", widget: "string", required: false }
       - { label: "Cover", name: "cover", widget: "image", required: false, multiple: false }
 
