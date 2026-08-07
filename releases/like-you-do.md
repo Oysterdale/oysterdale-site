@@ -17,7 +17,16 @@ credits:
   composer: []
   lyrics: []
   additional_production: []
-links: null
+links:
+  spotify_url: ''
+  apple_music_url: ''
+  itunes_url: ''
+  tidal_url: ''
+  amazon_music_url: ''
+  youtube_url: ''
+  traxsource_url: https://www.traxsource.com/track/14878293/like-you-do-extended-mix
+  beatport_url: ''
+  deezer_url: ''
 seo:
   meta_title: ''
   meta_description: ''
@@ -26,3 +35,7 @@ seo:
   og_description: ''
   og_image: ''
 ---
+
+**Like You Do** brings together OKPLUS, KayV and south african vocalist / producer L2Sounds for a warm, groove-led house cut built for late summer nights.
+
+Blending soulful vocals a driving deep house groove, the track strikes a balance between classic feel-good energy and a modern house sound. Effortlessly uplifting and made for the dancefloor, _Like You Do_ is another deep soulful addition to the Oysterdale catalogue.
