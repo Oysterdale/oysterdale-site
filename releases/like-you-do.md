@@ -19,15 +19,15 @@ credits:
   lyrics: []
   additional_production: []
 links:
-  spotify_url: ''
-  apple_music_url: ''
-  itunes_url: ''
-  tidal_url: ''
-  amazon_music_url: ''
-  youtube_url: ''
+  spotify_url: https://open.spotify.com/album/08Q3l9ITZHXqJJz0v1u530?si=hXJzTohLRkSM0rVligwxXA
+  apple_music_url: https://music.apple.com/no/album/like-you-do-single/6790867535?l=nb
+  itunes_url: https://music.apple.com/no/album/like-you-do-single/6790867535?l=nb
+  tidal_url: https://tidal.com/album/543071495/u
+  amazon_music_url: https://music.amazon.com/albums/B0H8V4PR3Z?marketplaceId=ATVPDKIKX0DER&musicTerritory=US&ref=dm_sh_5pi3cRoUSCvDK39Byt6XbO3gW
+  youtube_url: https://www.youtube.com/watch?v=F5PQZ4xxEHU
   traxsource_url: https://www.traxsource.com/track/14878293/like-you-do-extended-mix
-  beatport_url: ''
-  deezer_url: ''
+  beatport_url: https://www.beatport.com/track/like-you-do/29720648
+  deezer_url: https://link.deezer.com/s/34aSJadaOCnMDNidi2dOY
 seo:
   meta_title: ''
   meta_description: ''
