@@ -2,9 +2,9 @@
 name: Ekelove
 role: producer
 status: signed
-image: uploads/artists/Ekelove.webp.jpg
+image: uploads/artists/Ekelove.webp
 bio: ''
-photo: uploads/artists/IMG_6458.jpeg
+photo: uploads/artists/Ekelove.webp
 contact_email: ''
 spotify: ''
 soundcloud: ''
