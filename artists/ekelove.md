@@ -1,0 +1,27 @@
+---
+name: Ekelove
+role: producer
+status: signed
+image: uploads/artists/Ekelove.webp.jpg
+bio: ''
+photo: uploads/artists/IMG_6458.jpeg
+contact_email: ''
+spotify: ''
+soundcloud: ''
+instagram: ''
+website: ''
+mixcloud: ''
+bandcamp: ''
+traxsource: ''
+beatport: ''
+apple_music: ''
+youtube: ''
+tidal: ''
+seo:
+  meta_title: ''
+  meta_description: ''
+  keywords: []
+  og_title: ''
+  og_description: ''
+  og_image: ''
+---
