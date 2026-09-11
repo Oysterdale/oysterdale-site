@@ -8,7 +8,7 @@ photo: /uploads/Ekelove.webp
 contact_email: ''
 spotify: ''
 soundcloud: ''
-instagram: ''
+instagram: https://www.instagram.com/ekelove.official/
 website: ''
 mixcloud: ''
 bandcamp: ''
