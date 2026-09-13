@@ -281,13 +281,13 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
   text-align:center;
 }
 .artist h3{margin:.8rem 0 0;font-size:1rem}
-.artist-photo{
+.artist-photo, .artist img{
   width:100%;max-width:400px;aspect-ratio:1/1;
   object-fit:cover;object-position:center 20%;
   border-radius:10px;margin:0 auto .8rem;background:#000;
   transition:transform .3s ease;
 }
-.artist:hover .artist-photo{
+.artist:hover .artist-photo, .artist:hover img{
   transform:scale(1.05);
 }
 
