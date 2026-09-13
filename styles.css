@@ -285,6 +285,10 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
   width:100%;max-width:400px;aspect-ratio:1/1;
   object-fit:cover;object-position:center 20%;
   border-radius:10px;margin:0 auto .8rem;background:#000;
+  transition:transform .3s ease;
+}
+.artist:hover .artist-photo{
+  transform:scale(1.05);
 }
 
 /* ===================================================== */
