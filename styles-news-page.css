@@ -345,6 +345,18 @@
   transition: border-color .2s, color .2s;
 }
 
+/* Images inside post content */
+.post-content img {
+  max-width: 100%;
+  max-height: 520px;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 1.5rem auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
 .post-content a:hover {
   color: #fff;
   border-bottom-color: rgba(155,123,184,0.8);
