@@ -17,8 +17,8 @@ It's great to see Emél, aka Mona-Linn Owe, on a label with the history Soulfuri
 ***
 
 A few weeks earlier, [**Art Of Tones**](https://oysterdalerecords.com/artists/art-of-tones/) was in Oslo for **Klubb 37+**'s White Party at Trekanten. The lineup also featured [**OKPLUS**](https://oysterdalerecords.com/artists/okplus/), [**KayV**](https://oysterdalerecords.com/artists/kayv/), [**Sebastian Emes**](https://oysterdalerecords.com/artists/sebastian-emes/), Third Attempt and FUN:KEY.
-
-It was a great day of house and disco, and especially fun for us to have Art Of Tones in Oslo after already having worked with him through his remix of OKPLUS & Emél's **"Get On Up"**.
+The atmosphere was amazing, the dancefloor was packed and there were some seriously good selections from all the DJs throughout the day.
+It was especially fun for us to have Art Of Tones in Oslo after already working with him on his remix of OKPLUS & Emél's [**"Get On Up"**](https://oysterdalerecords.com/releases/get-on-up-art-of-tones-remix/).
 
 ![Klubb 37+ White Party at Trekanten](/uploads/klubb37-white-party-trekanten.jpg)
 
