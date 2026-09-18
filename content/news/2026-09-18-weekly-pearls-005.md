@@ -20,6 +20,8 @@ A few weeks earlier, [**Art Of Tones**](https://oysterdalerecords.com/artists/ar
 
 It was a great day of house and disco, and especially fun for us to have Art Of Tones in Oslo after already having worked with him through his remix of OKPLUS & Emél's **"Get On Up"**.
 
+![Klubb 37+ White Party at Trekanten](/uploads/klubb37-white-party-trekanten.jpg)
+
 ---
 
 ## Weekly Pearls
