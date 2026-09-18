@@ -30,11 +30,14 @@ Here's what's been spinning in our studio:
 
 **1. N.W.N. & Emél – No More Games**
 This week's pearl, and a very special one for us. Emél teams up with N.W.N. for their new release on Soulfuric.
+[Traxsource](https://www.traxsource.com/track/14992835/no-more-games-extended-mix)
 
 **2. N.W.N. & Emél – No More Games (B.T.N.W.N. Old Skool Dub Mix)**
 Brian Tappert and N.W.N. take the track into dub territory with their Old Skool Dub Mix.
+[Traxsource](https://www.traxsource.com/track/14992836/no-more-games-b-t-n-w-n-old-skool-dub-mix)
 
 **3. Serge Funk – On The Beat (Extended)**
 A fresh house cut from Serge Funk, landing on Groove Culture.
+[Traxsource](https://www.traxsource.com/track/14996474/on-the-beat-extended)
 
 Every record is a pearl.
