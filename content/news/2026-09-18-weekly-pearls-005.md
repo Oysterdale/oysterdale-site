@@ -10,7 +10,7 @@ image: /uploads/weekly-pearls-005.png
 
 It's been a busy few weeks around Oysterdale.
 
-Today, [**Emél**](https://oysterdalerecords.com/artists/em%C3%A9l/) joins forces with Hungarian producer **N.W.N.** for **"No More Games"**, released on **Soulfuric** today.
+Today, [**Emél**](https://oysterdalerecords.com/artists/em%C3%A9l/) joins forces with Hungarian producer **N.W.N.** for **"No More Games"**, released on **Soulfuric** – out now.
 
 It's great to see Emél, aka Mona-Linn Owe, on a label with the history Soulfuric has. The release includes the original version alongside the **B.T.N.W.N. Old Skool Dub Mix** — a dub version by Brian Tappert and N.W.N. Definitely one we're proud to see out in the world.
 
