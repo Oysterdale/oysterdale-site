@@ -8,7 +8,7 @@ excerpt: Emél joins forces with N.W.N. for "No More Games", released on Soulfur
 image: /uploads/weekly-pearls-005.png
 ---
 
-A couple of nice things have happened around the Oysterdale family lately.
+It's been a busy few weeks around Oysterdale.
 
 Today, [**Emél**](https://oysterdalerecords.com/artists/em%C3%A9l/) joins forces with Hungarian producer **N.W.N.** for **"No More Games"**, released on **Soulfuric** today.
 
