@@ -1,5 +1,5 @@
 ---
-title: "Weekly Pearls: Emél release on Soulfuric"
+title: "Emél release on Soulfuric"
 date: 2026-09-18
 author: Oysterdale Records
 category: news
