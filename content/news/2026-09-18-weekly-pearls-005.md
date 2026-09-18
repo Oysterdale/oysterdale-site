@@ -5,7 +5,7 @@ author: Oysterdale Records
 category: news
 tags: []
 excerpt: Emél joins forces with N.W.N. for "No More Games", released on Soulfuric — plus Art Of Tones at Klubb 37+'s White Party.
-image: /uploads/weekly-pearls-006.png
+image: /uploads/weekly-pearls-005.png
 ---
 
 A couple of nice things have happened around the Oysterdale family lately.
