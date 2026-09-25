@@ -4,7 +4,7 @@ role: producer
 status: signed
 image: /uploads/artists/KayV.jpg
 bio: |-
-  KayV is the solo project of Norwegian DJ, producer and musician Kevin Vadsten, best known as a member of OKPLUS.
+  KayV is the solo project of Norwegian DJ, producer and musician Kevin Vadsten.
 
   His music moves between deep house, funky house and disco house, shaped by his background as a bassist, producer and arranger. KayV gives him a space to explore a more personal sound.
 
