@@ -19,11 +19,11 @@ credits:
   additional_production: []
 links:
   spotify_url: https://open.spotify.com/album/6Qwo2KjEdA52ydDsVBH0xv?si=3f86ce05ef7e41f8
-  apple_music_url: ''
-  itunes_url: ''
-  tidal_url: ''
+  apple_music_url: https://music.apple.com/no/album/andromeda/6806976314?i=6806976316&l=nb
+  itunes_url: https://music.apple.com/no/album/andromeda/6806976314?i=6806976316&l=nb
+  tidal_url: https://tidal.com/album/557047131/u
   amazon_music_url: ''
-  youtube_url: ''
+  youtube_url: https://www.youtube.com/watch?v=8Jbzlm3cmRw
   traxsource_url: ''
   beatport_url: ''
   deezer_url: ''
