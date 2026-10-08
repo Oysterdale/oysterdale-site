@@ -17,7 +17,16 @@ credits:
   composer: []
   lyrics: []
   additional_production: []
-links: null
+links:
+  spotify_url: https://open.spotify.com/album/6Qwo2KjEdA52ydDsVBH0xv?si=3f86ce05ef7e41f8
+  apple_music_url: ''
+  itunes_url: ''
+  tidal_url: ''
+  amazon_music_url: ''
+  youtube_url: ''
+  traxsource_url: ''
+  beatport_url: ''
+  deezer_url: ''
 seo:
   meta_title: ''
   meta_description: ''
