@@ -183,8 +183,7 @@ function generateTemplate(data) {
     }
     .gallery-grid img {
       width: 100%;
-      aspect-ratio: 1;
-      object-fit: cover;
+      height: auto;
       border-radius: 10px;
       cursor: pointer;
       transition: transform .25s ease, box-shadow .25s ease;
