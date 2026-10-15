@@ -10,6 +10,9 @@ bio: |-
 
   The project was introduced through “Like You Do,” a collaboration with OKPLUS and South African singer and producer L2Sounds. KayV continues to work with vocalists, musicians and producers from across the house music scene.
 photo: ''
+gallery:
+  - /uploads/artists/kayv-live.jpg
+  - /uploads/artists/kayv-studio.jpg
 contact_email: ''
 spotify: https://open.spotify.com/artist/6pTQ9jDm060EZKYpIB9o7G?si=32ef453df05f49ea
 soundcloud: ''

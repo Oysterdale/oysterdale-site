@@ -170,6 +170,48 @@ function generateTemplate(data) {
     .artist-releases h2 {
       margin-bottom: 1.5rem;
     }
+    .artist-gallery {
+      margin-top: 3rem;
+    }
+    .artist-gallery h2 {
+      margin-bottom: 1.5rem;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .gallery-grid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .gallery-grid img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 20px rgba(255,255,255,.15);
+    }
+    .gallery-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.92);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .gallery-lightbox.open {
+      display: flex;
+    }
+    .gallery-lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 8px;
+      object-fit: contain;
+    }
     .releases-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -228,6 +270,21 @@ function generateTemplate(data) {
           });
         }
       });
+    function openLightbox(src) {
+      const lb = document.getElementById('gallery-lightbox');
+      if(!lb) return;
+      lb.querySelector('img').src = src;
+      lb.classList.add('open');
+    }
+    function closeLightbox() {
+      const lb = document.getElementById('gallery-lightbox');
+      if(!lb) return;
+      lb.classList.remove('open');
+      lb.querySelector('img').src = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if(e.key === 'Escape') closeLightbox();
+    });
   </script>
 
   <main class="page-content">
@@ -246,6 +303,21 @@ function generateTemplate(data) {
       <div class="artist-bio-full">
         ${bio.split(/\n\n+/).map(p => `<p>${p.trim()}</p>`).join('\n')}
       </div>
+      
+      ${(() => {
+        const imgs = Array.isArray(data.gallery) ? data.gallery.filter(Boolean) : [];
+        if(!imgs.length) return '';
+        return `
+      <div class="artist-gallery">
+        <h2>Photos</h2>
+        <div class="gallery-grid">
+          ${imgs.map(src => `<img src="${src}" alt="${name}" loading="lazy" decoding="async" onclick="openLightbox('${src}')">`).join('\n          ')}
+        </div>
+      </div>
+      <div class="gallery-lightbox" id="gallery-lightbox" onclick="closeLightbox()">
+        <img src="" alt="${name}">
+      </div>`;
+      })()}
       
       <div class="artist-releases">
         <h2>Oysterdale Releases</h2>
@@ -400,7 +472,7 @@ function parseFrontmatter(md) {
     
     // Regular field (not in block)
     if(fieldMatch && !inBlock){
-      if(currentKey){
+      if(currentKey && !Array.isArray(data[currentKey])){
         data[currentKey] = currentValue.join('\n').trim();
       }
       currentKey = fieldMatch[1];
@@ -440,7 +512,7 @@ function parseFrontmatter(md) {
     }
   }
   
-  if(currentKey){
+  if(currentKey && !Array.isArray(data[currentKey])){
     data[currentKey] = currentValue.join('\n').trim();
   }
   
