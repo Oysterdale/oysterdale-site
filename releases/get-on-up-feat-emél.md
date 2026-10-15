@@ -2,6 +2,7 @@
 title: Get On Up
 artists:
   - OKPLUS
+  - KayV
   - Emél
 date: 2025-06-27
 catalog: OYSTR25002

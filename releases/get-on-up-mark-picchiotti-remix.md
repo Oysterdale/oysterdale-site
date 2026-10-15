@@ -2,6 +2,7 @@
 title: Get On Up (Mark Picchiotti Remix)
 artists:
   - OKPLUS
+  - KayV
   - Emél
   - Mark Picchiotti
 date: 2025-11-14

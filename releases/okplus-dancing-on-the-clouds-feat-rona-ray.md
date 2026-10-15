@@ -2,6 +2,7 @@
 title: Dancing On The Clouds
 artists:
   - OKPLUS
+  - KayV
   - Rona Ray
 date: 2025-08-01
 catalog: OYSTR25003

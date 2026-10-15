@@ -2,6 +2,7 @@
 title: Get On Up (Art Of Tones Remix)
 artists:
   - OKPLUS
+  - KayV
   - Emél
   - Art Of Tones
 date: 2025-12-12
