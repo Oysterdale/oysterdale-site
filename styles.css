@@ -286,11 +286,11 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
 /* ARTIST CARDS */
 /* ===================================================== */
 .artist{
-  background:#111;border-radius:10px;padding:1.4rem;
+  background:#111;border-radius:10px;padding:1rem 1.4rem .7rem;
   box-shadow:0 0 10px rgba(255,255,255,.06);
   text-align:center;
 }
-.artist h3{margin:.8rem 0 0;font-size:1rem}
+.artist h3{margin:.6rem 0 0;font-size:1rem}
 .artist-photo, .artist img{
   width:100%;max-width:400px;aspect-ratio:1/1;
   object-fit:cover;object-position:center 20%;
