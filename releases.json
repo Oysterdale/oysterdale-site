@@ -1,5 +1,16 @@
 [
   {
+    "slug": "andromeda",
+    "title": "Andromeda",
+    "artists": [
+      "Ekelove"
+    ],
+    "date": "2026-10-09",
+    "pre_release_date": "",
+    "cover": "/uploads/Andromeda-Ekelove.webp",
+    "catalog": "OYSTR26004"
+  },
+  {
     "slug": "like-you-do",
     "title": "Like You Do",
     "artists": [
