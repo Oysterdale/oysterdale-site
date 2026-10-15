@@ -40,7 +40,7 @@ seo:
 
 Rather than simply reworking the original, he fully reinvents the instrumental — introducing new harmonies, textures, and a deep, driving foundation while keeping Emél’s vocal front and center.
 
-The original by **OKPLUS** and **Emél** already carried a strong identity through its live instrumentation and warm, disco-leaning feel. This remix takes a different route — more stripped, more focused, and firmly aimed at the dancefloor.
+The original by **OKPLUS**, **KayV** and **Emél** already carried a strong identity through its live instrumentation and warm, disco-leaning feel. This remix takes a different route — more stripped, more focused, and firmly aimed at the dancefloor.
 
 The result is hypnotic and effective. A rolling groove, tight arrangement, and so funky.
 

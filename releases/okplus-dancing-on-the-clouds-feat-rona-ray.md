@@ -28,6 +28,6 @@ links:
   deezer_url: https://www.deezer.com/en/album/778993921
 ---
 
-**Dancing On The Clouds** is a collaboration between OKPLUS and Rona Ray, built from a studio jam that naturally found its direction.
+**Dancing On The Clouds** is a collaboration between **OKPLUS**, **KayV** and **Rona Ray**, built from a studio jam that naturally found its direction.
 
-Rona Ray brings years of experience from the global house scene, with releases on labels like Defected and Nervous, and collaborations with a wide range of producers. Her vocal carries that background — soulful, controlled, and effortless.
+Rona Ray brings years of experience from the global house scene, with releases on labels like Defected and Nervous, and collaborations with a wide range of producers. Her vocal carries that background - soulful, controlled, and effortless.

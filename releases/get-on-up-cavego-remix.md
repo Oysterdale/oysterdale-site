@@ -40,10 +40,10 @@ seo:
   og_image: ''
 ---
 
-**Cavego** puts his Norwegian nu-disco magic on **Get On Up**, bringing a fresh, melodic take that leans into both warmth and movement.
+**Cavego** puts his Norwegian nu-disco magic on **Get On Up** by **OKPLUS**, **KayV** and **Emél**, bringing a fresh, melodic take that leans into both warmth and movement.
 
-Known as one of the rising names in the Scandinavian disco scene, Cavego has built a reputation for uplifting productions and remixes for artists like Satin Jackets and Blende. His sound blends classic Nu-Disco with a modern dancefloor pulse — and that balance carries through here.
+Known as one of the rising names in the Scandinavian disco scene, Cavego has built a reputation for uplifting productions and remixes for artists like Satin Jackets and Blende. His sound blends classic Nu-Disco with a modern dancefloor pulse - and that balance carries through here.
 
-Lush synth layers, bright chords, and a more driving groove give the remix a new vibe, still keeping Emél’s vocal at the center.
+Lush synth layers, bright chords, and a more driving groove give the remix a new vibe, still keeping Emél's vocal at the center.
 
-Equally at home in daytime sets and late-night moments — with that distinctly Scandinavian disco sound.
+Equally at home in daytime sets and late-night moments - with that distinctly Scandinavian disco sound.

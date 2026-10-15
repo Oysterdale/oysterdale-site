@@ -39,8 +39,8 @@ seo:
   og_image: ''
 ---
 
-**Mark Picchiotti** — a true legend with roots in Chicago’s house music history — brings decades of experience to **Get On Up**.
+**Mark Picchiotti** - a true legend with roots in Chicago's house music history - brings decades of experience to **Get On Up** by **OKPLUS**, **KayV** and **Emél**.
 
-A pioneer of the scene, Picchiotti has built a legacy through productions and remixes for artists like Madonna, Beyoncé, and Michael Jackson, alongside releases on iconic labels such as Defected, Positiva, and Strictly Rhythm. That heritage is fully present in this rework.
+A pioneer of the scene, Picchiotti has built a legacy through productions and remixes for artists like Madonna, Beyoncé, and Michael Jackson, alongside releases on iconic labels such as Defected, Positiva, and Strictly Rhythm. That heritage is fully present in this rework.
 
-His remix channels that unmistakable spirit of gospel-driven house — funky, uplifting, and rooted in groove — bringing new energy to the track while staying true to its core.
+His remix channels that unmistakable spirit of gospel-driven house - funky, uplifting, and rooted in groove - bringing new energy to the track while staying true to its core.
