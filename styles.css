@@ -81,6 +81,7 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
   margin:0 auto;
   animation:fadeIn 1.3s ease-in-out;
 }
+.page-content--wide{max-width:1400px;}
 .page-content p{padding-bottom:1rem}
 
 /* ===================================================== */
