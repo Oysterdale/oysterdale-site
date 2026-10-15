@@ -398,7 +398,7 @@
         if(top && indent===0){
           currentKey = top[1];
           const val = top[2].trim();
-          root[currentKey] = val === '' ? (root[currentKey] ?? null) : val.replace(/^"(.*)"$/,'$1');
+          root[currentKey] = val === '' ? (root[currentKey] ?? null) : val.replace(/^["'](.*)["']$/,'$1');
           currentItem = null;
           continue;
         }
@@ -413,9 +413,9 @@
             root[currentKey].push(currentItem);
             const k = kv[1], v = kv[2];
             if(v==='|'||v==='>'){ capture={obj:currentItem,key:k,type:v,indent:2,buf:[]}; }
-            else { currentItem[k] = v.replace(/^"(.*)"$/,'$1'); }
+            else { currentItem[k] = v.replace(/^["'](.*)["']$/,'$1'); }
           } else {
-            root[currentKey].push(rest.replace(/^"(.*)"$/,'$1'));
+            root[currentKey].push(rest.replace(/^["'](.*)["']$/,'$1'));
             currentItem = null;
           }
           continue;
@@ -425,7 +425,7 @@
         if(child){
           const ck=child[1], cv=child[2];
           if(cv==='|'||cv==='>'){ capture={obj:currentItem,key:ck,type:cv,indent:4,buf:[]}; }
-          else { currentItem[ck] = cv.replace(/^"(.*)"$/,'$1'); }
+          else { currentItem[ck] = cv.replace(/^["'](.*)["']$/,'$1'); }
           continue;
         }
       }
@@ -535,7 +535,7 @@
           if(top && !line.startsWith(' ')){
             key=top[1];
             const val=top[2].trim();
-            data[key]= val==='' ? (data[key]??null) : val.replace(/^"(.*)"$/,'$1');
+            data[key]= val==='' ? (data[key]??null) : val.replace(/^["'](.*)["']$/,'$1');
             currentItem=null;
             return;
           }
@@ -547,10 +547,10 @@
             const kv=rest.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
             if(kv){
               currentItem={};
-              currentItem[kv[1]]=kv[2].replace(/^"(.*)"$/,'$1');
+              currentItem[kv[1]]=kv[2].replace(/^["'](.*)["']$/,'$1');
               data[key].push(currentItem);
             } else {
-              data[key].push(rest.replace(/^"(.*)"$/,'$1'));
+              data[key].push(rest.replace(/^["'](.*)["']$/,'$1'));
               currentItem=null;
             }
             return;
@@ -558,7 +558,7 @@
 
           const child=currentItem && line.match(/^\s{4}([A-Za-z0-9_]+):\s*(.*)$/);
           if(child){
-            currentItem[child[1]]=child[2].replace(/^"(.*)"$/,'$1');
+            currentItem[child[1]]=child[2].replace(/^["'](.*)["']$/,'$1');
           }
         });
 
