@@ -13,7 +13,7 @@ photo: ''
 contact_email: ''
 spotify: https://open.spotify.com/artist/6pTQ9jDm060EZKYpIB9o7G?si=32ef453df05f49ea
 soundcloud: ''
-instagram: ''
+instagram: https://www.instagram.com/kayv.music/
 website: ''
 mixcloud: ''
 bandcamp: ''
