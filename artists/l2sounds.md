@@ -13,7 +13,7 @@ photo: ''
 contact_email: ''
 spotify: ''
 soundcloud: ''
-instagram: ''
+instagram: https://www.instagram.com/l2sounds/
 website: ''
 mixcloud: ''
 bandcamp: ''
