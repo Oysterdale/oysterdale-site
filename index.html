@@ -791,6 +791,7 @@
         const visibleEntries = entries.filter(e => {
           const d = new Date(e.date);
           d.setHours(0, 0, 0, 0);
+          if (isNaN(d)) return true; // ugyldig dato = vis heller enn å skjule
           return d <= today;
         });
 
