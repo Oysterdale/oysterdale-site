@@ -263,12 +263,12 @@ h6{ font-size: clamp(14px,1.1vw,16px); line-height:1.35;}
 
 /* GRID (releases page) */
 .releases-grid{
-  display:grid;grid-template-columns:repeat(3, minmax(0, 320px));
+  display:grid;grid-template-columns:repeat(3, minmax(0, 400px));
   justify-content:center;
   gap:2rem;margin-top:2rem;
 }
 @media(max-width:1100px){
-  .releases-grid{grid-template-columns:repeat(2, minmax(0, 320px));}
+  .releases-grid{grid-template-columns:repeat(2, minmax(0, 400px));}
 }
 @media(max-width:768px){
   .releases-grid{grid-template-columns:minmax(0, 400px);justify-content:center;}
