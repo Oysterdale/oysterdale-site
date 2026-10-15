@@ -21,6 +21,7 @@ credits:
     - Cavego
   original_producer:
     - OKPLUS
+    - KayV
 links:
   spotify_url: https://open.spotify.com/track/15P4j2ILdRuGlLAAwBz1xO?si=defad931e40a4e02
   apple_music_url: https://music.apple.com/no/album/get-on-up-cavego-remix/1851278378?i=1851278379&l=nb

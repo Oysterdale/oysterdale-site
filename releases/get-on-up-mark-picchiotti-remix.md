@@ -18,6 +18,7 @@ credits:
   composer: []
   original_producer:
     - OKPLUS
+    - KayV
   remixer:
     - Mark Picchiotti
 links:

@@ -10,6 +10,7 @@ cover: /uploads/Get_On_Up_400x400.webp
 credits:
   producer:
     - OKPLUS
+    - KayV
   vocals:
     - Emél
   mixing:

@@ -15,6 +15,7 @@ credits:
     - Sam Wills at Wired Masters
   original_producer:
     - OKPLUS
+    - KayV
   remixer:
     - Art Of Tones
 links:

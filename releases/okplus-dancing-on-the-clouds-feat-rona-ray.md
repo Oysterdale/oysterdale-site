@@ -10,6 +10,7 @@ cover: /uploads/DancingOnTheClouds400x400.webp
 credits:
   producer:
     - OKPLUS
+    - KayV
   vocals:
     - Rona Ray
   mixing:
