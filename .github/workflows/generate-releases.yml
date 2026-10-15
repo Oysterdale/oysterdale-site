@@ -5,6 +5,9 @@ on:
     paths:
       - 'releases/**'
       - 'scripts/generate-release-pages.js'
+  schedule:
+    # Daily at 06:00 UTC — makes future-dated releases visible on their release date
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 permissions:
