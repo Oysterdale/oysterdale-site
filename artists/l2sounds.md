@@ -4,11 +4,11 @@ role: vocalist
 status: signed
 image: /uploads/artists/L2Sounds.webp
 bio: |-
-  Meet Thulani, aka L2Sounds — a South African vocalist, songwriter and producer born in Heidelberg, Gauteng, with experiences shaped by time spent in Standerton and Durban.
+  L2Sounds is the artist project of Thulani, a South African vocalist, songwriter and producer born in Heidelberg, Gauteng, shaped by time spent in Standerton and Durban.
 
-  With a deep passion for soulful house and deep house, and roots in soul and R&B, L2Sounds crafts tracks that blend classic vibes with modern flair. As a devoted dad, artist and music lover, he brings warmth, energy and authenticity to everything he makes.
+  Rooted in soul and R&B and driven by a deep passion for soulful house and deep house, L2Sounds crafts tracks that blend classic vibes with a modern edge — music built on warmth, energy and authenticity.
 
-  He made his Oysterdale Records debut with "Like You Do," a collaboration with OKPLUS and KayV — his first release on the label.
+  He made his Oysterdale Records debut with “Like You Do,” a collaboration with OKPLUS and KayV.
 photo: ''
 contact_email: ''
 spotify: ''
