@@ -1,4 +1,5 @@
 ---
+published: true
 title: Get On Up (Cavego Remix)
 artists:
   - OKPLUS

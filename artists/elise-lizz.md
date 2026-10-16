@@ -1,4 +1,5 @@
 ---
+published: true
 name: Elise Lizz
 role: vocalist
 status: collaborator

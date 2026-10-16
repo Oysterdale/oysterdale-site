@@ -308,6 +308,9 @@
       const md = await fetch(file.download_url).then(r => r.text());
       const {data} = parseFrontmatter(md);
 
+      // Skip releases toggled OFF ("Published?") in the CMS
+      if (data.published === 'false') return null;
+
       const title = clean(data.title);
       
       // Split title: main part and parenthetical part

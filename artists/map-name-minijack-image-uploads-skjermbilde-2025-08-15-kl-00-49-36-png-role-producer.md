@@ -1,4 +1,5 @@
 ---
+published: true
 name: MINIJACK
 role: producer
 status: signed

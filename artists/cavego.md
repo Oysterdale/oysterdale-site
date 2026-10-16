@@ -1,4 +1,5 @@
 ---
+published: true
 name: Cavego
 role: producer
 status: collaborator

@@ -1,4 +1,5 @@
 ---
+published: true
 title: Get On Up (Art Of Tones Remix)
 artists:
   - OKPLUS

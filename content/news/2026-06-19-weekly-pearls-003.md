@@ -1,4 +1,5 @@
 ---
+published: true
 title: Klubb 37+ Mousse T.
 date: 2026-06-19
 author: Oysterdale Records

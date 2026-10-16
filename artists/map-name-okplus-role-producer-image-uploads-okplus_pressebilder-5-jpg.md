@@ -1,4 +1,5 @@
 ---
+published: true
 name: OKPLUS
 role: producer
 status: signed

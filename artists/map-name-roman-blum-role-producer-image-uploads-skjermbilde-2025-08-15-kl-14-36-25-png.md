@@ -1,4 +1,5 @@
 ---
+published: true
 name: Roman Blum
 role: producer
 status: collaborator

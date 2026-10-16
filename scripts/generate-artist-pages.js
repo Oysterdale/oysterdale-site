@@ -525,15 +525,37 @@ files.forEach(file => {
   const md = fs.readFileSync(path.join(ARTISTS_DIR, file), 'utf8');
   const data = parseFrontmatter(md);
   const slug = data.name ? data.name.toLowerCase().replace(/\s+/g, '-') : file.replace('.md', '');
-  
+
+  // Safety gate: entries toggled OFF ("Published?") in the CMS stay offline
+  if (data.published === false || data.published === 'false') {
+    console.log('Hidden (Published? = OFF): ' + slug);
+    return;
+  }
+
+
   const dir = path.join(ARTISTS_DIR, slug);
   if(!fs.existsSync(dir)) {
     fs.mkdirSync(dir, {recursive: true});
   }
-  
+
   const html = generateTemplate(data);
   fs.writeFileSync(path.join(dir, 'index.html'), html);
   console.log('Generated: ' + dir + '/index.html');
 });
+
+// Remove pages whose own entry exists but is toggled OFF ("Published?") in the CMS.
+// Legacy folders with no matching .md file are left untouched.
+for (const entry of fs.readdirSync(ARTISTS_DIR)) {
+  const dir = path.join(ARTISTS_DIR, entry);
+  if (!fs.statSync(dir).isDirectory()) continue; // keeps .md files and artist-template.html
+  if (!fs.existsSync(path.join(dir, 'index.html'))) continue; // protects uploads/ etc.
+  const mdFile = files.find(f => f === entry + '.md');
+  if (!mdFile) continue;
+  const mdData = parseFrontmatter(fs.readFileSync(path.join(ARTISTS_DIR, mdFile), 'utf8'));
+  if (mdData.published === false || mdData.published === 'false') {
+    fs.rmSync(dir, { recursive: true, force: true });
+    console.log('Removed hidden page: artists/' + entry + '/');
+  }
+}
 
 console.log('Done!');

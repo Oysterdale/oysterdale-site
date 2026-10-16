@@ -1,4 +1,5 @@
 ---
+published: true
 name: Bruna Santana
 role: vocalist
 status: collaborator

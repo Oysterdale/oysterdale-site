@@ -1,4 +1,5 @@
 ---
+published: true
 name: Mark Picchiotti
 role: producer
 status: collaborator

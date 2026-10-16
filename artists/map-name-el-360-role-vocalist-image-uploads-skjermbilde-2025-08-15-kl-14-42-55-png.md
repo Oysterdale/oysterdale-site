@@ -1,4 +1,5 @@
 ---
+published: true
 name: EL 360
 role: vocalist
 status: collaborator

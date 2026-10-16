@@ -267,8 +267,11 @@
           return parseFrontmatter(md).data;
         }));
 
-        const family = items.filter(a => /signed/i.test(a.status || ""));
-        const collaborators = items.filter(a => !/signed/i.test(a.status || ""));
+        // Filter out artists toggled OFF ("Published?") in the CMS
+        const visible = items.filter(a => a.published !== false && a.published !== 'false');
+
+        const family = visible.filter(a => /signed/i.test(a.status || ""));
+        const collaborators = visible.filter(a => !/signed/i.test(a.status || ""));
 
         document.getElementById("family").innerHTML =
           family.map(card).join("") || '<p style="opacity:.6;margin-left:8px;">No roster artists yet. Edit an artist .md file and set status: signed</p>';

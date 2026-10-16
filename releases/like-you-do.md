@@ -1,4 +1,5 @@
 ---
+published: true
 title: Like You Do
 artists:
   - OKPLUS

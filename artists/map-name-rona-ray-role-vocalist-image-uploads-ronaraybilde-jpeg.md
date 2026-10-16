@@ -1,4 +1,5 @@
 ---
+published: true
 name: Rona Ray
 role: vocalist
 status: collaborator

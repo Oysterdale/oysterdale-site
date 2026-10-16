@@ -211,6 +211,13 @@ function generatePage(mdFile) {
   const { data, content } = parseFrontmatter(md);
 
   const slug = path.basename(mdFile, '.md');
+
+  // Safety gate: entries toggled OFF ("Published?") in the CMS stay offline
+  if (data.published === false) {
+    console.log(`− Hidden (Published? = OFF): ${slug}`);
+    return null;
+  }
+
   const outputDir = path.join(RELEASES_DIR, slug);
   const outputPath = path.join(outputDir, 'index.html');
 
@@ -292,6 +299,23 @@ function generatePage(mdFile) {
   };
 }
 
+function cleanupStalePages() {
+  // Only remove a page when its own entry exists but is toggled OFF ("Published?")
+  // in the CMS. Legacy folders with no matching .md file are left untouched.
+  for (const entry of fs.readdirSync(RELEASES_DIR)) {
+    const dir = path.join(RELEASES_DIR, entry);
+    if (!fs.statSync(dir).isDirectory()) continue; // keeps .md files and release-template.html at root
+    if (!fs.existsSync(path.join(dir, 'index.html'))) continue; // protects non-page folders like uploads/
+    const md = path.join(RELEASES_DIR, entry + '.md');
+    if (!fs.existsSync(md)) continue;
+    const { data } = parseFrontmatter(fs.readFileSync(md, 'utf-8'));
+    if (data.published === false) {
+      fs.rmSync(dir, { recursive: true, force: true });
+      console.log(`✗ Removed hidden page: releases/${entry}/`);
+    }
+  }
+}
+
 function generateReleasesJson(allReleases) {
   const outputPath = path.join(__dirname, '..', 'releases.json');
   const today = new Date();
@@ -340,6 +364,9 @@ function main() {
 
   // Generate releases.json for static loading
   generateReleasesJson(allReleases);
+
+  // Remove pages whose own entry is toggled OFF in the CMS
+  cleanupStalePages();
 
   console.log('\n✓ Done!');
 }

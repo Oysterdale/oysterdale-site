@@ -183,6 +183,10 @@ function getNewsPosts() {
     if (!parsed) return null;
 
     const { frontmatter, body } = parsed;
+
+    // Entries toggled OFF ("Published?") in the CMS stay offline
+    if (frontmatter.published === false) return null;
+
     const slug = slugify(frontmatter.title || file.replace(".md", ""));
     const date = frontmatter.date || new Date().toISOString();
 

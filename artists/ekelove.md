@@ -1,4 +1,5 @@
 ---
+published: true
 name: Ekelove
 role: producer
 status: signed

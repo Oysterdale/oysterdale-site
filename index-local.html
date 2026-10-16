@@ -582,7 +582,9 @@
           return { data: fm, date: new Date(fm.date || 0) };
         }));
         entries.sort((a,b)=>b.date-a.date);
-        return entries[0]?.data;
+        // Filter out releases toggled OFF ("Published?") in the CMS
+        const published = entries.filter(e => e.data.published !== false && e.data.published !== 'false');
+        return published[0]?.data;
       }
 
       function renderLatest(data){

@@ -1,4 +1,5 @@
 ---
+published: true
 name: KayV
 role: producer
 status: signed

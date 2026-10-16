@@ -1,4 +1,5 @@
 ---
+published: true
 title: Is This Real
 artists:
   - MINIJACK

@@ -1,4 +1,5 @@
 ---
+published: true
 name: L2Sounds
 role: vocalist
 status: signed

@@ -1,4 +1,5 @@
 ---
+published: true
 title: Roadtrip To Brazil (feat. Bruna Santana)
 artists:
   - Sebastian Emes

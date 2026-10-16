@@ -1,4 +1,5 @@
 ---
+published: true
 title: Don't Hold Me Back reaches 250,000 streams
 date: 2026-06-28
 author: Kevin Vadsten

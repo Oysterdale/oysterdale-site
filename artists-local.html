@@ -218,8 +218,11 @@
           return parseFrontmatter(md).data;
         }));
 
-        const producers = items.filter(a => /producer/i.test(a.role || ""));
-        const vocalists = items.filter(a => /vocal/i.test(a.role || ""));
+        // Filter out artists toggled OFF ("Published?") in the CMS
+        const itemsVisible = items.filter(a => a.published !== false && a.published !== 'false');
+
+        const producers = itemsVisible.filter(a => /producer/i.test(a.role || ""));
+        const vocalists = itemsVisible.filter(a => /vocal/i.test(a.role || ""));
 
         document.getElementById("producers").innerHTML =
           producers.map(card).join("");

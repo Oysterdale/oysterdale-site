@@ -1,4 +1,5 @@
 ---
+published: true
 title: Don't Hold Me Back
 artists:
   - MINIJACK

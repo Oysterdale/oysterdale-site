@@ -235,6 +235,11 @@ collections:
     extension: "md"
     format: "frontmatter"
     fields:
+      - label: "Published?"
+        name: "published"
+        widget: "boolean"
+        default: true
+        hint: "ON = visible on the website. OFF = hidden (draft) - nothing is deleted, turn ON again to show."
       - { label: "Title", name: "title", widget: "string" }
       - label: "Artists"
         name: "artists"
@@ -343,6 +348,12 @@ collections:
     media_folder: "uploads/artists"
     public_folder: "/uploads/artists"
     fields:
+      - label: "Published?"
+        name: "published"
+        widget: "boolean"
+        default: true
+        hint: "ON = visible on the website. OFF = hidden (draft) - nothing is deleted, turn ON again to show."
+
       - { label: "Name", name: "name", widget: "string" }
       - label: "Role"
         name: "role"
@@ -721,6 +732,11 @@ collections:
         field: date
         pattern: '{{year-1}}'
     fields:
+      - label: "Published?"
+        name: "published"
+        widget: "boolean"
+        default: true
+        hint: "ON = visible on the website. OFF = hidden (draft) - nothing is deleted, turn ON again to show."
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publish Date", name: "date", widget: "datetime", time_format: false, required: true }
       - { label: "Author", name: "author", widget: "string", default: "Kevin Vadsten", required: false }

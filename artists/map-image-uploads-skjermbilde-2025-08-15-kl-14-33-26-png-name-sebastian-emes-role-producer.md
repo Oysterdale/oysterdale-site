@@ -1,4 +1,5 @@
 ---
+published: true
 name: Sebastian Emes
 role: producer
 status: collaborator

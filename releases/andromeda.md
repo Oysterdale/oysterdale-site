@@ -1,4 +1,5 @@
 ---
+published: true
 title: Andromeda
 artists:
   - Ekelove

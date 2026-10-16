@@ -1,4 +1,5 @@
 ---
+published: true
 name: Art Of Tones
 role: producer
 status: collaborator

@@ -1,4 +1,5 @@
 ---
+published: true
 title: Chasing Rainbows
 artists:
   - OKPLUS

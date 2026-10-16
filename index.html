@@ -784,11 +784,14 @@
           return { data: fm, date: new Date(visibilityDate || 0) };
         }));
 
+        // Filter out releases toggled OFF ("Published?") in the CMS
+        const publishedEntries = entries.filter(e => e.data.published !== false && e.data.published !== 'false');
+
         // Filter out releases not yet visible (pre_release_date if set, otherwise release date)
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        const visibleEntries = entries.filter(e => {
+        const visibleEntries = publishedEntries.filter(e => {
           const d = new Date(e.date);
           d.setHours(0, 0, 0, 0);
           if (isNaN(d)) return true; // ugyldig dato = vis heller enn å skjule

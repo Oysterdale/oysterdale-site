@@ -1,4 +1,5 @@
 ---
+published: true
 title: "Emél release on Soulfuric"
 date: 2026-09-18
 author: Oysterdale Records

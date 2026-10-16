@@ -1,4 +1,5 @@
 ---
+published: true
 name: Emél
 role: vocalist
 status: signed
