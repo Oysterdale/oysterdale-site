@@ -435,11 +435,73 @@ collections:
         public_folder: "/uploads/og"
 
   # -------------------------
+  # PRE-SAVES (Spotify pre-save landing pages)
+  # -------------------------
+  - name: "pre-saves"
+    label: "Pre-saves"
+    label_singular: "Pre-save"
+    folder: "pre-saves"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: "title"
+    fields:
+      - label: "Published?"
+        name: "published"
+        widget: "boolean"
+        default: false
+        hint: "Turn ON when the page should be live. Drafts (OFF) are never visible on the website."
+      - { label: "Track Title", name: "title", widget: "string", hint: "E.g. Here To Remember. The web address is created automatically from this." }
+      - { label: "Artist(s)", name: "artists", widget: "string", hint: "E.g. KayV feat. Jay Nemor" }
+      - label: "Cover Artwork"
+        name: "cover"
+        widget: "image"
+        required: true
+        multiple: false
+        hint: "Upload the release cover. Square (1:1) works best."
+      - { label: "Spotify Release Date", name: "release_date", widget: "datetime", time_format: false, required: true, hint: "The pre-save page automatically redirects to the public release page on this date (00:00, in the timezone chosen below)." }
+      - label: "Timezone"
+        name: "timezone"
+        widget: "select"
+        default: "Europe/Oslo"
+        options: ["Europe/Oslo", "Europe/London", "Europe/Berlin", "America/New_York", "America/Los_Angeles", "Asia/Tokyo"]
+        hint: "Which timezone the Spotify release date refers to. Normally keep Europe/Oslo."
+      - { label: "Traxsource Date (info only)", name: "traxsource_date", widget: "datetime", time_format: false, required: false, hint: "Information only. NEVER affects the pre-save page or the redirect." }
+      - label: "Pre-save Link (from your pre-save provider)"
+        name: "presave_url"
+        widget: "string"
+        required: true
+        hint: "Paste the FULL campaign URL from Feature.fm, Hypeddit or similar. This is the button people click to pre-save on Spotify. Must be a real pre-save campaign, not a normal Spotify link."
+      - label: "Public Release Page Slug"
+        name: "release_slug"
+        widget: "string"
+        required: true
+        hint: "The web address of the normal release page this pre-save belongs to, e.g. here-to-remember gives /releases/here-to-remember/. Must match the release entry in Releases."
+      - { label: "Spotify URL (optional)", name: "spotify_url", widget: "string", required: false, hint: "Normal Spotify link, if it already exists. Shown as a small secondary link." }
+      - label: "Keep as Pre-save Page"
+        name: "keep_pre_save"
+        widget: "boolean"
+        default: false
+        required: false
+        hint: "EMERGENCY OVERRIDE: turn ON to stop the automatic redirect to the release page (e.g. release is postponed). Page stays as a pre-save page until you turn this OFF and save."
+
+  # -------------------------
   # SETTINGS (Home + Footer)
   # -------------------------
   - name: "settings"
     label: "Settings"
     files:
+      - file: "content/pre-save-settings.md"
+        label: "Pre-save Settings"
+        name: "pre_save_settings"
+        fields:
+          - { label: "Meta Pixel ID (optional)", name: "meta_pixel_id", widget: "string", required: false, hint: "Your Facebook/Meta Pixel ID, digits only. Leave empty to disable tracking completely. Used for PageView and Pre-save Click events on pre-save pages, only after the visitor accepts marketing cookies." }
+          - label: "Default Timezone"
+            name: "default_timezone"
+            widget: "select"
+            default: "Europe/Oslo"
+            options: ["Europe/Oslo", "Europe/London", "Europe/Berlin", "America/New_York", "America/Los_Angeles", "Asia/Tokyo"]
+            hint: "Used when a pre-save page has no timezone set."
       - file: "data/home.json"
         label: "Home"
         name: "home_settings"
