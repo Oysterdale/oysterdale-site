@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "slug": "here-to-remember",
+    "title": "Here To Remember",
+    "artists": "KayV feat. Jay Nemor",
+    "cover": "/uploads/Here_To_Remember_Cover.webp",
+    "release_date": "2026-11-13",
+    "timezone": "Europe/Oslo",
+    "release_slug": "here-to-remember",
+    "keep_pre_save": false
+  }
+]
