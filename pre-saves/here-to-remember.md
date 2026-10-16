@@ -1,12 +1,12 @@
 ---
-published: false
+published: true
 title: Here To Remember
 artists: KayV feat. Jay Nemor
-cover: ''
+cover: /uploads/Here_To_Remember_Cover.webp
 release_date: 2026-11-13
 timezone: Europe/Oslo
 traxsource_date: 2026-10-30
-presave_url: ''
+presave_url: https://hypeddit.com/pguik1
 release_slug: here-to-remember
 spotify_url: ''
 keep_pre_save: false
