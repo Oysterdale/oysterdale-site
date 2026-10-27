@@ -11,6 +11,9 @@ bio: |-
 
   Their debut release, Don’t Hold Me Back, dropped on Oysterdale and quickly gained traction, surpassing 200,000 streams. The track set the tone early: groove-led, emotionally charged, and unmistakably MINIJACK.
 photo: /uploads/skjermbilde-2025-08-15-kl.-00.49.36.png
+gallery:
+  - /uploads/artists/minijack-studio-keys.jpg
+  - /uploads/artists/minijack-studio-portrait.jpg
 contact_email: ''
 spotify: https://open.spotify.com/artist/0MHptQNAGLUWSAinwiZotQ?si=to9_fNroQ7qqz0NMesVH5w
 soundcloud: https://soundcloud.com/minijack-673520402
