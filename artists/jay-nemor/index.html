@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jay Nemor | Oysterdale Records</title>
+  <meta name="description" content="Jay Nemor (Jason Nemor Harden) is an American singer, songwriter, producer and multi-instrumentalist, born in Houston, Texas and now based in Gothenburg, Sweden">
+  <link rel="stylesheet" href="/styles.css?v=2">
+  <link rel="stylesheet" href="/styles-news.css">
+  <link rel="icon" href="/images/favicon.png" type="image/png">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin=""></noscript>
+  <style>
+    /* Force white text */
+    body {
+      background: linear-gradient(135deg, #050505 0%, #0a0a1a 50%, #0d1117 100%) !important;
+      background-attachment: fixed !important;
+      color: #fff !important;
+      min-height: 100vh;
+    }
+    a {
+      color: #fff !important;
+    }
+    /* Offset for fixed header */
+    .page-content {
+      padding-top: 100px;
+    }
+    
+    .artist-hero {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin: 2rem 0;
+    }
+    .artist-photo {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    .artist-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .artist-info h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .artist-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .artist-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+      color: #fff !important;
+      text-decoration: none;
+    }
+    .artist-links a:hover {
+      background: rgba(255,255,255,0.12);
+    }
+    .artist-contact {
+      margin-top: 2rem;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .artist-contact a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #6b4c7a, #9b7bb8);
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: transform 0.2s, box-shadow 0.2s;
+      color: #fff !important;
+      text-decoration: none;
+    }
+    .artist-contact a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(155, 123, 184, 0.3);
+    }
+    .artist-contact a.secondary {
+      background: rgba(255,255,255,0.08);
+    }
+    .artist-contact a.secondary:hover {
+      background: rgba(255,255,255,0.15);
+      box-shadow: none;
+    }
+    .artist-bio-full {
+      margin: 2rem 0;
+      max-width: 800px;
+    }
+    .artist-bio-full p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #ccc;
+    }
+    .artist-releases {
+      margin-top: 4rem;
+    }
+    .artist-releases h2 {
+      margin-bottom: 1.5rem;
+    }
+    .artist-gallery {
+      margin-top: 3rem;
+    }
+    .artist-gallery h2 {
+      margin-bottom: 1.5rem;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .gallery-grid img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 20px rgba(255,255,255,.15);
+    }
+    .gallery-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.92);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .gallery-lightbox.open {
+      display: flex;
+    }
+    .gallery-lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+    .releases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      .artist-hero {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        text-align: center;
+      }
+      .artist-photo {
+        max-width: 280px;
+        margin: 0 auto;
+      }
+      .artist-info {
+        text-align: center;
+      }
+      .artist-links {
+        justify-content: center;
+      }
+      .artist-contact {
+        justify-content: center;
+      }
+      .artist-bio-full {
+        text-align: center;
+        margin: 2rem auto;
+      }
+      .artist-releases {
+        text-align: center;
+      }
+      .artist-releases h2 {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    fetch("/header.html")
+      .then(r => r.text())
+      .then(html => {
+        document.body.insertAdjacentHTML("afterbegin", html);
+        const btn = document.getElementById("menu-toggle");
+        const nav = document.querySelector(".main-nav");
+        if(btn && nav){
+          btn.addEventListener("click", () => {
+            const open = nav.classList.toggle("open");
+            btn.textContent = open ? "✖" : "☰";
+          });
+          document.addEventListener("click", e => {
+            if(e.target.closest(".nav-links a")){
+              nav.classList.remove("open");
+              btn.textContent = "☰";
+            }
+          });
+        }
+      });
+    function openLightbox(src) {
+      const lb = document.getElementById('gallery-lightbox');
+      if(!lb) return;
+      lb.querySelector('img').src = src;
+      lb.classList.add('open');
+    }
+    function closeLightbox() {
+      const lb = document.getElementById('gallery-lightbox');
+      if(!lb) return;
+      lb.classList.remove('open');
+      lb.querySelector('img').src = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if(e.key === 'Escape') closeLightbox();
+    });
+  </script>
+
+  <main class="page-content">
+    <div id="artist-content">
+      <div class="artist-hero">
+        <img src="/uploads/artists/JayNemor.webp" alt="Jay Nemor" class="artist-photo">
+        <div class="artist-info">
+          <h1>Jay Nemor</h1>
+          <div class="artist-links">
+            
+    <a href="https://open.spotify.com/artist/4LnRutGXgJkLGZGHBoZwTC" target="_blank" rel="noopener">
+      <i class="fa-brands fa-spotify"></i> Spotify
+    </a>
+  
+    <a href="http://www.jaynemor.com" target="_blank" rel="noopener">
+      <i class="fa-solid fa-globe"></i> Website
+    </a>
+  
+    <a href="https://jaynemor.bandcamp.com" target="_blank" rel="noopener">
+      <i class="fa-brands fa-bandcamp"></i> Bandcamp
+    </a>
+  
+    <a href="https://www.beatport.com/artist/jay-nemor/214501" target="_blank" rel="noopener">
+      <img src="/images/platforms/beatport.svg" alt="Beatport" style="width:24px;height:24px;filter:brightness(0) invert(1);"> Beatport
+    </a>
+  
+          </div>
+          
+        </div>
+      </div>
+      
+      <div class="artist-bio-full">
+        <p>Jay Nemor (Jason Nemor Harden) is an American singer, songwriter, producer and multi-instrumentalist, born in Houston, Texas and now based in Gothenburg, Sweden.</p>
+<p>He started out on electric bass at the age of nine, moved on to alto saxophone, and was playing in stage and concert bands through his early teens. A childhood concert with Earth, Wind & Fire sparked the dream, and his sound is rooted in the classic soul of Marvin Gaye, Donny Hathaway, Curtis Mayfield, Bill Withers and Stevie Wonder.</p>
+<p>A professional basketball career took him to Iceland in the late 90s, where he rediscovered music and found his way to the microphone. Since then he has worked as a session vocalist, saxophonist, songwriter and producer across soul, R&B and deep house, releasing music on labels including King Street Sounds, Do It Now Recordings and Urban Orange Music — always delivered in his signature bass-baritone voice.</p>
+      </div>
+      
+      
+      
+      <div class="artist-releases">
+        <h2>Oysterdale Releases</h2>
+        <div class="releases-grid" id="artist-releases"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    fetch("/footer.html")
+      .then(r => r.text())
+      .then(html => document.body.insertAdjacentHTML("beforeend", html));
+  </script>
+
+  <script>
+    const OWNER = "Oysterdale";
+    const REPO = "oysterdale-site";
+    
+    async function loadReleases() {
+      try {
+        const r = await fetch('https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/releases');
+        const files = await r.json();
+        const releases = [];
+        
+        for(const file of files.filter(f => f.name.endsWith('.md'))) {
+          const md = await fetch(file.download_url).then(r => r.text());
+          const data = parseFrontmatter(md);
+          
+          if(data.artists && data.artists.some(a => 
+            a.toLowerCase().includes('jay nemor') || 
+            'jay nemor'.includes(a.toLowerCase())
+          )) {
+            data.fileName = file.name;
+            releases.push(data);
+          }
+        }
+        
+        const container = document.getElementById('artist-releases');
+        if(releases.length === 0) {
+          container.innerHTML = '<p>No releases yet.</p>';
+          return;
+        }
+        
+        container.innerHTML = releases.map(function(r) {
+          var releaseSlug = r.fileName.replace('.md', '').toLowerCase();
+          return '<div class="release">' +
+            '<a href="/releases/' + releaseSlug + '/">' +
+            '<img src="' + (r.cover || r.image) + '" alt="' + r.title + '" class="release-cover" loading="lazy">' +
+            '<h3>' + r.title + '</h3>' +
+            '<p>' + r.artists.join(' | ') + '</p>' +
+            '</a>' +
+            '</div>';
+        }).join('');
+        
+      } catch(e) {
+        console.error(e);
+      }
+    }
+    
+    function parseFrontmatter(md) {
+      var parts = md.split('---');
+      if(parts.length < 3) return {data: {}};
+      var yaml = parts[1];
+      var data = {};
+      var lines = yaml.split(/\r?\n/);
+      
+      var listKey = null;
+      for(var i = 0; i < lines.length; i++){
+        var line = lines[i];
+        if(!line.trim()) continue;
+        
+        var listStart = line.match(/^([A-Za-z0-9_]+):\s*$/);
+        if(listStart){
+          listKey = listStart[1];
+          data[listKey] = [];
+          continue;
+        }
+        
+        if(listKey && line.trim().startsWith("-")){
+          data[listKey].push(line.replace(/^\s*-\s*/, "").trim());
+          continue;
+        }
+        
+        var field = line.match(/^([^:]+):\s*(.*)$/);
+        if(field){
+          data[field[1].trim()] = field[2].replace(/^["']|["']$/g, "");
+        }
+      }
+      
+      if(data.artists){
+        if(Array.isArray(data.artists)){
+          data.artists = data.artists.map(function(a) {
+            return typeof a === "string" ? a : (a.existing || a.custom || "");
+          }).filter(Boolean);
+        } else {
+          data.artists = [String(data.artists).trim()];
+        }
+      }
+      
+      return data;
+    }
+    
+    loadReleases();
+  </script>
+</body>
+</html>
