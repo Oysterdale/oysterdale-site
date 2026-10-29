@@ -1,6 +1,6 @@
 ---
 published: true
-title: Here To Remember
+title: Here To Remember (feat. Jay Nemor)
 artists:
   - KayV
   - Jay Nemor
@@ -13,8 +13,13 @@ credits:
     - KayV
   vocals:
     - Jay Nemor
+  mixing: []
   mastering:
     - Saison at Earthworks Studios
+  remix: []
+  composer: []
+  lyrics: []
+  additional_production: []
 links:
   spotify_url: ''
   apple_music_url: ''
@@ -34,13 +39,8 @@ seo:
   og_image: ''
 ---
 
-**KayV** teams up with **Jay Nemor** on “Here To Remember”, a deep and groovy house track combining warm synths and a steady groove with Jay’s distinctive spoken-word vocal.
+**KayV** teams up with **Jay Nemor** on “Here To Remember”, a deep and groovy house track combining warm synths and a steady groove with Jay’s distinctive dark spoken-word vocal.
 
-The result is a stripped-back but full-sounding track, with plenty of space for both the groove and the vocal to come through.
+The result is a deep and driving track, with plenty of space for both the groove and the vocal to come through.
 
 “Here To Remember” is the latest release from KayV on Oysterdale Records and has been mastered by **Saison at Earthworks Studios**.
-
-**KayV feat. Jay Nemor – Here To Remember**
-Traxsource Exclusive: October 30, 2026
-All platforms: November 13, 2026
-Oysterdale Records
