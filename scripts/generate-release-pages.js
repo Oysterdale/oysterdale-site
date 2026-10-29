@@ -318,17 +318,17 @@ function cleanupStalePages() {
 
 function generateReleasesJson(allReleases) {
   const outputPath = path.join(__dirname, '..', 'releases.json');
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  // Label dates are Europe/Oslo dates — compare against Oslo's calendar day,
+  // not the runner's UTC day, so releases go live at 00:00 Norwegian time.
+  const todayOslo = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Oslo' }); // 'YYYY-MM-DD'
 
   // A release is visible from its pre-release date (if set), otherwise from its release date
   const visibleReleases = allReleases.filter(r => {
     const visibilityDateStr = r.pre_release_date || r.date;
     if (!visibilityDateStr) return true; // no dates = visible
-    const visibilityDate = new Date(visibilityDateStr);
-    if (isNaN(visibilityDate)) return true; // invalid date = visible
-    visibilityDate.setHours(0, 0, 0, 0);
-    return visibilityDate <= today;
+    if (isNaN(new Date(visibilityDateStr))) return true; // invalid date = visible
+    // ISO date string comparison (YYYY-MM-DD) — avoids UTC/local timezone shifts
+    return String(visibilityDateStr) <= todayOslo;
   });
 
   // Sort by visibility date descending (pre-release date if set, otherwise release date)
