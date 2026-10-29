@@ -1,5 +1,17 @@
 [
   {
+    "slug": "here-to-remember",
+    "title": "Here To Remember",
+    "artists": [
+      "KayV",
+      "Jay Nemor"
+    ],
+    "date": "2026-11-13",
+    "pre_release_date": "2026-10-30",
+    "cover": "/uploads/Here_To_Remember_Cover.webp",
+    "catalog": "OYSTR26003"
+  },
+  {
     "slug": "andromeda",
     "title": "Andromeda",
     "artists": [
