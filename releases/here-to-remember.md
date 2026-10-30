@@ -27,7 +27,7 @@ links:
   tidal_url: ''
   amazon_music_url: ''
   youtube_url: ''
-  traxsource_url: https://www.traxsource.com/title/2886593/Here-To-Remember
+  traxsource_url: https://www.traxsource.com/track/15100369/here-to-remember-extended-mix
   beatport_url: ''
   deezer_url: ''
 seo:
