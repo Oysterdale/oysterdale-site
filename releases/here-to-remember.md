@@ -21,15 +21,15 @@ credits:
   lyrics: []
   additional_production: []
 links:
-  spotify_url: ''
-  apple_music_url: ''
+  spotify_url: https://hypeddit.com/pguik1
+  apple_music_url: https://hypeddit.com/pguik1
   itunes_url: ''
   tidal_url: ''
   amazon_music_url: ''
   youtube_url: ''
   traxsource_url: https://www.traxsource.com/track/15100369/here-to-remember-extended-mix
   beatport_url: ''
-  deezer_url: ''
+  deezer_url: https://hypeddit.com/pguik1
 seo:
   meta_title: ''
   meta_description: ''
