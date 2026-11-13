@@ -29,7 +29,7 @@ links:
   youtube_url: https://www.youtube.com/watch?v=QyBYgm-iuic
   traxsource_url: https://www.traxsource.com/title/2886593/Here-To-Remember
   beatport_url: ''
-  deezer_url: ''
+  deezer_url: https://www.deezer.com/album/1108339102
 seo:
   meta_title: ''
   meta_description: ''
