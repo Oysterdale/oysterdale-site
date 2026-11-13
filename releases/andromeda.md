@@ -25,9 +25,9 @@ links:
   tidal_url: https://tidal.com/album/557047131/u
   amazon_music_url: ''
   youtube_url: https://www.youtube.com/watch?v=8Jbzlm3cmRw
-  traxsource_url: ''
-  beatport_url: ''
-  deezer_url: ''
+  traxsource_url: https://www.traxsource.com/track/15012417/andromeda
+  beatport_url: https://www.beatport.com/release/andromeda/7407010
+  deezer_url: https://www.deezer.com/album/1067023191
 seo:
   meta_title: ''
   meta_description: ''
