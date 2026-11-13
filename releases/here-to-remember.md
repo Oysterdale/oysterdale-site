@@ -24,7 +24,7 @@ links:
   spotify_url: https://open.spotify.com/album/7n3qMxeUXAXG6ECgM6EnJw
   apple_music_url: https://music.apple.com/no/album/here-to-remember-single/6816927532?l=nb
   itunes_url: https://music.apple.com/no/album/here-to-remember-single/6816927532?l=nb
-  tidal_url: ''
+  tidal_url: https://tidal.com/album/564931567
   amazon_music_url: ''
   youtube_url: https://www.youtube.com/watch?v=QyBYgm-iuic
   traxsource_url: https://www.traxsource.com/title/2886593/Here-To-Remember
